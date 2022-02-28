@@ -2,8 +2,10 @@
 
 node_modules/
 
+.history/
+
 build/
 
 .env
 
-package-lock.json
+# package-lock.json
