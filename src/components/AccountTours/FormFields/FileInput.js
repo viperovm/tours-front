@@ -19,6 +19,8 @@ const FileInput = ({ action, name, value, max }) => {
     }
   }, [value])
 
+  console.log(value)
+
   useEffect(() => {
     if (max) {
       if (preview.length >= max) {
@@ -70,11 +72,11 @@ const FileInput = ({ action, name, value, max }) => {
         {preview.map((item, index) => (
           <>
             <div
+              key={index}
               className='fake-file-input image-container'
               style={{
                 backgroundImage: 'url(' + item + ')',
               }}
-              key={index}
             />
             {index === 1 || (index - 1) % 3 === 0 ? (
               <div className={'fake-file-input-break'} />

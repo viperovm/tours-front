@@ -1,0 +1,35 @@
+server {
+    listen 80; # you can use 443 and letsencrypt to get SSL for free
+    server_name provsenovosti.ru; # domain name
+    access_log /var/log/traveler/access.log; # mkdir dir first
+    error_log /var/log/traveler/error.log error;
+
+    root /home/andrey/front/build;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+                try_files $uri $uri/ =404;
+        }
+}
+
+#server {
+#    listen 80; # you can use 443 and letsencrypt to get SSL for free
+#    server_name provsenovosti.ru; # domain name
+#    access_log /var/log/traveler/access.log; # mkdir dir first
+#    error_log /var/log/traveler/error.log error;
+#
+#    # for public asset into _next directory
+#    location _next/ {
+#        alias /home/andrey/front/.next/;
+#        expires 30d;
+#        access_log on;
+#    }
+#
+#    location /static/ {
+#        root /home/viperovm/realadria/frontend/build;
+#    }
+#    location /assets/ {
+#        autoindex on;
+#        root /home/viperovm/realadria/frontend/build/;
+#    }
+#}

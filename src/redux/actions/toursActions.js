@@ -34,6 +34,8 @@ import {
   SET_TOUR_DAY_IMAGE_FAIL,
   ADD_DAY_SUCCESS,
   ADD_DAY_FAIL,
+  UPDATE_DAY_SUCCESS,
+  UPDATE_DAY_FAIL,
   SET_TOUR_IMAGE_SUCCESS,
   SET_TOUR_IMAGE_FAIL,
   GET_TOURS_SUCCESS,
@@ -42,6 +44,20 @@ import {
   ADD_ACTIVITY_FAIL,
   UPDATE_ACTIVITY_SUCCESS,
   UPDATE_ACTIVITY_FAIL,
+  SET_ACTIVITY_IMAGE_SUCCESS,
+SET_ACTIVITY_IMAGE_FAIL,
+  GET_TOUR_LEADERS_SUCCESS,
+  GET_TOUR_LEADERS_FAIL,
+  SET_CURRENT_SECTION,
+  SET_ACTIVE_SECTION,
+  DELETE_ACTIVE_SECTION,
+  SET_SECONDARY_NAV,
+  OPEN_SECONDARY_MENU,
+  SET_TOUR_NAME,
+  UPDATE_LOCAL_TOUR_SUCCESS,
+  SET_EDITING,
+  DELETE_TOUR,
+  DELETE_TOUR_FAIL,
 } from '../types'
 import axios from 'axios'
 
@@ -65,8 +81,9 @@ export const addTour = data => async dispatch => {
 
     dispatch({
       type: ADD_TOUR_SUCCESS,
+      payload: res.data,
     })
-    dispatch(set_tour(res.data))
+    // dispatch(set_tour(res.data))
   } catch (err) {
     dispatch({
       type: ADD_TOUR_FAIL,
@@ -74,28 +91,6 @@ export const addTour = data => async dispatch => {
   }
 }
 
-export const getTour = id => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-      Accept: 'application/json',
-    },
-  }
-
-  try {
-    const res = await axios.get(`${API_URL}/api/tours/${id}`, config)
-
-    dispatch({
-      type: GET_TOUR_SUCCESS,
-    })
-    dispatch(set_tour(res.data))
-  } catch (err) {
-    dispatch({
-      type: GET_TOUR_FAIL,
-    })
-  }
-}
 export const getTours = () => async dispatch => {
   const config = {
     headers: {
@@ -119,7 +114,7 @@ export const getTours = () => async dispatch => {
   }
 }
 
-export const updateTour = (data, id) => async dispatch => {
+export const tourToServer = (data, id) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -143,8 +138,9 @@ export const updateTour = (data, id) => async dispatch => {
 
     dispatch({
       type: UPDATE_TOUR_SUCCESS,
+      payload: res.data,
     })
-    dispatch(set_tour(res.data))
+    // dispatch(set_tour(res.data))
   } catch (err) {
     dispatch({
       type: UPDATE_TOUR_FAIL,
@@ -152,7 +148,14 @@ export const updateTour = (data, id) => async dispatch => {
   }
 }
 
-export const addDay = id => async dispatch => {
+export const updateTour = data => async dispatch => {
+  dispatch({
+    type: UPDATE_LOCAL_TOUR_SUCCESS,
+    payload: data,
+  })
+}
+
+export const getTour = id => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -161,24 +164,22 @@ export const addDay = id => async dispatch => {
     },
   }
 
-  const body = JSON.stringify({ tour: id })
-
   try {
-    const res = await axios.post(`${API_URL}/api/tourdays/`, body, config)
+    const res = await axios.get(`${API_URL}/api/tours/${id}`, config)
 
     dispatch({
-      type: ADD_DAY_SUCCESS,
+      type: GET_TOUR_SUCCESS,
       payload: res.data,
     })
-    // dispatch(getTour(id))
+    // dispatch(set_tour(res.data))
   } catch (err) {
     dispatch({
-      type: ADD_DAY_FAIL,
+      type: GET_TOUR_FAIL,
     })
   }
 }
 
-export const addActivity = id => async dispatch => {
+export const deleteTour = id => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -187,46 +188,16 @@ export const addActivity = id => async dispatch => {
     },
   }
 
-  const body = JSON.stringify({ tour: id })
-
   try {
-    const res = await axios.post(`${API_URL}/api/tourplans/`, body, config)
+    await axios.delete(`${API_URL}/api/tours/${id}/`, config)
 
     dispatch({
-      type: ADD_ACTIVITY_SUCCESS,
+      type: DELETE_TOUR,
     })
-    dispatch(set_tour(res.data))
+    dispatch(clearCurrentTour())
   } catch (err) {
     dispatch({
-      type: ADD_ACTIVITY_FAIL,
-    })
-  }
-}
-export const updateActivity = (id, data) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-      Accept: 'application/json',
-    },
-  }
-
-  const body = JSON.stringify(data)
-
-  try {
-    const res = await axios.patch(
-      `${API_URL}/api/tourplans/${id}`,
-      body,
-      config
-    )
-
-    dispatch({
-      type: UPDATE_ACTIVITY_SUCCESS,
-    })
-    dispatch(set_tour(res.data))
-  } catch (err) {
-    dispatch({
-      type: UPDATE_ACTIVITY_FAIL,
+      type: DELETE_TOUR_FAIL,
     })
   }
 }
@@ -262,64 +233,6 @@ export const updateTourWallpaper = (image, id) => async dispatch => {
   }
 }
 
-export const setPropertyImage = (image, id) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-    },
-  }
-  let form_data = new FormData()
-  form_data.append('image', image, image.name)
-  form_data.append('tour', id)
-  try {
-    const res = await axios.post(
-      `${API_URL}/api/tourpropertyimages/`,
-      form_data,
-      config
-    )
-
-    dispatch({
-      type: SET_PROPERTY_IMAGE_SUCCESS,
-      payload: res.data,
-    })
-    // dispatch(getTour(id))
-  } catch (err) {
-    dispatch({
-      type: SET_PROPERTY_IMAGE_FAIL,
-    })
-  }
-}
-
-export const setDayImage = (image, id) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-    },
-  }
-  let form_data = new FormData()
-  form_data.append('image', image, image.name)
-  form_data.append('tour_day', id)
-  try {
-    const res = await axios.post(
-      `${API_URL}/api/tourdayimages/`,
-      form_data,
-      config
-    )
-
-    dispatch({
-      type: SET_TOUR_DAY_IMAGE_SUCCESS,
-      payload: res.data,
-    })
-    // dispatch(getTour(id))
-  } catch (err) {
-    dispatch({
-      type: SET_TOUR_DAY_IMAGE_FAIL,
-    })
-  }
-}
-
 export const setTourImages = (image, id) => async dispatch => {
   const config = {
     headers: {
@@ -349,6 +262,134 @@ export const setTourImages = (image, id) => async dispatch => {
   }
 }
 
+export const addDay = data => dispatch => {
+  
+  dispatch({
+    type: ADD_DAY_SUCCESS,
+    payload: data,
+  })
+
+}
+
+export const updateDay = (id, name, data) => async dispatch => {
+
+  const day = { id: id, name: name, data: data }
+  dispatch({
+    type: UPDATE_DAY_SUCCESS,
+    payload: day,
+  })
+
+}
+
+export const setDayImage = (image, id) => async dispatch => {
+
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+  console.log(image)
+  let form_data = new FormData()
+  form_data.append('image', image, image.name)
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/tourdayimages/`,
+      form_data,
+      config
+    )
+
+    let data = { id: id, image: res.data }
+
+    dispatch({
+      type: SET_TOUR_DAY_IMAGE_SUCCESS,
+      payload: data,
+    })
+    // dispatch(getTour(id))
+  } catch (err) {
+    dispatch({
+      type: SET_TOUR_DAY_IMAGE_FAIL,
+    })
+  }
+
+}
+
+export const addActivity = data => dispatch => {
+  const activity = data ? data : ''
+  console.log('activity: ', activity)
+  dispatch({
+    type: ADD_ACTIVITY_SUCCESS,
+    payload: activity,
+  })
+}
+
+export const updateActivity = (id, data) => dispatch => {
+  const description = { id: id, description: data }
+  dispatch({
+    type: UPDATE_ACTIVITY_SUCCESS,
+    payload: description,
+  })
+}
+export const setActivityImage = (image, id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+  console.log(image)
+  let form_data = new FormData()
+  form_data.append('image', image, image.name)
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/tourplanimages/`,
+      form_data,
+      config
+    )
+
+    let data = {id: id, image: res.data}
+
+    dispatch({
+      type: SET_ACTIVITY_IMAGE_SUCCESS,
+      payload: data,
+    })
+    // dispatch(getTour(id))
+  } catch (err) {
+    dispatch({
+      type: SET_ACTIVITY_IMAGE_FAIL,
+    })
+  }
+}
+
+export const setPropertyImage = (image, id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+  let form_data = new FormData()
+  form_data.append('image', image, image.name)
+  form_data.append('tour', id)
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/tourpropertyimages/`,
+      form_data,
+      config
+    )
+
+    dispatch({
+      type: SET_PROPERTY_IMAGE_SUCCESS,
+      payload: res.data,
+    })
+    // dispatch(getTour(id))
+  } catch (err) {
+    dispatch({
+      type: SET_PROPERTY_IMAGE_FAIL,
+    })
+  }
+}
+
 export const getTourTypes = () => async dispatch => {
   const config = {
     headers: {
@@ -366,50 +407,6 @@ export const getTourTypes = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: GET_TOUR_TYPES_FAIL,
-    })
-  }
-}
-export const getTourPropertyTypes = () => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
-  try {
-    const res = await axios.get(
-      `${API_URL}/api/tourpropertytypes/`,
-      config
-    )
-
-    dispatch({
-      type: GET_TOUR_PROPERTY_TYPES_SUCCESS,
-      payload: res.data,
-    })
-  } catch (err) {
-    dispatch({
-      type: GET_TOUR_PROPERTY_TYPES_FAIL,
-    })
-  }
-}
-
-export const getTourAccomodations = () => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
-  try {
-    const res = await axios.get(`${API_URL}/api/touraccomodations/`, config)
-
-    dispatch({
-      type: GET_TOUR_ACCOMODATIONS_SUCCESS,
-      payload: res.data,
-    })
-  } catch (err) {
-    dispatch({
-      type: GET_TOUR_ACCOMODATIONS_FAIL,
     })
   }
 }
@@ -582,24 +579,114 @@ export const getLanguages = () => async dispatch => {
   }
 }
 
-export const clearCurrentTour = id => async dispatch => {
+export const getTourPropertyTypes = () => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-      Accept: 'application/json',
     },
   }
 
   try {
-    const res = await axios.delete(`${API_URL}/api/tours/${id}`, config)
+    const res = await axios.get(`${API_URL}/api/tourpropertytypes/`, config)
 
     dispatch({
-      type: CLEAR_CURRENT_TOUR,
+      type: GET_TOUR_PROPERTY_TYPES_SUCCESS,
+      payload: res.data,
     })
   } catch (err) {
     dispatch({
-      type: CLEAR_CURRENT_TOUR_FAIL,
+      type: GET_TOUR_PROPERTY_TYPES_FAIL,
     })
   }
+}
+
+export const getTourAccomodations = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${API_URL}/api/touraccomodations/`, config)
+
+    dispatch({
+      type: GET_TOUR_ACCOMODATIONS_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_TOUR_ACCOMODATIONS_FAIL,
+    })
+  }
+}
+
+export const getTourLeaders = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${API_URL}/api/teammembers/`, config)
+
+    dispatch({
+      type: GET_TOUR_LEADERS_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_TOUR_LEADERS_FAIL,
+    })
+  }
+}
+
+export const clearCurrentTour = () => async dispatch => {
+  dispatch({
+    type: CLEAR_CURRENT_TOUR,
+  })
+}
+
+export const setCurrentSection = str => dispatch => {
+  dispatch({
+    type: SET_CURRENT_SECTION,
+    payload: str,
+  })
+}
+
+export const setActiveSections = (status, str) => async dispatch => {
+  let type = status ? SET_ACTIVE_SECTION : DELETE_ACTIVE_SECTION
+  dispatch({
+    type: type,
+    payload: str,
+  })
+}
+
+export const setSecondaryNav = data => async dispatch => {
+  dispatch({
+    type: SET_SECONDARY_NAV,
+    payload: data,
+  })
+}
+
+export const openSecondaryMenu = bool => async dispatch => {
+  dispatch({
+    type: OPEN_SECONDARY_MENU,
+    payload: bool,
+  })
+}
+
+export const setName = data => async dispatch => {
+  dispatch({
+    type: SET_TOUR_NAME,
+    payload: data,
+  })
+}
+
+export const setEditing = bool => async dispatch => {
+  dispatch({
+    type: SET_EDITING,
+    payload: bool,
+  })
 }

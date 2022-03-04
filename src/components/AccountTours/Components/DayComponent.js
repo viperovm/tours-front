@@ -5,45 +5,60 @@ import FileInput from '../FormFields/FileInput'
 import TextEditor from '../FormFields/TextEditor'
 import Button from './Button'
 
-import { addDay } from '../../../redux/actions/toursActions'
+import {
+  addDay,
+  updateDay,
+  setDayImage,
+} from '../../../redux/actions/toursActions'
 import { connect } from 'react-redux'
 
-
-const Day = ({ id, action, current_tour, addDay }) => {
+const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
   const [data, setData] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [previews, setPreviews] = useState([])
 
-  
-  // useEffect(() => {
-  //   if (day) {
-  //     setData({
-  //       name: day.name,
-  //       location: day.location,
-  //       description: day.description,
-  //     })
-  //   }
-  // }, [day])
+  useEffect(() => {
+    if (day && day.image && day.image > 0) {
+      let arr = day.image.map(item => arr.push(item.tmb_image))
+      setPreviews(arr)
+    }
+  }, [day])
+
+  useEffect(() => {
+    if (day && day.image) {
+      setLoading(false)
+    }
+  }, [day])
 
   const handleInput = (name, value) => {
-    setData({
-      ...data,
-      [name]: value,
-    })
+    updateDay(id, name, value)
+  }
+  const handleImageInput = value => {
+    setLoading(true)
+    setDayImage(value, id)
   }
 
-  useEffect(() => {
-    setData({
-      ...data,
-      day_id: id,
-    })
-  }, [])
+  // const handleInput = (name, value) => {
+  //   setData({
+  //     ...data,
+  //     [name]: value,
+  //   })
+  // }
 
-  useEffect(() => {
-    action(data, id)
-  }, [data])
+  // useEffect(() => {
+  //   setData({
+  //     ...data,
+  //     day_id: id,
+  //   })
+  // }, [])
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  // useEffect(() => {
+  //   action(data, id)
+  // }, [data])
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0)
+  // }, [])
 
   return (
     <>
@@ -67,8 +82,8 @@ const Day = ({ id, action, current_tour, addDay }) => {
       >
         <Input
           action={handleInput}
-          name='name'
-          value={data && data.name}
+          name='day_title'
+          value={day && day.day_title}
           // options={toursTypes}
           // multiple
         />
@@ -77,7 +92,7 @@ const Day = ({ id, action, current_tour, addDay }) => {
         <Input
           action={handleInput}
           name='location'
-          value={data && data.location}
+          value={day && day.location}
           // options={toursTypes}
           // multiple
         />
@@ -86,7 +101,7 @@ const Day = ({ id, action, current_tour, addDay }) => {
         <TextEditor
           action={handleInput}
           name='description'
-          value={data && data.description}
+          value={day && day.description}
           // options={toursTypes}
           // multiple
         />
@@ -96,10 +111,11 @@ const Day = ({ id, action, current_tour, addDay }) => {
         comment='Вы можете добавить до 3 фото для каждого дня'
       >
         <FileInput
-          action={handleInput}
+          action={handleImageInput}
           name='day_photo'
           type='file'
           max={3}
+          value={previews}
           // options={toursTypes}
           // multiple
         />
@@ -109,9 +125,7 @@ const Day = ({ id, action, current_tour, addDay }) => {
 }
 
 const mapStateToProps = state => ({
-  
-  current_tour: state.tours.current_tour,
-  
+  tour: state.tours.current_tour,
 })
 
-export default connect(mapStateToProps, { addDay })(Day)
+export default connect(mapStateToProps, { addDay, updateDay, setDayImage })(Day)

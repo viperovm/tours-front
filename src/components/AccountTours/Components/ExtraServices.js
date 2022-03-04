@@ -8,10 +8,11 @@ import SelectInput from '../FormFields/SelectInput'
 import Button from './Button'
 
 import { connect } from 'react-redux'
+
 import {
   setSecondaryNav,
-} from '../../../redux/actions/tourSectionActions'
-import { updateTour } from '../../../redux/actions/toursActions'
+  updateTour,
+} from '../../../redux/actions/toursActions'
 
 const ExtraServices = ({
   tour,
@@ -50,7 +51,7 @@ const ExtraServices = ({
   }, [])
 
   const handleButtonSubmit = () => {
-    updateTour(data, tour.id)
+    // updateTour(data, tour.id)
     action('important')
   }
 
@@ -126,9 +127,9 @@ const ExtraServices = ({
 
 const mapStateToProps = state => ({
   toursTypes: state.tours.tour_types,
-  secondary_nav: state.tourSection.secondary_nav,
+  secondary_nav: state.tours.secondary_nav,
   currencies: state.tours.currencies,
-  tour: state.local_tour.tour,
+  tour: state.tours.current_tour,
 })
 
 export default connect(mapStateToProps, {

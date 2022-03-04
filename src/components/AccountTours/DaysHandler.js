@@ -30,8 +30,6 @@ const DaysHandler = ({ action, old_data, label, type = 'text', day_num }) => {
             day
         ])
     }
-
-    console.log(data)
   
 
   return (

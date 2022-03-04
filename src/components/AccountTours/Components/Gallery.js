@@ -10,24 +10,21 @@ import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
 
 import { connect } from 'react-redux'
-import { setTourName } from '../../../redux/actions/tourSectionActions'
 import {
   getTourTypes,
   getRegions,
   getCountries,
   getRussianRegions,
   getCities,
-} from '../../../redux/actions/toursActions'
-import {
-  setActiveSections,
   setSecondaryNav,
-} from '../../../redux/actions/tourSectionActions'
+} from '../../../redux/actions/toursActions'
+
 import Modal from './Modal'
 import TrippleWrapper from '../Wrappers/TrippleWrapper'
 
 const Gallery = ({
+  tour,
   action,
-  tour_id,
   setTourName,
   getTourTypes,
   toursTypes,
@@ -61,9 +58,6 @@ const Gallery = ({
 
   const [modalTitle, setModalTitle] = useState('Тестовое название')
   const [modalActive, setModalActive] = useState(true)
-
-  console.log(completed)
-  console.log(data)
 
   useEffect(() => {
     getRegions()
@@ -324,11 +318,11 @@ const mapStateToProps = state => ({
   countries: state.tours.countries,
   russianRegions: state.tours.russian_regions,
   cities: state.tours.cities,
-  secondary_nav: state.tourSection.secondary_nav,
+  secondary_nav: state.tours.secondary_nav,
+  tour: state.tours.current_tour,
 })
 
 export default connect(mapStateToProps, {
-  setTourName,
   getTourTypes,
   getRegions,
   getCountries,

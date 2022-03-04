@@ -9,16 +9,17 @@ import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
 
 import { connect } from 'react-redux'
-import { update_tour } from '../../../redux/actions/currentTourActions'
 import {
   getTourTypes,
   updateTour,
   updateTourWallpaper,
-} from '../../../redux/actions/toursActions'
-import {
-  setActiveSections,
   setSecondaryNav,
-} from '../../../redux/actions/tourSectionActions'
+  setName,
+  tourToServer,
+} from '../../../redux/actions/toursActions'
+// import {
+//   setActiveSections,
+// } from '../../../redux/actions/tourSectionActions'
 import Modal from './Modal'
 import StartPlace from './StartPlace'
 import FinishPlace from './FinishPlace'
@@ -31,7 +32,9 @@ const Common = ({
   setSecondaryNav,
   updateTour,
   updateTourWallpaper,
-  update_tour,
+  tour_name,
+  setName,
+  tourToServer,
 }) => {
   const [data, setData] = useState({})
   const [wp, setWP] = useState({})
@@ -39,18 +42,19 @@ const Common = ({
   const [completed, setCompleted] = useState(false)
 
 
-  console.log(tour)
-
- 
   const handleInput = (name, value) => {
-    update_tour(name, value)
+    updateTour({
+      ...tour,
+      [name]: value,
+    })
   }
   const handleWallpaperInput = value => {
     updateTourWallpaper(value, tour.id)
   }
 
   const handleNameInput = () => {
-    updateTour(tour, tour.id)
+    let new_data = { ...tour, name: tour_name }
+    tourToServer(new_data, tour.id)
   }
 
   useEffect(() => {
@@ -98,7 +102,7 @@ const Common = ({
   }, [tour])
 
   const handleButtonSubmit = () => {
-    updateTour(tour, tour.id)
+    tourToServer(tour, tour.id)
     action('prices')
   }
 
@@ -114,9 +118,9 @@ const Common = ({
       <SingleWrapper label='Название тура' comment='Максимум 50 символов'>
         <NameInput
           action={handleInput}
-          action2={handleNameInput}
+          // action2={handleNameInput}
           name='name'
-          value={tour && tour.name}
+          value={tour_name ? tour_name : tour && tour.name}
         />
       </SingleWrapper>
       <SingleWrapper label='Обложка тура' comment=''>
@@ -309,9 +313,10 @@ const mapStateToProps = state => ({
   countries: state.tours.countries,
   russian_regions: state.tours.russian_regions,
   cities: state.tours.cities,
-  secondary_nav: state.tourSection.secondary_nav,
-  tourName: state.tourSection.tour_name,
-  tour: state.local_tour.tour,
+  secondary_nav: state.tours.secondary_nav,
+  // tourName: state.tourSection.tour_name,
+  tour: state.tours.current_tour,
+  tour_name: state.tours.tour_name,
 })
 
 export default connect(mapStateToProps, {
@@ -319,5 +324,6 @@ export default connect(mapStateToProps, {
   setSecondaryNav,
   updateTour,
   updateTourWallpaper,
-  update_tour,
+  setName,
+  tourToServer
 })(Common)

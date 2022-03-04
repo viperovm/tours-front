@@ -13,7 +13,6 @@ import Chip from '@mui/material/Chip'
 const RemoteDataSelect = ({ remote_data }) => {
   const [data, setDate] = useState({})
 
-  console.log(remote_data)
 
   const handleChange = e => {
     setDate(e.target.value)

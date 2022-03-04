@@ -6,9 +6,9 @@ import Button from './Button'
 import { connect } from 'react-redux'
 import {
   setSecondaryNav,
-} from '../../../redux/actions/tourSectionActions'
+} from '../../../redux/actions/toursActions'
 import { updateTour } from '../../../redux/actions/toursActions'
-import { update_tour } from '../../../redux/actions/currentTourActions'
+// import { update_tour } from '../../../redux/actions/currentTourActions'
 
 const Cancellation = ({
   tour,
@@ -113,12 +113,11 @@ const Cancellation = ({
 
 const mapStateToProps = state => ({
   toursTypes: state.tours.tour_types,
-  secondary_nav: state.tourSection.secondary_nav,
-  tour: state.local_tour.tour,
+  secondary_nav: state.tours.secondary_nav,
+  tour: state.tours.current_tour,
 })
 
 export default connect(mapStateToProps, {
   setSecondaryNav,
   updateTour,
-  update_tour,
 })(Cancellation)

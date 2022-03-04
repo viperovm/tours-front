@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react'
 
 import { connect } from 'react-redux'
 
-import { setCurrentSection } from '../../redux/actions/tourSectionActions'
+import { setCurrentSection } from '../../redux/actions/toursActions'
 
 const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary }) => {
   const handleClick = data => {
-    console.log('click: ', data)
 
     if (data && data.active && data.value) {
       setCurrentSection(data.value)
@@ -28,7 +27,6 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary }) => {
                   className={`tours-submenu-name-wrap ${
                     item.active ? 'item-active' : 'item-inactive'
                   }`}
-                  // onClick={() => console.log(item)}
                   onClick={() => handleClick(item)}
                 >
                   {item.text}
@@ -60,9 +58,9 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary }) => {
 }
 
 const mapStateToProps = state => ({
-  activeSections: state.tourSection.active_sections,
-  secondary_nav: state.tourSection.secondary_nav,
-  secondary: state.tourSection.secondary,
+  activeSections: state.tours.active_sections,
+  secondary_nav: state.tours.secondary_nav,
+  secondary: state.tours.secondary,
 })
 
 export default connect(mapStateToProps, { setCurrentSection })(SecondaryNav)

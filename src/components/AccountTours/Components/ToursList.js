@@ -11,7 +11,6 @@ const ToursList = ({ tours, getTours }) => {
     getTours()
   }, [])
 
-  console.log(tours)
 
   const [active, setActive] = useState(false)
 

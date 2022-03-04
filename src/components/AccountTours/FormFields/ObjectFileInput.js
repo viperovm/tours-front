@@ -10,7 +10,6 @@ const ObjectFileInput = ({ action, name, value, max }) => {
 
   const inputFileRef = useRef(null)
 
-  console.log(value)
 
   useEffect(() => {
     if (value) {
@@ -18,7 +17,6 @@ const ObjectFileInput = ({ action, name, value, max }) => {
     }
   }, [value])
 
-  console.log(preview)
 
   useEffect(() => {
     if (max) {
@@ -70,11 +68,11 @@ const ObjectFileInput = ({ action, name, value, max }) => {
         {preview.map((item, index) => (
           <>
             <div
+              key={index}
               className='fake-file-input image-container'
               style={{
                 backgroundImage: 'url(' + item.tmb_image + ')',
               }}
-              key={index}
             />
             {index === 1 || (index - 1) % 3 === 0 ? (
               <div className={'fake-file-input-break'} />

@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import { setPage } from '../../../redux/actions/authActions'
 import {
   setCurrentSection,
-  zeroingData,
-} from '../../../redux/actions/tourSectionActions'
+} from '../../../redux/actions/toursActions'
 import Common from '../Components/Common'
 import Prices from '../Components/Prices'
 import Cancellation from '../Components/Cancellation'
@@ -23,7 +22,7 @@ const AddTour = ({
   status,
   currentSection,
   setCurrentSection,
-  completed,
+  // completed,
 }) => {
   // const [currentSection, setCurrentSection] = useState('common')
   useState(() => {
@@ -37,9 +36,9 @@ const AddTour = ({
     setPage('tours')
   }, [])
 
-  const handleComplete = () => {
-    completed()
-  }
+  // const handleComplete = () => {
+  //   completed()
+  // }
 
   return (
     <>
@@ -73,7 +72,7 @@ const AddTour = ({
         )}
         {currentSection === 'photos' && (
           <Photos
-            done={handleComplete}
+            // done={handleComplete}
             action={setCurrentSection}
           
           />
@@ -85,13 +84,12 @@ const AddTour = ({
 
 const mapStateToProps = state => ({
   status: state.auth.status,
-  currentSection: state.tourSection.current_section,
+  currentSection: state.tours.current_section,
 })
 
 export default connect(mapStateToProps, {
+  setCurrentSection,
   getTourTypes,
   setPage,
-  setCurrentSection,
-  zeroingData,
   addTour,
 })(AddTour)

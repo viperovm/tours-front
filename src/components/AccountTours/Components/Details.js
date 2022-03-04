@@ -9,6 +9,7 @@ import TextArea from '../FormFields/TextArea'
 import SelectInput from '../FormFields/SelectInput'
 import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
+import Activities from './Activities'
 
 import CircularProgress from '@mui/material/CircularProgress'
 
@@ -21,10 +22,9 @@ import {
   getLanguages,
   setPropertyImage,
   addActivity,
+  setSecondaryNav,
 } from '../../../redux/actions/toursActions'
-import { setSecondaryNav } from '../../../redux/actions/tourSectionActions'
 
-import { update_tour } from '../../../redux/actions/currentTourActions'
 // import Activities from './Activities'
 import Activity from './Activity'
 
@@ -67,7 +67,6 @@ const Details = ({
   getLanguages,
   languages,
   setPropertyImage,
-  update_tour,
   addActivity,
   getTourPropertyTypes,
   getTourAccomodations,
@@ -192,8 +191,8 @@ const Details = ({
 
   const handleButtonSubmit = () => {
     updateTour(tour, tour.id)
-    action('leader')
-    // action('day')
+    // action('leader')
+    action('day')
   }
 
   const handleButtonBack = () => {
@@ -361,6 +360,8 @@ const Details = ({
           rows='7'
         />
       </SingleWrapper>
+
+      <Activities/>
 {/* 
       <div className='my-tours-section-heading'>
         <h4 style={{ marginBottom: 10 }}>Активности во время тура</h4>
@@ -433,8 +434,8 @@ const mapStateToProps = state => ({
   tour_property_types: state.tours.tour_property_types,
   tour_accomodations: state.tours.tour_accomodations,
   languages: state.tours.languages,
-  secondary_nav: state.tourSection.secondary_nav,
-  tour: state.local_tour.tour,
+  secondary_nav: state.tours.secondary_nav,
+  tour: state.tours.current_tour,
 })
 
 export default connect(mapStateToProps, {
@@ -443,7 +444,6 @@ export default connect(mapStateToProps, {
   updateTour,
   getLanguages,
   setPropertyImage,
-  update_tour,
   addActivity,
   getTourPropertyTypes,
   getTourAccomodations,

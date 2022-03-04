@@ -65,7 +65,6 @@ export const signUp = (status, data) => async dispatch => {
   try {
     const res = await axios.post(`${API_URL}/api/${status}/`, body, config)
 
-    console.log(res)
 
     dispatch({
       type: t.SIGNUP_SUCCESS,

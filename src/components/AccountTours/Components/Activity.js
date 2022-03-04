@@ -4,39 +4,40 @@ import Input from '../FormFields/Input'
 import FileInput from '../FormFields/FileInput'
 import TextEditor from '../FormFields/TextEditor'
 import Button from './Button'
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
 
 import { addActivity } from '../../../redux/actions/toursActions'
-import { updateActivity } from '../../../redux/actions/toursActions'
+import {
+  updateActivity,
+  setActivityImage,
+} from '../../../redux/actions/toursActions'
 import { connect } from 'react-redux'
 
-const Activity = ({ id, action, activity, updateActivity }) => {
+const Activity = ({
+  id,
+  action,
+  activity,
+  updateActivity,
+  setActivityImage,
+}) => {
   const [data, setData] = useState({})
+  const [loading, setLoading] = useState(false)
 
-  // useEffect(() => {
-  //   if (day) {
-  //     setData({
-  //       name: day.name,
-  //       location: day.location,
-  //       description: day.description,
-  //     })
-  //   }
-  // }, [day])
+  useEffect(() => {
+    if (activity && activity.image) {
+      setLoading(false)
+    }
+  }, [activity])
 
   const handleInput = (name, value) => {
-      let data = { [name]: value }
-      updateActivity(id, data)
+    console.log(value)
+    updateActivity(id, value)
   }
-
-//   useEffect(() => {
-//     setData({
-//       ...data,
-//       day_id: id,
-//     })
-//   }, [])
-
-//   useEffect(() => {
-//     action(data, id)
-//   }, [data])
+  const handleImageInput = (value) => {
+    setLoading(true)
+    setActivityImage(value, id)
+  }
 
   return (
     <>
@@ -53,22 +54,33 @@ const Activity = ({ id, action, activity, updateActivity }) => {
         label='Добавить фото'
         comment='Вы можете добавить 1 фото для каждой активности'
       >
-        <FileInput
-          action={handleInput}
-          name='image'
-          type='file'
-          max={1}
-          value={activity && activity.image}
-          // options={toursTypes}
-          // multiple
-        />
+        {!loading && (
+          <FileInput
+            action={handleImageInput}
+            name='image'
+            type='file'
+            max={1}
+            value={activity && activity.image && activity.image.tmb_image}
+            // options={toursTypes}
+            // multiple
+          />
+        )}
+        {loading && (
+          <div>
+            <Box sx={{ display: 'flex' }}>
+              <CircularProgress />
+            </Box>
+          </div>
+        )}
       </SingleWrapper>
     </>
   )
 }
 
 const mapStateToProps = state => ({
-  tour: state.local_tour.tour,
+  tour: state.tours.current_tour,
 })
 
-export default connect(mapStateToProps, { updateActivity })(Activity)
+export default connect(mapStateToProps, { updateActivity, setActivityImage })(
+  Activity
+)

@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
 import {
-  getTourTypes,
-  clearCurrentTour,
+  deleteTour,
   addTour,
-  updateTour,
-} from '../../../redux/actions/toursActions'
-import {
   openSecondaryMenu,
-} from '../../../redux/actions/tourSectionActions'
-import { clear_tour } from '../../../redux/actions/currentTourActions'
+  setEditing,
+  clearCurrentTour,
+  tourToServer,
+} from '../../../redux/actions/toursActions'
 import { connect } from 'react-redux'
 import Account from '../../../layouts/account/account'
 import { setPage,  } from '../../../redux/actions/authActions'
@@ -20,12 +18,14 @@ import CircularProgress from '@mui/material/CircularProgress'
 const Tours = ({
   tour,
   addTour,
-  clearCurrentTour,
+  deleteTour,
   openSecondaryMenu,
-  updateTour,
-  clear_tour,
+  setEditing,
+  editing,
+  clearCurrentTour,
+  tourToServer,
 }) => {
-  const [editing, setEditing] = useState(false)
+  // const [editing, setEditing] = useState(false)
   const [title, setTitle] = useState('Название тура')
 
   const [loading, setLoading] = useState(false)
@@ -40,20 +40,19 @@ const Tours = ({
 
   const handleTourDelete = () => {
     setEditing(false)
-    clearCurrentTour(current_tour.id)
-    clear_tour()
+    deleteTour(tour.id)
   }
 
-  const handleCompleted = () => {
-    clear_tour()
-    setEditing(false)
-  }
+  // const handleCompleted = () => {
+  //   deleteTour()
+  //   setEditing(false)
+  // }
 
   const handleModeration = () => {
     setLoading(true)
-    updateTour({...tour, on_moderation: true, is_draft: false }, tour.id)
+    tourToServer({ ...tour, on_moderation: true, is_draft: false }, tour.id)
     setTimeout(() => {
-      clear_tour()
+      clearCurrentTour()
       setEditing(false)
     }, 1000)
     setLoading(false)
@@ -61,9 +60,9 @@ const Tours = ({
 
   const handleDraft = () => {
     setLoading(true)
-    updateTour({ ...tour, on_moderation: false, is_draft: true }, tour.id)
+    tourToServer({ ...tour, on_moderation: false, is_draft: true }, tour.id)
     setTimeout(() => {
-      clear_tour()
+      clearCurrentTour()
       setEditing(false)
     }, 1000)
     setLoading(false)
@@ -77,7 +76,7 @@ const Tours = ({
     if (tour && tour.id) {
       setEditing(true)
     } else {
-      clear_tour()
+      deleteTour()
       addTour()
       setEditing(true)
     }
@@ -140,7 +139,7 @@ const Tours = ({
               )}
             </div>
           </div>
-          {editing ? <AddTour completed={handleCompleted} /> : <List />}
+          {editing ? <AddTour /> : <List />}
         </main>
       </Account>
     </>
@@ -150,15 +149,16 @@ const Tours = ({
 const mapStateToProps = state => ({
   toursTypes: state.tours.tour_types,
   status: state.auth.status,
-  tourName: state.tourSection.tour_name,
-  tour: state.local_tour.tour,
+  tour: state.tours.current_tour,
+  editing: state.tours.editing,
 })
 
 export default connect(mapStateToProps, {
   setPage,
   addTour,
-  clearCurrentTour,
+  deleteTour,
   openSecondaryMenu,
-  updateTour,
-  clear_tour,
+  setEditing,
+  clearCurrentTour,
+  tourToServer,
 })(Tours)

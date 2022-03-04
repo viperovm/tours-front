@@ -18,11 +18,9 @@ import {
   getRussianRegions,
   getCities,
   updateTour,
+  setSecondaryNav
 } from '../../../redux/actions/toursActions'
-import {
-  setActiveSections,
-  setSecondaryNav,
-} from '../../../redux/actions/tourSectionActions'
+
 import Modal from './Modal'
 import TrippleWrapper from '../Wrappers/TrippleWrapper'
 
@@ -161,8 +159,8 @@ const Leader = ({
   }
 
   const handleButtonBack = () => {
-    action('details')
-    // action('day')
+    // action('details')
+    action('day')
   }
 
 
@@ -259,8 +257,8 @@ const mapStateToProps = state => ({
   countries: state.tours.countries,
   russianRegions: state.tours.russian_regions,
   cities: state.tours.cities,
-  secondary_nav: state.tourSection.secondary_nav,
-  tour: state.local_tour.tour,
+  secondary_nav: state.tours.secondary_nav,
+  tour: state.tours.current_tour,
 })
 
 export default connect(mapStateToProps, {

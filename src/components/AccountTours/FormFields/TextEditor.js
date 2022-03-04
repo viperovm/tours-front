@@ -24,10 +24,10 @@ const TextEditor = ({ action, name, value }) => {
     }
   }, [value])
 
-  const handleData = e => {
-    setData(e.target.value)
-    action(name, e.target.value)
-  }
+  // const handleData = e => {
+  //   setData(e.target.value)
+  //   action(name, e.target.value)
+  // }
 
   return editorLoaded ? (
     <CKEditor
@@ -52,7 +52,6 @@ const TextEditor = ({ action, name, value }) => {
         ],
       }}
       onChange={(event, editor) => {
-        console.log(editor)
         const data = editor.getData()
         action(name, data)
       }}

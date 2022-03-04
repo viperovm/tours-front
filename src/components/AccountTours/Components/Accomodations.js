@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react'
 import Button from './Button'
 
 import { connect } from 'react-redux'
-import { setTourName } from '../../../redux/actions/tourSectionActions'
+// import { setTourName } from '../../../redux/actions/tourSectionActions'
 import {
   getTourTypes,
   updateTour,
   addDay,
-} from '../../../redux/actions/toursActions'
-import {
-  setActiveSections,
   setSecondaryNav,
-} from '../../../redux/actions/tourSectionActions'
+} from '../../../redux/actions/toursActions'
+// import {
+//   setActiveSections,
+//   setSecondaryNav,
+// } from '../../../redux/actions/tourSectionActions'
 
 import Day from './Day'
 
@@ -75,9 +76,6 @@ const Accomodations = ({
     }
     setDays(arr)
   }, [tour])
-
-  console.log('days data: ', data)
-  console.log(tour.id)
 
   const handleInput = (value, id) => {
     let arr = data.filter(item => item.day_id !== id)
@@ -179,8 +177,8 @@ const mapStateToProps = state => ({
   countries: state.tours.countries,
   russianRegions: state.tours.russian_regions,
   cities: state.tours.cities,
-  secondary_nav: state.tourSection.secondary_nav,
-  tour: state.local_tour.tour,
+  secondary_nav: state.tours.secondary_nav,
+  tour: state.tours.current_tour,
 })
 
 export default connect(mapStateToProps, {

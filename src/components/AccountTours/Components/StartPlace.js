@@ -30,14 +30,6 @@ const StartPlace = ({
     getRegions()
   }, [])
 
-  console.log('start_region: ', start_region)
-  console.log('start_country: ', start_country)
-  console.log('start_russian_region: ', start_russian_region)
-  console.log('start_city: ', start_city)
-  console.log('regions: ', regions)
-  console.log('start_countries: ', start_countries)
-  console.log('start_russianRegions: ', start_russianRegions)
-  console.log('start_cities: ', start_cities)
 
   const [startRegions, setStartRegions] = useState([])
   const [startCountries, setStartCountries] = useState([])
@@ -99,7 +91,6 @@ const StartPlace = ({
 
   const handleSubmit = (name, data) => {
     if (name === 'start_region') {
-      console.log(name, data)
       setStartCountries([])
       setStartRussianRegions([])
       setStartCities([])
@@ -109,12 +100,9 @@ const StartPlace = ({
       action('start_country', null)
       action('start_russian_region', null)
       action('start_city', null)
-      console.log(111)
       action('start_region', data)
-      console.log(222)
     }
     if (name === 'start_country') {
-      console.log(name, data)
       setStartRussianRegions([])
       setStartCities([])
       setStartRussianRegion('')
@@ -124,14 +112,12 @@ const StartPlace = ({
       action('start_country', data)
     }
     if (name === 'start_russian_region') {
-      console.log(name, data)
       setStartCities([])
       setStartCity('')
       action('start_city', null)
       action('start_russian_region', data)
     }
     if (name === 'start_city') {
-      console.log(name, data)
       action('start_city', data)
     }
   }

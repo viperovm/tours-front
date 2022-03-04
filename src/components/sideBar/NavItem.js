@@ -130,7 +130,7 @@ const NavItem = ({
 
 const mapStateToProps = state => ({
   page: state.auth.page,
-  secondary: state.tourSection.secondary,
+  secondary: state.tours.secondary,
 })
 
 export default connect(mapStateToProps, { setPage })(NavItem)

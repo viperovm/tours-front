@@ -1,9 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import cart from '../../../assets/img/shopping-cart.svg'
 import view from '../../../assets/img/view.svg'
+import menu from '../../../assets/img/menu-dots.svg'
 import dateFormat, { masks } from 'dateformat'
 
-const TourCard = ({ tour }) => {
+import {
+  deleteTour,
+  updateTour,
+  setEditing,
+} from '../../../redux/actions/toursActions'
+
+import { connect } from 'react-redux'
+
+const TourCard = ({
+  tour,
+  menu_action,
+  click_action,
+  deleteTour,
+  updateTour,
+  setEditing,
+}) => {
   const label = tour.is_active
     ? 'Опубликовано'
     : tour.on_moderation
@@ -18,6 +34,34 @@ const TourCard = ({ tour }) => {
     : tour.is_draft
     ? 'draft'
     : ''
+ 
+  const myRef = useRef()
+
+
+  const [active, setActive] = useState(false)
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  })
+
+  const handleClickOutside = e => {
+    if (!myRef.current.contains(e.target)) {
+      setActive(false)
+    }
+  }
+
+  const handleTourEdit = () => {
+    updateTour(tour)
+    setEditing(true)
+  }
+
+  const handleMenu = () => {
+    setActive(true)
+  }
+  const handleDelete = () => {
+    deleteTour(tour.id)
+  }
 
   return (
     <>
@@ -27,16 +71,75 @@ const TourCard = ({ tour }) => {
           style={{ backgroundImage: 'url(' + tour.tmb_wallpaper + ')' }}
         >
           <div
+            className='tour-menu-dots'
+            style={{
+              padding: '5px',
+              position: 'absolute',
+              top: 15,
+              right: 15,
+              cursor: 'pointer',
+            }}
+            onClick={handleMenu}
+          >
+            <img src={menu} alt='menu' />
+          </div>
+          <div
+            className='tour-menu'
+            ref={myRef}
+            style={{
+              position: 'absolute',
+              top: 20,
+              right: 25,
+              border: '1px solid rgba(0, 0, 0, 0.1)',
+              boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
+              borderRadius: 8,
+              backgroundColor: '#fff',
+              display: active ? 'block' : 'none',
+            }}
+          >
+            <div
+              className='tour-item-top'
+              style={{
+                padding: 10,
+                borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+                lineHeight: '15px',
+              }}
+            >
+              Скопировать
+            </div>
+            <div
+              className='tour-item-bottom'
+              style={{
+                padding: 10,
+                lineHeight: '15px',
+                textAlign: 'right',
+                cursor: 'pointer',
+              }}
+              onClick={handleDelete}
+            >
+              Удалить
+            </div>
+          </div>
+          <div
             className={`tour-label tour-label${cssClass ? '-' + cssClass : ''}`}
           >
             {label}
           </div>
-          <div className='tour-menu'></div>
         </div>
         <div className='tour-data'>
-          <div className='tour-header'>
+          <div
+            className='tour-header'
+            onClick={handleTourEdit}
+            style={{ cursor: 'pointer' }}
+          >
             <div className='tour-region'>{tour.start_country}</div>
-            <div className='tour-name'>{tour.name}</div>
+            <div
+              className='tour-name'
+              onClick={handleTourEdit}
+              // style={{ cursor: 'pointer' }}
+            >
+              {tour.name}
+            </div>
           </div>
           <div className='tour-footer'>
             <div className='tour-footer-left'>
@@ -67,4 +170,6 @@ const TourCard = ({ tour }) => {
   )
 }
 
-export default TourCard
+export default connect(null, { deleteTour, updateTour, setEditing })(
+  TourCard
+)

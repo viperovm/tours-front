@@ -9,8 +9,8 @@ import { connect } from 'react-redux'
 
 import {
   setSecondaryNav,
-} from '../../../redux/actions/tourSectionActions'
-import { updateTour } from '../../../redux/actions/toursActions'
+  updateTour,
+} from '../../../redux/actions/toursActions'
 
 const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour, tour }) => {
   const [data, setData] = useState()
@@ -70,7 +70,7 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour, tour }
   }, [data])
 
   const handleButtonSubmit = () => {
-    updateTour(data, tour.id)
+    // updateTour(data, tour.id)
     action('services')
   }
 
@@ -135,8 +135,8 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour, tour }
 }
 
 const mapStateToProps = state => ({
-  secondary_nav: state.tourSection.secondary_nav,
-  tour: state.local_tour.tour,
+  secondary_nav: state.tours.secondary_nav,
+  tour: state.tours.current_tour,
 })
 
 export default connect(mapStateToProps, {

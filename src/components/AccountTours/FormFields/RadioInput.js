@@ -5,7 +5,6 @@ import React, {useState, useEffect} from 'react'
 const RadioInput = ({ label, comment, action, name, value }) => {
   const [data, setData] = useState('')
 
-  console.log(data)
 
   useEffect(() => {
     if (value) {
@@ -14,7 +13,6 @@ const RadioInput = ({ label, comment, action, name, value }) => {
   }, [value])
 
   const handleData = e => {
-    console.log(e.target.value)
     setData(e.target.value)
     action(name, e.target.value)
   }

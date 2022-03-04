@@ -11,7 +11,7 @@ import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
 
 import { connect } from 'react-redux'
-import { setTourName } from '../../../redux/actions/tourSectionActions'
+// import { setTourName } from '../../../redux/actions/tourSectionActions'
 import {
   getTourTypes,
   updateTour,
@@ -20,7 +20,7 @@ import {
 } from '../../../redux/actions/toursActions'
 import { setSecondaryNav } from '../../../redux/actions/tourSectionActions'
 
-import { update_tour } from '../../../redux/actions/currentTourActions'
+// import { update_tour } from '../../../redux/actions/currentTourActions'
 
 const Accomodation = ({ tour, action, setPropertyImage, toursTypes }) => {
   // const [tour, settour] = useState()
@@ -87,15 +87,15 @@ const Accomodation = ({ tour, action, setPropertyImage, toursTypes }) => {
 const mapStateToProps = state => ({
   toursTypes: state.tours.tour_types,
   languages: state.tours.languages,
-  secondary_nav: state.tourSection.secondary_nav,
-  tour: state.local_tour.tour,
+  secondary_nav: state.tours.secondary_nav,
+  tour: state.tours.current_tour,
 })
 
 export default connect(mapStateToProps, {
   getTourTypes,
-  setSecondaryNav,
+  // setSecondaryNav,
   updateTour,
   getLanguages,
   setPropertyImage,
-  update_tour,
+  // update_tour,
 })(Accomodation)

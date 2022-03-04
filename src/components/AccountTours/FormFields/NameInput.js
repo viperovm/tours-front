@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-const NameInput = ({ action, action2, name, type = 'text', value }) => {
+const NameInput = ({ action, name, type = 'text', value }) => {
   const [data, setData] = useState('')
 
   useEffect(() => {
@@ -13,10 +13,6 @@ const NameInput = ({ action, action2, name, type = 'text', value }) => {
     setData(e.target.value)
     action(name, e.target.value)
   }
-
-  const handleDataBlur = () => {
-    action2()
-  }
   // const handleSend = () => {
   //   action(name, data)
   // }
@@ -28,7 +24,6 @@ const NameInput = ({ action, action2, name, type = 'text', value }) => {
         value={data}
         type={type}
         onChange={handleData}
-        onBlur={handleDataBlur}
       />
     </>
   )

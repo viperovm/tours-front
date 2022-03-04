@@ -66,7 +66,6 @@ const SelectInput = ({ action, name, label, val, options, multiple }) => {
   // }, [name, data])
 
   const handleData = e => {
-    console.log(name, e.target.value)
     const {
       target: { value },
     } = e

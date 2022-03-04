@@ -10,9 +10,9 @@ import { connect } from 'react-redux'
 import {
   updateTour,
   getCurrencies,
+  setSecondaryNav,
 } from '../../../redux/actions/toursActions'
-import { update_tour } from '../../../redux/actions/currentTourActions'
-import { setSecondaryNav } from '../../../redux/actions/tourSectionActions'
+
 
 const Prices = ({
   tour,
@@ -22,7 +22,6 @@ const Prices = ({
   updateTour,
   getCurrencies,
   currencies,
-  update_tour,
 }) => {
   // const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
@@ -306,14 +305,13 @@ const Prices = ({
 }
 
 const mapStateToProps = state => ({
-  secondary_nav: state.tourSection.secondary_nav,
+  secondary_nav: state.tours.secondary_nav,
   currencies: state.tours.currencies,
-  tour: state.local_tour.tour,
+  tour: state.tours.current_tour,
 })
 
 export default connect(mapStateToProps, {
   setSecondaryNav,
   updateTour,
   getCurrencies,
-  update_tour,
 })(Prices)

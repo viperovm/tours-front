@@ -17,9 +17,6 @@ const DayAfterDay = ({ action, old_data, label, type = 'text', day_num }) => {
     setTitle('День ' + day_num)
   }, [])
 
-  console.log('Day Component: ', data)
-  console.log('Day Component: ', old_data)
-
   useEffect(() => {
     if (old_data) {
       setData(old_data.day_num === day_num ? old_data : '')
