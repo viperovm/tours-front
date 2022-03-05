@@ -6,12 +6,12 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { connect } from 'react-redux'
 import {
   updateTour,
-  addDay,
+  addExtraService,
   setSecondaryNav,
 } from '../../../redux/actions/toursActions'
 
 import TrippleWrapper from '../Wrappers/TrippleWrapper'
-import DayComponent from './DayComponent'
+import ExtraServiceComponent from './ExtraServiceComponent'
 
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -42,7 +42,7 @@ function a11yProps(index) {
   }
 }
 
-const DaysComponent = ({ tour, addDay }) => {
+const DaysComponent = ({ tour, addExtraService }) => {
   const [value, setValue] = useState(0)
 
   const [dayData, setDayData] = useState([])
@@ -52,14 +52,14 @@ const DaysComponent = ({ tour, addDay }) => {
   console.log(tour)
 
   useEffect(() => {
-    if (tour && tour.tour_days == null) {
-      addDay({ id: 1, image: [], description: '', location: '', day_title: '' })
+    if (tour && tour.tour_addetional_services == null) {
+      addExtraService({ id: 1, extra_text: '', extra_service_price: ''})
       setLoading(true)
-    } else if (tour && tour.tour_days && tour.tour_days.length > 0) {
+    } else if (tour && tour.tour_addetional_services && tour.tour_addetional_services.length > 0) {
       setLoading(false)
-      setDayData(tour.tour_days)
+      setDayData(tour.tour_addetional_services)
       let arr = []
-      for (let i = 1; i <= tour.tour_days.length; i++) {
+      for (let i = 1; i <= tour.tour_addetional_services.length; i++) {
         arr.push(i)
       }
       setDays(arr)
@@ -85,12 +85,11 @@ const DaysComponent = ({ tour, addDay }) => {
   const handleDayAdd = () => {
     setLoading(true)
     let id = days[days.length - 1] + 1
-    addDay({ id: id, image: [], description: '', location: '', day_title: '' })
+    addExtraService({ id: id, extra_text: '', extra_service_price: '' })
   }
 
   return (
     <>
-      
       {!loading && dayData.length > 0 && (
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -102,21 +101,13 @@ const DaysComponent = ({ tour, addDay }) => {
               scrollButtons='auto'
             >
               {days.map((item, index) => (
-                <Tab
-                  key={index}
-                  label={`День ${item}`}
-                  {...a11yProps(index)}
-                />
+                <Tab key={index} label={`Услуга ${item}`} {...a11yProps(index)} />
               ))}
             </Tabs>
           </Box>
           {dayData.map((item, index) => (
             <TabPanel key={index} value={value} index={index}>
-              <DayComponent
-                id={index + 1}
-                action={handleDayInput}
-                day={item}
-              />
+              <ExtraServiceComponent id={index + 1} action={handleDayInput} day={item} />
             </TabPanel>
           ))}
         </Box>
@@ -145,6 +136,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   updateTour,
-  addDay,
+  addExtraService,
   setSecondaryNav,
 })(DaysComponent)

@@ -45,7 +45,7 @@ import {
   UPDATE_ACTIVITY_SUCCESS,
   UPDATE_ACTIVITY_FAIL,
   SET_ACTIVITY_IMAGE_SUCCESS,
-SET_ACTIVITY_IMAGE_FAIL,
+  SET_ACTIVITY_IMAGE_FAIL,
   GET_TOUR_LEADERS_SUCCESS,
   GET_TOUR_LEADERS_FAIL,
   SET_CURRENT_SECTION,
@@ -56,6 +56,11 @@ SET_ACTIVITY_IMAGE_FAIL,
   SET_TOUR_NAME,
   UPDATE_LOCAL_TOUR_SUCCESS,
   SET_EDITING,
+  UPDATE_GUEST_GUIDE_SUCCESS,
+  SET_GUEST_GUIDE_IMAGE_SUCCESS,
+  SET_GUEST_GUIDE_IMAGE_FAIL,
+  ADD_EXTRA_SERVICE_SUCCESS,
+  UPDATE_EXTRA_SERVICE_SUCCESS,
 } from '../types'
 
 const initialState = {
@@ -117,7 +122,6 @@ const toursReducer = (state = initialState, action) => {
   }
 
   const setDay = (tour, day) => {
-    console.log(tour)
     let result = {}
     if (Array.isArray(tour.tour_days)) {
       let arr = [...tour.tour_days]
@@ -138,7 +142,12 @@ const toursReducer = (state = initialState, action) => {
   }
 
   const setDayImage = (tour, data) => {
-    let arr = tour.tour_days.filter(item.id === data.id).image
+    let arr = []
+    tour.tour_days.map(item => {
+      if (item.id === data.id) {
+        arr = item.image
+      }
+    })
     arr.push(data.image)
     let result = {
       ...tour,
@@ -206,6 +215,57 @@ const toursReducer = (state = initialState, action) => {
       plan: tour.plan.map(item => {
         if (item.id === data.id) {
           return { ...item, description: data.description }
+        } else {
+          return item
+        }
+      }),
+    }
+    return result
+  }
+
+  const setGuestGuideImage = (tour, data) => {
+    let arr = []
+    if (tour.guest_guide && tour.guest_guide.image) {
+      arr = tour.guest_guide.image
+      arr.push(data.tmb_image)
+    } else {
+      arr.push(data.tmb_image)
+    }
+    return {
+      ...tour,
+      guest_guide: {
+        ...tour.guest_guide,
+        image: arr,
+      },
+    }
+  }
+
+  const setExtraService = (tour, data) => {
+    let result = {}
+    if (Array.isArray(tour.tour_addetional_services)) {
+      let arr = [...tour.tour_addetional_services]
+      arr.push(data)
+      result = {
+        ...tour,
+        tour_addetional_services: arr,
+      }
+    } else {
+      let arr = []
+      arr.push(data)
+      result = {
+        ...tour,
+        tour_addetional_services: arr,
+      }
+    }
+    return result
+  }
+
+  const updateExtraService = (tour, data) => {
+    let result = {
+      ...tour,
+      tour_addetional_services: tour.tour_addetional_services.map(item => {
+        if (item.id === data.id) {
+          return { ...item, [data.name]: data.data }
         } else {
           return item
         }
@@ -292,6 +352,11 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         languages: [],
       }
+    case SET_GUEST_GUIDE_IMAGE_SUCCESS:
+      return {
+        ...state,
+        current_tour: setGuestGuideImage(state.current_tour, payload),
+      }
     case SET_PROPERTY_IMAGE_SUCCESS:
       return {
         ...state,
@@ -309,6 +374,16 @@ const toursReducer = (state = initialState, action) => {
         current_tour: setTourImages(state.current_tour, payload),
       }
 
+    case ADD_EXTRA_SERVICE_SUCCESS:
+      return {
+        ...state,
+        current_tour: setExtraService(state.current_tour, payload),
+      }
+    case UPDATE_EXTRA_SERVICE_SUCCESS:
+      return {
+        ...state,
+        current_tour: updateExtraService(state.current_tour, payload),
+      }
     case ADD_DAY_SUCCESS:
       return {
         ...state,
@@ -329,7 +404,7 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         // plan: payload,
-        current_tour: setActivityImage(state.current_tour, payload),
+        current_tour: setDayImage(state.current_tour, payload),
       }
     case UPDATE_ACTIVITY_SUCCESS:
       return {

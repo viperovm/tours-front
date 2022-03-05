@@ -10,6 +10,9 @@ import SelectInput from '../FormFields/SelectInput'
 import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
 
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
+
 import { connect } from 'react-redux'
 import {
   getTourTypes,
@@ -18,7 +21,11 @@ import {
   getRussianRegions,
   getCities,
   updateTour,
-  setSecondaryNav
+  setSecondaryNav,
+  getTourLeaders,
+  updateGuestGuide,
+  setGuestGuideImage,
+  tourToServer,
 } from '../../../redux/actions/toursActions'
 
 import Modal from './Modal'
@@ -27,100 +34,71 @@ import TrippleWrapper from '../Wrappers/TrippleWrapper'
 const Leader = ({
   tour,
   action,
-  tour_id,
-  setTourName,
-  getTourTypes,
-  toursTypes,
-  getRegions,
-  regions,
-  getCountries,
-  getRussianRegions,
-  getCities,
-  countries,
-  russianRegions,
-  cities,
-  setActiveSections,
-  active_sections,
+  getTourLeaders,
   secondary_nav,
   setSecondaryNav,
   updateTour,
+  tour_leaders,
+  updateGuestGuide,
+  setGuestGuideImage,
+  tourToServer,
 }) => {
-  const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
-  //   const [startRegionSet, setStartRegionSet] = useState(false)
-  const [startCountrySet, setStartCountrySet] = useState(false)
-  const [startRussianRegionSet, setStartRussianRegionSet] = useState(false)
-  const [startCitySet, setStartCitySet] = useState(false)
-  const [finishCountrySet, setFinishCountrySet] = useState(false)
-  const [finishRussianRegionSet, setFinishRussianRegionSet] = useState(false)
-  const [finishCitySet, setFinishCitySet] = useState(false)
+  const [previews, setPreviews] = useState([])
+  const [leaders, setLeaders] = useState([])
 
-  const [region, setRegion] = useState('')
-  const [country, setCountry] = useState('')
-  const [russianRegion, setRussianRegion] = useState('')
-  const [city, setCity] = useState('')
+  console.log(leaders)
 
-  const [modalTitle, setModalTitle] = useState('Тестовое название')
-  const [modalActive, setModalActive] = useState(true)
+  const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    getTourLeaders()
+  }, [])
 
   const handleInput = (name, value) => {
-    setData({
-      ...data,
-      [name]: value,
+    updateTour({
+      ...tour,
+      guest_guide: { [name]: value },
+    })
+  }
+
+  const handleImageInput = value => {
+    setLoading(true)
+    setGuestGuideImage(value)
+  }
+
+  useEffect(() => {
+    if (previews && loading) {
+      setLoading(false)
+    }
+  }, [previews, loading])
+
+  const handleSelectInput = (name, value) => {
+    updateTour({
+      ...tour,
+      team_member: value,
     })
   }
 
   useEffect(() => {
-    if (data && data.start_region) {
-      setStartCountrySet(true)
-      getCountries(data.start_region)
+    if (tour.team_member) {
+      updateTour({
+        ...tour,
+        guest_guide: null,
+      })
     }
-    if (data && data.start_country && data.start_country == 1) {
-      setStartRussianRegionSet(true)
-      getRussianRegions()
+    if (tour.guest_guide) {
     }
-    if (data && data.start_country && data.start_country != 1) {
-      setStartCitySet(true)
-      getCities(data.start_country)
-    }
-    if (data && data.start_russian_region) {
-      setStartCitySet(true)
-      getCities(data.start_country, data.start_russian_region)
-    }
-  }, [data])
+  }, [tour])
 
   useEffect(() => {
-    if (data && data.finish_region) {
-      setFinishCountrySet(true)
-    }
-    if (data && data.finish_country && data.finish_country == 1) {
-      setFinishRussianRegionSet(true)
-    }
-    if (data && data.finish_country && data.finish_country != 1) {
-      setFinishCitySet(true)
-    }
-    if (data && data.finish_russian_region) {
-      setFinishCitySet(true)
-    }
-  }, [data])
-
-  useEffect(() => {
-    if (data) {
-      if (
-        data.name &&
-        data.basic_type &&
-        data.additional_types &&
-        data.start_city &&
-        data.finish_city &&
-        data.start_time &&
-        data.finish_time
-      ) {
+    if (tour) {
+      if (tour.guest_guide || tour.team_member) {
         setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
           arr.map(item => {
-            if (item.value === 'common') {
+            if (item.value === 'leader') {
               return {
                 ...item,
                 active: true,
@@ -147,14 +125,10 @@ const Leader = ({
         )
       }
     }
-
-    if (data && data.name) {
-      setTourName(data.name)
-    }
-  }, [data])
+  }, [tour])
 
   const handleButtonSubmit = () => {
-    updateTour(data, tour.id )
+    tourToServer(tour, tour.id)
     action('conditions')
   }
 
@@ -163,10 +137,9 @@ const Leader = ({
     action('day')
   }
 
-
-   useEffect(() => {
-     window.scrollTo(0, 0)
-   }, [])
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <>
@@ -195,42 +168,50 @@ const Leader = ({
         }
       >
         <SelectInput
-          action={handleInput}
+          action={handleSelectInput}
           name='team_member'
           label='Выберите гида из списка, либо укажите его данные ниже'
-          old_data={data}
-          options={toursTypes}
+          val={tour.team_member}
+          options={tour_leaders}
           // multiple
         />
       </SingleWrapper>
-      <SingleWrapper label='Имя гида' comment=''>
-        <Input
-          action={handleInput}
-          name='leader_name'
-          old_data={data}
-          // options={toursTypes}
-          // multiple
-        />
-      </SingleWrapper>
-      <SingleWrapper label='Информация о гиде' comment=''>
-        <TextEditor
-          action={handleInput}
-          name='leader_info'
-          old_data={data}
-          // options={toursTypes}
-          // multiple
-        />
-      </SingleWrapper>
-      <SingleWrapper label='Фотография гида' comment=''>
-        <FileInput
-          action={handleInput}
-          name='leader_photo'
-          old_data={data}
-          type='file'
-          // options={toursTypes}
-          // multiple
-        />
-      </SingleWrapper>
+      <>
+        <SingleWrapper label='Имя гида' comment=''>
+          <Input
+            action={handleInput}
+            name='leader_name'
+            value={tour && tour.guest_guide && tour.guest_guide.leader_name}
+            // multiple
+          />
+        </SingleWrapper>
+        <SingleWrapper label='Информация о гиде' comment=''>
+          <TextEditor
+            action={handleInput}
+            name='leader_info'
+            value={tour && tour.guest_guide && tour.guest_guide.leader_info}
+            // multiple
+          />
+        </SingleWrapper>
+        <SingleWrapper label='Фотография гида' comment=''>
+          {!loading && (
+            <FileInput
+              action={handleImageInput}
+              name='leader_photo'
+              value={tour && tour.guest_guide && tour.guest_guide.image}
+              type='file'
+              // multiple
+            />
+          )}
+          {loading && (
+            <div className='fake-file-input loader-spinner'>
+              <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+              </Box>
+            </div>
+          )}
+        </SingleWrapper>
+      </>
 
       <div
         style={{
@@ -252,13 +233,9 @@ const Leader = ({
 }
 
 const mapStateToProps = state => ({
-  toursTypes: state.tours.tour_types,
-  regions: state.tours.regions,
-  countries: state.tours.countries,
-  russianRegions: state.tours.russian_regions,
-  cities: state.tours.cities,
   secondary_nav: state.tours.secondary_nav,
   tour: state.tours.current_tour,
+  tour_leaders: state.tours.tour_leaders,
 })
 
 export default connect(mapStateToProps, {
@@ -269,4 +246,8 @@ export default connect(mapStateToProps, {
   getCities,
   setSecondaryNav,
   updateTour,
+  getTourLeaders,
+  updateGuestGuide,
+  setGuestGuideImage,
+  tourToServer,
 })(Leader)

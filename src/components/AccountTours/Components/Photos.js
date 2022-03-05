@@ -77,11 +77,7 @@ const Photos = ({
   }, [data])
 
   const handleButtonSubmit = () => {
-    setData({
-      ...data,
-      on_moderation: true,
-    })
-    tourToServer(data, tour.id)
+    tourToServer({ ...tour, on_moderation: true, is_draft: false }, tour.id)
     clearCurrentTour()
     setEditing(false)
     done()

@@ -3404,6 +3404,10 @@ input[type='file'] {
   cursor: pointer;
 }
 
+.MuiBox-root {
+  padding: 24px 0!important;
+}
+
 .tour-footer {
   padding-top: 20px;
   display: flex;

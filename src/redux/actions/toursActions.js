@@ -45,7 +45,7 @@ import {
   UPDATE_ACTIVITY_SUCCESS,
   UPDATE_ACTIVITY_FAIL,
   SET_ACTIVITY_IMAGE_SUCCESS,
-SET_ACTIVITY_IMAGE_FAIL,
+  SET_ACTIVITY_IMAGE_FAIL,
   GET_TOUR_LEADERS_SUCCESS,
   GET_TOUR_LEADERS_FAIL,
   SET_CURRENT_SECTION,
@@ -58,6 +58,11 @@ SET_ACTIVITY_IMAGE_FAIL,
   SET_EDITING,
   DELETE_TOUR,
   DELETE_TOUR_FAIL,
+  UPDATE_GUEST_GUIDE_SUCCESS,
+  SET_GUEST_GUIDE_IMAGE_SUCCESS,
+  SET_GUEST_GUIDE_IMAGE_FAIL,
+  ADD_EXTRA_SERVICE_SUCCESS,
+  UPDATE_EXTRA_SERVICE_SUCCESS,
 } from '../types'
 import axios from 'axios'
 
@@ -263,33 +268,41 @@ export const setTourImages = (image, id) => async dispatch => {
 }
 
 export const addDay = data => dispatch => {
-  
   dispatch({
     type: ADD_DAY_SUCCESS,
     payload: data,
   })
-
 }
 
 export const updateDay = (id, name, data) => async dispatch => {
-
   const day = { id: id, name: name, data: data }
   dispatch({
     type: UPDATE_DAY_SUCCESS,
     payload: day,
   })
+}
+export const addExtraService = data => dispatch => {
+  dispatch({
+    type: ADD_EXTRA_SERVICE_SUCCESS,
+    payload: data,
+  })
+}
 
+export const updateExtraService = (id, name, data) => async dispatch => {
+  const day = { id: id, name: name, data: data }
+  dispatch({
+    type: UPDATE_EXTRA_SERVICE_SUCCESS,
+    payload: day,
+  })
 }
 
 export const setDayImage = (image, id) => async dispatch => {
-
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `JWT ${localStorage.getItem('access')}`,
     },
   }
-  console.log(image)
   let form_data = new FormData()
   form_data.append('image', image, image.name)
   try {
@@ -300,6 +313,7 @@ export const setDayImage = (image, id) => async dispatch => {
     )
 
     let data = { id: id, image: res.data }
+    console.log(data)
 
     dispatch({
       type: SET_TOUR_DAY_IMAGE_SUCCESS,
@@ -311,7 +325,6 @@ export const setDayImage = (image, id) => async dispatch => {
       type: SET_TOUR_DAY_IMAGE_FAIL,
     })
   }
-
 }
 
 export const addActivity = data => dispatch => {
@@ -347,7 +360,7 @@ export const setActivityImage = (image, id) => async dispatch => {
       config
     )
 
-    let data = {id: id, image: res.data}
+    let data = { id: id, image: res.data }
 
     dispatch({
       type: SET_ACTIVITY_IMAGE_SUCCESS,
@@ -357,6 +370,41 @@ export const setActivityImage = (image, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: SET_ACTIVITY_IMAGE_FAIL,
+    })
+  }
+}
+
+export const updateGuestGuide = data => dispatch => {
+  dispatch({
+    type: UPDATE_GUEST_GUIDE_SUCCESS,
+    payload: data,
+  })
+}
+export const setGuestGuideImage = image => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+  let form_data = new FormData()
+  form_data.append('image', image, image.name)
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/tourguestguideimages/`,
+      form_data,
+      config
+    )
+
+    console.log(res.data)
+
+    dispatch({
+      type: SET_GUEST_GUIDE_IMAGE_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: SET_GUEST_GUIDE_IMAGE_FAIL,
     })
   }
 }
@@ -583,6 +631,8 @@ export const getTourPropertyTypes = () => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
     },
   }
 
@@ -625,15 +675,25 @@ export const getTourLeaders = () => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
     },
   }
 
   try {
     const res = await axios.get(`${API_URL}/api/teammembers/`, config)
 
+    console.log(res.data)
+
+    const guides = res.data.map(item => ({
+      id: item.id,
+      name: item.first_name + ' ' + item.last_name,
+    }))
+    console.log(guides)
+
     dispatch({
       type: GET_TOUR_LEADERS_SUCCESS,
-      payload: res.data,
+      payload: guides,
     })
   } catch (err) {
     dispatch({

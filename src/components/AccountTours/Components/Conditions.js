@@ -10,32 +10,29 @@ import { connect } from 'react-redux'
 import {
   setSecondaryNav,
   updateTour,
+  tourToServer,
 } from '../../../redux/actions/toursActions'
 
-const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour, tour }) => {
-  const [data, setData] = useState()
+const Conditions = ({
+  action,
+  secondary_nav,
+  setSecondaryNav,
+  updateTour,
+  tour,
+  tourToServer,
+}) => {
   const [completed, setCompleted] = useState(false)
 
-  useEffect(() => {
-    if(tour){
-      setData({
-        price_includes: tour.price_includes,
-        price_excludes: tour.price_excludes,
-        air_tickets: tour.air_tickets,
-      })
-    }
-  }, [tour])
-
   const handleInput = (name, value) => {
-    setData({
-      ...data,
+    updateTour({
+      ...tour,
       [name]: value,
     })
   }
 
   useEffect(() => {
-    if (data) {
-      if (data.price_includes && data.price_excludes && data.air_tickets) {
+    if (tour) {
+      if (tour.tour_included_services && tour.tour_excluded_services && tour.air_tickets) {
         setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
@@ -67,10 +64,10 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour, tour }
         )
       }
     }
-  }, [data])
+  }, [tour])
 
   const handleButtonSubmit = () => {
-    // updateTour(data, tour.id)
+    tourToServer(tour, tour.id)
     action('services')
   }
 
@@ -78,9 +75,9 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour, tour }
     action('leader')
   }
 
-   useEffect(() => {
-     window.scrollTo(0, 0)
-   }, [])
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <>
@@ -91,18 +88,18 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour, tour }
       <SingleWrapper label='В стоимость включено' comment=''>
         <TextArea
           action={handleInput}
-          name='price_includes'
+          name='tour_included_services'
           label=''
-          value={data&& data.price_includes}
+          value={tour && tour.tour_included_services}
           rows='7'
         />
       </SingleWrapper>
       <SingleWrapper label='В стоимость не включено' comment=''>
         <TextArea
           action={handleInput}
-          name='price_excludes'
+          name='tour_excluded_services'
           label=''
-          value={data&& data.price_excludes}
+          value={tour && tour.tour_excluded_services}
           rows='7'
         />
       </SingleWrapper>
@@ -111,7 +108,7 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour, tour }
           action={handleInput}
           name='air_tickets'
           label=''
-          value={data&& data.air_tickets}
+          value={tour && tour.air_tickets}
           rows='7'
         />
       </SingleWrapper>
@@ -142,4 +139,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   setSecondaryNav,
   updateTour,
+  tourToServer,
 })(Conditions)

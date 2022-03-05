@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Fragment } from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 
@@ -11,6 +11,8 @@ const FileInput = ({ action, name, value, max }) => {
   const inputFileRef = useRef(null)
 
 
+
+
   useEffect(() => {
     if (value) {
       let arr = preview
@@ -18,8 +20,6 @@ const FileInput = ({ action, name, value, max }) => {
       setPreview(arr)
     }
   }, [value])
-
-  console.log(value)
 
   useEffect(() => {
     if (max) {
@@ -35,6 +35,7 @@ const FileInput = ({ action, name, value, max }) => {
   }
 
   const onFilechange = e => {
+    console.log(e.target.files)
     setLoading(true)
     if (e.target.files[0]) {
       setData(e.target.files[0])
@@ -70,7 +71,7 @@ const FileInput = ({ action, name, value, max }) => {
           <div className='fake-file-input-text'>Добавить новое фото</div>
         </div>
         {preview.map((item, index) => (
-          <>
+          <Fragment key={index}>
             <div
               key={index}
               className='fake-file-input image-container'
@@ -83,7 +84,7 @@ const FileInput = ({ action, name, value, max }) => {
             ) : (
               ''
             )}
-          </>
+          </Fragment>
         ))}
         {loading && (
           <div className='fake-file-input loader-spinner' onClick={onBtnClick}>

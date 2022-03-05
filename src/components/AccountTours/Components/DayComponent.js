@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
 import Input from '../FormFields/Input'
-import FileInput from '../FormFields/FileInput'
+import ObjectFileInput from '../FormFields/ObjectFileInput'
 import TextEditor from '../FormFields/TextEditor'
 import Button from './Button'
 
@@ -17,10 +17,14 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
   const [loading, setLoading] = useState(false)
   const [previews, setPreviews] = useState([])
 
+  console.log(previews)
+
   useEffect(() => {
-    if (day && day.image && day.image > 0) {
-      let arr = day.image.map(item => arr.push(item.tmb_image))
+    let arr = []
+    if (day && day.image && Array.isArray(day.image) && day.image.length > 0) {
+      day.image.map(item => {arr.push(item.tmb_image)})
       setPreviews(arr)
+      setLoading(true)
     }
   }, [day])
 
@@ -38,27 +42,9 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
     setDayImage(value, id)
   }
 
-  // const handleInput = (name, value) => {
-  //   setData({
-  //     ...data,
-  //     [name]: value,
-  //   })
-  // }
+  console.log(day)
+  console.log(tour)
 
-  // useEffect(() => {
-  //   setData({
-  //     ...data,
-  //     day_id: id,
-  //   })
-  // }, [])
-
-  // useEffect(() => {
-  //   action(data, id)
-  // }, [data])
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 0)
-  // }, [])
 
   return (
     <>
@@ -110,7 +96,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
         label='Добавить фото'
         comment='Вы можете добавить до 3 фото для каждого дня'
       >
-        <FileInput
+        <ObjectFileInput
           action={handleImageInput}
           name='day_photo'
           type='file'
