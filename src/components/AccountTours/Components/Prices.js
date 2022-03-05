@@ -34,41 +34,41 @@ const Prices = ({
     updateTour({ ...tour, [name]: value })
   }
 
-  useEffect(() => {
-    if (tour) {
-      if (tour.currency && tour.start_date && tour.finish_date && tour.price) {
-        setCompleted(true)
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'prices') {
-              return {
-                ...item,
-                active: true,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      } else {
-        setCompleted(false)
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'prices') {
-              return {
-                ...item,
-                active: false,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      }
-    }
-  }, [tour])
+  // useEffect(() => {
+  //   if (tour) {
+  //     if (tour.currency && tour.start_date && tour.finish_date && tour.price) {
+  //       setCompleted(true)
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'prices') {
+  //             return {
+  //               ...item,
+  //               active: true,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     } else {
+  //       setCompleted(false)
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'prices') {
+  //             return {
+  //               ...item,
+  //               active: false,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     }
+  //   }
+  // }, [tour])
 
   const handleButtonBack = () => {
     // updateTour(data, tour.id)

@@ -160,46 +160,46 @@ const Details = ({
     getLanguages()
   }, [])
 
-  useEffect(() => {
-    if (tour) {
-      if (
-        tour.languages &&
-        tour.description &&
-        tour.main_impressions &&
-        tour.plan
-      ) {
-        setCompleted(true)
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'details') {
-              return {
-                ...item,
-                active: true,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      } else {
-        setCompleted(false)
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'details') {
-              return {
-                ...item,
-                active: false,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      }
-    }
-  }, [tour])
+  // useEffect(() => {
+  //   if (tour) {
+  //     if (
+  //       tour.languages &&
+  //       tour.description &&
+  //       tour.main_impressions &&
+  //       tour.plan
+  //     ) {
+  //       setCompleted(true)
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'details') {
+  //             return {
+  //               ...item,
+  //               active: true,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     } else {
+  //       setCompleted(false)
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'details') {
+  //             return {
+  //               ...item,
+  //               active: false,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     }
+  //   }
+  // }, [tour])
 
   const handleImageLoad = image => {
     setPropertyImage(image, tour.id)

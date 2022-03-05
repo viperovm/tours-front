@@ -50,41 +50,41 @@ const Days = ({
     updateTour({ ...tour, [name]: value })
   }
 
-  useEffect(() => {
-    if (tour) {
-      if (tour.day && tour.day.length > 0) {
-        setCompleted(true)
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'day') {
-              return {
-                ...item,
-                active: true,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      } else {
-        setCompleted(false)
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'day') {
-              return {
-                ...item,
-                active: false,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      }
-    }
-  }, [tour])
+  // useEffect(() => {
+  //   if (tour) {
+  //     if (tour.day && tour.day.length > 0) {
+  //       setCompleted(true)
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'day') {
+  //             return {
+  //               ...item,
+  //               active: true,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     } else {
+  //       setCompleted(false)
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'day') {
+  //             return {
+  //               ...item,
+  //               active: false,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     }
+  //   }
+  // }, [tour])
 
   const handleButtonSubmit = () => {
     tourToServer(tour, tour.id)

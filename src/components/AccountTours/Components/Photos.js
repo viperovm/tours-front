@@ -57,39 +57,39 @@ const Photos = ({
     }
   }, [tour])
 
-  useEffect(() => {
-    if (tour) {
-      if (Array.isArray(tour.tour_images) && tour.tour_images.length > 0) {
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'photos') {
-              return {
-                ...item,
-                active: true,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      } else {
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'photos') {
-              return {
-                ...item,
-                active: false,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      }
-    }
-  }, [tour])
+  // useEffect(() => {
+  //   if (tour) {
+  //     if (Array.isArray(tour.tour_images) && tour.tour_images.length > 0) {
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'photos') {
+  //             return {
+  //               ...item,
+  //               active: true,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     } else {
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'photos') {
+  //             return {
+  //               ...item,
+  //               active: false,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     }
+  //   }
+  // }, [tour])
 
   const handleButtonSubmit = () => {
     tourToServer({ ...tour, on_moderation: true, is_draft: false }, tour.id)

@@ -30,41 +30,41 @@ const Conditions = ({
     })
   }
 
-  useEffect(() => {
-    if (tour) {
-      if (tour.tour_included_services && tour.tour_excluded_services && tour.air_tickets) {
-        setCompleted(true)
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'conditions') {
-              return {
-                ...item,
-                active: true,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      } else {
-        setCompleted(false)
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'conditions') {
-              return {
-                ...item,
-                active: false,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      }
-    }
-  }, [tour])
+  // useEffect(() => {
+  //   if (tour) {
+  //     if (tour.tour_included_services && tour.tour_excluded_services && tour.air_tickets) {
+  //       setCompleted(true)
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'conditions') {
+  //             return {
+  //               ...item,
+  //               active: true,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     } else {
+  //       setCompleted(false)
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'conditions') {
+  //             return {
+  //               ...item,
+  //               active: false,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     }
+  //   }
+  // }, [tour])
 
   const handleButtonSubmit = () => {
     tourToServer(tour, tour.id)

@@ -59,49 +59,49 @@ const Common = ({
     tourToServer(new_data, tour.id)
   }
 
-  useEffect(() => {
-    if (tour) {
-      if (
-        tour.name &&
-        tour.basic_type &&
-        tour.additional_types &&
-        tour.start_city &&
-        tour.finish_city &&
-        tour.start_time &&
-        tour.finish_time
-      ) {
-        setCompleted(true)
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'common') {
-              return {
-                ...item,
-                active: true,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      } else {
-        setCompleted(false)
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'common') {
-              return {
-                ...item,
-                active: false,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      }
-    }
-  }, [tour])
+  // useEffect(() => {
+  //   if (tour) {
+  //     if (
+  //       tour.name &&
+  //       tour.basic_type &&
+  //       tour.additional_types &&
+  //       tour.start_city &&
+  //       tour.finish_city &&
+  //       tour.start_time &&
+  //       tour.finish_time
+  //     ) {
+  //       setCompleted(true)
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'common') {
+  //             return {
+  //               ...item,
+  //               active: true,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     } else {
+  //       setCompleted(false)
+  //       let arr = secondary_nav
+  //       setSecondaryNav(
+  //         arr.map(item => {
+  //           if (item.value === 'common') {
+  //             return {
+  //               ...item,
+  //               active: false,
+  //             }
+  //           } else {
+  //             return item
+  //           }
+  //         })
+  //       )
+  //     }
+  //   }
+  // }, [tour])
 
   const handleButtonSubmit = () => {
     console.log(tour)
