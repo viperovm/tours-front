@@ -10,14 +10,15 @@ const FileInput = ({ action, name, value, max }) => {
 
   const inputFileRef = useRef(null)
 
-
-
-
   useEffect(() => {
     if (value) {
+      if (max === 1) {
+        setPreview(value)
+      } else {
       let arr = preview
       arr.push(value)
       setPreview(arr)
+      }
     }
   }, [value])
 
@@ -70,22 +71,31 @@ const FileInput = ({ action, name, value, max }) => {
           <div className='camera-image' />
           <div className='fake-file-input-text'>Добавить новое фото</div>
         </div>
-        {preview.map((item, index) => (
-          <Fragment key={index}>
-            <div
-              key={index}
-              className='fake-file-input image-container'
-              style={{
-                backgroundImage: 'url(' + item + ')',
-              }}
-            />
-            {index === 1 || (index - 1) % 3 === 0 ? (
-              <div className={'fake-file-input-break'} />
-            ) : (
-              ''
-            )}
-          </Fragment>
-        ))}
+        {max !== 1 &&
+          preview.map((item, index) => (
+            <Fragment key={index}>
+              <div
+                key={index}
+                className='fake-file-input image-container'
+                style={{
+                  backgroundImage: 'url(' + item + ')',
+                }}
+              />
+              {index === 1 || (index - 1) % 3 === 0 ? (
+                <div className={'fake-file-input-break'} />
+              ) : (
+                ''
+              )}
+            </Fragment>
+          ))}
+        {max === 1 && (
+          <div
+            className='fake-file-input image-container'
+            style={{
+              backgroundImage: 'url(' + preview + ')',
+            }}
+          />
+        )}
         {loading && (
           <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
             <Box sx={{ display: 'flex' }}>

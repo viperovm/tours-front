@@ -229,19 +229,9 @@ const toursReducer = (state = initialState, action) => {
   }
 
   const setGuestGuideImage = (tour, data) => {
-    let arr = []
-    if (tour.guest_guide && tour.guest_guide.image) {
-      arr = tour.guest_guide.image
-      arr.push(data.tmb_image)
-    } else {
-      arr.push(data.tmb_image)
-    }
     return {
       ...tour,
-      guest_guide: {
-        ...tour.guest_guide,
-        image: arr,
-      },
+      guest_guide: data,
     }
   }
 

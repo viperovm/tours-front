@@ -190,7 +190,7 @@ const Prices = ({
           action={handleInput}
           name='prepay_in_prc'
           label='Номинал'
-          value={tour && tour.prepay_in_prc}
+          val={tour && tour.prepay_in_prc}
           options={[
             { id: 0, name: 'Число' },
             { id: 1, name: '%' },
@@ -212,7 +212,7 @@ const Prices = ({
           action={handleInput}
           name='discount_in_prc'
           label='Номинал'
-          value={tour && tour.discount_in_prc}
+          val={tour && tour.discount_in_prc}
           options={[
             { id: 0, name: 'Число' },
             { id: 1, name: '%' },

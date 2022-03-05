@@ -272,7 +272,7 @@ const Details = ({
           action={handleInput}
           name='tour_property_types'
           label='Где планируется проживание'
-          value={tour && tour.tour_property_types}
+          val={tour && tour.tour_property_types}
           options={tour_property_types}
           // multiple
         />
@@ -282,7 +282,7 @@ const Details = ({
           action={handleInput}
           name='accomodation'
           label='Размещение'
-          value={tour && tour.accomodation}
+          val={tour && tour.accomodation}
           options={tour_accomodations}
           // multiple
         />
