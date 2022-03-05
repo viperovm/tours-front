@@ -32,23 +32,17 @@ const ExtraServices = ({
   updateTour,
   tourToServer,
 }) => {
-  const [data, setData] = useState([])
-
-  const [completed, setCompleted] = useState(false)
-
-  const [value, setValue] = useState(0)
-  const [loading, setLoading] = useState(false)
-  const [activities, setActivities] = useState([1])
-
   
   const handleInput = (name, value) => {
-    updateTour(name, value)
+    updateTour({
+      ...tour,
+      [name]: value,
+    })
   }
 
   useEffect(() => {
     if (tour) {
       if (tour.day && tour.day.length > 0) {
-        setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
           arr.map(item => {
@@ -63,7 +57,6 @@ const ExtraServices = ({
           })
         )
       } else {
-        setCompleted(false)
         let arr = secondary_nav
         setSecondaryNav(
           arr.map(item => {
@@ -104,7 +97,7 @@ const ExtraServices = ({
           <TextEditor
             action={handleInput}
             name='guest_requirements'
-            value={data}
+            value={tour && tour.guest_requirements}
             // options={toursTypes}
             // multiple
           />
@@ -112,8 +105,8 @@ const ExtraServices = ({
         <SingleWrapper label='Комментарии' comment=''>
           <TextEditor
             action={handleInput}
-            name='important_comments'
-            value={data}
+            name='important_to_know_comments'
+            value={tour && tour.important_to_know_comments}
             // options={toursTypes}
             // multiple
           />

@@ -123,7 +123,7 @@ const DaysComponent = ({ tour, addExtraService }) => {
         active={true}
         action={handleDayAdd}
         color='button-primary'
-        text='Добавить день'
+        text='Добавить услугу'
       />
     </>
   )

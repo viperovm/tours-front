@@ -20,30 +20,17 @@ const Photos = ({
   setSecondaryNav,
   // done,
   setTourImages,
-  setEditing,
   tourToServer,
   clearCurrentTour,
+  setEditing,
 }) => {
-  const [data, setData] = useState()
-  const [completed, setCompleted] = useState(false)
-
-
   const handleInput = image => {
     setTourImages(image, tour.id)
   }
 
   useEffect(() => {
     if (tour) {
-      setData({
-        tour_images: tour.tour_images,
-      })
-    }
-  }, [tour])
-
-  useEffect(() => {
-    if (data) {
-      if (data.cancellation_terms) {
-        setCompleted(true)
+      if (Array.isArray(tour.tour_images) && tour.tour_images.length > 0) {
         let arr = secondary_nav
         setSecondaryNav(
           arr.map(item => {
@@ -58,7 +45,6 @@ const Photos = ({
           })
         )
       } else {
-        setCompleted(false)
         let arr = secondary_nav
         setSecondaryNav(
           arr.map(item => {
@@ -74,7 +60,7 @@ const Photos = ({
         )
       }
     }
-  }, [data])
+  }, [tour])
 
   const handleButtonSubmit = () => {
     tourToServer({ ...tour, on_moderation: true, is_draft: false }, tour.id)
@@ -105,13 +91,13 @@ const Photos = ({
           action={handleInput}
           name='tour_images'
           type='file'
-          value={data && data.tour_images}
+          value={tour && tour.tour_images}
         />
         {/* <ObjectFileInput
           action={handleInput}
           name='tour_images'
           type='file'
-          value={data && data.tour_images}
+          value={tour && tour.tour_images}
         /> */}
       </SingleWrapper>
       <div
