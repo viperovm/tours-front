@@ -8,6 +8,7 @@ import {
   deleteTour,
   updateTour,
   setEditing,
+  getTour,
 } from '../../../redux/actions/toursActions'
 
 import { connect } from 'react-redux'
@@ -19,6 +20,7 @@ const TourCard = ({
   deleteTour,
   updateTour,
   setEditing,
+  getTour,
 }) => {
   const label = tour.is_active
     ? 'Опубликовано'
@@ -34,9 +36,8 @@ const TourCard = ({
     : tour.is_draft
     ? 'draft'
     : ''
- 
-  const myRef = useRef()
 
+  const myRef = useRef()
 
   const [active, setActive] = useState(false)
 
@@ -52,7 +53,7 @@ const TourCard = ({
   }
 
   const handleTourEdit = () => {
-    updateTour(tour)
+    getTour(tour.id)
     setEditing(true)
   }
 
@@ -103,6 +104,20 @@ const TourCard = ({
                 padding: 10,
                 borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
                 lineHeight: '15px',
+                textAlign: 'right',
+                cursor: 'pointer',
+              }}
+              onClick={handleTourEdit}
+            >
+              Редактировать
+            </div>
+            <div
+              className='tour-item-top'
+              style={{
+                padding: 10,
+                borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+                lineHeight: '15px',
+                textAlign: 'right',
               }}
             >
               Скопировать
@@ -170,6 +185,6 @@ const TourCard = ({
   )
 }
 
-export default connect(null, { deleteTour, updateTour, setEditing })(
+export default connect(null, { deleteTour, updateTour, setEditing, getTour })(
   TourCard
 )

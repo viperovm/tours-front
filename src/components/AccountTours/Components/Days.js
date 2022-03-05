@@ -21,6 +21,7 @@ import {
   setPropertyImage,
   addActivity,
   setSecondaryNav,
+  tourToServer,
 } from '../../../redux/actions/toursActions'
 
 const Days = ({
@@ -29,8 +30,8 @@ const Days = ({
   secondary_nav,
   setSecondaryNav,
   updateTour,
+  tourToServer,
 }) => {
-
   const [data, setData] = useState([])
 
   const [completed, setCompleted] = useState(false)
@@ -46,14 +47,12 @@ const Days = ({
   }
 
   const handleInput = (name, value) => {
-    update_tour(name, value)
+    updateTour({ ...tour, [name]: value })
   }
 
   useEffect(() => {
     if (tour) {
-      if (
-        tour.day && tour.day.length > 0
-      ) {
+      if (tour.day && tour.day.length > 0) {
         setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
@@ -88,7 +87,7 @@ const Days = ({
   }, [tour])
 
   const handleButtonSubmit = () => {
-    updateTour(tour, tour.id)
+    tourToServer(tour, tour.id)
     action('leader')
   }
 
@@ -145,4 +144,5 @@ export default connect(mapStateToProps, {
   addActivity,
   getTourPropertyTypes,
   getTourAccomodations,
+  tourToServer,
 })(Days)

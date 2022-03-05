@@ -60,7 +60,7 @@ tourToServer,
 
   const handleImageInput = value => {
     setLoading(true)
-    setGuestGuideImage(value)
+    setGuestGuideImage(value, tour.id)
   }
 
   useEffect(() => {

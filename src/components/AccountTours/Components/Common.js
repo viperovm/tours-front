@@ -41,6 +41,8 @@ const Common = ({
 
   const [completed, setCompleted] = useState(false)
 
+  console.log(tour)
+
 
   const handleInput = (name, value) => {
     updateTour({
@@ -102,6 +104,8 @@ const Common = ({
   }, [tour])
 
   const handleButtonSubmit = () => {
+    console.log(tour)
+    console.log(tour.id)
     tourToServer(tour, tour.id)
     action('prices')
   }
@@ -172,110 +176,7 @@ const Common = ({
         finish_city={tour && tour.finish_city}
       />
 
-      {/* <SingleWrapper label='Регион начала тура' comment=''>
-        <SelectInput
-          action={handleInput}
-          name='start_region'
-          label='Регион начала тура'
-          comment=''
-          val={tour && tour.start_region}
-          options={dateSelectData.region}
-          // multiple
-        />
-      </SingleWrapper>
-      {startCountrySet && (
-        <SingleWrapper label='Страна начала тура' comment=''>
-          <SelectInput
-            action={handleInput}
-            name='start_country'
-            label='Страна начала тура'
-            comment=''
-            val={tour && tour.start_country}
-            options={dateSelectData.start_country}
-            // multiple
-          />
-        </SingleWrapper>
-      )}
-      {startRussianRegionSet && (
-        <SingleWrapper
-          label='Российский регион начала тура'
-          comment='Для путешествий по России не забудьте добавить регион, чтобы ваш тур попал в соответсвующий фильтр на сайте.'
-        >
-          <SelectInput
-            action={handleInput}
-            name='start_russian_region'
-            label='Российский регион начала тура'
-            comment=''
-            val={tour && tour.start_russian_region}
-            options={dateSelectData.start_russian_region}
-            // multiple
-          />
-        </SingleWrapper>
-      )}
-      {startCitySet && (
-        <SingleWrapper label='Город начала тура' comment=''>
-          <SelectInput
-            action={handleInput}
-            name='start_city'
-            label='Город начала тура'
-            comment=''
-            val={tour && tour.start_city}
-            options={dateSelectData.start_city}
-            // multiple
-          />
-        </SingleWrapper>
-      )}
-      <SingleWrapper label='Регион окончания тура' comment=''>
-        <SelectInput
-          action={handleInput}
-          name='finish_region'
-          label='Регион окончания тура'
-          comment=''
-          val={tour && tour.finish_region}
-          options={dateSelectData.region}
-          // multiple
-        />
-      </SingleWrapper>
-      {finishCountrySet && (
-        <SingleWrapper label='Страна окончания тура' comment=''>
-          <SelectInput
-            action={handleInput}
-            name='finish_country'
-            label='Страна окончания тура'
-            comment=''
-            val={tour && tour.finish_country}
-            options={dateSelectData.finish_country}
-            // multiple
-          />
-        </SingleWrapper>
-      )}
-      {finishRussianRegionSet && (
-        <SingleWrapper label='Российский регион окончания тура' comment=''>
-          <SelectInput
-            action={handleInput}
-            name='finish_russian_region'
-            label='Российский регион окончания тура'
-            comment=''
-            val={tour && tour.finish_russian_region}
-            options={dateSelectData.finish_russian_region}
-            // multiple
-          />
-        </SingleWrapper>
-      )}
-      {finishCitySet && (
-        <SingleWrapper label='Город окончания тура' comment=''>
-          <SelectInput
-            action={handleInput}
-            name='finish_city'
-            label='Город окончания тура'
-            comment=''
-            val={tour && tour.finish_city}
-            options={dateSelectData.finish_city}
-            // multiple
-          />
-        </SingleWrapper>
-      )} */}
-
+      
       <SingleWrapper label='Время начала (местное):' comment=''>
         <Input
           action={handleInput}

@@ -24,9 +24,38 @@ const Photos = ({
   clearCurrentTour,
   setEditing,
 }) => {
+
+  const [loading, setLoading] = useState(false)
+  const [previews, setPreviews] = useState([])
+
   const handleInput = image => {
     setTourImages(image, tour.id)
   }
+
+  console.log(tour)
+
+  useEffect(() => {
+    let arr = []
+    if (
+      tour &&
+      tour.tour_images &&
+      tour.tour_images.length > 0
+    ) {
+      tour.tour_images.map(item => {
+        if (!tour.tour_images.includes(item.tmb_image)) {
+          arr.push(item.tmb_image)
+        }
+      })
+      setPreviews(arr)
+      setLoading(true)
+    }
+  }, [tour])
+
+  useEffect(() => {
+    if (tour && tour.tour_images) {
+      setLoading(false)
+    }
+  }, [tour])
 
   useEffect(() => {
     if (tour) {
@@ -66,7 +95,7 @@ const Photos = ({
     tourToServer({ ...tour, on_moderation: true, is_draft: false }, tour.id)
     clearCurrentTour()
     setEditing(false)
-    done()
+    // done()
   }
 
   const handleButtonBack = () => {
@@ -91,7 +120,7 @@ const Photos = ({
           action={handleInput}
           name='tour_images'
           type='file'
-          value={tour && tour.tour_images}
+          value={previews}
         />
         {/* <ObjectFileInput
           action={handleInput}

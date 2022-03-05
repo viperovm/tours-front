@@ -15,6 +15,7 @@ import {
 import { connect } from 'react-redux'
 
 const Activity = ({
+  tour,
   id,
   action,
   activity,
@@ -36,7 +37,7 @@ const Activity = ({
   }
   const handleImageInput = (value) => {
     setLoading(true)
-    setActivityImage(value, id)
+    setActivityImage(value, id, tour.id)
   }
 
   return (

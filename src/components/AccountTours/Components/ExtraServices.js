@@ -32,28 +32,10 @@ const ExtraServices = ({
   updateTour,
   tourToServer,
 }) => {
-  const [data, setData] = useState([])
-
-  const [completed, setCompleted] = useState(false)
-
-  const [value, setValue] = useState(0)
-  const [loading, setLoading] = useState(false)
-  const [activities, setActivities] = useState([1])
-
-  const handleActivityInput = (value, id) => {
-    let arr = data.filter(item => item.id !== id)
-    arr.push(value)
-    setData(arr)
-  }
-
-  const handleInput = (name, value) => {
-    updateTour(name, value)
-  }
-
+  
   useEffect(() => {
     if (tour) {
       if (tour.day && tour.day.length > 0) {
-        setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
           arr.map(item => {
@@ -68,7 +50,6 @@ const ExtraServices = ({
           })
         )
       } else {
-        setCompleted(false)
         let arr = secondary_nav
         setSecondaryNav(
           arr.map(item => {
@@ -173,7 +154,6 @@ export default connect(mapStateToProps, {
 //   currencies,
 // }) => {
 //   const [data, setData] = useState()
-//   const [completed, setCompleted] = useState(false)
 
 //   const handleInput = (name, value) => {
 //     setData({
@@ -183,7 +163,6 @@ export default connect(mapStateToProps, {
 //   }
 
 //   useEffect(() => {
-//     setCompleted(true)
 //     let arr = secondary_nav
 //     setSecondaryNav(
 //       arr.map(item => {

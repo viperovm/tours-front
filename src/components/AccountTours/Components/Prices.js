@@ -11,6 +11,7 @@ import {
   updateTour,
   getCurrencies,
   setSecondaryNav,
+  tourToServer,
 } from '../../../redux/actions/toursActions'
 
 
@@ -22,6 +23,7 @@ const Prices = ({
   updateTour,
   getCurrencies,
   currencies,
+  tourToServer,
 }) => {
   // const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
@@ -29,7 +31,7 @@ const Prices = ({
   const [input, setInput] = useState(true)
 
   const handleInput = (name, value) => {
-    update_tour(name, value)
+    updateTour({ ...tour, [name]: value })
   }
 
   useEffect(() => {
@@ -73,7 +75,7 @@ const Prices = ({
     action('common')
   }
   const handleButtonSubmit = () => {
-    updateTour(tour, tour.id)
+    tourToServer(tour, tour.id)
     action('options')
   }
 
@@ -314,4 +316,5 @@ export default connect(mapStateToProps, {
   setSecondaryNav,
   updateTour,
   getCurrencies,
+  tourToServer,
 })(Prices)

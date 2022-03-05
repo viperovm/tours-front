@@ -6,6 +6,7 @@ import Button from './Button'
 import { connect } from 'react-redux'
 import {
   setSecondaryNav,
+  tourToServer,
 } from '../../../redux/actions/toursActions'
 import { updateTour } from '../../../redux/actions/toursActions'
 // import { update_tour } from '../../../redux/actions/currentTourActions'
@@ -17,12 +18,13 @@ const Cancellation = ({
   setSecondaryNav,
   updateTour,
   update_tour,
+  tourToServer,
 }) => {
   // const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
 
   const handleInput = (name, value) => {
-    update_tour(name, value)
+    updateTour({...tour, [name]: value})
   }
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const Cancellation = ({
   }, [tour])
 
   const handleButtonSubmit = () => {
-    updateTour(tour, tour.id)
+    tourToServer(tour, tour.id)
     action('details')
   }
 
@@ -120,4 +122,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   setSecondaryNav,
   updateTour,
+  tourToServer,
 })(Cancellation)

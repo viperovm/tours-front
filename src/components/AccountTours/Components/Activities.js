@@ -88,6 +88,7 @@ const Activities = ({
     setLoading(true)
     let id = activities[activities.length-1] + 1
     addActivity({ id: id, image: {}, description: '' })
+    setValue(id - 1)
   }
 
   return (
@@ -121,6 +122,7 @@ const Activities = ({
                 id={index + 1}
                 action={handleActivityInput}
                 activity={item}
+                tour={tour}
               />
             </TabPanel>
           ))}

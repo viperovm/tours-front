@@ -22,7 +22,11 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
   useEffect(() => {
     let arr = []
     if (day && day.image && Array.isArray(day.image) && day.image.length > 0) {
-      day.image.map(item => {arr.push(item.tmb_image)})
+      day.image.map(item => {
+        if (!day.image.includes(item.tmb_image)) {
+          arr.push(item.tmb_image)
+        }
+      })
       setPreviews(arr)
       setLoading(true)
     }
@@ -39,7 +43,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
   }
   const handleImageInput = value => {
     setLoading(true)
-    setDayImage(value, id)
+    setDayImage(value, id, tour.id)
   }
 
   console.log(day)

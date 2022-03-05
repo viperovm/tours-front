@@ -23,6 +23,7 @@ import {
   setPropertyImage,
   addActivity,
   setSecondaryNav,
+  tourToServer,
 } from '../../../redux/actions/toursActions'
 
 // import Activities from './Activities'
@@ -64,6 +65,7 @@ const Details = ({
   secondary_nav,
   setSecondaryNav,
   updateTour,
+  tourToServer,
   getLanguages,
   languages,
   setPropertyImage,
@@ -82,11 +84,25 @@ const Details = ({
   const [value, setValue] = useState(0)
   const [loading, setLoading] = useState(false)
   const [activities, setActivities] = useState([1])
+  const [previews, setPreviews] = useState([])
+
 
   useEffect(() => {
     getTourPropertyTypes()
     getTourAccomodations()
   }, [])
+
+  useEffect(() => {
+    let arr = []
+    if (tour && tour.tour_property_images) {
+      tour.tour_property_images.map(item => {
+        if (!tour.tour_property_images.includes(item.tmb_image)) {
+          arr.push(item.tmb_image)
+        }
+      })
+    }
+    setPreviews(arr)
+  }, [tour])
 
   const handleActivityInput = (value, id) => {
     let arr = data.filter(item => item.id !== id)
@@ -128,7 +144,7 @@ const Details = ({
   }
 
   const handleInput = (name, value) => {
-    update_tour(name, value)
+    updateTour({ ...tour, [name]: value })
   }
 
   useEffect(() => {
@@ -190,7 +206,7 @@ const Details = ({
   }
 
   const handleButtonSubmit = () => {
-    updateTour(tour, tour.id)
+    tourToServer(tour, tour.id)
     // action('leader')
     action('day')
   }
@@ -229,7 +245,7 @@ const Details = ({
         comment='Уровень активности должен соответствовать нагрузкам, которые ожидаются в путешествии. Градацию уровней активности можно посмотреть здесь'
       />
       <SingleWrapper
-        label='Кратко опишите в чем заклдючается сложность тура'
+        label='Кратко опишите в чем заключается сложность тура'
         comment=''
       >
         <TextArea
@@ -290,7 +306,7 @@ const Details = ({
         <ObjectFileInput
           action={handleImageLoad}
           name='tour_property_images'
-          value={tour && tour.tour_property_images}
+          value={previews}
           type='file'
           // multiple
         />
@@ -361,54 +377,7 @@ const Details = ({
         />
       </SingleWrapper>
 
-      <Activities/>
-{/* 
-      <div className='my-tours-section-heading'>
-        <h4 style={{ marginBottom: 10 }}>Активности во время тура</h4>
-      </div>
-
-      {!loading && data.length > 1 && (
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs
-              value={value}
-              onChange={handleTabChange}
-              aria-label='basic tabs example'
-              variant='scrollable'
-              scrollButtons='auto'
-            >
-              {activities.map((item, index) => (
-                <Tab key={index} label={`День ${item}`} {...a11yProps(index)} />
-              ))}
-            </Tabs>
-          </Box>
-          {data.map((item, index) => (
-            <TabPanel key={index} value={value} index={index}>
-              <Activity
-                id={index + 1}
-                action={handleActivityInput}
-                day={item}
-              />
-            </TabPanel>
-          ))}
-        </Box>
-      )}
-      {data.length === 1 && (
-        <Activity id={data[0]} action={handleActivityInput} />
-      )}
-      {loading && (
-        <div className='fake-file-input loader-spinner'>
-          <Box sx={{ display: 'flex' }}>
-            <CircularProgress />
-          </Box>
-        </div>
-      )}
-      <Button
-        active={true}
-        action={handleDayAdd}
-        color='button-primary'
-        text='Добавить активность'
-      /> */}
+      <Activities />
       <div
         style={{
           display: 'flex',
@@ -447,4 +416,5 @@ export default connect(mapStateToProps, {
   addActivity,
   getTourPropertyTypes,
   getTourAccomodations,
+  tourToServer,
 })(Details)

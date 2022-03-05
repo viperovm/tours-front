@@ -63,6 +63,10 @@ import {
   SET_GUEST_GUIDE_IMAGE_FAIL,
   ADD_EXTRA_SERVICE_SUCCESS,
   UPDATE_EXTRA_SERVICE_SUCCESS,
+  UPDATE_TOUR_WALLPAPER_SUCCESS,
+  UPDATE_TOUR_WALLPAPER_FAIL,
+  DELETE_TOUR_WALLPAPER_SUCCESS,
+  DELETE_TOUR_WALLPAPER_FAIL,
 } from '../types'
 import axios from 'axios'
 
@@ -220,20 +224,45 @@ export const updateTourWallpaper = (image, id) => async dispatch => {
   form_data.append('wallpaper', image, image.name)
 
   try {
-    const res = await axios.patch(
-      `${API_URL}/api/tours/${id}/`,
+    const res = await axios.post(
+      `${API_URL}/api/tours/${id}/wallpaper/`,
       form_data,
       config
     )
 
     dispatch({
-      type: UPDATE_TOUR_SUCCESS,
+      type: UPDATE_TOUR_WALLPAPER_SUCCESS,
       payload: res.data,
     })
     dispatch(set_tour(res.data))
   } catch (err) {
     dispatch({
-      type: UPDATE_TOUR_FAIL,
+      type: UPDATE_TOUR_WALLPAPER_FAIL,
+    })
+  }
+}
+
+export const deleteTourWallpaper = (id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+
+  try {
+    const res = await axios.delete(
+      `${API_URL}/api/tours/${id}/wallpaper/`,
+      config
+    )
+
+    dispatch({
+      type: DELETE_TOUR_WALLPAPER_SUCCESS,
+    })
+    dispatch(set_tour(res.data))
+  } catch (err) {
+    dispatch({
+      type: DELETE_TOUR_WALLPAPER_FAIL,
     })
   }
 }
@@ -247,13 +276,14 @@ export const setTourImages = (image, id) => async dispatch => {
   }
   let form_data = new FormData()
   form_data.append('image', image, image.name)
-  form_data.append('tour', id)
   try {
     const res = await axios.post(
-      `${API_URL}/api/tourimages/`,
+      `${API_URL}/api/tours/${id}/gallary/`,
       form_data,
       config
     )
+
+    console.log(res.data)
 
     dispatch({
       type: SET_TOUR_IMAGE_SUCCESS,
@@ -296,7 +326,7 @@ export const updateExtraService = (id, name, data) => async dispatch => {
   })
 }
 
-export const setDayImage = (image, id) => async dispatch => {
+export const setDayImage = (image, id, tour_id) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -307,13 +337,12 @@ export const setDayImage = (image, id) => async dispatch => {
   form_data.append('image', image, image.name)
   try {
     const res = await axios.post(
-      `${API_URL}/api/tourdayimages/`,
+      `${API_URL}/api/tours/${tour_id}/dayimages/`,
       form_data,
       config
     )
 
     let data = { id: id, image: res.data }
-    console.log(data)
 
     dispatch({
       type: SET_TOUR_DAY_IMAGE_SUCCESS,
@@ -343,7 +372,7 @@ export const updateActivity = (id, data) => dispatch => {
     payload: description,
   })
 }
-export const setActivityImage = (image, id) => async dispatch => {
+export const setActivityImage = (image, id, tour_id) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -355,7 +384,7 @@ export const setActivityImage = (image, id) => async dispatch => {
   form_data.append('image', image, image.name)
   try {
     const res = await axios.post(
-      `${API_URL}/api/tourplanimages/`,
+      `${API_URL}/api/tours/${tour_id}/planimages/`,
       form_data,
       config
     )
@@ -380,7 +409,7 @@ export const updateGuestGuide = data => dispatch => {
     payload: data,
   })
 }
-export const setGuestGuideImage = image => async dispatch => {
+export const setGuestGuideImage = (image, id) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -391,12 +420,10 @@ export const setGuestGuideImage = image => async dispatch => {
   form_data.append('image', image, image.name)
   try {
     const res = await axios.post(
-      `${API_URL}/api/tourguestguideimages/`,
+      `${API_URL}/api/tours/${id}/guestguideimages/`,
       form_data,
       config
     )
-
-    console.log(res.data)
 
     dispatch({
       type: SET_GUEST_GUIDE_IMAGE_SUCCESS,
@@ -418,10 +445,9 @@ export const setPropertyImage = (image, id) => async dispatch => {
   }
   let form_data = new FormData()
   form_data.append('image', image, image.name)
-  form_data.append('tour', id)
   try {
     const res = await axios.post(
-      `${API_URL}/api/tourpropertyimages/`,
+      `${API_URL}/api/tours/${id}/propertyimages/`,
       form_data,
       config
     )

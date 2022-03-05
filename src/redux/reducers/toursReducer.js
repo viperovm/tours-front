@@ -61,6 +61,8 @@ import {
   SET_GUEST_GUIDE_IMAGE_FAIL,
   ADD_EXTRA_SERVICE_SUCCESS,
   UPDATE_EXTRA_SERVICE_SUCCESS,
+  UPDATE_TOUR_WALLPAPER_SUCCESS,
+  UPDATE_TOUR_WALLPAPER_FAIL,
 } from '../types'
 
 const initialState = {
@@ -102,23 +104,26 @@ const initialState = {
 const toursReducer = (state = initialState, action) => {
   const { type, payload } = action
 
-  const setPropertyImages = (tour, image) => {
-    let arr = [...tour.tour_property_images]
-    arr.push(image)
-    tour = {
+  const setTourWallpaper = (tour, data) => {
+    return {
       ...tour,
-      tour_property_images: arr,
-    }
-    return tour
+      wallpaper: data.wallpaper,
+      tmb_wallpaper: data.tmb_wallpaper,
+      }
   }
-  const setTourImages = (tour, image) => {
-    let arr = [...tour.tour_images]
-    arr.push(image)
-    tour = {
+
+  const setPropertyImages = (tour, image) => {
+    return {
       ...tour,
-      tour_images: arr,
+      tour_property_images: image,
     }
-    return tour
+  }
+  const setTourImages = (tour, data) => {
+    console.log(data)
+    return {
+      ...tour,
+      tour_images: data,
+    }
   }
 
   const setDay = (tour, day) => {
@@ -351,6 +356,11 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         languages: [],
+      }
+    case UPDATE_TOUR_WALLPAPER_SUCCESS:
+      return {
+        ...state,
+        current_tour: setTourWallpaper(state.current_tour, payload),
       }
     case SET_GUEST_GUIDE_IMAGE_SUCCESS:
       return {

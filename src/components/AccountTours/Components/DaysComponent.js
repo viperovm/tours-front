@@ -86,6 +86,7 @@ const DaysComponent = ({ tour, addDay }) => {
     setLoading(true)
     let id = days[days.length - 1] + 1
     addDay({ id: id, image: [], description: '', location: '', day_title: '' })
+    setValue(id - 1)
   }
 
   return (
