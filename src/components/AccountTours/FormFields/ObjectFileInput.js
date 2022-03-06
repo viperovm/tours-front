@@ -77,11 +77,11 @@ const ObjectFileInput = ({ action, name, value, max }) => {
                 backgroundImage: 'url(' + item + ')',
               }}
             />
-            {index === 1 || (index - 1) % 3 === 0 ? (
+            {/* {index === 1 || (index - 1) % 3 === 0 ? (
               <div className={'fake-file-input-break'} />
             ) : (
               ''
-            )}
+            )} */}
           </Fragment>
         ))}
         {loading && (

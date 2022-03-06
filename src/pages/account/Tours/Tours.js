@@ -58,6 +58,16 @@ const Tours = ({
     setLoading(false)
   }
 
+  const handleSave = () => {
+    setLoading(true)
+    tourToServer({tour}, tour.id)
+    setTimeout(() => {
+      clearCurrentTour()
+      setEditing(false)
+    }, 1000)
+    setLoading(false)
+  }
+
   const handleDraft = () => {
     setLoading(true)
     tourToServer({ ...tour, on_moderation: false, is_draft: true }, tour.id)
@@ -132,8 +142,9 @@ const Tours = ({
               {editing && (
                 <>
                   <button onClick={handleDraft}>В черновик</button>
-                  <button className='button-green' onClick={handleModeration}>
-                    На модерацию
+                  <button onClick={handleModeration}>На модерацию</button>
+                  <button className='button-green' onClick={handleSave}>
+                    Сохранить
                   </button>
                 </>
               )}
