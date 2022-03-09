@@ -13,10 +13,6 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper }) => {
   const [bubbleActive, setBubbleActive] = useState(false)
   const [preview, setPreview] = useState(null)
 
-  console.log(bubbleActive)
-  console.log(preview)
-  console.log(value)
-  console.log(tour)
 
   const inputFileRef = useRef(null)
 
@@ -43,7 +39,6 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper }) => {
   const handleDelete = () => {
     setLoading(true)
     if (name === 'wallpaper') {
-      console.log('delete')
       deleteTourWallpaper(tour.id)
       setPreview(null)
       setActive(true)
@@ -57,7 +52,6 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper }) => {
   }
 
   const onFilechange = e => {
-    console.log(e.target.files)
     setLoading(true)
     if (e.target.files[0]) {
       setData(e.target.files[0])
@@ -174,7 +168,6 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper }) => {
               }}
               onMouseOver={() => setBubbleActive(true)}
               onMouseOut={() => setBubbleActive(false)}
-              // onMouseOver={() => console.log(1)}
               onClick={handleDelete}
             >
               <img src={menu} alt='menu' />

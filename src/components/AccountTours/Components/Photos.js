@@ -12,6 +12,8 @@ import {
   setEditing,
   clearCurrentTour,
 } from '../../../redux/actions/toursActions'
+import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
+import {Link} from "react-router-dom";
 
 const Photos = ({
   tour,
@@ -94,12 +96,10 @@ const Photos = ({
   const handleButtonSubmit = () => {
     tourToServer({ ...tour, on_moderation: true, is_draft: false }, tour.id)
     clearCurrentTour()
-    setEditing(false)
-    // done()
   }
 
   const handleButtonBack = () => {
-    action('important')
+    tourToServer(tour, tour.id)
   }
 
   useEffect(() => {
@@ -108,6 +108,7 @@ const Photos = ({
 
   return (
     <>
+      <ToursEditLayout secondary_item='photos' secondary_name='Фотографии'>
       <div className='my-tours-section-heading'>
         <h4>Фотографии</h4>
       </div>
@@ -136,14 +137,27 @@ const Photos = ({
           width: '66%',
         }}
       >
-        <Button
-          color='button-primary'
-          active={true}
-          action={handleButtonBack}
-          text='Назад'
-        />
-        <Button active={true} action={handleButtonSubmit} text='На модерацию' />
+        <Link
+          className={`add-tour-button button-primary`}
+          to='/account/tours/edit/important'
+          onClick={handleButtonBack}>
+          Назад
+        </Link>
+        {/*<Link*/}
+        {/*  className={`add-tour-button button-success`}*/}
+        {/*  to='/account/tours/list'*/}
+        {/*  onClick={handleButtonSubmit}*/}
+        {/*>*/}
+        {/*  На модерацию*/}
+        {/*</Link>*/}
+        <a
+          className={`add-tour-button button-success`}
+          href='/account/tours/list'
+          onClick={handleButtonSubmit}>
+          На модерацию
+        </a>
       </div>
+      </ToursEditLayout>
     </>
   )
 }

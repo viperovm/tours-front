@@ -6,6 +6,9 @@ import {
   getTours
 } from '../../../redux/actions/toursActions'
 
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
+
 const ToursList = ({ tours, getTours }) => {
   useEffect(() => {
     getTours()
@@ -13,15 +16,31 @@ const ToursList = ({ tours, getTours }) => {
 
 
   const [active, setActive] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if(tours.length>0 && loading){
+      setLoading(false)
+    }
+  }, [tours, loading])
+
+  const handleAction = () => {
+    setLoading(true)
+  }
 
   return (
     <>
       <div
         className={`tours-wrapper`}
       >
-        {tours &&
+        {!loading && tours &&
           tours.length > 0 &&
-          tours.map((item, index) => <TourCard key={index} tour={item} />)}
+          tours.map((item, index) => <TourCard key={index} tour={item} action={handleAction} />)}
+        {loading && (
+          <Box sx={{ display: 'flex' }}>
+            <CircularProgress />
+          </Box>
+        )}
       </div>
     </>
   )

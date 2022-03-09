@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { setCurrentSection } from '../../redux/actions/toursActions'
+import {Link} from "react-router-dom";
 
-const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary }) => {
+const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_item }) => {
   const handleClick = data => {
 
     if (data && data.active && data.value) {
@@ -21,13 +22,14 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary }) => {
               <li
                 className='li-border-none'
                 key={index}
-                onClick={() => handleClick(item)}
+                // onClick={() => handleClick(item)}
               >
+                <Link to={`/account/tours/edit/${item.value}`} style={{width: '100%'}}>
                 <div
                   className={`tours-submenu-name-wrap ${
-                    item.active ? 'item-active' : 'item-inactive'
+                    secondary_item === item.value ? 'item-active' : 'item-inactive'
                   }`}
-                  onClick={() => handleClick(item)}
+                  // onClick={() => handleClick(item)}
                 >
                   {item.text}
                   <svg
@@ -49,6 +51,7 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary }) => {
                     />
                   </svg>
                 </div>
+                </Link>
               </li>
             ))}
         </ul>

@@ -1,21 +1,18 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Account from '../../layouts/account/account'
-
-import Router from 'next/router'
 
 import { connect } from 'react-redux'
 import { setPage } from '../../redux/actions/authActions'
+import {Redirect} from "react-router-dom";
 
 const History = ({ status, setPage }) => {
   useEffect(() => {
     setPage('history')
   }, [])
 
-  useEffect(() => {
-    if (status === 'experts') {
-      Router.push('/does-not-exist')
-    }
-  }, [status])
+  if (status === 'experts') {
+    return <Redirect to='/404'/>
+  }
 
   return (
     <Account>

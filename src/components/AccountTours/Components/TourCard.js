@@ -14,9 +14,11 @@ import {
 
 import { connect } from 'react-redux'
 import Modal from "./Modal";
+import {useHistory} from "react-router-dom";
 
 const TourCard = ({
   tour,
+  action,
   menu_action,
   click_action,
   deleteTour,
@@ -24,6 +26,7 @@ const TourCard = ({
   setEditing,
   getTour,
 }) => {
+  const history = useHistory()
   const label = tour.is_active
     ? 'Опубликовано'
     : tour.on_moderation
@@ -56,7 +59,7 @@ const TourCard = ({
 
   const handleTourEdit = () => {
     getTour(tour.id)
-    setEditing(true)
+    history.push('/account/tours/edit/common')
   }
 
   const handleTourCopy = () => {
@@ -69,6 +72,7 @@ const TourCard = ({
   }
   const handleDelete = () => {
     deleteTour(tour.id)
+    location.reload()
   }
 
   return (
@@ -167,7 +171,7 @@ const TourCard = ({
             <div className='tour-footer-left'>
               <div className='tour-footer-dates'>
                 {tour.duration} дн. (с{' '}
-                {dateFormat(new Date(tour.start_date), 'mm.dd.yyyy')})
+                {dateFormat(new Date(tour.start_date), 'dd.mm.yyyy')})
               </div>
               <div className='tour-footer-price'>от {tour.price} <span className='rub-sign'>₽</span></div>
             </div>

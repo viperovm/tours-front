@@ -23,6 +23,8 @@ import {
   setSecondaryNav,
   tourToServer,
 } from '../../../redux/actions/toursActions'
+import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
+import {Link} from "react-router-dom";
 
 const Days = ({
   tour,
@@ -88,7 +90,6 @@ const Days = ({
 
   const handleButtonSubmit = () => {
     tourToServer(tour, tour.id)
-    action('leader')
   }
 
   const handleButtonBack = () => {
@@ -101,6 +102,7 @@ const Days = ({
 
   return (
     <>
+      <ToursEditLayout secondary_item='day' secondary_name='День за днем'>
       <div className='my-tours-section-heading'>
         <h4>День за днем</h4>
       </div>
@@ -113,15 +115,21 @@ const Days = ({
           width: '66%',
         }}
       >
-        <Button
-          color='button-primary'
-          active={true}
-          action={handleButtonBack}
-          text='Назад'
-        />
-        <Button active={true} action={handleButtonSubmit} />
+        <Link
+          className={`add-tour-button button-primary`}
+          to='/account/tours/edit/details'
+          onClick={handleButtonSubmit}>
+          Назад
+        </Link>
+        <Link
+          className={`add-tour-button button-success`}
+          to='/account/tours/edit/leader'
+          onClick={handleButtonSubmit}>
+          Продолжить
+        </Link>
       </div>
       {/* <Button active={completed} /> */}
+      </ToursEditLayout>
     </>
   )
 }

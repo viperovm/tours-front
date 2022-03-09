@@ -1,0 +1,63 @@
+import React from 'react'
+import { connect } from 'react-redux'
+import ToursList from "../../../components/AccountTours/Components/ToursList";
+import {Link, Redirect} from 'react-router-dom'
+import Account from "../../../layouts/account/account";
+import {addTour} from "../../../redux/actions/toursActions";
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
+
+const MyTours = ({isAuthenticated, addTour, tour}) => {
+
+  if (!isAuthenticated) {
+    return <Redirect to="/login" />
+  }
+
+  const handleEditingButton = () => {
+    if (tour && !isNotEmptyObject(tour)) {
+      addTour()
+    }
+  }
+
+  return (
+    <>
+      <Account title='Мои туры' menu_item='tours/list'>
+        <main>
+          <div className='my-tours-heading'>
+            <h2>Мои туры</h2>
+          </div>
+          <div className='tours-list-add-button-wrapper'>
+            <div className='tours-list-add-button-text'>
+              Вам доступно безлимитное добавление туров и путешествий, более 2
+              000 000 человек ждут их.
+            </div>
+            <div className='tours-list-add-button-button'>
+              <Link to='/account/tours/edit/common' onClick={handleEditingButton}>
+                {tour && tour.id
+                  ? 'Продолжить редактирование'
+                  : 'Добавить путешествие'}
+              </Link>
+            </div>
+          </div>
+          <div className='control-buttons'>
+            <div className='control-buttons-set'>
+              <button>Опубликовано</button>
+              <button>На модерации</button>
+              <button>Черновики</button>
+            </div>
+
+          </div>
+          <ToursList/>
+        </main>
+      </Account>
+    </>
+  )
+}
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  tour: state.tours.current_tour,
+})
+
+export default connect(mapStateToProps, {
+  addTour,
+})(MyTours)

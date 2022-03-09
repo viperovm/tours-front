@@ -1,29 +1,12 @@
 import * as t from '../types'
 
-const getLocalStorage = data => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem(data)
-  }
-}
-
-const setLocalStorage = (key, data) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(key, data)
-  }
-}
-
-const removeLocalStorage = (data) => {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem(data)
-  }
-}
-
-
 const initialState = {
   reg_status: null,
-  access: getLocalStorage('access'),
-  refresh: getLocalStorage('refresh'),
-  isAuthenticated: null,
+  access: localStorage.getItem('access'),
+  refresh: localStorage.getItem('refresh'),
+  isAuthenticated: !!(
+    localStorage.getItem('access') && localStorage.getItem('refresh')
+  ),
   user: null,
   status: '',
   page: '',
@@ -39,8 +22,8 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: true,
       }
     case t.LOGIN_SUCCESS:
-      setLocalStorage('access', payload.access)
-      setLocalStorage('refresh', payload.refresh)
+      localStorage.setItem('access', payload.access)
+      localStorage.setItem('refresh', payload.refresh)
       return {
         ...state,
         isAuthenticated: true,
@@ -52,13 +35,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: payload.data,
         status: payload.status,
-        isAuthenticated: true,
       }
     case t.SIGNUP_SUCCESS:
       return {
         ...state,
         reg_status: payload,
-        isAuthenticated: true,
       }
     case t.SET_PAGE:
       return {
@@ -66,8 +47,8 @@ const authReducer = (state = initialState, action) => {
         page: payload,
       }
     case t.LOGOUT:
-      removeLocalStorage('access')
-      removeLocalStorage('refresh')
+      localStorage.removeItem('access')
+      localStorage.removeItem('refresh')
       return {
         ...state,
         access: null,

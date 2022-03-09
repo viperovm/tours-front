@@ -103,6 +103,7 @@ export const login = data => async dispatch => {
 }
 
 export const checkAuthenticated = () => async dispatch => {
+  console.log('access: ', localStorage.getItem('access'))
   if (localStorage.getItem('access')) {
     const config = {
       headers: {
@@ -110,6 +111,8 @@ export const checkAuthenticated = () => async dispatch => {
         Accept: 'application/json',
       },
     }
+
+
 
     const body = JSON.stringify({ token: localStorage.getItem('access') })
 

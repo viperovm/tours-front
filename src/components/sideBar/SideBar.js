@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import Nav from './Nav'
 import Promo from './Promo'
 import Social from './Social'
+import {connect} from "react-redux";
 
-const SideBar = ({ status }) => {
+const SideBar = ({ status, menu_item, secondary_item }) => {
   return (
     <>
       <aside className='aside'>
         <nav className='navigation account-sidebar-menu '>
-          <Nav status={status} />
+          <Nav status={status} menu_item={menu_item} secondary_item={secondary_item} />
         </nav>
         <Promo />
         <Social />
@@ -17,4 +18,8 @@ const SideBar = ({ status }) => {
   )
 }
 
-export default SideBar
+const mapStateToProps = state => ({
+  status: state.auth.status,
+})
+
+export default connect(mapStateToProps)(SideBar)

@@ -10,7 +10,7 @@ const MyProfile = ({ status, setPage }) => {
   }, [])
 
   return (
-    <Account>
+    <Account title='Мой профиль' menu_item='profile'>
       <>
         {status === 'experts' && <div>Страница профиля эксперта</div>}
         {status === 'customers' && <div>Страница профиля клиента</div>}

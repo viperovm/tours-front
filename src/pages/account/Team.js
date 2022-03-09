@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Account from '../../layouts/account/account'
 
-import { useHistory } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { setPage } from '../../redux/actions/authActions'
@@ -11,14 +11,12 @@ const MyTeam = ({ status, setPage }) => {
     setPage('team')
   }, [])
 
-  const history = useHistory()
-
   if (status === 'customers') {
-    history.push('/does-not-exist')
+    return <Redirect to='/404'/>
   }
 
   return (
-    <Account>
+    <Account menu_item='team' title='Моя команда'>
       <>
         {status === 'experts' && <div>Страница команды эксперта</div>}
         {/* {status === 'customers' && <div>Страница профиля клиента</div>} */}

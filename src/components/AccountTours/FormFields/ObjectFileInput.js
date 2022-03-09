@@ -7,6 +7,7 @@ const ObjectFileInput = ({ action, name, value, max }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
+  const [bubbleActive, setBubbleActive] = useState(false)
   const [preview, setPreview] = useState([])
 
   const inputFileRef = useRef(null)
@@ -68,7 +69,7 @@ const ObjectFileInput = ({ action, name, value, max }) => {
           <div className='camera-image' />
           <div className='fake-file-input-text'>Добавить новое фото</div>
         </div>
-        {preview.map((item, index) => (
+        {preview && preview.map((item, index) => (
           <Fragment key={index}>
             <div
               key={index}

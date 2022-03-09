@@ -151,7 +151,7 @@ const Dashboard = ({ status, user, logout, setPage }) => {
   )
 
   return (
-    <Account>
+    <Account menu_item='account'>
       <>
         <div className='account_block_right'>
           <div className='account_block_right_head'>

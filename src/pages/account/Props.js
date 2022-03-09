@@ -1,17 +1,15 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Account from '../../layouts/account/account'
 
-import { useHistory } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { setPage } from '../../redux/actions/authActions'
 
 const Props = ({ status, setPage }) => {
 
-  const history = useHistory()
-
   if (status === 'customers') {
-    history.push('/does-not-exist')
+    return <Redirect to='/404'/>
   }
 
   useEffect(() => {
@@ -19,7 +17,7 @@ const Props = ({ status, setPage }) => {
   }, [])
 
   return (
-    <Account>
+    <Account menu_item='props' title='Реквизиты'>
       <>
         {status === 'experts' && <div>Страница реквизитов эксперта</div>}
         {/* {status === 'customers' && <div>Страница профиля клиента</div>} */}

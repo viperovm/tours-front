@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import NavItem from './NavItem'
 
-const Nav = ({ status }) => {
+const Nav = ({ status, menu_item, secondary_item }) => {
   const [name, setName] = useState('account')
 
   const expert = [
@@ -77,9 +77,10 @@ const Nav = ({ status }) => {
               key={item.name}
               action={setName}
               name={item.name}
-              active={name}
+              active={menu_item}
               title={item.title}
               secondary_nav={item.secondary}
+              secondary_item={secondary_item}
             />
           ))}
         {status === 'customers' &&

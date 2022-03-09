@@ -485,23 +485,7 @@ const toursReducer = (state = initialState, action) => {
         tour_accomodations: [],
         plan: [],
         tour_leaders: [],
-        current_section: 'common',
-        active_sections: [],
-        secondary_nav: [
-          { value: 'common', text: 'Общее', active: true },
-          { value: 'prices', text: 'Цены и даты', active: true },
-          { value: 'options', text: 'Условия отмены', active: true },
-          { value: 'details', text: 'Детали', active: true },
-          { value: 'day', text: 'День за днем', active: true },
-          { value: 'leader', text: 'Турлидер', active: true },
-          { value: 'conditions', text: 'Условия', active: true },
-          { value: 'services', text: 'Доп. услуги', active: true },
-          { value: 'important', text: 'Важно знать', active: true },
-          { value: 'photos', text: 'Фотографии', active: true },
-        ],
-        secondary: false,
         tour_name: '',
-        editing: false,
       }
 
     case SET_CURRENT_SECTION:

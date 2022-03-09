@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import MainLayout from '../layouts/MainLayout'
-import { login } from '../redux/actions/authActions'
+import { login, checkAuthenticated } from '../redux/actions/authActions'
 import { connect } from 'react-redux'
-import { Link, Redirect, useHistory } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 
-const Login = ({ isAuthenticated, login }) => {
+const Login = ({ isAuthenticated, login, checkAuthenticated }) => {
 
-  const history = useHistory()
+  console.log('login')
+  console.log(isAuthenticated)
 
   if (isAuthenticated) {
-    history.push('/account')
+    return <Redirect to="/account" />
   }
 
   const [data, setData] = useState({
     email: '',
     password: '',
   })
-  const [isExpert, setIsExpert] = useState(false)
-  //   const [status, setStatus] = useState('')
+
   const [check, setCheck] = useState(true)
 
   const handleCheckbox = () => {
@@ -137,4 +137,4 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
 })
 
-export default connect(mapStateToProps, { login })(Login)
+export default connect(mapStateToProps, { login, checkAuthenticated })(Login)

@@ -3007,7 +3007,7 @@ li.li-border-none:last-child {
   flex: 1;
 }
 
-.tours-list-add-button-button button {
+.tours-list-add-button-button a.button {
   border: none;
   background: #84bb59;
   border-radius: 8px;

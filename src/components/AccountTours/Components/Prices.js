@@ -13,6 +13,8 @@ import {
   setSecondaryNav,
   tourToServer,
 } from '../../../redux/actions/toursActions'
+import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
+import {Link} from "react-router-dom";
 
 
 const Prices = ({
@@ -76,7 +78,6 @@ const Prices = ({
   }
   const handleButtonSubmit = () => {
     tourToServer(tour, tour.id)
-    action('options')
   }
 
   useEffect(() => {
@@ -86,6 +87,7 @@ const Prices = ({
 
   return (
     <>
+      <ToursEditLayout secondary_item='prices' secondary_name='Цены и даты'>
       <div className='my-tours-section-heading'>
         <h4>Цены и даты</h4>
       </div>
@@ -292,14 +294,21 @@ const Prices = ({
           width: '66%',
         }}
       >
-        <Button
-          color='button-primary'
-          active={true}
-          action={handleButtonBack}
-          text='Назад'
-        />
-        <Button active={true} action={handleButtonSubmit} />
+
+        <Link
+          className={`add-tour-button button-primary`}
+          to='/account/tours/edit/common'
+          onClick={handleButtonSubmit}>
+          Назад
+        </Link>
+        <Link
+          className={`add-tour-button button-success`}
+          to='/account/tours/edit/options'
+          onClick={handleButtonSubmit}>
+          Продолжить
+        </Link>
       </div>
+      </ToursEditLayout>
 
       {/* <Button active={completed} /> */}
     </>

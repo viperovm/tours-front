@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Account from '../../layouts/account/account'
 
 import { connect } from 'react-redux'
@@ -12,7 +12,7 @@ const Chat = ({ status, setPage }) => {
   }, [])
 
   return (
-    <Account>
+    <Account title='Чат' menu_item='chat'>
       <>
         {status === 'experts' && (
             <div>

@@ -9,6 +9,8 @@ import {
   tourToServer,
 } from '../../../redux/actions/toursActions'
 import { updateTour } from '../../../redux/actions/toursActions'
+import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
+import {Link} from "react-router-dom";
 // import { update_tour } from '../../../redux/actions/currentTourActions'
 
 const Cancellation = ({
@@ -65,11 +67,6 @@ const Cancellation = ({
 
   const handleButtonSubmit = () => {
     tourToServer(tour, tour.id)
-    action('details')
-  }
-
-  const handleButtonBack = () => {
-    action('prices')
   }
 
   useEffect(() => {
@@ -78,6 +75,7 @@ const Cancellation = ({
 
   return (
     <>
+      <ToursEditLayout secondary_item='options' secondary_name='Условия отмены'>
       <div className='my-tours-section-heading'>
         <h4>Условия отмены</h4>
       </div>
@@ -101,14 +99,20 @@ const Cancellation = ({
           width: '66%',
         }}
       >
-        <Button
-          color='button-primary'
-          active={true}
-          action={handleButtonBack}
-          text='Назад'
-        />
-        <Button active={true} action={handleButtonSubmit} />
+        <Link
+          className={`add-tour-button button-primary`}
+          to='/account/tours/edit/prices'
+          onClick={handleButtonSubmit}>
+          Назад
+        </Link>
+        <Link
+          className={`add-tour-button button-success`}
+          to='/account/tours/edit/details'
+          onClick={handleButtonSubmit}>
+          Продолжить
+        </Link>
       </div>
+      </ToursEditLayout>
     </>
   )
 }

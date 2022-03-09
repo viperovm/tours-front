@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   HomeOutlined,
   GlobalOutlined,
@@ -11,7 +11,7 @@ import {
   TeamOutlined,
 } from '@ant-design/icons'
 import {Link} from 'react-router-dom'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {
   setPage,
 } from '../../redux/actions/authActions'
@@ -19,105 +19,103 @@ import SecondaryNav from './SecondaryNav'
 // import SvgColor from 'react-svg-color'
 
 const NavItem = ({
-  page,
-  setPage,
-  action,
-  name,
-  active,
-  title,
-  secondary_nav,
-  secondary,
-}) => {
+                   setPage,
+                   name,
+                   active,
+                   title,
+                   secondary_nav,
+                   secondary,
+                   secondary_item
+                 }) => {
 
 
   return (
     <>
       <li
-        onClick={() => setPage(name)}
-        className={`sidebar-menu-items ${page === name ? 'active' : ''} ${
-          name === page && secondary_nav && secondary && 'with-submenu'
+        className={`sidebar-menu-items ${active === name ? 'active' : ''} ${
+          name === active && secondary_nav && secondary && 'with-submenu'
         }`}
       >
         <Link to={name === 'account' ? '/' + name : '/account/' + name}>
           <div
             className={`account-sidebar-menu-icon ${
-              name === page ? 'active' : ''
+              name === active ? 'active' : ''
             }`}
           >
             {name === 'account' && (
               <HomeOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
             {name === 'tours/list' && (
               <GlobalOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
             {name === 'history' && (
               <GlobalOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
             {name === 'chat' && (
               <CommentOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
             {name === 'profile' && (
               <UserOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
             {name === 'orders' && (
               <UnorderedListOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
             {name === 'bookings' && (
               <UnorderedListOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
             {name === 'settings' && (
               <SettingOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
             {name === 'props' && (
               <CreditCardOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
             {name === 'requests' && (
               <CheckCircleOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
             {name === 'team' && (
               <TeamOutlined
                 style={{
-                  color: `${name === page ? '#2898cd' : '#000'}`,
+                  color: `${name === active ? '#2898cd' : '#000'}`,
                 }}
               />
             )}
@@ -125,7 +123,7 @@ const NavItem = ({
           {title}
         </Link>
       </li>
-      {secondary_nav && name === page && <SecondaryNav data={secondary_nav} />}
+      {secondary_nav && name === active && <SecondaryNav data={secondary_nav} secondary_item={secondary_item}/>}
     </>
   )
 }
@@ -135,4 +133,4 @@ const mapStateToProps = state => ({
   secondary: state.tours.secondary,
 })
 
-export default connect(mapStateToProps, { setPage })(NavItem)
+export default connect(mapStateToProps, {setPage})(NavItem)

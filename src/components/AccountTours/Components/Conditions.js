@@ -12,6 +12,8 @@ import {
   updateTour,
   tourToServer,
 } from '../../../redux/actions/toursActions'
+import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
+import {Link} from "react-router-dom";
 
 const Conditions = ({
   action,
@@ -68,11 +70,6 @@ const Conditions = ({
 
   const handleButtonSubmit = () => {
     tourToServer(tour, tour.id)
-    action('services')
-  }
-
-  const handleButtonBack = () => {
-    action('leader')
   }
 
   useEffect(() => {
@@ -81,6 +78,7 @@ const Conditions = ({
 
   return (
     <>
+      <ToursEditLayout secondary_item='conditions' secondary_name='Условия'>
       <div className='my-tours-section-heading'>
         <h4>Условия</h4>
       </div>
@@ -119,14 +117,20 @@ const Conditions = ({
           width: '66%',
         }}
       >
-        <Button
-          color='button-primary'
-          active={true}
-          action={handleButtonBack}
-          text='Назад'
-        />
-        <Button active={true} action={handleButtonSubmit} />
+        <Link
+          className={`add-tour-button button-primary`}
+          to='/account/tours/edit/leader'
+          onClick={handleButtonSubmit}>
+          Назад
+        </Link>
+        <Link
+          className={`add-tour-button button-success`}
+          to='/account/tours/edit/services'
+          onClick={handleButtonSubmit}>
+          Продолжить
+        </Link>
       </div>
+      </ToursEditLayout>
     </>
   )
 }

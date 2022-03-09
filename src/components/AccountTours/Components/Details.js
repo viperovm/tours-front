@@ -33,6 +33,8 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
+import {Link} from "react-router-dom";
 
 function TabPanel({ children, value, index }) {
   return (
@@ -207,12 +209,6 @@ const Details = ({
 
   const handleButtonSubmit = () => {
     tourToServer(tour, tour.id)
-    // action('leader')
-    action('day')
-  }
-
-  const handleButtonBack = () => {
-    action('options')
   }
 
   useEffect(() => {
@@ -221,6 +217,7 @@ const Details = ({
 
   return (
     <>
+      <ToursEditLayout secondary_item='details' secondary_name='Детали'>
       <div className='my-tours-section-heading'>
         <h4>Детали</h4>
       </div>
@@ -385,15 +382,21 @@ const Details = ({
           width: '66%',
         }}
       >
-        <Button
-          color='button-primary'
-          active={true}
-          action={handleButtonBack}
-          text='Назад'
-        />
-        <Button active={true} action={handleButtonSubmit} />
+        <Link
+          className={`add-tour-button button-primary`}
+          to='/account/tours/edit/options'
+          onClick={handleButtonSubmit}>
+          Назад
+        </Link>
+        <Link
+          className={`add-tour-button button-success`}
+          to='/account/tours/edit/day'
+          onClick={handleButtonSubmit}>
+          Продолжить
+        </Link>
       </div>
       {/* <Button active={completed} /> */}
+      </ToursEditLayout>
     </>
   )
 }

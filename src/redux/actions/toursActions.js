@@ -72,11 +72,10 @@ import {
 } from '../types'
 import axios from 'axios'
 
-import { set_tour } from './currentTourActions'
-
 const API_URL = 'http://x3mart.ru'
 
 export const addTour = data => async dispatch => {
+  console.log(data)
   const config = {
     headers: {
       'Content-Type': 'application/json',
