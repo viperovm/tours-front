@@ -67,6 +67,8 @@ import {
   UPDATE_TOUR_WALLPAPER_FAIL,
   DELETE_TOUR_WALLPAPER_SUCCESS,
   DELETE_TOUR_WALLPAPER_FAIL,
+  COPY_TOUR_SUCCESS,
+  COPY_TOUR_FAIL,
 } from '../types'
 import axios from 'axios'
 
@@ -96,6 +98,32 @@ export const addTour = data => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_TOUR_FAIL,
+    })
+  }
+}
+
+export const copyTour = (id, date) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(date)
+
+  try {
+    const res = await axios.post(`${API_URL}/api/tours/${id}/tourcopy/`, body, config)
+
+    dispatch({
+      type: COPY_TOUR_SUCCESS,
+      payload: res.data,
+    })
+    // dispatch(set_tour(res.data))
+  } catch (err) {
+    dispatch({
+      type: COPY_TOUR_FAIL,
     })
   }
 }

@@ -16,7 +16,7 @@ const BlockRecomendation = ({ block_style, children, className, ...props }) => {
             
             <div className={styles.wrapper} {...props}>
                 {children}
-                    <InfoBlock border_color='orange_left_border'>
+                    <InfoBlock border_color='orange'>
                         <Htag tag='h2'>
                             Персональные рекомендации
                         </Htag>

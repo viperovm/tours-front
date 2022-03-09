@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.6618e46d.css",
-    "main.js": "/static/js/main.ee6d1cae.js",
+    "main.css": "/static/css/main.2b05590e.css",
+    "main.js": "/static/js/main.7c8093ed.js",
     "static/media/img.png": "/static/media/img.c8e54eb7fc00c9a88330.png",
     "static/media/img-mount.png": "/static/media/img-mount.15ec64fe4f877152e1bd.png",
     "static/media/Rectangle_guide.png": "/static/media/Rectangle_guide.a669866b60cf503303de.png",
@@ -10,6 +10,7 @@
     "static/media/SFUIText-Regular.ttf": "/static/media/SFUIText-Regular.96141c83bd71d7cccb63.ttf",
     "static/media/findtour.png": "/static/media/findtour.b8c9eab5149a35a1f023.png",
     "static/media/mount.png": "/static/media/mount.b8c9eab5149a35a1f023.png",
+    "static/media/img.jpg": "/static/media/img.9855465a1968dbad6f35.jpg",
     "static/media/14.png": "/static/media/14.0d662d2bdaa7040a3f90.png",
     "static/media/10.png": "/static/media/10.d47ce1cd1dd8a4b4e001.png",
     "static/media/71.png": "/static/media/71.3ed37512f5b70252feda.png",
@@ -35,9 +36,12 @@
     "static/media/img5.png": "/static/media/img5.d5cff8bb3782d634e05f.png",
     "static/media/9.png": "/static/media/9.091dbb8e12a142571dfb.png",
     "static/media/bg1.png": "/static/media/bg1.08370d41d42eeddb8643.png",
+    "static/media/img3.jpg": "/static/media/img3.7c819bab63b8e78f356d.jpg",
     "static/media/img6.png": "/static/media/img6.c8cbca92ae4b6e62cf8a.png",
     "static/media/img7.png": "/static/media/img7.0c946d5aadbd0017f30c.png",
+    "static/media/img4.jpg": "/static/media/img4.7db6b655d3efaf1c17e4.jpg",
     "static/media/AvenirNextCyr-Bold.ttf": "/static/media/AvenirNextCyr-Bold.d7a7f3ccfe2942965a98.ttf",
+    "static/media/img2.jpg": "/static/media/img2.edfb0f2b582db5c85afc.jpg",
     "static/media/Rectangle8.png": "/static/media/Rectangle8.d707f86ed85046f9bfb1.png",
     "static/media/AvenirNextCyr-Regular.otf": "/static/media/AvenirNextCyr-Regular.c11003377e95a167a00e.otf",
     "static/media/Ellipse14-2.svg": "/static/media/Ellipse14-2.11a6ac63364790a7dbf1.svg",
@@ -85,8 +89,8 @@
     "static/media/18.svg": "/static/media/18.039c79c659ba8f556b10b6750a731ff1.svg",
     "static/media/star-big.svg": "/static/media/star-big.1ce02794781c643f1c09a88188fc780d.svg",
     "static/media/greenstar.svg": "/static/media/greenstar.44c37436dd759a64dd5e.svg",
-    "static/media/Star.svg": "/static/media/Star.2ebcfb5212eef7fe48204756acb10bbc.svg",
     "static/media/copy41.svg": "/static/media/copy41.0ef23107f38012f0e69d.svg",
+    "static/media/Star.svg": "/static/media/Star.dab3ca58830b51f79763146cfc267a60.svg",
     "static/media/message.svg": "/static/media/message.7098f1183e37ea2fd886.svg",
     "static/media/close.svg": "/static/media/close.a0440108493952c8b766a905e81f7835.svg",
     "static/media/Like.svg": "/static/media/Like.fd25023a94037777507a9085a9eaf670.svg",
@@ -99,15 +103,17 @@
     "static/media/14.svg": "/static/media/14.8010bd720e94df0f84c26e670bcfcb78.svg",
     "static/media/positive.svg": "/static/media/positive.cb90112ed4fc29593b0b5d561e90ae8d.svg",
     "static/media/done_green.svg": "/static/media/done_green.10adc44c6830e054e67795c5620b9c27.svg",
+    "static/media/trash.svg": "/static/media/trash.6d1ed156c7e05e39c7b941f18eef2919.svg",
+    "static/media/LikeWhite.svg": "/static/media/LikeWhite.1a48ad19684c2c12a22a57d54368c264.svg",
     "static/media/TM.svg": "/static/media/TM.932d97067015226dc97076b07d4184f1.svg",
     "static/media/polygon.svg": "/static/media/polygon.a41026f75f634bf62ea2b045d1933b30.svg",
     "static/media/menu-dots.svg": "/static/media/menu-dots.615dcc243479fa7dd0431ff9882656f2.svg",
     "static/media/menu.svg": "/static/media/menu.a8ecf2eb3ee9f2a75577.svg",
-    "main.6618e46d.css.map": "/static/css/main.6618e46d.css.map",
-    "main.ee6d1cae.js.map": "/static/js/main.ee6d1cae.js.map"
+    "main.2b05590e.css.map": "/static/css/main.2b05590e.css.map",
+    "main.7c8093ed.js.map": "/static/js/main.7c8093ed.js.map"
   },
   "entrypoints": [
-    "static/css/main.6618e46d.css",
-    "static/js/main.ee6d1cae.js"
+    "static/css/main.2b05590e.css",
+    "static/js/main.7c8093ed.js"
   ]
 }

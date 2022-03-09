@@ -18,6 +18,7 @@ import BlockSaleTours from '../components/BlockSaleTours/BlockSaleTours'
 import BlockFeedback from '../components/BlockFeedback/BlockFeedback'
 import BlockMoodTours from '../components/BlockMoodTours/BlockMoodTours'
 import BlockFindTour from '../components/BlockFindTour/BlockFindTour'
+import SliderBlock from "../components/SliderBlock/SliderBlock";
 
 
  const Home = () => {
@@ -31,19 +32,20 @@ import BlockFindTour from '../components/BlockFindTour/BlockFindTour'
       <MainLayout>
         <BlockPresentation block_style='presentation_block' />
         <BlockViewed />
-        {/* <BlockPopularCountry />
+        <BlockPopularCountry />
         <BlockRecomendation />
-        <BlockAdvantage />
-        <BlockNewTour />
-        <BlockChangeCountry />
-        <BlockTypeTours />
-        <BlockRaitingTours />
-        <BlockTravelExperts />
-        <BlockSaleTours />
-        <BlockFeedback />
-        <BlockMoodTours />
-        <BlockFindTour />
-        <BlockAboutUs /> */}
+          <SliderBlock/>
+        {/*<BlockAdvantage />*/}
+        {/*<BlockNewTour />*/}
+        {/*<BlockChangeCountry />*/}
+        {/*<BlockTypeTours />*/}
+        {/*<BlockRaitingTours />*/}
+        {/*<BlockTravelExperts />*/}
+        {/*<BlockSaleTours />*/}
+        {/*<BlockFeedback />*/}
+        {/*<BlockMoodTours />*/}
+        {/*<BlockFindTour />*/}
+        {/*<BlockAboutUs />*/}
       </MainLayout>
     </>
     // <MainLayout>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cart from '../../../assets/img/shopping-cart.svg'
 import view from '../../../assets/img/view.svg'
+// import menu from '../../../assets/img/trash.svg'
 import menu from '../../../assets/img/menu-dots.svg'
 import dateFormat, { masks } from 'dateformat'
 
@@ -12,6 +13,7 @@ import {
 } from '../../../redux/actions/toursActions'
 
 import { connect } from 'react-redux'
+import Modal from "./Modal";
 
 const TourCard = ({
   tour,
@@ -53,6 +55,11 @@ const TourCard = ({
   }
 
   const handleTourEdit = () => {
+    getTour(tour.id)
+    setEditing(true)
+  }
+
+  const handleTourCopy = () => {
     getTour(tour.id)
     setEditing(true)
   }
@@ -117,10 +124,10 @@ const TourCard = ({
                 padding: 10,
                 borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
                 lineHeight: '15px',
-                textAlign: 'right',
+                textAlign: 'right'
               }}
             >
-              Скопировать
+              <Modal tour_id={tour.id} button_name='Копировать' action={()=>setActive(false)}/>
             </div>
             <div
               className='tour-item-bottom'
@@ -162,7 +169,7 @@ const TourCard = ({
                 {tour.duration} дн. (с{' '}
                 {dateFormat(new Date(tour.start_date), 'mm.dd.yyyy')})
               </div>
-              <div className='tour-footer-price'>от {tour.price} ₽</div>
+              <div className='tour-footer-price'>от {tour.price} <span className='rub-sign'>₽</span></div>
             </div>
             <div className='tour-footer-right'>
               <div className='tour-footer-sold'>

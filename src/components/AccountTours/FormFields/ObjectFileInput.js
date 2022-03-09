@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
+import menu from '../../../assets/img/trash.svg'
 
 const ObjectFileInput = ({ action, name, value, max }) => {
   const [data, setData] = useState([])
@@ -12,13 +13,12 @@ const ObjectFileInput = ({ action, name, value, max }) => {
 
   console.log(value)
 
-
   useEffect(() => {
     if (value) {
       setPreview(value)
     }
   }, [value])
-  
+
   console.log(preview)
 
   useEffect(() => {
@@ -75,13 +75,54 @@ const ObjectFileInput = ({ action, name, value, max }) => {
               className='fake-file-input image-container'
               style={{
                 backgroundImage: 'url(' + item + ')',
+                position: 'relative',
               }}
-            />
-            {/* {index === 1 || (index - 1) % 3 === 0 ? (
-              <div className={'fake-file-input-break'} />
-            ) : (
-              ''
-            )} */}
+            >
+              <div
+                className='tour-menu-dots'
+                style={{
+                  padding: '5px',
+                  position: 'absolute',
+                  top: 15,
+                  right: 15,
+                  cursor: 'pointer',
+                }}
+                onMouseOver={() => setBubbleActive(true)}
+                onMouseOut={() => setBubbleActive(false)}
+                // onClick={handleMenu}
+              >
+                <img src={menu} alt='menu' />
+              </div>
+
+              {bubbleActive && (
+                <>
+                  <div
+                    className='tour-menu'
+                    // ref={myRef}
+                    style={{
+                      position: 'absolute',
+                      top: 20,
+                      right: 40,
+                      border: '1px solid rgba(0, 0, 0, 0.1)',
+                      boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
+                      borderRadius: 8,
+                      backgroundColor: '#fff',
+                    }}
+                  >
+                    <div
+                      className='tour-item-top'
+                      style={{
+                        padding: 10,
+                        lineHeight: '15px',
+                        textAlign: 'right',
+                      }}
+                    >
+                      Удалить
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </Fragment>
         ))}
         {loading && (

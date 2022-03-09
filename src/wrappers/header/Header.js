@@ -12,7 +12,9 @@ const Header = ({ isAuthenticated, load_user, user }) => {
   const [isOpened, setIsOpened] = useState(false)
 
   useEffect(() => {
-    load_user()
+    if(isAuthenticated){
+      load_user()
+    }
   }, [])
 
   const toggleOpened = () => {

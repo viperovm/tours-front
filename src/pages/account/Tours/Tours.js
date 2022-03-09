@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   deleteTour,
   addTour,
@@ -14,6 +14,7 @@ import AddTour from '../../../components/AccountTours/Containers/AddTour'
 import ToursList from '../../../components/AccountTours/Components/ToursList'
 
 import CircularProgress from '@mui/material/CircularProgress'
+import Modal from "../../../components/AccountTours/Components/Modal";
 
 const Tours = ({
   tour,
@@ -42,6 +43,12 @@ const Tours = ({
     setEditing(false)
     deleteTour(tour.id)
   }
+
+  useEffect(() => {
+    if (!tour && loading) {
+      setLoading(false)
+    }
+  }, [tour, loading])
 
   // const handleCompleted = () => {
   //   deleteTour()
@@ -86,7 +93,9 @@ const Tours = ({
     if (tour && tour.id) {
       setEditing(true)
     } else {
-      deleteTour()
+      if (tour && tour.id) {
+        deleteTour()
+      }
       addTour()
       setEditing(true)
     }
@@ -127,7 +136,7 @@ const Tours = ({
               {editing ? (
                 <>
                   <button onClick={handleTourDelete}>Удалить</button>
-                  <button>Создать копию</button>
+                  <button><Modal tour_id={tour.id} button_name='Создать копию' action={handleSave}/></button>
                   <button>Предпросмотр</button>
                 </>
               ) : (

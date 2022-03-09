@@ -1,12 +1,22 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
+import menu from '../../../assets/img/trash.svg'
+import { connect } from 'react-redux'
 
-const FileInput = ({ action, name, value, max }) => {
+import { deleteTourWallpaper } from '../../../redux/actions/toursActions'
+
+const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
-  const [preview, setPreview] = useState([])
+  const [bubbleActive, setBubbleActive] = useState(false)
+  const [preview, setPreview] = useState(null)
+
+  console.log(bubbleActive)
+  console.log(preview)
+  console.log(value)
+  console.log(tour)
 
   const inputFileRef = useRef(null)
 
@@ -15,20 +25,31 @@ const FileInput = ({ action, name, value, max }) => {
       if (max === 1) {
         setPreview(value)
       } else {
-      let arr = preview
-      arr.push(value)
-      setPreview(arr)
+        let arr = preview
+        arr.push(value)
+        setPreview(arr)
       }
     }
   }, [value])
 
   useEffect(() => {
     if (max) {
-      if (preview.length >= max) {
+      if (preview && preview.length >= max) {
         setActive(false)
       }
     }
   }, [max, preview])
+
+  const handleDelete = () => {
+    setLoading(true)
+    if (name === 'wallpaper') {
+      console.log('delete')
+      deleteTourWallpaper(tour.id)
+      setPreview(null)
+      setActive(true)
+    }
+    setLoading(false)
+  }
 
   const onBtnClick = () => {
     /*Collecting node-element and performing click*/
@@ -42,7 +63,6 @@ const FileInput = ({ action, name, value, max }) => {
       setData(e.target.files[0])
       action(e.target.files[0])
     }
-    
   }
 
   useEffect(() => {
@@ -79,22 +99,115 @@ const FileInput = ({ action, name, value, max }) => {
                 className='fake-file-input image-container'
                 style={{
                   backgroundImage: 'url(' + item + ')',
+                  position: 'relative',
                 }}
-              />
-              {/* {index === 1 || (index - 1) % 3 === 0 ? (
-                <div className={'fake-file-input-break'} />
-              ) : (
-                ''
-              )} */}
+              >
+                <div
+                  className='tour-menu-dots'
+                  style={{
+                    padding: '5px',
+                    position: 'absolute',
+                    top: 15,
+                    right: 15,
+                    cursor: 'pointer',
+                  }}
+                  onMouseOver={() => setBubbleActive(true)}
+                  onMouseOut={() => setBubbleActive(false)}
+                  onClick={handleDelete}
+                >
+                  <img src={menu} alt='menu' />
+                </div>
+
+                {bubbleActive && (
+                  <>
+                    <div
+                      className='tour-menu'
+                      // ref={myRef}
+                      style={{
+                        position: 'absolute',
+                        top: 20,
+                        right: 40,
+                        border: '1px solid rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
+                        borderRadius: 8,
+                        backgroundColor: '#fff',
+                      }}
+                    >
+                      <div
+                        className='tour-item-top'
+                        style={{
+                          padding: 10,
+                          lineHeight: '15px',
+                          textAlign: 'right',
+                        }}
+                      >
+                        Удалить
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </Fragment>
           ))}
-        {max === 1 && (
+        {max === 1 && preview && (
+          // <div
+          //   className='fake-file-input image-container'
+          //   style={{
+          //     backgroundImage: 'url(' + preview + ')',
+          //   }}
+          // />
           <div
             className='fake-file-input image-container'
             style={{
               backgroundImage: 'url(' + preview + ')',
+              position: 'relative',
             }}
-          />
+          >
+            <div
+              className='tour-menu-dots'
+              style={{
+                padding: '5px',
+                position: 'absolute',
+                top: 15,
+                right: 15,
+                cursor: 'pointer',
+              }}
+              onMouseOver={() => setBubbleActive(true)}
+              onMouseOut={() => setBubbleActive(false)}
+              // onMouseOver={() => console.log(1)}
+              onClick={handleDelete}
+            >
+              <img src={menu} alt='menu' />
+            </div>
+            {bubbleActive && (
+              <>
+                <div
+                  className='tour-menu'
+                  // ref={myRef}
+                  style={{
+                    position: 'absolute',
+                    top: 20,
+                    right: 40,
+                    border: '1px solid rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
+                    borderRadius: 8,
+                    backgroundColor: '#fff',
+                  }}
+                >
+                  <div
+                    className='tour-item-top'
+                    style={{
+                      padding: 10,
+                      lineHeight: '15px',
+                      textAlign: 'right',
+                    }}
+                  >
+                    Удалить
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         )}
         {loading && (
           <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
@@ -108,4 +221,8 @@ const FileInput = ({ action, name, value, max }) => {
   )
 }
 
-export default FileInput
+const mapStateToProps = state => ({
+  tour: state.tours.current_tour,
+})
+
+export default connect(mapStateToProps, { deleteTourWallpaper })(FileInput)

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Button = ({active, action, color='button-success', text='Продолжить'}) => {
+const Button = ({active=true, action, color='button-success', text='Продолжить'}) => {
     return (
       <button
         onClick={action}

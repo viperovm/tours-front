@@ -3,25 +3,21 @@ import styles from './CardTourLarge.module.css';
 import cn from 'classnames';
 import Tag from '../Tag/Tag'
 import Htag from '../Htag/Htag'
-import StarIcon from '../../assets/img/Star.svg';
-import LikeIcon from '../../assets/img/Like.svg'
+import starIcon from '../../assets/img/Star.svg';
+import likeIcon from '../../assets/img/Like.svg'
     
 
 
 const CardTourLarge = ({ block_style, children, className, ...props }) => {    
     return (
         <div
-            className={ cn(styles.card_tour, className, {
-                [styles.card_tour]: block_style == 'card_tour',
-            })}
-            {...props}
-            
+            className={styles.card_tour + ' ' + styles[block_style]}
         >    
                   
             {children}
             <Tag size='l'>
                 <div className={styles.card_tour_image}>
-                    <LikeIcon />
+                    <img src={likeIcon} alt="Like"/>
                 </div>
                 <div className={styles.card_tour_content}>
                     <div className={styles.card_tour_content_place_info}>
@@ -36,7 +32,7 @@ const CardTourLarge = ({ block_style, children, className, ...props }) => {
                             <div className={styles.card_tour_content_guide_info_name_raiting}>
                                 <Htag tag='h4'>Мария</Htag>
                                 <Htag tag='h4'>
-                                    <StarIcon />
+                                    <img src={starIcon} alt=""/>
                                     <span className={styles.raiting_star}>4.9</span>
                                     (132)  
                                 </Htag>

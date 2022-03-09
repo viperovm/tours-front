@@ -28,6 +28,8 @@ const NavItem = ({
   secondary_nav,
   secondary,
 }) => {
+
+
   return (
     <>
       <li
@@ -37,90 +39,90 @@ const NavItem = ({
         }`}
       >
         <Link to={name === 'account' ? '/' + name : '/account/' + name}>
-            <div
-              className={`account-sidebar-menu-icon ${
-                name === page ? 'active' : ''
-              }`}
-            >
-              {name === 'account' && (
-                <HomeOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-              {name === 'tours' && (
-                <GlobalOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-              {name === 'history' && (
-                <GlobalOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-              {name === 'chat' && (
-                <CommentOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-              {name === 'profile' && (
-                <UserOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-              {name === 'orders' && (
-                <UnorderedListOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-              {name === 'bookings' && (
-                <UnorderedListOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-              {name === 'settings' && (
-                <SettingOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-              {name === 'props' && (
-                <CreditCardOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-              {name === 'requests' && (
-                <CheckCircleOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-              {name === 'team' && (
-                <TeamOutlined
-                  style={{
-                    color: `${name === page ? '#2898cd' : '#000'}`,
-                  }}
-                />
-              )}
-            </div>
-            {title}
+          <div
+            className={`account-sidebar-menu-icon ${
+              name === page ? 'active' : ''
+            }`}
+          >
+            {name === 'account' && (
+              <HomeOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+            {name === 'tours/list' && (
+              <GlobalOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+            {name === 'history' && (
+              <GlobalOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+            {name === 'chat' && (
+              <CommentOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+            {name === 'profile' && (
+              <UserOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+            {name === 'orders' && (
+              <UnorderedListOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+            {name === 'bookings' && (
+              <UnorderedListOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+            {name === 'settings' && (
+              <SettingOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+            {name === 'props' && (
+              <CreditCardOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+            {name === 'requests' && (
+              <CheckCircleOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+            {name === 'team' && (
+              <TeamOutlined
+                style={{
+                  color: `${name === page ? '#2898cd' : '#000'}`,
+                }}
+              />
+            )}
+          </div>
+          {title}
         </Link>
       </li>
       {secondary_nav && name === page && <SecondaryNav data={secondary_nav} />}

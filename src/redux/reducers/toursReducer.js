@@ -63,6 +63,9 @@ import {
   UPDATE_EXTRA_SERVICE_SUCCESS,
   UPDATE_TOUR_WALLPAPER_SUCCESS,
   UPDATE_TOUR_WALLPAPER_FAIL,
+  DELETE_TOUR_WALLPAPER_SUCCESS,
+  COPY_TOUR_SUCCESS,
+  COPY_TOUR_FAIL,
 } from '../types'
 
 const initialState = {
@@ -109,6 +112,14 @@ const toursReducer = (state = initialState, action) => {
       ...tour,
       wallpaper: data.wallpaper,
       tmb_wallpaper: data.tmb_wallpaper,
+      }
+  }
+
+  const deleteTourWallpaper = (tour) => {
+    return {
+      ...tour,
+      wallpaper: '',
+      tmb_wallpaper: '',
       }
   }
 
@@ -271,6 +282,7 @@ const toursReducer = (state = initialState, action) => {
 
   switch (type) {
     case GET_TOURS_SUCCESS:
+    case COPY_TOUR_SUCCESS:
       return {
         ...state,
         tours: payload,
@@ -458,7 +470,6 @@ const toursReducer = (state = initialState, action) => {
     case CLEAR_CURRENT_TOUR:
       return {
         ...state,
-        tours: [],
         current_tour: {},
         tour_types: [],
         regions: [],
@@ -527,6 +538,11 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         editing: payload,
+      }
+    case DELETE_TOUR_WALLPAPER_SUCCESS:
+      return {
+        ...state,
+        current_tour: deleteTourWallpaper(state.current_tour),
       }
 
     case SET_TOUR_DAY_IMAGE_FAIL:

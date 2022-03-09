@@ -8,15 +8,12 @@ import CardCollection from '../CardCollection/CardCollection';
 const BlockPopularCountry = ({ block_style, children, className, ...props }) => {    
     return (
         <div
-            className={ cn(styles.block_viewed, className, {
-                [styles.viewed_block]: block_style == 'viewed_block',
-            })}
-            {...props}
+            className={styles.block_viewed + ' ' + styles[block_style]}
         >
             
-            <div className={styles.wrapper} {...props}>
+            <div className={styles.wrapper}>
                 {children}
-                    <InfoBlock border_color='blue_left_border'>
+                    <InfoBlock border_color='blue'>
                         <Htag tag='h2'>
                             Популярные направления
                         </Htag>

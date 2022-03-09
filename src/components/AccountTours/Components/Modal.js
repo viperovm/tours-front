@@ -1,60 +1,95 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
 import RemoteDataSelect from '../FormFields/RemoteDataSelect'
 
-import {connect} from'react-redux'
-import { getRemoteData } from '../../../redux/actions/tourSectionActions'
+
+import {connect} from 'react-redux'
+import {
+  clearCurrentTour,
+  setEditing,
+  copyTour
+} from '../../../redux/actions/toursActions'
+import Input from "../FormFields/Input";
+import SelectInput from "../FormFields/SelectInput";
+import Button from "./Button";
 
 
 const Modal = ({
-  title,
-  disabled = false,
-  search_data,
-  search_id,
-  getRemoteData,
-  remote_data,
-}) => {
+                 title,
+                 copyTour,
+                 tour_id,
+                 button_name,
+                 action,
+               }) => {
+
+
   const [active, setActive] = useState(false)
-  const [filter, setFilter] = useState('')
+  const [date, setDate] = useState('')
   const [dataType, setDataType] = useState('')
 
-  const handleOpen = () => {
-    getRemoteData(search_data, search_id)
-    // setActive(true)
+  const handleSubmit = () => {
+    const date_obj = {start_date: date}
+    copyTour(tour_id, date_obj)
+    clearCurrentTour()
+    setEditing(false)
+    // setTimeout(() => {
+    //
+    // }, 1000)
+    setActive(false)
+    action()
   }
 
+  const handleOpen = () => {
+    setActive(true)
+  }
   const handleClose = () => {
     setActive(false)
   }
-
-   useEffect(() => {
-     window.scrollIntoView({ behavior: 'smooth' })
-   }, [])
+  const handleInput = (name, value) => {
+    console.log(name)
+    console.log(value)
+    setDate(value)
+  }
 
   return (
     <>
-      <button disabled={disabled} onClick={handleOpen} className='modal-button'>
-        Добавить
-      </button>
+      <div onClick={handleOpen} style={{
+        cursor: 'pointer',
+      }}>
+        {button_name}
+      </div>
 
       <div className={`modal-wrapper ${active && 'modal-active'}`}>
         <div className='modal-body'>
           <div className='modal-header'>
-            {title}
-            <div onClick={handleClose} className='modal-close-button'></div>
+            Введите дату начала нового тура.
+            <div onClick={handleClose} className='modal-close-button'/>
           </div>
           <div className='modal-content'>
-            <RemoteDataSelect remote_data={remote_data} />
+            <div className='my-tours-input-section'>
+              <div className='my-tours-input-full-modal'>
+                <Input
+                  action={handleInput}
+                  name='start_date'
+                  label='Дата начала тура'
+                  value={date}
+                  type='date'
+                  // multiple
+                />
+              </div>
+            </div>
           </div>
-          <div className='modal-footer'></div>
+          <div className='modal-footer'>
+            <Button text='Копировать тур' action={handleSubmit}/>
+          </div>
         </div>
       </div>
     </>
   )
 }
 
-const mapStateToProps = state => ({
-  remote_data: state.tourSection.remote_data,
-})
-
-export default connect(mapStateToProps, {getRemoteData})(Modal)
+export default connect(null, {
+  clearCurrentTour,
+  setEditing,
+  copyTour
+})(Modal)

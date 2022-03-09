@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 
-
 import NavItem from './NavItem'
 
 const Nav = ({ status }) => {
@@ -12,7 +11,7 @@ const Nav = ({ status }) => {
       title: 'Личный кабинет',
     },
     {
-      name: 'tours',
+      name: 'tours/list',
       title: 'Мои туры',
       secondary: true,
     },
@@ -71,7 +70,7 @@ const Nav = ({ status }) => {
 
   return (
     <>
-      <ul style={{position: 'relative'}}>
+      <ul style={{ position: 'relative' }}>
         {status === 'experts' &&
           expert.map(item => (
             <NavItem
@@ -98,7 +97,5 @@ const Nav = ({ status }) => {
     </>
   )
 }
-
-
 
 export default Nav
