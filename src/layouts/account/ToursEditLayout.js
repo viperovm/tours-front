@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import SideBar from '../../components/sideBar/SideBar'
 
 import {load_user} from '../../redux/actions/authActions'
-import {openSecondaryMenu, addTour, deleteTour, tourToServer, clearCurrentTour} from "../../redux/actions/toursActions";
+import {openSecondaryMenu, addTour, deleteTour, tourToServer, clearCurrentTour, setPage} from "../../redux/actions/toursActions";
 
 import CircularProgress from '@mui/material/CircularProgress'
 import Modal from "../../components/AccountTours/Components/Modal";
@@ -15,6 +15,7 @@ import Modal from "../../components/AccountTours/Components/Modal";
 import isNotEmptyObject from "../../helpers/isNotEmptyObject";
 
 const ToursEditLayout = ({
+                            preview=false,
                            tour,
                            menu_item,
                            secondary_item,
@@ -27,9 +28,13 @@ const ToursEditLayout = ({
                            deleteTour,
                            tourToServer,
                            clearCurrentTour,
+                           setPage,
+                           page,
                          }) => {
 
   const history = useHistory()
+
+  console.log(history)
 
   const [title, setTitle] = useState('Название тура')
 
@@ -68,6 +73,17 @@ const ToursEditLayout = ({
     deleteTour(tour.id)
     history.push('/account/tours/list')
     location.reload()
+  }
+
+  const handleTourPreview = () => {
+    if(!preview) {
+      tourToServer(tour, tour.id)
+      setPage(history.location)
+      history.push('/account/tours/edit/preview')
+    } else {
+      history.push(page)
+      setPage('')
+    }
   }
 
   useEffect(() => {
@@ -132,7 +148,10 @@ const ToursEditLayout = ({
                   <div className='control-buttons-set'>
                     <button onClick={handleTourDelete}>Удалить</button>
                     <button><Modal tour_id={tour.id} button_name='Создать копию' action={handleTourCopy}/></button>
-                    <button>Предпросмотр</button>
+                    {preview ?
+                      <button onClick={handleTourPreview}>Редактировать</button>
+                      :
+                      <button onClick={handleTourPreview}>Предпросмотр</button>}
                   </div>
 
                   {/*<div className='control-buttons-set'>*/}
@@ -162,6 +181,7 @@ const ToursEditLayout = ({
 
 const mapStateToProps = state => ({
   tour: state.tours.current_tour,
+  page: state.tours.page,
   isAuthenticated: state.auth.isAuthenticated,
 })
 
@@ -170,5 +190,6 @@ export default connect(mapStateToProps, {
   addTour,
   deleteTour,
   tourToServer,
-  clearCurrentTour
+  clearCurrentTour,
+  setPage,
 })(ToursEditLayout)

@@ -69,6 +69,9 @@ import {
   DELETE_TOUR_WALLPAPER_FAIL,
   COPY_TOUR_SUCCESS,
   COPY_TOUR_FAIL,
+  GET_TOUR_PREVIEW_SUCCESS,
+  GET_TOUR_PREVIEW_FAIL,
+  SET_PAGE,
 } from '../types'
 import axios from 'axios'
 
@@ -215,6 +218,30 @@ export const getTour = id => async dispatch => {
   }
 }
 
+export const getTourReview = id => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${API_URL}/api/tours/${id}/preview/`, config)
+
+    dispatch({
+      type: GET_TOUR_PREVIEW_SUCCESS,
+      payload: res.data,
+    })
+    // dispatch(set_tour(res.data))
+  } catch (err) {
+    dispatch({
+      type: GET_TOUR_PREVIEW_FAIL,
+    })
+  }
+}
+
 export const deleteTour = id => async dispatch => {
   const config = {
     headers: {
@@ -256,6 +283,8 @@ export const updateTourWallpaper = (image, id) => async dispatch => {
       form_data,
       config
     )
+
+    console.log(res.data)
 
     dispatch({
       type: UPDATE_TOUR_WALLPAPER_SUCCESS,
@@ -451,6 +480,8 @@ export const setGuestGuideImage = (image, id) => async dispatch => {
       form_data,
       config
     )
+
+    console.log(res.data)
 
     dispatch({
       type: SET_GUEST_GUIDE_IMAGE_SUCCESS,
@@ -801,5 +832,12 @@ export const setEditing = bool => async dispatch => {
   dispatch({
     type: SET_EDITING,
     payload: bool,
+  })
+}
+
+export const setPage = page => async dispatch => {
+  dispatch({
+    type: SET_PAGE,
+    payload: page,
   })
 }

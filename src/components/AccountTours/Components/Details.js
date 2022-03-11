@@ -232,6 +232,7 @@ const Details = ({
           label='Валюта тура'
           val={tour && tour.languages}
           options={languages}
+          multiple={true}
         />
       </SingleWrapper>
       <RadioInput
@@ -271,7 +272,7 @@ const Details = ({
           label='Где планируется проживание'
           val={tour && tour.tour_property_types}
           options={tour_property_types}
-          // multiple
+          multiple={true}
         />
       </SingleWrapper>
       <SingleWrapper label='Размещение' comment=''>
@@ -281,7 +282,7 @@ const Details = ({
           label='Размещение'
           val={tour && tour.accomodation}
           options={tour_accomodations}
-          // multiple
+          multiple={true}
         />
       </SingleWrapper>
       <SingleWrapper

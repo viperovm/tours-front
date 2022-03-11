@@ -66,11 +66,15 @@ import {
   DELETE_TOUR_WALLPAPER_SUCCESS,
   COPY_TOUR_SUCCESS,
   COPY_TOUR_FAIL,
+  GET_TOUR_PREVIEW_SUCCESS,
+  GET_TOUR_PREVIEW_FAIL,
+  SET_PAGE,
 } from '../types'
 
 const initialState = {
   tours: [],
   current_tour: {},
+  tour_preview: {},
   tour_types: [],
   regions: [],
   start_countries: [],
@@ -84,6 +88,7 @@ const initialState = {
   tour_property_types: [],
   tour_accomodations: [],
   plan: [],
+  page: '',
   tour_leaders: [],
   current_section: 'common',
   active_sections: [],
@@ -240,9 +245,14 @@ const toursReducer = (state = initialState, action) => {
   }
 
   const setGuestGuideImage = (tour, data) => {
+    const gg = {
+      ...tour.guest_guide,
+      tmb_avatar: data.tmb_image,
+      avatar: data.image,
+    }
     return {
       ...tour,
-      guest_guide: data,
+      guest_guide: gg,
     }
   }
 
@@ -299,6 +309,11 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         current_tour: payload,
+      }
+    case GET_TOUR_PREVIEW_SUCCESS:
+      return {
+        ...state,
+        tour_preview: payload,
       }
 
     case ADD_TOUR_FAIL:
@@ -466,6 +481,11 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         tour_leaders: payload,
       }
+    case SET_PAGE:
+      return {
+        ...state,
+        page: payload,
+      }
 
     case CLEAR_CURRENT_TOUR:
       return {
@@ -484,6 +504,7 @@ const toursReducer = (state = initialState, action) => {
         tour_property_types: [],
         tour_accomodations: [],
         plan: [],
+        page: '',
         tour_leaders: [],
         tour_name: '',
       }

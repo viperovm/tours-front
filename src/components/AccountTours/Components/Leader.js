@@ -152,16 +152,16 @@ tourToServer,
       <SingleWrapper label='Имя гида' comment=''>
         <Input
           action={handleInput}
-          name='leader_name'
-          value={tour && tour.guest_guide && tour.guest_guide.leader_name}
+          name='first_name'
+          value={tour && tour.guest_guide && tour.guest_guide.first_name}
           // multiple
         />
       </SingleWrapper>
       <SingleWrapper label='Информация о гиде' comment=''>
         <TextEditor
           action={handleInput}
-          name='leader_info'
-          value={tour && tour.guest_guide && tour.guest_guide.leader_info}
+          name='about'
+          value={tour && tour.guest_guide && tour.guest_guide.about}
           // multiple
         />
       </SingleWrapper>
@@ -170,9 +170,9 @@ tourToServer,
         {!loading && (
           <FileInput
             action={handleImageInput}
-            name='leader_photo'
+            name='avatar'
             max={1}
-            value={tour && tour.guest_guide && tour.guest_guide.image}
+            value={tour && tour.guest_guide && tour.guest_guide.avatar}
           />
         )}
         {loading && (

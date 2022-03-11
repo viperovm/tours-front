@@ -1,0 +1,9 @@
+.tour_body {
+    width: 730px;
+}
+
+.divider {
+    width: 100%;
+    border-bottom: 1px solid #E4E6EB;
+    margin-bottom: 20px;
+}

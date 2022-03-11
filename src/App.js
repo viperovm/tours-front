@@ -22,6 +22,7 @@ import Settings from './pages/account/Settings'
 import Props from './pages/account/Props'
 import Requests from './pages/account/Requests'
 import Team from './pages/account/Team'
+import TourPage from './pages/TourPage/TourPage'
 
 import Common from './components/AccountTours/Components/Common'
 import Prices from './components/AccountTours/Components/Prices'
@@ -63,6 +64,7 @@ const App = () => {
           <Route exact path='/account/tours/edit/services' component={ExtraServices} />
           <Route exact path='/account/tours/edit/important' component={Important} />
           <Route exact path='/account/tours/edit/photos' component={Photos} />
+          <Route exact path='/account/tours/edit/preview' component={TourPage} />
           <Route path='*' component={Page404} />
         </Switch>
       </Router>
