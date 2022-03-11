@@ -83,7 +83,7 @@ const Conditions = ({
         <h4>Условия</h4>
       </div>
 
-      <SingleWrapper label='В стоимость включено' comment=''>
+      <SingleWrapper label='В стоимость включено' comment='Вводить через точку с запятой.'>
         <TextArea
           action={handleInput}
           name='tour_included_services'
@@ -92,7 +92,7 @@ const Conditions = ({
           rows='7'
         />
       </SingleWrapper>
-      <SingleWrapper label='В стоимость не включено' comment=''>
+      <SingleWrapper label='В стоимость не включено' comment='Вводить через точку с запятой.'>
         <TextArea
           action={handleInput}
           name='tour_excluded_services'

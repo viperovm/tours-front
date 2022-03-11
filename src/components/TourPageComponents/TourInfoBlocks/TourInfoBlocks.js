@@ -39,7 +39,7 @@ const TourInfoBlocks = ({comfort, difficulty= 5, language, age}) => {
         <div className={styles.tour_info_block}>
           <div>
             <div className={styles.tour_info_block_value}>{age}</div>
-            <div className={styles.tour_info_block_name}>Средний возраст</div>
+            <div className={styles.tour_info_block_name}>Допустимый возраст</div>
           </div>
         </div>
 

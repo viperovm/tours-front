@@ -365,7 +365,7 @@ const Details = ({
         />
       </SingleWrapper>
 
-      <SingleWrapper label='Главные впечатления' comment=''>
+      <SingleWrapper label='Главные впечатления' comment='Вводить через точку с запятой.'>
         <TextArea
           action={handleInput}
           name='main_impressions'

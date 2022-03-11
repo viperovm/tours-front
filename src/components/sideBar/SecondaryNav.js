@@ -24,7 +24,7 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_i
                 key={index}
                 // onClick={() => handleClick(item)}
               >
-                <Link to={`/account/tours/edit/${item.value}`} style={{width: '100%'}}>
+                <Link to={`/account/tours/edit/${item.value}`} style={{width: '100%'}} >
                 <div
                   className={`tours-submenu-name-wrap ${
                     secondary_item === item.value ? 'item-active' : 'item-inactive'
