@@ -32,15 +32,13 @@ const Settings = ({
     if (user) {
       setProfile({
         ...profile,
+        video: user.video,
         first_name: user.first_name,
         last_name: user.last_name,
         phone: user.phone,
         email: user.email,
         phone_confirmed: user.phone_confirmed,
         email_confirmed: user.email_confirmed,
-        languages: user.languages,
-        visited_countries: user.visited_countries,
-        about: user.about,
       })
     }
   }, [user])
