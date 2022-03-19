@@ -1,4 +1,5 @@
 import * as t from '../types'
+import {DELETE_AVATAR_SUCCESS} from "../types";
 
 const initialState = {
   reg_status: null,
@@ -10,6 +11,7 @@ const initialState = {
   user: null,
   status: '',
   page: '',
+  avatar: '',
 }
 
 const authReducer = (state = initialState, action) => {
@@ -31,6 +33,22 @@ const authReducer = (state = initialState, action) => {
         refresh: payload.refresh,
       }
     case t.USER_LOADED_SUCCESS:
+      return {
+        ...state,
+        user: payload.data,
+        status: payload.status,
+      }
+    case t.UPDATE_AVATAR_SUCCESS:
+      return {
+        ...state,
+        user: payload,
+      }
+    case t.DELETE_AVATAR_SUCCESS:
+      return {
+        ...state,
+        user: payload,
+      }
+    case t.USER_UPDATE_SUCCESS:
       return {
         ...state,
         user: payload.data,

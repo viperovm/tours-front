@@ -140,7 +140,7 @@ const ToursEditLayout = ({
 
 
               <main>
-                <div className='my-tours-heading'>
+                <div className='global-h2-heading'>
                   <h2>{title}</h2>
                 </div>
 

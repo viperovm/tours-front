@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
 const TextArea = ({
+  label,
   action,
   name,
   value,
-  label,
-  type = 'text',
-  rows = '5',
+  rows = 5,
 }) => {
   const [data, setData] = useState('')
 
@@ -23,9 +22,9 @@ const TextArea = ({
 
   return (
     <textarea
+      placeholder={label}
       name={name}
       value={data}
-      type={type}
       onChange={handleData}
       rows={rows}
     />

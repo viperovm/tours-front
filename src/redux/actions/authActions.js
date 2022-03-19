@@ -1,5 +1,6 @@
 import * as t from '../types'
 import axios from 'axios'
+import {UPDATE_TOUR_WALLPAPER_FAIL, UPDATE_TOUR_WALLPAPER_SUCCESS} from "../types";
 
 const API_URL = 'http://x3mart.ru'
 
@@ -44,6 +45,58 @@ export const load_user = () => async dispatch => {
     } catch (err) {
       dispatch({
         type: t.USER_LOADED_FAIL,
+      })
+    }
+  } else {
+    dispatch({
+      type: t.USER_LOADED_FAIL,
+    })
+  }
+}
+
+export const update_user = data => async dispatch => {
+  if (localStorage.getItem('access')) {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
+
+    function parseJwt(token) {
+      var base64Url = token.split('.')[1]
+      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+      var jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+          })
+          .join('')
+      )
+
+      return JSON.parse(jsonPayload)
+    }
+
+    const user = parseJwt(localStorage.getItem('access')).user_status
+
+    const body = JSON.stringify(data)
+
+    try {
+      const res = await axios.patch(`${API_URL}/api/${user}/me/`, body, config)
+      const data = {
+        data: res.data,
+        status: user,
+      }
+
+      dispatch({
+        type: t.USER_UPDATE_SUCCESS,
+        payload: data,
+      })
+    } catch (err) {
+      dispatch({
+        type: t.USER_UPDATE_FAIL,
       })
     }
   } else {
@@ -201,3 +254,59 @@ export const setPage = title => dispatch => {
     payload: title,
   })
 }
+
+export const update_avatar = (image) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+
+  let form_data = new FormData()
+
+  form_data.append('avatar', image, image.name)
+
+  try {
+    const res = await axios.patch(
+      `${API_URL}/api/experts/avatar/`,
+      form_data,
+      config
+    )
+
+    dispatch({
+      type: t.UPDATE_AVATAR_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.UPDATE_AVATAR_FAIL,
+    })
+  }
+}
+
+export const delete_avatar = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+
+  try {
+    const res = await axios.delete(
+      `${API_URL}/api/experts/avatar/`,
+      config
+    )
+
+    dispatch({
+      type: t.DELETE_AVATAR_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.DELETE_AVATAR_FAIL,
+    })
+  }
+}
+

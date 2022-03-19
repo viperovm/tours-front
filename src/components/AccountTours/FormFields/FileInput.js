@@ -5,8 +5,9 @@ import menu from '../../../assets/img/trash.svg'
 import { connect } from 'react-redux'
 
 import { deleteTourWallpaper } from '../../../redux/actions/toursActions'
+import {delete_avatar} from '../../../redux/actions/authActions'
 
-const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper }) => {
+const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
@@ -43,6 +44,11 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper }) => {
       setPreview(null)
       setActive(true)
     }
+    if (name === 'avatar') {
+      delete_avatar()
+      setPreview(null)
+      setActive(true)
+    }
     setLoading(false)
   }
 
@@ -56,14 +62,16 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper }) => {
     if (e.target.files[0]) {
       setData(e.target.files[0])
       action(e.target.files[0])
+      setLoading(false)
     }
+    setLoading(false)
   }
 
   useEffect(() => {
-    if (preview && loading) {
+    if (value && loading) {
       setLoading(false)
     }
-  }, [preview, loading])
+  }, [value, loading])
 
   return (
     <>
@@ -86,7 +94,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper }) => {
           <div className='fake-file-input-text'>Добавить новое фото</div>
         </div>
         {max !== 1 &&
-          preview.map((item, index) => (
+          preview && preview.map((item, index) => (
             <Fragment key={index}>
               <div
                 key={index}
@@ -218,4 +226,4 @@ const mapStateToProps = state => ({
   tour: state.tours.current_tour,
 })
 
-export default connect(mapStateToProps, { deleteTourWallpaper })(FileInput)
+export default connect(mapStateToProps, { deleteTourWallpaper, delete_avatar })(FileInput)

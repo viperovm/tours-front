@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 
 const Input = ({
+  label,
   action,
   name,
   type = 'text',
@@ -26,6 +27,7 @@ const Input = ({
   return (
     <>
       <input
+        placeholder={label}
         name={name}
         value={data}
         type={type}

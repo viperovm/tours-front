@@ -22,7 +22,7 @@ const MyTours = ({isAuthenticated, addTour, tour}) => {
     <>
       <Account title='Мои туры' menu_item='tours/list'>
         <main>
-          <div className='my-tours-heading'>
+          <div className='global-h2-heading'>
             <h2>Мои туры</h2>
           </div>
           <div className='tours-list-add-button-wrapper'>
@@ -30,7 +30,7 @@ const MyTours = ({isAuthenticated, addTour, tour}) => {
               Вам доступно безлимитное добавление туров и путешествий, более 2
               000 000 человек ждут их.
             </div>
-            <div className='tours-list-add-button-button'>
+            <div className='tours-list-add-button-button green'>
               <Link to='/account/tours/edit/common' onClick={handleEditingButton}>
                 {tour && tour.id
                   ? 'Продолжить редактирование'

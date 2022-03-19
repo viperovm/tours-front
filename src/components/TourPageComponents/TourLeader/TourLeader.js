@@ -37,7 +37,7 @@ const TourLeader = ({leader}) => {
                 Отзывы:
               </div>
               <div className={styles.tour_leader_ratings_value}>
-                {leader && leader.reviews ? leader.reviews : 0}
+                {leader && leader.reviews_count ? leader.reviews_count : 0}
               </div>
             </div>
             <div className={styles.tour_leader_ratings_row}>
@@ -45,7 +45,7 @@ const TourLeader = ({leader}) => {
                 Активных туров:
               </div>
               <div className={styles.tour_leader_ratings_value}>
-                {leader && leader.tours ? leader.tours : 0}
+                {leader && leader.tours_count ? leader.tours_count : 0}
               </div>
             </div>
           </div>
