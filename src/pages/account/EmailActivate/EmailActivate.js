@@ -4,6 +4,7 @@ import {email_confirm} from "../../../redux/actions/authActions";
 import {Redirect, useHistory} from "react-router-dom";
 import Button from "../../../components/AccountTours/Components/Button";
 import MainLayout from "../../../layouts/MainLayout";
+import CircularProgress from '@mui/material/CircularProgress'
 
 const EmailActivate = ({match, email_confirm, status}) => {
 
@@ -11,6 +12,10 @@ const EmailActivate = ({match, email_confirm, status}) => {
 
   const [requestSuccess, setRequestSuccess] = useState(true)
   const [verified, setVerified] = useState(false);
+
+  useEffect(() => {
+    verify_email()
+  }, [])
 
   useEffect(() => {
     const redirector = () => {
@@ -23,7 +28,10 @@ const EmailActivate = ({match, email_confirm, status}) => {
     }
   }, [verified])
 
+  console.log('status: ', status)
+
   useEffect(() => {
+    console.log('status: ', status)
     if(status !== 'error' && status >= 200 && status < 300) {
       setRequestSuccess(true)
     } else {
@@ -44,7 +52,7 @@ const EmailActivate = ({match, email_confirm, status}) => {
     <>
       <MainLayout>
         <div className="verification-page">
-          {verified ? (
+          {verified && status ? (
               <>
                 {requestSuccess ?
                   <div className="verification-text green">Почта успешно подтверждена!</div>
@@ -56,7 +64,7 @@ const EmailActivate = ({match, email_confirm, status}) => {
             )
             :
             <div className='verification-button'>
-              <Button color='button-primary' action={verify_email} text='Подтвердить почту'/>
+              <CircularProgress />
             </div>
           }
         </div>
@@ -66,7 +74,7 @@ const EmailActivate = ({match, email_confirm, status}) => {
 }
 
 const mapStateToProps = state => ({
-  status: state.auth.email_confirm_request,
+  status: state.auth.email_confirm,
 })
 
 export default connect(mapStateToProps, {email_confirm})(EmailActivate)
