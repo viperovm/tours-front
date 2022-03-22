@@ -1,5 +1,6 @@
 import * as t from '../types'
-import {DELETE_AVATAR_SUCCESS} from "../types";
+import {DELETE_AVATAR_SUCCESS, EMAIL_CONFIRM_REQUEST_FAIL} from "../types";
+import {email_confirm_request} from "../actions/authActions";
 
 const initialState = {
   reg_status: null,
@@ -12,6 +13,8 @@ const initialState = {
   status: '',
   page: '',
   avatar: '',
+  email_confirm_request: null,
+  email_confirm: null,
 }
 
 const authReducer = (state = initialState, action) => {
@@ -74,6 +77,25 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: false,
         user: null,
       }
+    case t.EMAIL_CONFIRM_REQUEST_SUCCESS:
+    case t.EMAIL_CONFIRM_REQUEST_FAIL:
+      return {
+        ...state,
+        email_confirm_request: payload,
+      }
+    case t.EMAIL_CONFIRM_SUCCESS:
+    case t.EMAIL_CONFIRM_FAIL:
+      return {
+        ...state,
+        email_confirm: payload,
+      }
+    case t.CLEAR_CONFIRM:
+      return {
+        ...state,
+        email_confirm_request: null,
+        email_confirm: null,
+      }
+
     case t.AUTHENTICATED_FAIL:
     case t.LOGIN_FAIL:
     case t.SIGNUP_FAIL:

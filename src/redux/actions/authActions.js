@@ -166,8 +166,7 @@ export const checkAuthenticated = () => async dispatch => {
     }
 
 
-
-    const body = JSON.stringify({ token: localStorage.getItem('access') })
+    const body = JSON.stringify({token: localStorage.getItem('access')})
 
     try {
       const res = await axios.post(`${API_URL}/auth/jwt/verify/`, body, config)
@@ -206,7 +205,7 @@ export const reset_password = email => async dispatch => {
     },
   }
 
-  const body = JSON.stringify({ email })
+  const body = JSON.stringify({email})
 
   try {
     await axios.post(`${API_URL}/auth/users/reset_password/`, body, config)
@@ -229,7 +228,7 @@ export const reset_password_confirm =
       },
     }
 
-    const body = JSON.stringify({ uid, token, new_password, re_new_password })
+    const body = JSON.stringify({uid, token, new_password, re_new_password})
 
     try {
       await axios.post(
@@ -309,4 +308,73 @@ export const delete_avatar = () => async dispatch => {
     })
   }
 }
+
+export const email_confirm_request = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = ''
+
+    try {
+      let res = await axios.post(
+        `${API_URL}/api/experts/send_confirmation_email/`,
+        body,
+        config
+      )
+
+      console.log(res)
+
+      dispatch({
+        type: t.EMAIL_CONFIRM_REQUEST_SUCCESS,
+        payload: res.status
+      })
+    } catch (err) {
+      dispatch({
+        type: t.EMAIL_CONFIRM_REQUEST_FAIL,
+        payload: 'error'
+      })
+    }
+  }
+
+  export const email_confirm = (data) => async dispatch => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        // Authorization: `JWT ${localStorage.getItem('access')}`,
+      },
+    }
+
+    const body = JSON.stringify(data)
+
+    try {
+      let res = await axios.post(
+        `${API_URL}/api/experts/confirm_email/`,
+        body,
+        config
+      )
+
+      dispatch({
+        type: t.EMAIL_CONFIRM_SUCCESS,
+        payload: res.status
+      })
+    } catch (err) {
+      dispatch({
+        type: t.EMAIL_CONFIRM_FAIL,
+        payload: 'error'
+      })
+    }
+  }
+
+  export const clear_confirm_status = () => dispatch => {
+
+      dispatch({
+        type: t.CLEAR_CONFIRM,
+      })
+  }
 

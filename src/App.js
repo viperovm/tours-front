@@ -34,6 +34,7 @@ import Conditions from './components/AccountTours/Components/Conditions'
 import ExtraServices from './components/AccountTours/Components/ExtraServices'
 import Important from './components/AccountTours/Components/Important'
 import Photos from './components/AccountTours/Components/Photos'
+import EmailActivate from './pages/account/EmailActivate/EmailActivate'
 
 import Page404 from './pages/404'
 
@@ -65,6 +66,7 @@ const App = () => {
           <Route exact path='/account/tours/edit/important' component={Important} />
           <Route exact path='/account/tours/edit/photos' component={Photos} />
           <Route exact path='/account/tours/edit/preview' component={TourPage} />
+          <Route exact path='/activate/:uid/:token' component={EmailActivate} />
           <Route path='*' component={Page404} />
         </Switch>
       </Router>

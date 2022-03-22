@@ -78,7 +78,6 @@ import axios from 'axios'
 const API_URL = 'http://x3mart.ru'
 
 export const addTour = data => async dispatch => {
-  console.log(data)
   const config = {
     headers: {
       'Content-Type': 'application/json',
