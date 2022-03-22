@@ -183,7 +183,7 @@ const Settings = ({
               value={profile.email}
             />
             {profile.email_confirmed ? (<div className="verified-note">
-              <span className="confirmed-green">Email подтвержден и скрыт от других пользователей</span>
+              <span className="confirmed-green">Email подтвержден</span>
             </div>) : (<div className="verified-note">
               Email не подтвержден! <span onClick={handleEmailConfirm} style={{cursor: 'pointer'}}>Подвердить?</span>
             </div>)}

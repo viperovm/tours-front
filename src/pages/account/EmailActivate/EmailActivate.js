@@ -1,13 +1,27 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import {email_confirm} from "../../../redux/actions/authActions";
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import Button from "../../../components/AccountTours/Components/Button";
 import MainLayout from "../../../layouts/MainLayout";
 
 const EmailActivate = ({match, email_confirm, status}) => {
+
+  const history = useHistory()
+
   const [requestSuccess, setRequestSuccess] = useState(true)
   const [verified, setVerified] = useState(false);
+
+  useEffect(() => {
+    const redirector = () => {
+      setVerified(false)
+      history.push('/')
+    }
+    if(verified) {
+      let timer = setTimeout(() => redirector(), 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [verified])
 
   useEffect(() => {
     if(status !== 'error' && status >= 200 && status < 300) {
@@ -15,8 +29,6 @@ const EmailActivate = ({match, email_confirm, status}) => {
     } else {
       setRequestSuccess(false)
     }
-    let timer = setTimeout(() => {return <Redirect to='/'/>}, 5000)
-    return () => clearTimeout(timer)
   }, [status])
 
   const verify_email = () => {
@@ -44,7 +56,7 @@ const EmailActivate = ({match, email_confirm, status}) => {
             )
             :
             <div className='verification-button'>
-              <Button color='primary' action={verify_email} text='Подтвердить почту'/>
+              <Button color='button-primary' action={verify_email} text='Подтвердить почту'/>
             </div>
           }
         </div>
