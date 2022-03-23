@@ -7,7 +7,7 @@ const ObjectFileInput = ({ action, name, value, max }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
-  const [bubbleActive, setBubbleActive] = useState(false)
+  const [bubbleActive, setBubbleActive] = useState(null)
   const [preview, setPreview] = useState([])
 
   const inputFileRef = useRef(null)
@@ -57,7 +57,8 @@ const ObjectFileInput = ({ action, name, value, max }) => {
         type='file'
         onChange={onFilechange}
         ref={inputFileRef}
-        accept='image/*'
+        accept="image/png, image/jpeg, image/jpg"
+        // accept='image/*'
       />
       <div className='fake-file-input-wrapper'>
         <div
@@ -88,14 +89,14 @@ const ObjectFileInput = ({ action, name, value, max }) => {
                   right: 15,
                   cursor: 'pointer',
                 }}
-                onMouseOver={() => setBubbleActive(true)}
-                onMouseOut={() => setBubbleActive(false)}
+                onMouseOver={() => setBubbleActive(index)}
+                onMouseOut={() => setBubbleActive(null)}
                 // onClick={handleMenu}
               >
                 <img src={menu} alt='menu' />
               </div>
 
-              {bubbleActive && (
+              {index === bubbleActive && (
                 <>
                   <div
                     className='tour-menu'

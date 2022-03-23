@@ -18,4 +18,5 @@
     background-position: center;
     background-size: cover;
     box-sizing: border-box;
+    cursor: pointer;
 }

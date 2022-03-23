@@ -81,7 +81,8 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
         type='file'
         onChange={onFilechange}
         ref={inputFileRef}
-        accept='image/*'
+        accept="image/png, image/jpeg, image/jpg"
+        // accept='image/*'
       />
       <div className='fake-file-input-wrapper'>
         <div
