@@ -1,115 +1,82 @@
-import React, { useState, useEffect } from 'react'
-import { useTheme } from '@mui/material/styles'
-import Box from '@mui/material/Box'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import Chip from '@mui/material/Chip'
+import React, {useState, useEffect} from 'react'
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-}
+import Select from 'react-dropdown-select';
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
+import {connect} from "react-redux";
+import {
+  tourToServer,
+} from "../../../redux/actions/toursActions";
 
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  }
-}
+const SelectInput = ({action, name, label, val, options, multiple, margin, basic_type, required, tour,
+                       tourToServer}) => {
 
-const SelectInput = ({ action, name, label, val, options, multiple }) => {
-  const theme = useTheme()
   const [data, setData] = useState([])
+  const [optionsArray, setOptionsArray] = useState([])
 
-  const [newOptions, setNewOptions] = useState({})
+  console.log(data)
+  console.log(val)
+  console.log(basic_type)
+
+  const handleSelect = (values) => {
+    if(!multiple){
+      action(name, values[0])
+    } else {
+      action(name, values)
+    }
+  }
+
+  const handleAddNew = (values) => {
+    tourToServer({
+      ...tour,
+      [name]: values.name
+    }, tour.id)
+  }
 
   useEffect(() => {
-    if (val) {
+    if(basic_type) {
+      setOptionsArray(options.filter(item => item.id !== basic_type.id))
+    } else {
+      setOptionsArray(options)
+    }
+  }, [options, basic_type])
+
+  useEffect(() => {
+    if (Array.isArray(val) && val.length > 0 && basic_type) {
+      setData(val.filter(item => item.id !== basic_type.id))
+    } else if (Array.isArray(val) && val.length > 0) {
+      setData(val)
+    } else if (val && !Array.isArray(val) && isNotEmptyObject(val)) {
       let arr = []
-      if (Array.isArray(val)) {
-        arr = val
-      } else {
-        arr.push(val)
-      }
-       setData(arr)
+      arr.push(val)
+      setData(arr)
     }
-  }, [val])
-
-  const getObject = arr => {
-    let obj = {}
-    for (let i = 0; i < arr.length; i++) {
-      obj = {
-        ...obj,
-        [arr[i].id]: arr[i].name,
-      }
-    }
-    setNewOptions(obj)
-  }
-
-  useEffect(() => {
-    getObject(options)
-  }, [options])
-
-  // useEffect(() => {
-  //   action(name, data)
-  // }, [name, data])
-
-  const handleData = e => {
-    const {
-      target: { value },
-    } = e
-    setData(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    )
-    action(name, value)
-  }
-
-  const selected = (data, id) => {
-    return data.includes(id)
-  }
+  }, [val, basic_type])
 
   return (
     <Select
-      labelId='demo-multiple-chip-label'
-      id='demo-multiple-chip'
-      multiple={multiple}
-      value={data ?? []}
-      onChange={handleData}
-      displayEmpty
-      // input={<OutlinedInput id='select-multiple-chip' />}
-      inputProps={{ 'aria-label': 'Without label' }}
-      renderValue={selected => (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-          {selected &&
-            selected.map(value => (
-              <Chip key={value} label={newOptions[value]} />
-            ))}
-        </Box>
-      )}
-      MenuProps={MenuProps}
-    >
-      <MenuItem disabled value=''>
-        <em>Выберите {label}</em>
-      </MenuItem>
-      {Object.keys(newOptions).map(id => (
-        <MenuItem key={id} value={id} selected={() => selected(data, id)}>
-          {newOptions[id]}
-        </MenuItem>
-      ))}
-    </Select>
+      required={required}
+      style={{margin: margin, padding: '10px 20px'}}
+      className='custom-select-style'
+      placeholder={'Выбрать'}
+      searchable
+      clearable
+      multi={multiple}
+      options={optionsArray}
+      onChange={handleSelect}
+      values={data}
+      labelField={'name'}
+      valueField={'id'}
+      create={!multiple && true}
+      onCreateNew={handleAddNew}
+      createNewLabel="Добавить {search}"
+    />
   )
 }
 
-export default SelectInput
+const mapStateToProps = state => ({
+  tour: state.tours.current_tour,
+})
+
+export default connect(mapStateToProps, {
+  tourToServer,
+})(SelectInput)

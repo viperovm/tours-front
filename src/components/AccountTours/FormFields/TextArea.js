@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 
 const TextArea = ({
-  label,
-  action,
-  name,
-  value,
-  rows = 5,
-}) => {
+                    label,
+                    action,
+                    name,
+                    value,
+                    rows = 5,
+                    required,
+                  }) => {
   const [data, setData] = useState('')
 
   useEffect(() => {
@@ -22,6 +23,8 @@ const TextArea = ({
 
   return (
     <textarea
+      required={required}
+      className='custom-textarea-style'
       placeholder={label}
       name={name}
       value={data}

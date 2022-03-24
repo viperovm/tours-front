@@ -10,7 +10,6 @@ import {
   setSecondaryNav,
 } from '../../../redux/actions/toursActions'
 
-import TrippleWrapper from '../Wrappers/TrippleWrapper'
 import ExtraServiceComponent from './ExtraServiceComponent'
 
 import Tabs from '@mui/material/Tabs'
@@ -42,7 +41,7 @@ function a11yProps(index) {
   }
 }
 
-const DaysComponent = ({ tour, addExtraService }) => {
+const ExtraServicesComponent = ({ tour, addExtraService }) => {
   const [value, setValue] = useState(0)
 
   const [dayData, setDayData] = useState([])
@@ -139,4 +138,4 @@ export default connect(mapStateToProps, {
   updateTour,
   addExtraService,
   setSecondaryNav,
-})(DaysComponent)
+})(ExtraServicesComponent)

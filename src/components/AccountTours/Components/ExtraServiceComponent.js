@@ -11,6 +11,7 @@ import {
   setDayImage,
 } from '../../../redux/actions/toursActions'
 import { connect } from 'react-redux'
+import TextArea from "../FormFields/TextArea";
 
 const Day = ({ id, day, action, tour, addExtraService, updateExtraService, setDayImage }) => {
   
@@ -21,16 +22,16 @@ const Day = ({ id, day, action, tour, addExtraService, updateExtraService, setDa
  
   return (
     <>
-      <SingleWrapper label='Дополнительно (необязательно)' comment=''>
-        <TextEditor
+      <SingleWrapper label='Описание услуги' comment=''>
+        <TextArea
           action={handleInput}
           name='extra_text'
+          label=''
           value={day && day.extra_text}
-          // options={toursTypes}
-          // multiple
+          rows='7'
         />
       </SingleWrapper>
-      <SingleWrapper label='Стоимость услуги (необязательно)' comment=''>
+      <SingleWrapper label='Стоимость услуги' comment=''>
         <Input
           action={handleInput}
           name='extra_service_price'

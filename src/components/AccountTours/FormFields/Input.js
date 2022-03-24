@@ -1,17 +1,18 @@
 import React, {useState, useEffect} from 'react'
 
 const Input = ({
-  label,
-  action,
-  name,
-  type = 'text',
-  value
-}) => {
+                 label,
+                 action,
+                 name,
+                 type = 'text',
+                 value,
+                 required
+               }) => {
   const [data, setData] = useState('')
 
 
   useEffect(() => {
-    if(value){
+    if (value) {
       setData(value)
     }
   })
@@ -26,13 +27,26 @@ const Input = ({
 
   return (
     <>
-      <input
+      {type === 'date' && <input
+        required={required}
+        className='custom-input-style'
         placeholder={label}
         name={name}
         value={data}
         type={type}
         onChange={handleData}
-      />
+        max="2999-12-31"
+      />}
+
+      {type !== 'date' && <input
+        required={required}
+        className='custom-input-style'
+        placeholder={label}
+        name={name}
+        value={data}
+        type={type}
+        onChange={handleData}
+      />}
     </>
   )
 }

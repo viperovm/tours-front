@@ -91,6 +91,14 @@ const Common = ({
           />
         </SingleWrapper>
 
+        {/*<SelectInput*/}
+        {/*  action={handleInput}*/}
+        {/*  name='basic_type'*/}
+        {/*  label='Основной тип тура'*/}
+        {/*  val={tour && tour.basic_type}*/}
+        {/*  options={toursTypes}*/}
+        {/*/>*/}
+
         <SingleWrapper label='Основной тип тура' comment=''>
           <SelectInput
             action={handleInput}
@@ -132,23 +140,22 @@ const Common = ({
         />
 
 
-        <SingleWrapper label='Время начала (местное):' comment=''>
+        <DoubleWrapper  comment=''>
           <Input
             action={handleInput}
             name='start_time'
             value={tour && tour.start_time}
             type='time'
+            label='Время начала (местное):'
           />
-        </SingleWrapper>
-
-        <SingleWrapper label='Время окончания тура (местное)' comment=''>
           <Input
             action={handleInput}
             name='finish_time'
             value={tour && tour.finish_time}
             type='time'
+            label='Время окончания тура (местное)'
           />
-        </SingleWrapper>
+        </DoubleWrapper>
 
         <CheckboxInput
           action={handleInput}

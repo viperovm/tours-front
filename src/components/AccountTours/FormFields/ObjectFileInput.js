@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import menu from '../../../assets/img/trash.svg'
 
-const ObjectFileInput = ({ action, name, value, max }) => {
+const ObjectFileInput = ({ action, name, value, max, required }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
@@ -53,6 +53,7 @@ const ObjectFileInput = ({ action, name, value, max }) => {
     <>
       <input
         name={name}
+        required={required}
         // value={data}
         type='file'
         onChange={onFilechange}

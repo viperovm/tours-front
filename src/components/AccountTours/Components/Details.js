@@ -77,135 +77,54 @@ const Details = ({
   tour_property_types,
   tour_accomodations,
 }) => {
-  // const [tour, settour] = useState()
-
-  const [data, setData] = useState([])
-
-  const [completed, setCompleted] = useState(false)
-
-  const [value, setValue] = useState(0)
-  const [loading, setLoading] = useState(false)
-  const [activities, setActivities] = useState([1])
-  const [previews, setPreviews] = useState([])
-
-
-  useEffect(() => {
-    getTourPropertyTypes()
-    getTourAccomodations()
-  }, [])
-
-  useEffect(() => {
-    let arr = []
-    if (tour && tour.tour_property_images) {
-      tour.tour_property_images.map(item => {
-        if (!tour.tour_property_images.includes(item.tmb_image)) {
-          arr.push(item.tmb_image)
-        }
-      })
-    }
-    setPreviews(arr)
-  }, [tour])
-
-  const handleActivityInput = (value, id) => {
-    let arr = data.filter(item => item.id !== id)
-    arr.push(value)
-    setData(arr)
-  }
-
-  useEffect(() => {
-    if (tour && tour.plan && tour.plan.length === 0) {
-      addActivity(tour.id)
-      setLoading(true)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (tour && tour.plan) {
-      setData(tour.plan)
-      setLoading(false)
-    }
-    if (tour && tour.plan && tour.plan.length > 1) {
-      let arr = []
-      for (let i = 1; i <= tour.plan.length; i++) {
-        arr.push(i)
-      }
-      setActivities(arr)
-    }
-    if (tour && tour.plan && tour.plan.length === 1) {
-      setActivities([1])
-    }
-  }, [tour])
-
-  const handleDayAdd = () => {
-    setLoading(true)
-    addActivity(tour.id)
-  }
-
-  const handleTabChange = (event, newValue) => {
-    setValue(newValue)
-  }
 
   const handleInput = (name, value) => {
     updateTour({ ...tour, [name]: value })
   }
 
   useEffect(() => {
-    if (tour && tour.plan && tour.plan.length === 0) {
-      addActivity(tour.id)
-      setLoading(true)
-    } else if (tour && tour.plan && tour.plan.length !== 0) {
-      setLoading(false)
-    }
-  }, [tour])
-
-  useEffect(() => {
     getLanguages()
   }, [])
 
-  // useEffect(() => {
-  //   if (tour) {
-  //     if (
-  //       tour.languages &&
-  //       tour.description &&
-  //       tour.main_impressions &&
-  //       tour.plan
-  //     ) {
-  //       setCompleted(true)
-  //       let arr = secondary_nav
-  //       setSecondaryNav(
-  //         arr.map(item => {
-  //           if (item.value === 'details') {
-  //             return {
-  //               ...item,
-  //               active: true,
-  //             }
-  //           } else {
-  //             return item
-  //           }
-  //         })
-  //       )
-  //     } else {
-  //       setCompleted(false)
-  //       let arr = secondary_nav
-  //       setSecondaryNav(
-  //         arr.map(item => {
-  //           if (item.value === 'details') {
-  //             return {
-  //               ...item,
-  //               active: false,
-  //             }
-  //           } else {
-  //             return item
-  //           }
-  //         })
-  //       )
-  //     }
-  //   }
-  // }, [tour])
-
-  const handleImageLoad = image => {
-    setPropertyImage(image, tour.id)
-  }
+  useEffect(() => {
+    if (tour) {
+      if (
+        tour.languages &&
+        tour.difficulty_level &&
+        tour.comfort_level &&
+        tour.age_starts &&
+        tour.age_ends
+      ) {
+        let arr = secondary_nav
+        setSecondaryNav(
+          arr.map(item => {
+            if (item.value === 'details') {
+              return {
+                ...item,
+                active: true,
+              }
+            } else {
+              return item
+            }
+          })
+        )
+      } else {
+        let arr = secondary_nav
+        setSecondaryNav(
+          arr.map(item => {
+            if (item.value === 'details') {
+              return {
+                ...item,
+                active: false,
+              }
+            } else {
+              return item
+            }
+          })
+        )
+      }
+    }
+  }, [tour])
 
   const handleButtonSubmit = () => {
     tourToServer(tour, tour.id)
@@ -227,6 +146,7 @@ const Details = ({
         comment='Выбирайте только те языки, на которых будут говорить в путешествии '
       >
         <SelectInput
+          required={true}
           action={handleInput}
           name='languages'
           label='Валюта тура'
@@ -236,6 +156,7 @@ const Details = ({
         />
       </SingleWrapper>
       <RadioInput
+        required={true}
         action={handleInput}
         name='difficulty_level'
         label='Укажите сложность программы'
@@ -255,79 +176,27 @@ const Details = ({
         />
       </SingleWrapper>
       <RadioInput
+        required={true}
         action={handleInput}
         name='comfort_level'
         label='Как вы оцениваете уровень комфорта в путешествии?'
         value={tour && tour.comfort_level}
         comment='Комфорт - один из главных критериев выбора путешествия. Градацию уровней комфорта можно посмотреть здесь'
       />
-      {/* <div className='my-tours-section-heading'>
-        <h4 style={{ marginBottom: 10 }}>Размещение</h4>
-      </div> */}
-
-      <SingleWrapper label='Где планируется проживание' comment=''>
-        <SelectInput
-          action={handleInput}
-          name='tour_property_types'
-          label='Где планируется проживание'
-          val={tour && tour.tour_property_types}
-          options={tour_property_types}
-          multiple={true}
-        />
-      </SingleWrapper>
-      <SingleWrapper label='Размещение' comment=''>
-        <SelectInput
-          action={handleInput}
-          name='accomodation'
-          label='Размещение'
-          val={tour && tour.accomodation}
-          options={tour_accomodations}
-          multiple={true}
-        />
-      </SingleWrapper>
-      <SingleWrapper
-        label='Название отеля'
-        comment='Вводите, если уверены в 100% гарантии размещения '
-      >
-        <Input
-          action={handleInput}
-          name='hotel_name'
-          value={tour && tour.hotel_name}
-          // options={toursTypes}
-          // multiple
-        />
-      </SingleWrapper>
-      <SingleWrapper
-        label='Добавить фото мест проживания в путешествии'
-        comment=''
-      >
-        <ObjectFileInput
-          action={handleImageLoad}
-          name='tour_property_images'
-          value={previews}
-          type='file'
-          // multiple
-        />
-      </SingleWrapper>
-      {/* <Accomodations /> */}
-
       <DoubleWrapper ratio='1-2'>
         <Input
+          required={true}
           action={handleInput}
           name='age_starts'
           label='Возраст участников от:'
           value={tour && tour.age_starts}
-          // type=''
-          // multiple
         />
         <Input
+          required={true}
           action={handleInput}
           name='age_ends'
           label='Возраст участников до:'
           value={tour && tour.age_ends}
-          // type='date'
-
-          // multiple
         />
       </DoubleWrapper>
 
@@ -338,44 +207,7 @@ const Details = ({
         comment=''
         value={tour && tour.babies_alowed}
       />
-      <CheckboxInput
-        action={handleInput}
-        name='animals_not_exploited'
-        label='В программе не эксплуатируются животные'
-        comment='Если в вашей поездке не используется труд животных - можете отметить. Мы это ценим. '
-        value={tour && tour.animals_not_exploited}
-      />
 
-      <SingleWrapper label='Ссылка на видео (youtube или vimeo)' comment=''>
-        <Input
-          action={handleInput}
-          name='media_link'
-          value={tour && tour.media_link}
-          options={toursTypes}
-          // multiple
-        />
-      </SingleWrapper>
-
-      <SingleWrapper label='Описание тура' comment=''>
-        <TextEditor
-          action={handleInput}
-          name='description'
-          value={tour && tour.description}
-          // multiple
-        />
-      </SingleWrapper>
-
-      <SingleWrapper label='Главные впечатления' comment='Вводить через точку с запятой.'>
-        <TextArea
-          action={handleInput}
-          name='main_impressions'
-          label=''
-          value={tour && tour.main_impressions}
-          rows='7'
-        />
-      </SingleWrapper>
-
-      <Activities />
       <div
         style={{
           display: 'flex',
@@ -396,7 +228,6 @@ const Details = ({
           Продолжить
         </Link>
       </div>
-      {/* <Button active={completed} /> */}
       </ToursEditLayout>
     </>
   )

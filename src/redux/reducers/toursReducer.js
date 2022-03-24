@@ -69,10 +69,12 @@ import {
   GET_TOUR_PREVIEW_SUCCESS,
   GET_TOUR_PREVIEW_FAIL,
   SET_PAGE,
+  GET_CITIES_SUCCESS,
 } from '../types'
 
 const initialState = {
   tours: [],
+  cities: [],
   current_tour: {},
   tour_preview: {},
   tour_types: [],
@@ -93,16 +95,14 @@ const initialState = {
   current_section: 'common',
   active_sections: [],
   secondary_nav: [
-    { value: 'common', text: 'Общее', active: true },
-    { value: 'prices', text: 'Цены и даты', active: true },
-    { value: 'options', text: 'Условия отмены', active: true },
-    { value: 'details', text: 'Детали', active: true },
-    { value: 'day', text: 'День за днем', active: true },
-    { value: 'leader', text: 'Турлидер', active: true },
-    { value: 'conditions', text: 'Условия', active: true },
-    { value: 'services', text: 'Доп. услуги', active: true },
-    { value: 'important', text: 'Важно знать', active: true },
-    { value: 'photos', text: 'Фотографии', active: true },
+    { value: 'main', text: 'Основное', active: false },
+    { value: 'review', text: 'Обзор', active: false },
+    { value: 'prices', text: 'Цены', active: false },
+    { value: 'gallery', text: 'Галерея', active: false },
+    { value: 'route', text: 'Маршрут', active: false },
+    { value: 'accommodation', text: 'Проживание', active: false },
+    { value: 'details', text: 'Детали', active: false },
+    { value: 'important', text: 'Важно знать', active: false },
   ],
   secondary: false,
   tour_name: '',
@@ -301,6 +301,12 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         tours: [],
+      }
+
+    case GET_CITIES_SUCCESS:
+      return {
+        ...state,
+        cities: [],
       }
     case ADD_TOUR_SUCCESS:
     case GET_TOUR_SUCCESS:

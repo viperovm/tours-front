@@ -31,7 +31,7 @@ const MyTours = ({isAuthenticated, addTour, tour}) => {
               000 000 человек ждут их.
             </div>
             <div className='tours-list-add-button-button green'>
-              <Link to='/account/tours/edit/common' onClick={handleEditingButton}>
+              <Link to='/account/tours/edit/main' onClick={handleEditingButton}>
                 {tour && tour.id
                   ? 'Продолжить редактирование'
                   : 'Добавить путешествие'}

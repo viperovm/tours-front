@@ -92,7 +92,11 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                     leader={tour_preview.expert}/>
                 </div>
 
-                <div className={styles.tour_sidebar_body} ref={stickyRef}>
+                <div
+                  className={styles.tour_sidebar_body}
+                     // ref={stickyRef}
+                  style={{position: 'sticky', top: '30px'}}
+                >
                   <div className={styles.tour_sidebar_header}>
                     <Link to='/register'>
                       Зарегистрируйтесь!
@@ -109,7 +113,9 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                           <img src={ok} alt="Ok"/>
                         </div>
                         <div className={styles.guarantied_row_guarantied_text}>
-                          Тур проверен и гарантирован
+                          Тур проверен
+                          {' '}
+                          {tour_preview.is_guaranteed ? 'и гарантирован' : ''}
                         </div>
                       </div>
                       <div className={styles.guarantied_row_guarantied_favourite}>
@@ -125,13 +131,13 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                       <div className={styles.price_row_daily_price}>
                         {'в день'}
                         {' '}
-                        {(tour_preview.price / 10).toLocaleString('ru')}
+                        {(tour_preview.price / tour_preview.duration).toLocaleString('ru')}
                         {' '}
                         <span className='rub-sign'>₽</span>
                       </div>
                     </div>
                     <div className={styles.more_row}>
-                      Стоимость указана на человека при размещении в двухместном номере в отеле 3*.  <Link>подробнее</Link>
+                      {tour_preview.price_comment}  <Link>подробнее</Link>
                     </div>
 
                     <div className={styles.duration_row}>
@@ -173,11 +179,11 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                     </div>
 
                     <div className={styles.inputs_row}>
-                      <div className={styles.inputs_row_date_input}>
-                        <img src={calendar} alt="calendar"/>
-                        <div className={styles.inputs_row_date_input_text}>Выберите дату</div>
-                        <img src={chevron_down} alt="chevron_down"/>
-                      </div>
+                      {/*<div className={styles.inputs_row_date_input + ' ' + styles.calendar}>*/}
+                      {/*  <img src={calendar} alt="calendar"/>*/}
+                      {/*  <div className={styles.inputs_row_date_input_text}>Выберите дату</div>*/}
+                      {/*  <img src={chevron_down} alt="chevron_down"/>*/}
+                      {/*</div>*/}
                       <div className={styles.inputs_row_date_input}>
                         <div className={styles.inputs_row_date_input_button_minus} onClick={handleSubtract}>
                           —
@@ -193,7 +199,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                       </div>
                     </div>
                     <div className={styles.inputs_row_button}>
-                      Хочу поехать
+                      {tour_preview.is_guaranteed ? 'Забронировать' : 'Хочу поехать'}
                     </div>
 
                     <div className={styles.inputs_row_text}>

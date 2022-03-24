@@ -42,39 +42,39 @@ const ExtraServices = ({
     })
   }
 
-  // useEffect(() => {
-  //   if (tour) {
-  //     if (tour.day && tour.day.length > 0) {
-  //       let arr = secondary_nav
-  //       setSecondaryNav(
-  //         arr.map(item => {
-  //           if (item.value === 'day') {
-  //             return {
-  //               ...item,
-  //               active: true,
-  //             }
-  //           } else {
-  //             return item
-  //           }
-  //         })
-  //       )
-  //     } else {
-  //       let arr = secondary_nav
-  //       setSecondaryNav(
-  //         arr.map(item => {
-  //           if (item.value === 'day') {
-  //             return {
-  //               ...item,
-  //               active: false,
-  //             }
-  //           } else {
-  //             return item
-  //           }
-  //         })
-  //       )
-  //     }
-  //   }
-  // }, [tour])
+  useEffect(() => {
+    if (tour) {
+      if (tour.take_with) {
+        let arr = secondary_nav
+        setSecondaryNav(
+          arr.map(item => {
+            if (item.value === 'day') {
+              return {
+                ...item,
+                active: true,
+              }
+            } else {
+              return item
+            }
+          })
+        )
+      } else {
+        let arr = secondary_nav
+        setSecondaryNav(
+          arr.map(item => {
+            if (item.value === 'day') {
+              return {
+                ...item,
+                active: false,
+              }
+            } else {
+              return item
+            }
+          })
+        )
+      }
+    }
+  }, [tour])
 
   const handleButtonSubmit = () => {
     tourToServer(tour, tour.id)
@@ -100,15 +100,39 @@ const ExtraServices = ({
             // multiple
           />
         </SingleWrapper>
-        <SingleWrapper label='Комментарии' comment=''>
+
+
+        <SingleWrapper label='Что взять с собой?' comment=''>
           <TextEditor
+            required={true}
             action={handleInput}
-            name='important_to_know_comments'
-            value={tour && tour.important_to_know_comments}
+            name='take_with'
+            value={tour && tour.take_with}
             // options={toursTypes}
             // multiple
           />
         </SingleWrapper>
+
+        <SingleWrapper label='Ключевые  особенности?' comment=''>
+          <TextEditor
+            action={handleInput}
+            name='key_features'
+            value={tour && tour.key_features}
+            // options={toursTypes}
+            // multiple
+          />
+        </SingleWrapper>
+
+        <SingleWrapper label='Что нового я увижу?' comment=''>
+          <TextEditor
+            action={handleInput}
+            name='new_to_see'
+            value={tour && tour.new_to_see}
+            // options={toursTypes}
+            // multiple
+          />
+        </SingleWrapper>
+
         <div
           style={{
             display: 'flex',
@@ -122,12 +146,13 @@ const ExtraServices = ({
             onClick={handleButtonSubmit}>
             Назад
           </Link>
-          <Link
+          <a
             className={`add-tour-button button-success`}
-            to='/account/tours/edit/photos'
+            href='/account/tours/list'
             onClick={handleButtonSubmit}>
-            Продолжить
-          </Link>
+            На модерацию
+          </a>
+
         </div>
         </ToursEditLayout>
       </>

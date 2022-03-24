@@ -71,6 +71,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
         }
       >
         <Input
+          required={true}
           action={handleInput}
           name='day_title'
           value={day && day.day_title}
@@ -89,6 +90,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
       </SingleWrapper>
       <SingleWrapper label='Описание дня' comment=''>
         <TextEditor
+          required={true}
           action={handleInput}
           name='description'
           value={day && day.description}
@@ -101,6 +103,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
         comment='Вы можете добавить до 3 фото для каждого дня'
       >
         <ObjectFileInput
+          required={true}
           action={handleImageInput}
           name='day_photo'
           type='file'

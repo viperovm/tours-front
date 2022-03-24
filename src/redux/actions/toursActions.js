@@ -72,6 +72,7 @@ import {
   GET_TOUR_PREVIEW_SUCCESS,
   GET_TOUR_PREVIEW_FAIL,
   SET_PAGE,
+  GET_CITIES_SUCCESS,
 } from '../types'
 import axios from 'axios'
 
@@ -639,12 +640,12 @@ export const getCities =
       },
     }
 
-    const request = `?country=${country_id}${
-      russian_region ? '&russian_region=' + russian_region : ''
-    }`
+    // const request = `?country=${country_id}${
+    //   russian_region ? '&russian_region=' + russian_region : ''
+    // }`
 
     try {
-      const res = await axios.get(`${API_URL}/api/cities/${request}`, config)
+      const res = await axios.get(`${API_URL}/api/cities/`, config)
 
       if (option === 'start') {
         dispatch({
@@ -654,6 +655,11 @@ export const getCities =
       } else if (option === 'finish') {
         dispatch({
           type: GET_FINISH_CITIES_SUCCESS,
+          payload: res.data,
+        })
+      } else {
+        dispatch({
+          type: GET_CITIES_SUCCESS,
           payload: res.data,
         })
       }

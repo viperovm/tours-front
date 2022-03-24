@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { deleteTourWallpaper } from '../../../redux/actions/toursActions'
 import {delete_avatar} from '../../../redux/actions/authActions'
 
-const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar }) => {
+const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar, required }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
@@ -76,6 +76,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
   return (
     <>
       <input
+        required={required}
         name={name}
         // value={data}
         type='file'

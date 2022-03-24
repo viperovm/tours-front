@@ -170,7 +170,7 @@
     padding: 0;
 }
 
-.inputs_row_date_input:first-child {
+.inputs_row_date_input.calendar {
     margin-bottom: 10px;
     padding: 0 16px;
 }
@@ -195,7 +195,7 @@
     font-size: 30px;
     color: #9B9B9B;
     cursor: pointer;
-    margin-right: -2px;
+    margin-right: -1px;
 }
 
 .inputs_row_date_input_button_minus {
@@ -211,7 +211,7 @@
     font-size: 30px;
     color: #9B9B9B;
     cursor: pointer;
-    margin-left: -2px;
+    margin-left: -1px;
     padding-bottom: 4px;
 }
 

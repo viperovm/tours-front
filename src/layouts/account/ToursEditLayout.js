@@ -128,7 +128,7 @@ const ToursEditLayout = ({
             <div className='breadcrumbs breadcrumbs_margin'>
               <span><Link to='/'>Главная</Link></span> - <span><Link
               to='/account'>Личный кабинет</Link></span> - <span><Link
-              to='/account/tours/edit/common'>Редактирование тура</Link></span> - <span>{secondary_name}</span>
+              to='/account/tours/edit/main'>Редактирование тура</Link></span> - <span>{secondary_name}</span>
             </div>
           </div>
         </section>

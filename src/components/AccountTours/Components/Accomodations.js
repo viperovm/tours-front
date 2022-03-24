@@ -20,7 +20,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Accomodation from './Accomodation'
+import Accomodation from './Accommodation'
 
 function TabPanel({ children, value, index }) {
   return (

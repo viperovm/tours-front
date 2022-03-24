@@ -20,6 +20,8 @@ const NameInput = ({ action, name, type = 'text', value }) => {
   return (
     <>
       <input
+        required
+        className='custom-input-style'
         name={name}
         value={data}
         type={type}

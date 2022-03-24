@@ -24,16 +24,17 @@ import Requests from './pages/account/Requests'
 import Team from './pages/account/Team'
 import TourPage from './pages/TourPage/TourPage'
 
-import Common from './components/AccountTours/Components/Common'
+import Main from './components/AccountTours/Components/Main'
+import Review from './components/AccountTours/Components/Review'
 import Prices from './components/AccountTours/Components/Prices'
-import Cancellation from './components/AccountTours/Components/Cancellation'
+import Gallery from './components/AccountTours/Components/Gallery'
+import TourRoute from './components/AccountTours/Components/Route'
+import Accommodation from './components/AccountTours/Components/Accommodation'
+
 import Details from './components/AccountTours/Components/Details'
-import Days from './components/AccountTours/Components/Days'
+import Important from './components/AccountTours/Components/Important'
 import Leader from './components/AccountTours/Components/Leader'
 import Conditions from './components/AccountTours/Components/Conditions'
-import ExtraServices from './components/AccountTours/Components/ExtraServices'
-import Important from './components/AccountTours/Components/Important'
-import Photos from './components/AccountTours/Components/Photos'
 import EmailActivate from './pages/account/EmailActivate/EmailActivate'
 
 import Page404 from './pages/404'
@@ -55,16 +56,16 @@ const App = () => {
           <Route exact path='/account/requests' component={Requests} />
           <Route exact path='/account/team' component={Team} />
           <Route exact path='/account/tours/list' component={Tours} />
-          <Route exact path='/account/tours/edit/common' component={Common} />
+
+          <Route exact path='/account/tours/edit/main' component={Main} />
+          <Route exact path='/account/tours/edit/review' component={Review} />
           <Route exact path='/account/tours/edit/prices' component={Prices} />
-          <Route exact path='/account/tours/edit/options' component={Cancellation} />
+          <Route exact path='/account/tours/edit/gallery' component={Gallery} />
+          <Route exact path='/account/tours/edit/route' component={TourRoute} />
+          <Route exact path='/account/tours/edit/accommodation' component={Accommodation} />
           <Route exact path='/account/tours/edit/details' component={Details} />
-          <Route exact path='/account/tours/edit/day' component={Days} />
-          <Route exact path='/account/tours/edit/leader' component={Leader} />
-          <Route exact path='/account/tours/edit/conditions' component={Conditions} />
-          <Route exact path='/account/tours/edit/services' component={ExtraServices} />
           <Route exact path='/account/tours/edit/important' component={Important} />
-          <Route exact path='/account/tours/edit/photos' component={Photos} />
+
           <Route exact path='/account/tours/edit/preview' component={TourPage} />
           <Route exact path='/activate/:uid/:token' component={EmailActivate} />
           <Route path='*' component={Page404} />

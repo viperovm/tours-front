@@ -59,7 +59,7 @@ const TourCard = ({
 
   const handleTourEdit = () => {
     getTour(tour.id)
-    history.push('/account/tours/edit/common')
+    history.push('/account/tours/edit/main')
   }
 
   const handleTourCopy = () => {
