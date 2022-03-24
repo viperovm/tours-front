@@ -124,7 +124,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                     </div>
                     <div className={styles.price_row}>
                       <div className={styles.price_row_total_price}>
-                        {tour_preview.price.toLocaleString('ru')}
+                        {tour_preview && tour_preview.price && tour_preview.price.toLocaleString('ru')}
                         {' '}
                         <span className='rub-sign'>₽</span>
                       </div>

@@ -273,7 +273,7 @@ const Main = ({
         </SingleWrapper>
         <Link
           className={`add-tour-button button-success`}
-          to='/account/tours/edit/prices'
+          to='/account/tours/edit/review'
           onClick={handleButtonSubmit}>
           Продолжить
         </Link>
