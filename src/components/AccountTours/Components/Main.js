@@ -225,6 +225,7 @@ const Main = ({
             label='Выберите гида из списка, либо укажите его данные ниже'
             val={tour && tour.team_member}
             options={tour_leaders ? tour_leaders : []}
+            labelField='full_name'
           />
         </SingleWrapper>
         <SingleWrapper label='Имя гида' comment=''>

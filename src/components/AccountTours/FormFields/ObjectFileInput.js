@@ -20,8 +20,6 @@ const ObjectFileInput = ({ action, name, value, max, required }) => {
     }
   }, [value])
 
-  console.log(preview)
-
   useEffect(() => {
     if (max) {
       if (preview.length >= max) {
@@ -29,6 +27,22 @@ const ObjectFileInput = ({ action, name, value, max, required }) => {
       }
     }
   }, [max, preview])
+
+  const handleDelete = () => {
+    setLoading(true)
+    if (name === 'wallpaper') {
+      deleteTourWallpaper(tour.id)
+      setPreview(null)
+      setActive(true)
+    }
+    if (name === 'avatar') {
+      delete_avatar()
+      setPreview(null)
+      setActive(true)
+    }
+    setLoading(false)
+  }
+
 
   const onBtnClick = () => {
     /*Collecting node-element and performing click*/
@@ -92,7 +106,7 @@ const ObjectFileInput = ({ action, name, value, max, required }) => {
                 }}
                 onMouseOver={() => setBubbleActive(index)}
                 onMouseOut={() => setBubbleActive(null)}
-                // onClick={handleMenu}
+                onClick={handleDelete}
               >
                 <img src={menu} alt='menu' />
               </div>

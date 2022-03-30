@@ -2852,6 +2852,15 @@ li.li-border-none:last-child {
   color: #1976d2;
 }
 
+.checkbox-section.green .css-1oakzvg-MuiButtonBase-root-MuiCheckbox-root.Mui-checked {
+  color: #84BB59 !important;
+}
+
+.checkbox-section.green .css-1oakzvg-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+.checkbox-section.green .css-1oakzvg-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+  color: #84BB59 !important;
+}
+
 .checkbox-label {
   font-size: 14px;
   line-height: 17px;
@@ -3898,6 +3907,10 @@ input[type='file'] {
   margin: 0;
 }
 
+.single-input-input.full {
+  width: 100%;
+}
+
 .single-input-input>div {
   width: 100%;
   /*display: flex;*/
@@ -3924,6 +3937,10 @@ input[type='file'] {
   width: 66%;
   display: flex;
   margin: 0;
+}
+
+.double-input-input.full {
+  width: 100%;
 }
 
 .ratio-1-2 .double-input-item {
@@ -3969,6 +3986,183 @@ input[type='file'] {
   --ck-custom-border: 1px solid rgba(0, 0, 0, 0.1)!important;
   --ck-color-toolbar-border: 1px solid rgba(0, 0, 0, 0.1)!important;
 }
+
+.team-subtitle {
+  font-weight: 450;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  margin-bottom: 30px;
+}
+
+.team-card {
+  /* min-width: 31%; */
+  width: calc(33.33% - 14px);
+  /*height: 360px;*/
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 21px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.team-card:nth-child(3n+1),
+.team-card:nth-child(3n+2) {
+  margin-right: 21px;
+}
+
+.team-image-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-image {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  margin: 10px 0 20px 0;
+}
+
+.team-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  text-align: center;
+  width: 100%;
+  border-bottom: 1px solid #EBEBEB;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+.team-text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px;
+}
+
+.team-more {
+  font-weight: 450;
+  font-size: 14px;
+  line-height: 17px;
+  color: #2AA2D6;
+  width: 100%;
+}
+
+.card-body {
+  margin: 30px 0;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding: 20px 20px 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.card-body:not(:last-child) {
+  margin-right: 20px;
+}
+
+.card-body.active {
+  border: 1px solid #84BB59;
+}
+
+.card-title {
+  font-weight: 750;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.card-subtitle {
+  font-weight: 450;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.card-list {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  margin-bottom: 20px;
+
+}
+
+.card-list li {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+}
+
+.card-body button{
+  justify-self: flex-end;
+}
+
+.cards-wrapper {
+  display: flex;
+}
+
+.props-text {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.props-text-bold {
+  margin: 20px 0;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: #000;
+}
+
+.tours-list-add-button-text p:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.request-text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 30px;
+}
+
+.css-3f08cc-MuiButtonBase-root-MuiRadio-root {
+  margin: 0 10px 0 10px!important;
+}
+
+.radio-set {
+  margin-bottom: 20px;
+}
+
+.radio-set * {
+  font-weight: 300!important;
+  font-size: 14px!important;
+  line-height: 17px!important;
+  color: #000000!important;
+}
+
+
 
 
 

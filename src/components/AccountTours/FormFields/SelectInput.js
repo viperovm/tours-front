@@ -8,7 +8,7 @@ import {
 } from "../../../redux/actions/toursActions";
 
 const SelectInput = ({action, name, label, val, options, multiple, margin, basic_type, required, tour,
-                       tourToServer}) => {
+                       tourToServer, labelField='name'}) => {
 
   const [data, setData] = useState([])
   const [optionsArray, setOptionsArray] = useState([])
@@ -64,7 +64,7 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
       options={optionsArray}
       onChange={handleSelect}
       values={data}
-      labelField={'name'}
+      labelField={labelField}
       valueField={'id'}
       create={!multiple && true}
       onCreateNew={handleAddNew}

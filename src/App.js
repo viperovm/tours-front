@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  useLocation,
 } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
@@ -19,9 +18,10 @@ import Chat from './pages/account/Chat'
 import Profile from './pages/account/Profile/Profile'
 import Orders from './pages/account/Orders'
 import Settings from './pages/account/Settings/Settings'
-import Props from './pages/account/Props'
-import Requests from './pages/account/Requests'
+import Props from './pages/account/Props/Props'
+import Requests from './pages/account/Requests/Requests'
 import Team from './pages/account/Team'
+import TeamEdit from './pages/account/Team/TeamEdit'
 import TourPage from './pages/TourPage/TourPage'
 
 import Main from './components/AccountTours/Components/Main'
@@ -55,6 +55,7 @@ const App = () => {
           <Route exact path='/account/props' component={Props} />
           <Route exact path='/account/requests' component={Requests} />
           <Route exact path='/account/team' component={Team} />
+          <Route exact path='/account/team/edit' component={TeamEdit} />
           <Route exact path='/account/tours/list' component={Tours} />
 
           <Route exact path='/account/tours/edit/main' component={Main} />

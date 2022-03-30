@@ -11,6 +11,7 @@ import {openSecondaryMenu} from '../../redux/actions/toursActions'
 
 const Account = ({
                    title,
+                   subtitle,
                    menu_item,
                    isAuthenticated,
                    children,
@@ -44,7 +45,8 @@ const Account = ({
           <div className='wrapper'>
             <div className='breadcrumbs breadcrumbs_margin'>
               <span><Link to='/'>Главная</Link></span> - <span><Link
-              to='/account'>Личный кабинет</Link></span>{title && '-'}<span>{title}</span>
+              to='/account'>Личный кабинет</Link></span>{subtitle && ' - '}{subtitle && <span><Link
+              to={`/account/${menu_item}`}>{subtitle}</Link></span>}{title && ' - '}<span style={{textDecoration: 'none', pointerEvents: 'none'}}>{title}</span>
             </div>
           </div>
         </section>
