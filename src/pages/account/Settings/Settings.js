@@ -193,6 +193,7 @@ const Settings = ({
         <Button
           color={'button-primary'}
           text='подключить мессенджеры'
+          width={'404px'}
           // action={handleSubmit}
         />
 
@@ -210,22 +211,20 @@ const Settings = ({
             Настройка push-уведомлений
           </h4>
         </div>
-        <ProfileInputDoubleWrapper>
-          <ProfileInputWrapper label='Язык уведомлений'>
-            <SelectInput
-              name='notification_languages'
-              label='Выберите языки'
-              action={handleChange}
-              options={languages}
-              val={profile.notification_languages}
-            />
-          </ProfileInputWrapper>
-          <ProfileInputWrapper>
-          </ProfileInputWrapper>
-        </ProfileInputDoubleWrapper>
+        <SingleWrapper label='Язык уведомлений' width={'50%'} padding={'0 10px 0 0'}>
+          <SelectInput
+            name='notification_languages'
+            label='Выберите языки'
+            action={handleChange}
+            options={languages}
+            val={profile.notification_languages}
+          />
+        </SingleWrapper>
         <Button
           color={'button-primary'}
           text='Подключить текущее устройство'
+          padding={'0'}
+          width={'404px'}
           // action={handleSubmit}
         />
 

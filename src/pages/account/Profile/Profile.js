@@ -95,7 +95,7 @@ const MyProfile = ({ user, status, setPage, update_user, getLanguages, languages
                     action={handleChange}
                   />
                 </ProfileInputWrapper>
-                <ProfileInputWrapper label='Язык'>
+                <SingleWrapper label='Язык' full={true} margin={'0'}>
                   <SelectInput
                     name='languages'
                     label='Выберите языки'
@@ -104,7 +104,7 @@ const MyProfile = ({ user, status, setPage, update_user, getLanguages, languages
                     val={profile.languages}
                     multiple={true}
                   />
-                </ProfileInputWrapper>
+                </SingleWrapper>
                 <ProfileInputWrapper label='Где вы были?'>
                   <Input
                     name='visited_countries'
