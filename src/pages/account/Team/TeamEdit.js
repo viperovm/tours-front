@@ -1,4 +1,7 @@
 import React, {useEffect, useState} from 'react';
+
+import {useHistory} from "react-router-dom";
+
 import styles from './Team.module.css';
 import Input from "../../../components/AccountTours/FormFields/Input";
 import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
@@ -6,26 +9,43 @@ import TextArea from "../../../components/AccountTours/FormFields/TextArea";
 import Button from "../../../components/AccountTours/Components/Button";
 import Account from "../../../layouts/account/account";
 import { connect } from 'react-redux'
-import {setPage, update_user} from "../../../redux/actions/authActions";
 import {getLanguages} from "../../../redux/actions/toursActions";
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
 import FileInput from "../../../components/AccountTours/FormFields/FileInput";
 import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
-import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxInput";
-import {addTeamMemberAvatar, updateTeamMember} from "../../../redux/actions/profileActions";
+import {addTeamMemberAvatar, getTeamMember, updateTeamMember} from "../../../redux/actions/profileActions";
 import CircularProgress from '@mui/material/CircularProgress'
+import {isNotEmptyObject} from "../../../functions";
 
-const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMember, addTeamMemberAvatar}) => {
+const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMember, addTeamMemberAvatar, getTeamMember}) => {
+
+  const history = useHistory()
 
   useEffect(() => {
     getLanguages()
   }, [])
 
+  console.log(member)
+
+  const storage = localStorage.getItem('team_member_id')
+
+  useEffect(() => {
+    if(isNotEmptyObject(member) && (!storage || storage === 'undefined')) {
+      localStorage.setItem('team_member_id', member.id)
+    } else if(storage && storage !== 'undefined' && !isNotEmptyObject(member)) {
+      getTeamMember(localStorage.getItem('team_member_id'))
+    } else {
+      // history.push('/account/team')
+    }
+  }, [member])
+
+  console.log(localStorage)
+
   const [profile, setProfile] = useState({})
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if(user) {
+    if(member) {
       setProfile({
         ...profile,
         first_name: member.first_name,
@@ -60,6 +80,8 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
     updateTeamMember({
       ...profile,
     }, member.id)
+    localStorage.removeItem('team_member_id')
+    history.push('/account/team')
   }
 
   return (
@@ -77,6 +99,7 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
                 value={member && member.avatar}
                 max={1}
                 type={'team_member'}
+                member={member}
               />
             </SingleWrapper>
             <DoubleWrapper full={true} margin={0}>
@@ -142,4 +165,4 @@ const mapStateToProps = state => ({
   member: state.profile.member,
 })
 
-export default connect(mapStateToProps, { getLanguages, updateTeamMember, addTeamMemberAvatar })(TeamEdit)
+export default connect(mapStateToProps, { getLanguages, updateTeamMember, addTeamMemberAvatar, getTeamMember })(TeamEdit)

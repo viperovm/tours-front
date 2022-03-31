@@ -168,7 +168,7 @@ export const addTeamMemberAvatar = (image, id) => async dispatch => {
   }
 }
 
-export const deleteTeamMemberAvatar = (image, id) => async dispatch => {
+export const deleteTeamMemberAvatar = (id) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data',

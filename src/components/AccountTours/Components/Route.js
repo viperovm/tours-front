@@ -14,6 +14,7 @@ import {
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
 import {Link} from "react-router-dom";
+import CitySelectInput from "../FormFields/CitySelectInput";
 
 const TourRoute = ({
                      tour,
@@ -124,7 +125,7 @@ const TourRoute = ({
         </DoubleWrapper>
 
         <SingleWrapper label='Город начала тура' comment=''>
-          <SelectInput
+          <CitySelectInput
             required={true}
             action={handleInput}
             name='start_city'
@@ -135,7 +136,7 @@ const TourRoute = ({
           />
         </SingleWrapper>
         <SingleWrapper label='Город конца тура' comment=''>
-          <SelectInput
+          <CitySelectInput
             required={true}
             action={handleInput}
             name='finish_city'

@@ -8,7 +8,7 @@ import { deleteTourWallpaper } from '../../../redux/actions/toursActions'
 import {delete_avatar} from '../../../redux/actions/authActions'
 import {deleteTeamMemberAvatar} from "../../../redux/actions/profileActions";
 
-const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar, required, type, deleteTeamMemberAvatar }) => {
+const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar, required, type, deleteTeamMemberAvatar, member }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
@@ -57,8 +57,8 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
       delete_avatar()
       setPreview(null)
       setActive(true)
-    } if (name === 'avatar' && type === 'team_member') {
-      deleteTeamMemberAvatar()
+    } if (name === 'avatar' && type === 'team_member' && member) {
+      deleteTeamMemberAvatar(member.id)
       setPreview(null)
       setActive(true)
     }

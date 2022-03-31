@@ -367,6 +367,7 @@ export const updateDay = (id, name, data) => async dispatch => {
     payload: day,
   })
 }
+
 export const addExtraService = data => dispatch => {
   dispatch({
     type: ADD_EXTRA_SERVICE_SUCCESS,
@@ -428,6 +429,7 @@ export const updateActivity = (id, data) => dispatch => {
     payload: description,
   })
 }
+
 export const setActivityImage = (image, id, tour_id) => async dispatch => {
   const config = {
     headers: {
@@ -465,6 +467,7 @@ export const updateGuestGuide = data => dispatch => {
     payload: data,
   })
 }
+
 export const setGuestGuideImage = (image, id) => async dispatch => {
   const config = {
     headers: {
@@ -629,9 +632,7 @@ export const getRussianRegions = option => async dispatch => {
   }
 }
 
-export const getCities =
-  (option, country_id, russian_region = false) =>
-  async dispatch => {
+export const getCities = (data) => async dispatch => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -639,30 +640,13 @@ export const getCities =
         Accept: 'application/json',
       },
     }
-
-    // const request = `?country=${country_id}${
-    //   russian_region ? '&russian_region=' + russian_region : ''
-    // }`
-
     try {
-      const res = await axios.get(`${API_URL}/api/cities/`, config)
+      const res = await axios.get(`${API_URL}/api/cities/?search=${data}`, config)
 
-      if (option === 'start') {
-        dispatch({
-          type: GET_START_CITIES_SUCCESS,
-          payload: res.data,
-        })
-      } else if (option === 'finish') {
-        dispatch({
-          type: GET_FINISH_CITIES_SUCCESS,
-          payload: res.data,
-        })
-      } else {
-        dispatch({
-          type: GET_CITIES_SUCCESS,
-          payload: res.data,
-        })
-      }
+      dispatch({
+        type: GET_CITIES_SUCCESS,
+        payload: res.data,
+      })
     } catch (err) {
       dispatch({
         type: GET_CITIES_FAIL,

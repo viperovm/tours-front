@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import TeamCard from "./TeamCard";
 import {getTeamMembers} from "../../../redux/actions/profileActions";
 
-const TeamList = ({ members, getTeamMembers }) => {
+const TeamList = ({ members, getTeamMembers, user }) => {
 
   useEffect(() => {
     getTeamMembers()
@@ -28,7 +28,11 @@ const TeamList = ({ members, getTeamMembers }) => {
       <div
         className={`tours-wrapper`}
       >
-        {!loading && members.map((item, index) => <TeamCard key={index} member={item} action={handleAction} />)}
+        {!loading && members.map((item, index) => {
+          if(!item.is_expert) {
+            return (<TeamCard key={index} member={item} action={handleAction}/>)
+          }
+        })}
         {loading && (
           <Box sx={{ display: 'flex' }}>
             <CircularProgress />
@@ -41,6 +45,7 @@ const TeamList = ({ members, getTeamMembers }) => {
 
 const mapStateToProps = state => ({
   members: state.profile.members,
+  user: state.auth.user,
 })
 
 export default connect(mapStateToProps, { getTeamMembers })(TeamList)

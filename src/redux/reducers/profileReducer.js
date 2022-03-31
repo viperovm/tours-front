@@ -16,7 +16,7 @@ import {
 
 const initialState = {
   members: [],
-  member: {},
+  member: null,
   error: null,
 }
 

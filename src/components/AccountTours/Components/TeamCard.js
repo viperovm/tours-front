@@ -16,6 +16,18 @@ const TeamCard = ({
   const myRef = useRef()
 
   const [active, setActive] = useState(false)
+  const [more, setMore] = useState(false)
+  const [showMore, setShowMore] = useState(false)
+  const [about, setAbout] = useState('')
+
+  useEffect(() => {
+    if(member && member.about && member.about.length>120) {
+      setMore(true)
+      setAbout(member.about.substring(0,120) + '...')
+    } else {
+      setAbout(member.about)
+    }
+  })
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -113,11 +125,11 @@ const TeamCard = ({
             {member.full_name}
           </div>
           <div className='team-text'>
-            {member.about}
+            {showMore ? member.about : about}
           </div>
-          <div className='team-more'>
-            подробнее
-          </div>
+          {more && <div className='team-more' onClick={() => setShowMore(!showMore)}>
+            {showMore ? 'скрыть' : 'подробнее...'}
+          </div>}
         </div>
       </div>
       {/*</div>*/}

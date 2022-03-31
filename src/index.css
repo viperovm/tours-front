@@ -3863,11 +3863,12 @@ input[type='file'] {
 }
 
 .react-dropdown-select-content {
+  justify-content: flex-start;
   align-items: center!important;
   margin: 0!important;
   overflow-x: auto;
   flex-wrap: nowrap;
-  width: auto;
+  width: 100%;
   position: absolute;
 }
 
@@ -4059,6 +4060,7 @@ input[type='file'] {
   line-height: 17px;
   color: #2AA2D6;
   width: 100%;
+  cursor: pointer;
 }
 
 .card-body {
@@ -4162,8 +4164,36 @@ input[type='file'] {
   color: #000000!important;
 }
 
+li.select-list {
+  width: 100%;
+  border: none;
+  padding: 5px 10px;
+  font-size: 16px;
+  color: #000000;
+  line-height: 20px;
+}
 
+li.select-list:hover {
+  background: rgba(0,116,217,0.1);
+}
 
+.select-empty-list {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.select-searching {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.custom-select-dropdown {
+  min-height: 100px;
+  background-color: #fff;
+  max-height: 300px;
+}
 
 
 
