@@ -1,21 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import styles from './Team.module.css';
 import {Link} from "react-router-dom";
-import ProfileInputWrapper from "../../../components/AccountProfile/Wrappers/ProfileInputWrapper";
-import Input from "../../../components/AccountTours/FormFields/Input";
-import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
-import TextArea from "../../../components/AccountTours/FormFields/TextArea";
-import Button from "../../../components/AccountTours/Components/Button";
 import Account from "../../../layouts/account/account";
 import { connect } from 'react-redux'
 import {setPage, update_user} from "../../../redux/actions/authActions";
 import {getLanguages} from "../../../redux/actions/toursActions";
 import TeamList from "../../../components/AccountTours/Components/TeamList";
+import {addTeamMember} from "../../../redux/actions/profileActions";
 
-const Team = ({user, status}) => {
+const Team = ({user, status, addTeamMember, members}) => {
 
   useEffect(() => {
-    setPage('profile')
+    setPage('team')
     getLanguages()
   }, [])
 
@@ -43,6 +39,10 @@ const Team = ({user, status}) => {
     })
   }
 
+  const handleAddButton = () => {
+    addTeamMember()
+  }
+
   const handleSubmit = () => {
     update_user({
       ...profile,
@@ -63,9 +63,8 @@ const Team = ({user, status}) => {
               </div>
               <div className='tours-list-add-button-button blue'>
                 <Link
-                  // to='#'
                   to='/account/team/edit'
-                  // onClick={handleEditingButton}
+                  onClick={handleAddButton}
                 >
                   Добавить
                 </Link>
@@ -88,4 +87,4 @@ const mapStateToProps = state => ({
   languages: state.tours.languages,
 })
 
-export default connect(mapStateToProps, { setPage, update_user, getLanguages })(Team)
+export default connect(mapStateToProps, { addTeamMember })(Team)

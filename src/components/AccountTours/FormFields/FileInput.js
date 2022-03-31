@@ -6,8 +6,9 @@ import { connect } from 'react-redux'
 
 import { deleteTourWallpaper } from '../../../redux/actions/toursActions'
 import {delete_avatar} from '../../../redux/actions/authActions'
+import {deleteTeamMemberAvatar} from "../../../redux/actions/profileActions";
 
-const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar, required }) => {
+const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar, required, type, deleteTeamMemberAvatar }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
@@ -17,14 +18,22 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
 
   const inputFileRef = useRef(null)
 
+  console.log(value)
+
   useEffect(() => {
     if (value) {
       if (max === 1) {
         setPreview(value)
       } else {
-        let arr = preview
-        arr.push(value)
-        setPreview(arr)
+        if(preview) {
+          let arr = preview
+          arr.push(value)
+          setPreview(arr)
+        } else {
+          let arr = []
+          arr.push(value)
+          setPreview(arr)
+        }
       }
     }
   }, [value])
@@ -44,8 +53,12 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
       setPreview(null)
       setActive(true)
     }
-    if (name === 'avatar') {
+    if (name === 'avatar' && type !== 'team_member') {
       delete_avatar()
+      setPreview(null)
+      setActive(true)
+    } if (name === 'avatar' && type === 'team_member') {
+      deleteTeamMemberAvatar()
       setPreview(null)
       setActive(true)
     }
@@ -53,7 +66,6 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
   }
 
   const onBtnClick = () => {
-    /*Collecting node-element and performing click*/
     inputFileRef.current.click()
   }
 
@@ -228,4 +240,4 @@ const mapStateToProps = state => ({
   tour: state.tours.current_tour,
 })
 
-export default connect(mapStateToProps, { deleteTourWallpaper, delete_avatar })(FileInput)
+export default connect(mapStateToProps, { deleteTourWallpaper, delete_avatar, deleteTeamMemberAvatar })(FileInput)
