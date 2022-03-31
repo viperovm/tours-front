@@ -30,7 +30,10 @@ const CitySelectInput = ({action, name, label, val, options, multiple, margin, b
   const handleAddNew = (values) => {
     tourToServer({
       ...tour,
-      [name]: values.name
+      [name]: {
+        id: null,
+        full_name: values.full_name,
+      }
     }, tour.id)
   }
 
