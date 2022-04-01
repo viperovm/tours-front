@@ -134,8 +134,9 @@ const Accommodation = ({ getTourTypes,
             action={handleInput}
             name='accomodation'
             label='Размещение'
-            value={tour && tour.accomodation}
+            val={tour && tour.accomodation}
             options={tour_accomodations}
+            multiple={true}
           />
         </SingleWrapper>
 

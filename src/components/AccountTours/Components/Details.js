@@ -217,7 +217,7 @@ const Details = ({
       >
         <Link
           className={`add-tour-button button-primary`}
-          to='/account/tours/edit/options'
+          to='/account/tours/edit/accommodation'
           onClick={handleButtonSubmit}>
           Назад
         </Link>

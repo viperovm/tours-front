@@ -120,7 +120,7 @@ const TeamCard = ({
           <div
             className='team-name'
             onClick={handleMemberEdit}
-            // style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer' }}
           >
             {member.full_name}
           </div>

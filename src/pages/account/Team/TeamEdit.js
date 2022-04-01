@@ -149,7 +149,7 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
                 multiple={true}
               />
             </SingleWrapper>
-            <Button text={'Добавить'} width={'50%'} action={handleSubmit}/>
+            <Button text={'Сохранить'} width={'50%'} action={handleSubmit}/>
           </main>
         )}
         {loading && <CircularProgress/>}
