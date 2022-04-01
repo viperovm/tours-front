@@ -60,6 +60,8 @@ const Settings = ({
         last_name: user.last_name,
         phone: user.phone,
         email: user.email,
+        old_phone: user.phone,
+        old_email: user.email,
         phone_confirmed: user.phone_confirmed,
         email_confirmed: user.email_confirmed,
       })
@@ -246,7 +248,7 @@ const Settings = ({
               type='password'
               label={'Новый пароль'}
               action={handleChange}
-              name='password'
+              name='new_password'
               value={profile.password}
             />
           </ProfileInputWrapper>

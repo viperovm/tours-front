@@ -81,6 +81,25 @@ export const update_user = data => async dispatch => {
 
     const user = parseJwt(localStorage.getItem('access')).user_status
 
+    if(data.old_email !== data.email) {
+      data = {
+        ...data,
+        email_confirmed: false
+      }
+    }
+
+    if(data.old_phone !== data.phone) {
+      data = {
+        ...data,
+        phone_confirmed: false
+      }
+    }
+
+    if(!data.password) {
+      delete data.password
+      delete data.new_password
+    }
+
     const body = JSON.stringify(data)
 
     try {
