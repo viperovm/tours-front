@@ -1,34 +1,43 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react'
+import React, {useState, useEffect, useRef, Fragment} from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import menu from '../../../assets/img/trash.svg'
+import {deletePropertyImage, deleteTourImage, deleteTourWallpaper,} from "../../../redux/actions/toursActions";
+import {delete_avatar} from "../../../redux/actions/authActions";
+import {connect} from "react-redux";
 
-const ObjectFileInput = ({ action, name, value, max, required }) => {
+const ObjectFileInput = ({
+                           tour, action, name, value=[], max, required, position, deleteTourImage,
+                           deleteTourWallpaper,
+                           delete_avatar, deletePropertyImage,
+                         }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
   const [bubbleActive, setBubbleActive] = useState(null)
   const [preview, setPreview] = useState([])
 
+
+
   const inputFileRef = useRef(null)
 
   console.log(value)
 
   useEffect(() => {
-    if (value) {
-      setPreview(value)
+    if (loading && value.length > 0) {
+      setLoading(false)
     }
-  }, [value])
+  }, [value, loading])
 
   useEffect(() => {
     if (max) {
-      if (preview.length >= max) {
+      if (value.length >= max) {
         setActive(false)
       }
     }
-  }, [max, preview])
+  }, [max, value])
 
-  const handleDelete = () => {
+  const handleDelete = image => {
     setLoading(true)
     if (name === 'wallpaper') {
       deleteTourWallpaper(tour.id)
@@ -39,6 +48,12 @@ const ObjectFileInput = ({ action, name, value, max, required }) => {
       delete_avatar()
       setPreview(null)
       setActive(true)
+    }
+    if (position === 'gallery') {
+      deleteTourImage(image, tour.id)
+    }
+    if (position === 'accommodation') {
+      deletePropertyImage(image, tour.id)
     }
     setLoading(false)
   }
@@ -57,14 +72,9 @@ const ObjectFileInput = ({ action, name, value, max, required }) => {
     }
   }
 
-  useEffect(() => {
-    if (preview && loading) {
-      setLoading(false)
-    }
-  }, [preview, loading])
-
   return (
     <>
+      <div className='fake-file-input-component'>
       <input
         name={name}
         required={required}
@@ -82,16 +92,16 @@ const ObjectFileInput = ({ action, name, value, max, required }) => {
           }`}
           onClick={onBtnClick}
         >
-          <div className='camera-image' />
+          <div className='camera-image'/>
           <div className='fake-file-input-text'>Добавить новое фото</div>
         </div>
-        {preview && preview.map((item, index) => (
+        {value.length > 0 && value.map((item, index) => (
           <Fragment key={index}>
             <div
               key={index}
               className='fake-file-input image-container'
               style={{
-                backgroundImage: 'url(' + item + ')',
+                backgroundImage: 'url(' + item.tmb_image + ')',
                 position: 'relative',
               }}
             >
@@ -106,9 +116,9 @@ const ObjectFileInput = ({ action, name, value, max, required }) => {
                 }}
                 onMouseOver={() => setBubbleActive(index)}
                 onMouseOut={() => setBubbleActive(null)}
-                onClick={handleDelete}
+                onClick={() => handleDelete(item)}
               >
-                <img src={menu} alt='menu' />
+                <img src={menu} alt='menu'/>
               </div>
 
               {index === bubbleActive && (
@@ -144,14 +154,20 @@ const ObjectFileInput = ({ action, name, value, max, required }) => {
         ))}
         {loading && (
           <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
-            <Box sx={{ display: 'flex' }}>
-              <CircularProgress />
+            <Box sx={{display: 'flex'}}>
+              <CircularProgress/>
             </Box>
           </div>
         )}
+      </div>
       </div>
     </>
   )
 }
 
-export default ObjectFileInput
+export default connect(null, {
+  deleteTourImage,
+  deleteTourWallpaper,
+  delete_avatar,
+  deletePropertyImage,
+})(ObjectFileInput)

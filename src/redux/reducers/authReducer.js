@@ -15,6 +15,7 @@ const initialState = {
   avatar: '',
   email_confirm_request: null,
   email_confirm: null,
+  error: [],
 }
 
 const authReducer = (state = initialState, action) => {
@@ -97,11 +98,20 @@ const authReducer = (state = initialState, action) => {
       }
 
     case t.AUTHENTICATED_FAIL:
-    case t.LOGIN_FAIL:
-    case t.SIGNUP_FAIL:
     case t.USER_LOADED_FAIL:
       return {
         ...state,
+      }
+    case t.LOGIN_FAIL:
+    case t.SIGNUP_FAIL:
+      return {
+        ...state,
+        error: payload
+      }
+    case t.CLEAR_ERRORS:
+      return {
+        ...state,
+        error: []
       }
     default:
       return state

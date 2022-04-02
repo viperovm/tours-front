@@ -33,8 +33,6 @@ import Accommodation from './components/AccountTours/Components/Accommodation'
 
 import Details from './components/AccountTours/Components/Details'
 import Important from './components/AccountTours/Components/Important'
-import Leader from './components/AccountTours/Components/Leader'
-import Conditions from './components/AccountTours/Components/Conditions'
 import EmailActivate from './pages/account/EmailActivate/EmailActivate'
 
 import Page404 from './pages/404'

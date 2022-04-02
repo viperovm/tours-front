@@ -72,7 +72,7 @@ const TourCard = ({
   }
   const handleDelete = () => {
     deleteTour(tour.id)
-    location.reload()
+    // location.reload()
   }
 
   return (

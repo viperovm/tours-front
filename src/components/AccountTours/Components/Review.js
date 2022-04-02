@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
 import Input from '../FormFields/Input'
 
@@ -13,10 +13,11 @@ import {
 } from '../../../redux/actions/toursActions'
 
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
-import {Link, Redirect} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
 import TextEditor from "../FormFields/TextEditor";
 import TextArea from "../FormFields/TextArea";
 import Activities from "./Activities";
+import Button from "./Button";
 
 const Review = ({
                 secondary_nav,
@@ -27,6 +28,21 @@ const Review = ({
                 tourToServer,
               }) => {
 
+  const history = useHistory()
+
+  const [url, setUrl] = useState('')
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    return () => setUrl('')
+  }, [])
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    tourToServer(tour, tour.id)
+    history.push(url)
+  }
+
   const handleInput = (name, value) => {
     console.log(name, value)
     updateTour({
@@ -34,15 +50,6 @@ const Review = ({
       [name]: value,
     })
   }
-
-  const handleButtonSubmit = () => {
-    tourToServer(tour, tour.id)
-    return <Redirect to='/account/tours/edit/review'/>
-  }
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
 
   useEffect(() => {
     let arr = secondary_nav
@@ -84,55 +91,59 @@ const Review = ({
           <h4>Обзор</h4>
         </div>
 
-        <SingleWrapper label='Главные впечатления' comment='Вводить через точку с запятой.'>
-          <TextArea
-            action={handleInput}
-            name='main_impressions'
-            label=''
-            value={tour && tour.main_impressions}
-            rows='7'
-          />
-        </SingleWrapper>
-        <SingleWrapper label='Описание тура' comment=''>
-          <TextEditor
-            action={handleInput}
-            name='description'
-            value={tour && tour.description}
-          />
-        </SingleWrapper>
+        <form onSubmit={handleSubmit}>
 
-        <SingleWrapper label='Ссылка на видео (youtube или vimeo)' comment=''>
-          <Input
-            action={handleInput}
-            name='media_link'
-            value={tour && tour.media_link}
-            options={toursTypes}
-          />
-        </SingleWrapper>
+          <SingleWrapper label='Главные впечатления' comment='Вводить через точку с запятой.'>
+            <TextArea
+              action={handleInput}
+              name='main_impressions'
+              label=''
+              value={tour && tour.main_impressions}
+              rows='7'
+            />
+          </SingleWrapper>
+          <SingleWrapper label='Описание тура*' comment=''>
+            <TextEditor
+              required={true}
+              action={handleInput}
+              name='description'
+              value={tour && tour.description}
+            />
+          </SingleWrapper>
 
-        <Activities />
+          <SingleWrapper label='Ссылка на видео (youtube или vimeo)' comment=''>
+            <Input
+              action={handleInput}
+              name='media_link'
+              value={tour && tour.media_link}
+              options={toursTypes}
+            />
+          </SingleWrapper>
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '66%',
-          }}
-        >
-          <Link
-            className={`add-tour-button button-primary`}
-            to='/account/tours/edit/main'
-            onClick={handleButtonSubmit}>
-            Назад
-          </Link>
-          <Link
-            className={`add-tour-button button-success`}
-            to='/account/tours/edit/prices'
-            onClick={handleButtonSubmit}>
-            Продолжить
-          </Link>
-        </div>
+          <Activities />
 
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '66%',
+            }}
+          >
+            <Button
+              text={'Назад'}
+              color={'button-primary'}
+              type='submit'
+              action={() => setUrl('/account/tours/edit/main')}
+            />
+            <Button
+              text={'Продолжить'}
+              color={'button-success'}
+              type='submit'
+              action={() => setUrl('/account/tours/edit/prices')}
+            />
+
+          </div>
+        </form>
       </ToursEditLayout>
     </>
   )

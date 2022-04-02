@@ -45,6 +45,7 @@ export const load_user = () => async dispatch => {
     } catch (err) {
       dispatch({
         type: t.USER_LOADED_FAIL,
+        payload: err.response.data
       })
     }
   } else {
@@ -100,6 +101,9 @@ export const update_user = data => async dispatch => {
       delete data.new_password
     }
 
+    delete data.old_email
+    delete data.old_phone
+
     const body = JSON.stringify(data)
 
     try {
@@ -145,6 +149,7 @@ export const signUp = (status, data) => async dispatch => {
   } catch (err) {
     dispatch({
       type: t.SIGNUP_FAIL,
+      payload: err.response.data
     })
   }
 }
@@ -170,6 +175,7 @@ export const login = data => async dispatch => {
   } catch (err) {
     dispatch({
       type: t.LOGIN_FAIL,
+      payload: err.response.data,
     })
   }
 }
@@ -196,11 +202,13 @@ export const checkAuthenticated = () => async dispatch => {
       } else {
         dispatch({
           type: t.AUTHENTICATED_FAIL,
+          payload: err.response.data
         })
       }
     } catch (err) {
       dispatch({
         type: t.AUTHENTICATED_FAIL,
+        payload: err.response.data
       })
     }
   } else {
@@ -359,40 +367,49 @@ export const email_confirm_request = () => async dispatch => {
     }
   }
 
-  export const email_confirm = (data) => async dispatch => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        // Authorization: `JWT ${localStorage.getItem('access')}`,
-      },
-    }
-
-    const body = JSON.stringify(data)
-
-    try {
-      let res = await axios.post(
-        `${API_URL}/api/experts/confirm_email/`,
-        body,
-        config
-      )
-
-      dispatch({
-        type: t.EMAIL_CONFIRM_SUCCESS,
-        payload: res.status
-      })
-    } catch (err) {
-      dispatch({
-        type: t.EMAIL_CONFIRM_FAIL,
-        payload: 'error'
-      })
-    }
+export const email_confirm = (data) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      // Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
   }
 
-  export const clear_confirm_status = () => dispatch => {
+  const body = JSON.stringify(data)
 
-      dispatch({
-        type: t.CLEAR_CONFIRM,
-      })
+  try {
+    let res = await axios.post(
+      `${API_URL}/api/experts/confirm_email/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: t.EMAIL_CONFIRM_SUCCESS,
+      payload: res.status
+    })
+  } catch (err) {
+    dispatch({
+      type: t.EMAIL_CONFIRM_FAIL,
+      payload: 'error'
+    })
   }
+}
+
+export const clear_confirm_status = () => dispatch => {
+
+    dispatch({
+      type: t.CLEAR_CONFIRM,
+    })
+}
+
+export const clear_errors = () => dispatch => {
+
+  dispatch({
+    type: t.CLEAR_ERRORS,
+  })
+}
+
+
 

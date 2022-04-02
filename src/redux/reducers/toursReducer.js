@@ -70,6 +70,11 @@ import {
   GET_TOUR_PREVIEW_FAIL,
   SET_PAGE,
   GET_CITIES_SUCCESS,
+  DELETE_TOUR_IMAGE_SUCCESS,
+  DELETE_TOUR_IMAGE_FAIL,
+  DELETE_TOUR,
+  DELETE_PROPERTY_IMAGE_SUCCESS,
+  DELETE_PROPERTY_IMAGE_FAIL,
 } from '../types'
 
 const initialState = {
@@ -292,15 +297,51 @@ const toursReducer = (state = initialState, action) => {
 
   switch (type) {
     case GET_TOURS_SUCCESS:
-    case COPY_TOUR_SUCCESS:
       return {
         ...state,
         tours: payload,
+      }
+    case COPY_TOUR_SUCCESS:
+      const tours_list = state.tours
+      return {
+        ...state,
+        tours: [payload, ...tours_list],
       }
     case GET_TOURS_FAIL:
       return {
         ...state,
         tours: [],
+      }
+    case DELETE_TOUR_IMAGE_SUCCESS:
+      const updateGallery = (tour, payload) => {
+        const gallery = state.current_tour.tour_images.filter(item => item.id !== payload.id)
+        return {
+          ...tour,
+          tour_images: gallery
+        }
+      }
+      return {
+        ...state,
+        current_tour: updateGallery(state.current_tour, payload),
+      }
+
+    case DELETE_PROPERTY_IMAGE_SUCCESS:
+      const updatePropertyImage = (tour, payload) => {
+        const gallery = state.current_tour.tour_property_images.filter(item => item.id !== payload.id)
+        return {
+          ...tour,
+          tour_property_images: gallery
+        }
+      }
+      return {
+        ...state,
+        current_tour: updatePropertyImage(state.current_tour, payload),
+      }
+
+    case DELETE_TOUR:
+      return {
+        ...state,
+        tours: state.tours.filter(item => item.id !== payload),
       }
 
     case GET_CITIES_SUCCESS:
@@ -308,9 +349,16 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         cities: [],
       }
+
+    case UPDATE_TOUR_SUCCESS:
+      return {
+        ...state,
+        current_tour: payload.data,
+        tours: state.tours.map(item => (item.id === payload.id ? payload.data : item))
+      }
+
     case ADD_TOUR_SUCCESS:
     case GET_TOUR_SUCCESS:
-    case UPDATE_TOUR_SUCCESS:
     case UPDATE_LOCAL_TOUR_SUCCESS:
       return {
         ...state,
@@ -569,6 +617,7 @@ const toursReducer = (state = initialState, action) => {
     case GET_COUNTRIES_FAIL:
     case GET_RUSSIAN_REGIONS_FAIL:
     case GET_CITIES_FAIL:
+    case DELETE_TOUR_IMAGE_FAIL:
       return {
         ...state,
       }

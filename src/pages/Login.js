@@ -3,12 +3,10 @@ import MainLayout from '../layouts/MainLayout'
 import { login, checkAuthenticated } from '../redux/actions/authActions'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
+import Input from "../components/AccountTours/FormFields/Input";
 
 
 const Login = ({ isAuthenticated, login, checkAuthenticated }) => {
-
-  console.log('login')
-  console.log(isAuthenticated)
 
   if (isAuthenticated) {
     return <Redirect to="/account" />
@@ -25,10 +23,10 @@ const Login = ({ isAuthenticated, login, checkAuthenticated }) => {
     setCheck(!check)
   }
 
-  const handleData = e => {
+  const handleData = (name, value) => {
     setData({
       ...data,
-      [e.target.name]: e.target.value,
+      [name]: value,
     })
   }
 
@@ -65,28 +63,28 @@ const Login = ({ isAuthenticated, login, checkAuthenticated }) => {
                 </div>
                 <div className='auth_form'>
                   <form onSubmit={handleAction}>
-                    <div className='input-wrapper'>
-                      <input
-                        name='email'
-                        type='email'
-                        className='auth_mail'
-                        placeholder='Адрес эл. почты'
-                        value={data.email}
-                        onChange={handleData}
-                      />
-                      <div className='input-icon auth_mail' />
-                    </div>
-                    <div className='input-wrapper'>
-                      <input
-                        name='password'
-                        type='password'
-                        className='auth_password'
-                        placeholder='Пароль'
-                        value={data.password}
-                        onChange={handleData}
-                      />
-                      <div className='input-icon auth_password' />
-                    </div>
+                    <Input
+                      required={true}
+                      action={handleData}
+                      name='email'
+                      label='Адрес эл. почты'
+                      icon={'email'}
+                      type='email'
+                      value={data.email}
+                      margin={'0 0 25px 0'}
+                    />
+                    <Input
+                      required={true}
+                      action={handleData}
+                      name='password'
+                      label='Пароль'
+                      icon={'password'}
+                      type='password'
+                      value={data.password}
+                      margin={'0 0 25px 0'}
+                    />
+
+
 
                     <input
                       type='checkbox'

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { connect } from 'react-redux'
 import ToursList from "../../../components/AccountTours/Components/ToursList";
 import {Link, Redirect} from 'react-router-dom'
@@ -7,6 +7,18 @@ import {addTour} from "../../../redux/actions/toursActions";
 import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 
 const MyTours = ({isAuthenticated, addTour, tour}) => {
+
+  const [buttonText, setButtonText] = useState('Добавить путешествие')
+
+  useEffect(() => {
+    if(tour.id) {
+      console.log(1)
+      setButtonText('Продолжить редактирование')
+    } else {
+      console.log(2)
+      setButtonText('Добавить путешествие')
+    }
+  }, [tour])
 
   if (!isAuthenticated) {
     return <Redirect to="/login" />
@@ -32,9 +44,7 @@ const MyTours = ({isAuthenticated, addTour, tour}) => {
             </div>
             <div className='tours-list-add-button-button green'>
               <Link to='/account/tours/edit/main' onClick={handleEditingButton}>
-                {tour && tour.id
-                  ? 'Продолжить редактирование'
-                  : 'Добавить путешествие'}
+                {buttonText}
               </Link>
             </div>
           </div>

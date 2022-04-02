@@ -17,7 +17,8 @@ import {
   tourToServer,
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import Button from "./Button";
 
 
 const Accommodation = ({ getTourTypes,
@@ -37,10 +38,24 @@ const Accommodation = ({ getTourTypes,
                          tour,
                        }) => {
 
+  const history = useHistory()
+
+  const [url, setUrl] = useState('')
+  const [previews, setPreviews] = useState([])
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     getTourPropertyTypes()
     getTourAccomodations()
+    window.scrollTo(0, 0)
+    return () => setUrl('')
   }, [])
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    tourToServer(tour, tour.id)
+    history.push(url)
+  }
 
   const handleInput = (name, value) => {
     updateTour({
@@ -54,12 +69,68 @@ const Accommodation = ({ getTourTypes,
   }
 
   useEffect(() => {
+
+
+    if (tour) {
+      if (Array.isArray(tour.tour_images) && tour.tour_images.length > 0) {
+        let arr = secondary_nav
+        setSecondaryNav(
+          arr.map(item => {
+            if (item.value === 'gallery') {
+              return {
+                ...item,
+                active: true,
+              }
+            } else {
+              return item
+            }
+          })
+        )
+      } else {
+        let arr = secondary_nav
+        setSecondaryNav(
+          arr.map(item => {
+            if (item.value === 'gallery') {
+              return {
+                ...item,
+                active: false,
+              }
+            } else {
+              return item
+            }
+          })
+        )
+      }
+    }
+  }, [tour])
+
+  useEffect(() => {
+
+    let arr = []
+    if (
+      tour &&
+      tour.tour_property_images &&
+      tour.tour_property_images.length > 0
+    ) {
+      tour.tour_property_images.map(item => {
+        if (!tour.tour_property_images.includes(item.tmb_image)) {
+          arr.push(item.tmb_image)
+        }
+      })
+      setPreviews(arr)
+      setLoading(true)
+    }
+
+    if (tour && tour.tour_property_images) {
+      setLoading(false)
+    }
+
     if (tour) {
       if (
         tour.tour_property_types &&
         tour.hotel_name &&
         tour.accomodation &&
-        tour.tour_property_images
+        Array.isArray(tour.tour_property_images) && tour.tour_property_images.length > 0
       ) {
         let arr = secondary_nav
         setSecondaryNav(
@@ -92,20 +163,13 @@ const Accommodation = ({ getTourTypes,
     }
   }, [tour])
 
-  const handleButtonSubmit = () => {
-    tourToServer(tour, tour.id)
-  }
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-
   return (
     <ToursEditLayout secondary_item='accommodation' secondary_name='Проживание'>
         <div className='my-tours-section-heading'>
           <h4>Проживание</h4>
         </div>
-        <SingleWrapper label='Где планируется проживание' comment=''>
+      <form onSubmit={handleSubmit}>
+        <SingleWrapper label='Где планируется проживание*' comment=''>
           <SelectInput
             required={true}
             action={handleInput}
@@ -116,19 +180,19 @@ const Accommodation = ({ getTourTypes,
             multiple={true}
           />
         </SingleWrapper>
-      <SingleWrapper
-        label='Название отеля'
-        comment='Вводите, если уверены в 100% гарантии размещения '
-      >
-        <Input
-          required={true}
-          action={handleInput}
-          name='hotel_name'
-          value={tour && tour.hotel_name}
-          options={toursTypes}
-        />
-      </SingleWrapper>
-        <SingleWrapper label='Размещение' comment=''>
+        <SingleWrapper
+          label='Название отеля*'
+          comment='Вводите, если уверены в 100% гарантии размещения '
+        >
+          <Input
+            required={true}
+            action={handleInput}
+            name='hotel_name'
+            value={tour && tour.hotel_name}
+            options={toursTypes}
+          />
+        </SingleWrapper>
+        <SingleWrapper label='Размещение*' comment=''>
           <SelectInput
             required={true}
             action={handleInput}
@@ -136,16 +200,18 @@ const Accommodation = ({ getTourTypes,
             label='Размещение'
             val={tour && tour.accomodation}
             options={tour_accomodations}
-            // multiple={true}
+            multiple={true}
           />
         </SingleWrapper>
 
         <SingleWrapper
-          label='Добавить фото мест проживания в путешествии'
+          label='Добавить фото мест проживания в путешествии*'
           comment=''
         >
           <ObjectFileInput
-            required={true}
+            position={'accommodation'}
+            tour={tour}
+            required={!previews}
             action={handleImageLoad}
             name='tour_property_images'
             value={tour && tour.tour_property_images}
@@ -153,30 +219,28 @@ const Accommodation = ({ getTourTypes,
           />
         </SingleWrapper>
 
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          width: '66%',
-        }}
-      >
-        <Link
-          className={`add-tour-button button-primary`}
-          to='/account/tours/edit/route'
-          onClick={handleButtonSubmit}>
-          Назад
-        </Link>
-        <Link
-          className={`add-tour-button button-success`}
-          to='/account/tours/edit/details'
-          onClick={handleButtonSubmit}>
-          Продолжить
-        </Link>
-      </div>
-
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '66%',
+          }}
+        >
+          <Button
+            text={'Назад'}
+            color={'button-primary'}
+            type='submit'
+            action={() => setUrl('/account/tours/edit/route')}
+          />
+          <Button
+            text={'Продолжить'}
+            color={'button-success'}
+            type='submit'
+            action={() => setUrl('/account/tours/edit/details')}
+          />
+        </div>
+      </form>
     </ToursEditLayout>
-
-
   )
 }
 

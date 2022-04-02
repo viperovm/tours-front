@@ -1,8 +1,7 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
 import DoubleWrapper from '../Wrappers/DoubleWrapper'
 import Input from '../FormFields/Input'
-import SelectInput from '../FormFields/SelectInput'
 import DaysComponent from './DaysComponent'
 
 import {connect} from 'react-redux'
@@ -13,8 +12,9 @@ import {
   getCities
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import CitySelectInput from "../FormFields/CitySelectInput";
+import Button from "./Button";
 
 const TourRoute = ({
                      tour,
@@ -25,6 +25,22 @@ const TourRoute = ({
                      cities,
                      getCities
                    }) => {
+
+  const history = useHistory()
+
+  const [url, setUrl] = useState('')
+
+  useEffect(() => {
+    getCities()
+    window.scrollTo(0, 0)
+    return () => setUrl('')
+  }, [])
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    tourToServer(tour, tour.id)
+    history.push(url)
+  }
 
   const handleInput = (name, value) => {
     updateTour({...tour, [name]: value})
@@ -71,15 +87,6 @@ const TourRoute = ({
     }
   }, [tour])
 
-  const handleButtonSubmit = () => {
-    tourToServer(tour, tour.id)
-  }
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-    getCities()
-  }, [])
-
   return (
     <>
       <ToursEditLayout secondary_item='route' secondary_name='Маршрут'>
@@ -87,89 +94,91 @@ const TourRoute = ({
           <h4>Маршрут</h4>
         </div>
 
-        <DoubleWrapper ratio='1-2'>
-          <Input
-            required={true}
-            action={handleInput}
-            name='start_date'
-            label='Дата начала тура'
-            value={tour && tour.start_date}
-            type='date'
-          />
-          <Input
-            required={true}
-            action={handleInput}
-            name='finish_date'
-            label='Дата завершения тура'
-            value={tour && tour.finish_date}
-            type='date'
-          />
-        </DoubleWrapper>
-        <DoubleWrapper comment=''>
-          <Input
-            required={true}
-            action={handleInput}
-            name='start_time'
-            value={tour && tour.start_time}
-            type='time'
-            label='Время начала (местное):'
-          />
-          <Input
-            required={true}
-            action={handleInput}
-            name='finish_time'
-            value={tour && tour.finish_time}
-            type='time'
-            label='Время окончания тура (местное)'
-          />
-        </DoubleWrapper>
+        <form onSubmit={handleSubmit}>
+          <DoubleWrapper ratio='1-2'>
+            <Input
+              required={true}
+              action={handleInput}
+              name='start_date'
+              label='Дата начала тура*'
+              value={tour && tour.start_date}
+              type='date'
+            />
+            <Input
+              required={true}
+              action={handleInput}
+              name='finish_date'
+              label='Дата завершения тура*'
+              value={tour && tour.finish_date}
+              type='date'
+            />
+          </DoubleWrapper>
+          <DoubleWrapper comment=''>
+            <Input
+              required={true}
+              action={handleInput}
+              name='start_time'
+              value={tour && tour.start_time}
+              type='time'
+              label='Время начала тура (местное)*'
+            />
+            <Input
+              required={true}
+              action={handleInput}
+              name='finish_time'
+              value={tour && tour.finish_time}
+              type='time'
+              label='Время окончания тура (местное)*'
+            />
+          </DoubleWrapper>
 
-        <SingleWrapper label='Город начала тура' comment=''>
-          <CitySelectInput
-            required={true}
-            action={handleInput}
-            name='start_city'
-            label='Город начала тура'
-            comment=''
-            val={tour && tour.start_city}
-            options={cities}
-          />
-        </SingleWrapper>
-        <SingleWrapper label='Город конца тура' comment=''>
-          <CitySelectInput
-            required={true}
-            action={handleInput}
-            name='finish_city'
-            label='Город конца тура'
-            comment=''
-            val={tour && tour.finish_city}
-            options={cities}
-          />
-        </SingleWrapper>
+          <SingleWrapper label='Город начала тура*' comment=''>
+            <CitySelectInput
+              required={true}
+              action={handleInput}
+              name='start_city'
+              label='Город начала тура'
+              comment=''
+              val={tour && tour.start_city}
+              options={cities}
+            />
+          </SingleWrapper>
+          <SingleWrapper label='Город конца тура*' comment=''>
+            <CitySelectInput
+              required={true}
+              action={handleInput}
+              name='finish_city'
+              label='Город конца тура'
+              comment=''
+              val={tour && tour.finish_city}
+              options={cities}
+            />
+          </SingleWrapper>
 
-        <DaysComponent/>
+          <DaysComponent/>
 
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '66%',
-          }}
-        >
-          <Link
-            className={`add-tour-button button-primary`}
-            to='/account/tours/edit/gallery'
-            onClick={handleButtonSubmit}>
-            Назад
-          </Link>
-          <Link
-            className={`add-tour-button button-success`}
-            to='/account/tours/edit/accommodation'
-            onClick={handleButtonSubmit}>
-            Продолжить
-          </Link>
-        </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '66%',
+            }}
+          >
+            <Button
+              text={'Назад'}
+              color={'button-primary'}
+              type='submit'
+              action={() => setUrl('/account/tours/edit/gallery')}
+            />
+            <Button
+              text={'Продолжить'}
+              color={'button-success'}
+              type='submit'
+              action={() => setUrl('/account/tours/edit/accommodation')}
+            />
+          </div>
+        </form>
       </ToursEditLayout>
     </>
   )

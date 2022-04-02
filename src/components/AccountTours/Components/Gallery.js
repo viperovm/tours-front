@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
-import ObjectFileInput from '../FormFields/ObjectFileInput'
 import FileInput from '../FormFields/ObjectFileInput'
 import Button from './Button'
 
@@ -13,15 +12,30 @@ import {
   clearCurrentTour,
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import ObjectFileInput from "../FormFields/ObjectFileInput";
 
 const Gallery = ({
                    tour,
                    setTourImages,
                    tourToServer,
-                   clearCurrentTour,
                    secondary_nav,
                  }) => {
+
+  const history = useHistory()
+
+  const [url, setUrl] = useState('')
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    return () => setUrl('')
+  }, [])
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    tourToServer(tour, tour.id)
+    history.push(url)
+  }
 
   const [loading, setLoading] = useState(false)
   const [previews, setPreviews] = useState([])
@@ -29,8 +43,6 @@ const Gallery = ({
   const handleInput = image => {
     setTourImages(image, tour.id)
   }
-
-  console.log(tour)
 
   useEffect(() => {
     let arr = []
@@ -47,15 +59,9 @@ const Gallery = ({
       setPreviews(arr)
       setLoading(true)
     }
-  }, [tour])
-
-  useEffect(() => {
     if (tour && tour.tour_images) {
       setLoading(false)
     }
-  }, [tour])
-
-  useEffect(() => {
     if (tour) {
       if (Array.isArray(tour.tour_images) && tour.tour_images.length > 0) {
         let arr = secondary_nav
@@ -89,19 +95,6 @@ const Gallery = ({
     }
   }, [tour])
 
-  const handleButtonSubmit = () => {
-    tourToServer({...tour, on_moderation: true, is_draft: false}, tour.id)
-    clearCurrentTour()
-  }
-
-  const handleButtonBack = () => {
-    tourToServer(tour, tour.id)
-  }
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-
   return (
     <>
       <ToursEditLayout secondary_item='gallery' secondary_name='Галерея'>
@@ -109,40 +102,49 @@ const Gallery = ({
           <h4>Галерея</h4>
         </div>
 
-        <SingleWrapper
-          label='Добавить фото'
-          comment='Добавьте не менее 7 фотографий, первая из них станет обложкой тура на предпросмотре. НЕ используйте стоковый контент и материалы других фотографов без их разрешения, так как это является нарушением авторского права и может привести к судебным разбирательствам и штрафам. Подробнее о том, где искать и как правильно использовать фото и видео для своих туров смотрите в статье. '
-        >
-          <FileInput
-            required={true}
-            action={handleInput}
-            name='tour_images'
-            type='file'
-            value={previews}
-          />
+        <form onSubmit={handleSubmit}>
 
-        </SingleWrapper>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '66%',
-          }}
-        >
-          <Link
-            className={`add-tour-button button-primary`}
-            to='/account/tours/edit/prices'
-            onClick={handleButtonBack}>
-            Назад
-          </Link>
+          <SingleWrapper
+            label='Добавить фото*'
+            comment='Добавьте не менее 7 фотографий, первая из них станет обложкой тура на предпросмотре. НЕ используйте стоковый контент и материалы других фотографов без их разрешения, так как это является нарушением авторского права и может привести к судебным разбирательствам и штрафам. Подробнее о том, где искать и как правильно использовать фото и видео для своих туров смотрите в статье. '
+          >
+            <ObjectFileInput
+              position={'gallery'}
+              tour={tour}
+              required={!previews}
+              action={handleInput}
+              name='tour_images'
+              type='file'
+              value={tour &&
+                tour.tour_images &&
+                tour.tour_images.length > 0 && tour.tour_images}
+            />
+          </SingleWrapper>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '66%',
+            }}
+          >
 
-          <Link
-            className={`add-tour-button button-success`}
-            to='/account/tours/edit/route'
-            onClick={handleButtonSubmit}>
-            Продолжить
-          </Link>
-        </div>
+            <Button
+              text={'Назад'}
+              color={'button-primary'}
+              type='submit'
+              action={() => setUrl('/account/tours/edit/prices')}
+            />
+            <Button
+              text={'Продолжить'}
+              color={'button-success'}
+              type='submit'
+              action={() => setUrl('/account/tours/edit/route')}
+            />
+
+          </div>
+
+        </form>
+
       </ToursEditLayout>
     </>
   )

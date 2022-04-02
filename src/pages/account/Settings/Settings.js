@@ -248,7 +248,7 @@ const Settings = ({
               type='password'
               label={'Новый пароль'}
               action={handleChange}
-              name='new_password'
+              name='password'
               value={profile.password}
             />
           </ProfileInputWrapper>

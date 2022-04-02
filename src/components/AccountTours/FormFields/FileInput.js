@@ -87,150 +87,152 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
 
   return (
     <>
-      <input
-        required={required}
-        name={name}
-        // value={data}
-        type='file'
-        onChange={onFilechange}
-        ref={inputFileRef}
-        accept="image/png, image/jpeg, image/jpg"
-        // accept='image/*'
-      />
-      <div className='fake-file-input-wrapper'>
-        <div
-          className={`fake-file-input file-input ${
-            active ? 'file-input-active' : 'file-input-inactive'
-          }`}
-          onClick={onBtnClick}
-        >
-          <div className='camera-image' />
-          <div className='fake-file-input-text'>Добавить новое фото</div>
-        </div>
-        {max !== 1 &&
-          preview && preview.map((item, index) => (
-            <Fragment key={index}>
-              <div
-                key={index}
-                className='fake-file-input image-container'
-                style={{
-                  backgroundImage: 'url(' + item + ')',
-                  position: 'relative',
-                }}
-              >
-                <div
-                  className='tour-menu-dots'
-                  style={{
-                    padding: '5px',
-                    position: 'absolute',
-                    top: 15,
-                    right: 15,
-                    cursor: 'pointer',
-                  }}
-                  onMouseOver={() => setBubbleActive(true)}
-                  onMouseOut={() => setBubbleActive(false)}
-                  onClick={handleDelete}
-                >
-                  <img src={menu} alt='menu' />
-                </div>
-
-                {bubbleActive && (
-                  <>
-                    <div
-                      className='tour-menu'
-                      // ref={myRef}
-                      style={{
-                        position: 'absolute',
-                        top: 20,
-                        right: 40,
-                        border: '1px solid rgba(0, 0, 0, 0.1)',
-                        boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
-                        borderRadius: 8,
-                        backgroundColor: '#fff',
-                      }}
-                    >
-                      <div
-                        className='tour-item-top'
-                        style={{
-                          padding: 10,
-                          lineHeight: '15px',
-                          textAlign: 'right',
-                        }}
-                      >
-                        Удалить
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </Fragment>
-          ))}
-        {max === 1 && preview && (
-          // <div
-          //   className='fake-file-input image-container'
-          //   style={{
-          //     backgroundImage: 'url(' + preview + ')',
-          //   }}
-          // />
+      <div className='fake-file-input-component'>
+        <input
+          required={required}
+          name={name}
+          // value={data}
+          type='file'
+          onChange={onFilechange}
+          ref={inputFileRef}
+          accept="image/png, image/jpeg, image/jpg"
+          // accept='image/*'
+        />
+        <div className='fake-file-input-wrapper'>
           <div
-            className='fake-file-input image-container'
-            style={{
-              backgroundImage: 'url(' + preview + ')',
-              position: 'relative',
-            }}
+            className={`fake-file-input file-input ${
+              active ? 'file-input-active' : 'file-input-inactive'
+            }`}
+            onClick={onBtnClick}
           >
-            <div
-              className='tour-menu-dots'
-              style={{
-                padding: '5px',
-                position: 'absolute',
-                top: 15,
-                right: 15,
-                cursor: 'pointer',
-              }}
-              onMouseOver={() => setBubbleActive(true)}
-              onMouseOut={() => setBubbleActive(false)}
-              onClick={handleDelete}
-            >
-              <img src={menu} alt='menu' />
-            </div>
-            {bubbleActive && (
-              <>
+            <div className='camera-image' />
+            <div className='fake-file-input-text'>Добавить новое фото</div>
+          </div>
+          {max !== 1 &&
+            preview && preview.map((item, index) => (
+              <Fragment key={index}>
                 <div
-                  className='tour-menu'
-                  // ref={myRef}
+                  key={index}
+                  className='fake-file-input image-container'
                   style={{
-                    position: 'absolute',
-                    top: 20,
-                    right: 40,
-                    border: '1px solid rgba(0, 0, 0, 0.1)',
-                    boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
-                    borderRadius: 8,
-                    backgroundColor: '#fff',
+                    backgroundImage: 'url(' + item + ')',
+                    position: 'relative',
                   }}
                 >
                   <div
-                    className='tour-item-top'
+                    className='tour-menu-dots'
                     style={{
-                      padding: 10,
-                      lineHeight: '15px',
-                      textAlign: 'right',
+                      padding: '5px',
+                      position: 'absolute',
+                      top: 15,
+                      right: 15,
+                      cursor: 'pointer',
+                    }}
+                    onMouseOver={() => setBubbleActive(true)}
+                    onMouseOut={() => setBubbleActive(false)}
+                    onClick={handleDelete}
+                  >
+                    <img src={menu} alt='menu' />
+                  </div>
+
+                  {bubbleActive && (
+                    <>
+                      <div
+                        className='tour-menu'
+                        // ref={myRef}
+                        style={{
+                          position: 'absolute',
+                          top: 20,
+                          right: 40,
+                          border: '1px solid rgba(0, 0, 0, 0.1)',
+                          boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
+                          borderRadius: 8,
+                          backgroundColor: '#fff',
+                        }}
+                      >
+                        <div
+                          className='tour-item-top'
+                          style={{
+                            padding: 10,
+                            lineHeight: '15px',
+                            textAlign: 'right',
+                          }}
+                        >
+                          Удалить
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </Fragment>
+            ))}
+          {max === 1 && preview && (
+            // <div
+            //   className='fake-file-input image-container'
+            //   style={{
+            //     backgroundImage: 'url(' + preview + ')',
+            //   }}
+            // />
+            <div
+              className='fake-file-input image-container'
+              style={{
+                backgroundImage: 'url(' + preview + ')',
+                position: 'relative',
+              }}
+            >
+              <div
+                className='tour-menu-dots'
+                style={{
+                  padding: '5px',
+                  position: 'absolute',
+                  top: 15,
+                  right: 15,
+                  cursor: 'pointer',
+                }}
+                onMouseOver={() => setBubbleActive(true)}
+                onMouseOut={() => setBubbleActive(false)}
+                onClick={handleDelete}
+              >
+                <img src={menu} alt='menu' />
+              </div>
+              {bubbleActive && (
+                <>
+                  <div
+                    className='tour-menu'
+                    // ref={myRef}
+                    style={{
+                      position: 'absolute',
+                      top: 20,
+                      right: 40,
+                      border: '1px solid rgba(0, 0, 0, 0.1)',
+                      boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
+                      borderRadius: 8,
+                      backgroundColor: '#fff',
                     }}
                   >
-                    Удалить
+                    <div
+                      className='tour-item-top'
+                      style={{
+                        padding: 10,
+                        lineHeight: '15px',
+                        textAlign: 'right',
+                      }}
+                    >
+                      Удалить
+                    </div>
                   </div>
-                </div>
-              </>
-            )}
-          </div>
-        )}
-        {loading && (
-          <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
-            <Box sx={{ display: 'flex' }}>
-              <CircularProgress />
-            </Box>
-          </div>
-        )}
+                </>
+              )}
+            </div>
+          )}
+          {loading && (
+            <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
+              <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+              </Box>
+            </div>
+          )}
+        </div>
       </div>
     </>
   )

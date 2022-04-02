@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
-import DoubleWrapper from '../Wrappers/DoubleWrapper'
-import Input from '../FormFields/Input'
-import ObjectFileInput from '../FormFields/ObjectFileInput'
-import RadioInput from '../FormFields/RadioInput'
 import TextEditor from '../FormFields/TextEditor'
-import TextArea from '../FormFields/TextArea'
-import SelectInput from '../FormFields/SelectInput'
-import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
-import ExtraServicesComponent from './ExtraServicesComponent'
 
 import { connect } from 'react-redux'
 import {
@@ -22,19 +14,43 @@ import {
   addActivity,
   setSecondaryNav,
   tourToServer,
+  clearCurrentTour
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 const ExtraServices = ({
-  tour,
-  action,
-  secondary_nav,
-  setSecondaryNav,
-  updateTour,
-  tourToServer,
-}) => {
-  
+                         tour,
+                         secondary_nav,
+                         setSecondaryNav,
+                         updateTour,
+                         tourToServer,
+                         clearCurrentTour,
+                       }) => {
+
+  const history = useHistory()
+
+  const [url, setUrl] = useState('')
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    return () => setUrl('')
+  }, [])
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    if(url && url === '/account/tours') {
+      tourToServer({
+        ...tour,
+        on_moderation: true,
+      }, tour.id)
+      clearCurrentTour()
+    } else if(url!==''){
+      tourToServer(tour, tour.id)
+    }
+    history.push(url)
+  }
+
   const handleInput = (name, value) => {
     updateTour({
       ...tour,
@@ -76,87 +92,73 @@ const ExtraServices = ({
     }
   }, [tour])
 
-  const handleButtonSubmit = () => {
-    tourToServer(tour, tour.id)
-  }
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-
-    return (
-      <>
-        <ToursEditLayout secondary_item='important' secondary_name='Важно знать'>
+  return (
+    <>
+      <ToursEditLayout secondary_item='important' secondary_name='Важно знать'>
         <div className='my-tours-section-heading'>
           <h4>Важно знать</h4>
         </div>
 
-        <SingleWrapper label='Требования к гостю' comment=''>
-          <TextEditor
-            action={handleInput}
-            name='guest_requirements'
-            value={tour && tour.guest_requirements}
-            // options={toursTypes}
-            // multiple
-          />
-        </SingleWrapper>
+        <form onSubmit={handleSubmit}>
+          <SingleWrapper label='Требования к гостю' comment=''>
+            <TextEditor
+              action={handleInput}
+              name='guest_requirements'
+              value={tour && tour.guest_requirements}
+            />
+          </SingleWrapper>
 
 
-        <SingleWrapper label='Что взять с собой?' comment=''>
-          <TextEditor
-            required={true}
-            action={handleInput}
-            name='take_with'
-            value={tour && tour.take_with}
-            // options={toursTypes}
-            // multiple
-          />
-        </SingleWrapper>
+          <SingleWrapper label='Что взять с собой?*' comment=''>
+            <TextEditor
+              required={true}
+              action={handleInput}
+              name='take_with'
+              value={tour && tour.take_with}
+            />
+          </SingleWrapper>
 
-        <SingleWrapper label='Ключевые  особенности?' comment=''>
-          <TextEditor
-            action={handleInput}
-            name='key_features'
-            value={tour && tour.key_features}
-            // options={toursTypes}
-            // multiple
-          />
-        </SingleWrapper>
+          <SingleWrapper label='Ключевые  особенности?' comment=''>
+            <TextEditor
+              action={handleInput}
+              name='key_features'
+              value={tour && tour.key_features}
+            />
+          </SingleWrapper>
 
-        <SingleWrapper label='Что нового я увижу?' comment=''>
-          <TextEditor
-            action={handleInput}
-            name='new_to_see'
-            value={tour && tour.new_to_see}
-            // options={toursTypes}
-            // multiple
-          />
-        </SingleWrapper>
+          <SingleWrapper label='Что нового я увижу?' comment=''>
+            <TextEditor
+              action={handleInput}
+              name='new_to_see'
+              value={tour && tour.new_to_see}
+            />
+          </SingleWrapper>
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '66%',
-          }}
-        >
-          <Link
-            className={`add-tour-button button-primary`}
-            to='/account/tours/edit/services'
-            onClick={handleButtonSubmit}>
-            Назад
-          </Link>
-          <a
-            className={`add-tour-button button-success`}
-            href='/account/tours/list'
-            onClick={handleButtonSubmit}>
-            На модерацию
-          </a>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '66%',
+            }}
+          >
 
-        </div>
-        </ToursEditLayout>
-      </>
-    )
+            <Button
+              text={'Назад'}
+              color={'button-primary'}
+              type='submit'
+              action={() => setUrl('/account/tours/edit/accommodation')}
+            />
+            <Button
+              text={'На модерацию'}
+              color={'button-success'}
+              type='submit'
+              action={() => setUrl('/account/tours')}
+            />
+          </div>
+        </form>
+      </ToursEditLayout>
+    </>
+  )
 }
 
 const mapStateToProps = state => ({
@@ -178,4 +180,5 @@ export default connect(mapStateToProps, {
   getTourPropertyTypes,
   getTourAccomodations,
   tourToServer,
+  clearCurrentTour,
 })(ExtraServices)

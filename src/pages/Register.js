@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import MainLayout from '../layouts/MainLayout'
-import {signUp} from '../redux/actions/authActions'
+import {clear_errors, signUp} from '../redux/actions/authActions'
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
+import Input from "../components/AccountTours/FormFields/Input";
 
-const Register = ({ signUp }) => {
+const Register = ({ signUp, error }) => {
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -14,6 +15,10 @@ const Register = ({ signUp }) => {
   const [status, setStatus] = useState('')
 
   useEffect(() => {
+    return () => clear_errors()
+  }, [])
+
+  useEffect(() => {
     if(isExpert){
         setStatus('experts')
     } else {
@@ -21,23 +26,22 @@ const Register = ({ signUp }) => {
     }
   }, [isExpert])
 
-  const handleData = e => {
+  const handleData = (name, value) => {
     setData({
       ...data,
-      [e.target.name]: e.target.value,
+      [name]: value,
     })
   }
 
-
-
-  const handleAction = e => {
+  const handleAction = async e => {
     e.preventDefault()
-    signUp(status, data)
+    await signUp(status, data)
     setData({
       email: '',
       password: '',
       re_password: '',
     })
+
   }
 
   return (
@@ -78,39 +82,40 @@ const Register = ({ signUp }) => {
                     </button>
                   </div>
                   <form onSubmit={handleAction}>
-                    <div className='input-wrapper'>
-                      <input
-                        name='email'
-                        type='email'
-                        className='auth_mail'
-                        placeholder='Адрес эл. почты'
-                        value={data.email}
-                        onChange={handleData}
-                      />
-                      <div className='input-icon auth_mail' />
-                    </div>
-                    <div className='input-wrapper'>
-                      <input
-                        name='password'
-                        type='password'
-                        className='auth_password'
-                        placeholder='Пароль'
-                        value={data.password}
-                        onChange={handleData}
-                      />
-                      <div className='input-icon auth_password' />
-                    </div>
-                    <div className='input-wrapper'>
-                      <input
-                        name='re_password'
-                        type='password'
-                        className='auth_password'
-                        placeholder='Повторить пароль'
-                        value={data.re_password}
-                        onChange={handleData}
-                      />
-                      <div className='input-icon auth_password' />
-                    </div>
+                    <Input
+                      required={true}
+                      action={handleData}
+                      name='email'
+                      label='Адрес эл. почты'
+                      icon={'email'}
+                      type='email'
+                      value={data.email}
+                      margin={'0 0 25px 0'}
+                      error={error}
+                    />
+                    <Input
+                      required={true}
+                      action={handleData}
+                      name='password'
+                      label='Пароль'
+                      icon={'password'}
+                      type='password'
+                      value={data.password}
+                      margin={'0 0 25px 0'}
+                      error={error}
+                    />
+
+                    <Input
+                      required={true}
+                      action={handleData}
+                      name='re_password'
+                      label='Повторить пароль'
+                      icon={'password'}
+                      type='password'
+                      value={data.re_password}
+                      margin={'0 0 25px 0'}
+                      error={error}
+                    />
 
                     <div className='social_links_block_info social_links_block_info_registration'>
                       Отправляя форму вы соглашаетесь с{' '}
@@ -163,8 +168,12 @@ const Register = ({ signUp }) => {
   )
 }
 
+const mapStateToProps = state => ({
+  error: state.auth.error
+})
+
 const mapDispatchToProps = {
   signUp,
 }
 
-export default connect(null, mapDispatchToProps)(Register)
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

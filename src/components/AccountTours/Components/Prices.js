@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
 import DoubleWrapper from '../Wrappers/DoubleWrapper'
 import Input from '../FormFields/Input'
@@ -13,9 +13,10 @@ import {
   tourToServer,
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import ExtraServicesComponent from "./ExtraServicesComponent";
 import TextArea from "../FormFields/TextArea";
+import Button from "./Button";
 
 
 const Prices = ({
@@ -27,6 +28,22 @@ const Prices = ({
   currencies,
   tourToServer,
 }) => {
+
+  const history = useHistory()
+
+  const [url, setUrl] = useState('')
+
+  useEffect(() => {
+    getCurrencies()
+    window.scrollTo(0, 0)
+    return () => setUrl('')
+  }, [])
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    tourToServer(tour, tour.id)
+    history.push(url)
+  }
 
   const handleInput = (name, value) => {
     updateTour({ ...tour, [name]: value })
@@ -74,15 +91,6 @@ const Prices = ({
   }, [tour])
 
 
-  const handleButtonSubmit = () => {
-    tourToServer(tour, tour.id)
-  }
-
-  useEffect(() => {
-    getCurrencies()
-    window.scrollTo(0, 0)
-  }, [])
-
   return (
     <>
       <ToursEditLayout secondary_item='prices' secondary_name='Цены'>
@@ -90,198 +98,204 @@ const Prices = ({
         <h4>Цены</h4>
       </div>
 
-        <DoubleWrapper ratio='2-3'>
-          <Input
-            required={true}
-            action={handleInput}
-            name='price'
-            label='Стоимость'
-            value={tour && tour.price}
-          />
-          <SelectInput
-            required={true}
-            action={handleInput}
-            name='currency'
-            label='Валюта тура'
-            val={tour && tour.currency}
-            options={currencies}
-          />
-        </DoubleWrapper>
+        <form onSubmit={handleSubmit}>
 
-        <SingleWrapper label='Комментарий к стоимости' comment=''>
-          <Input
-            action={handleInput}
-            name='price_comment'
-            label='Комментарий к стоимости'
-            value={tour && tour.price_comment}
-          />
-        </SingleWrapper>
+          <DoubleWrapper ratio='2-3'>
+            <Input
+              required={true}
+              action={handleInput}
+              name='price'
+              label='Стоимость*'
+              value={tour && tour.price}
+            />
+            <SelectInput
+              required={true}
+              action={handleInput}
+              name='currency'
+              label='Валюта тура*'
+              val={tour && tour.currency}
+              options={currencies}
+            />
+          </DoubleWrapper>
 
-        <DoubleWrapper ratio='2-3'>
-          <Input
-            action={handleInput}
-            name='discount'
-            label='Размер скидки'
-            value={tour && tour.discount}
-            // type='date'
-            // multiple
-          />
-          <SelectInput
-            action={handleInput}
-            name='discount_in_prc'
-            label='Номинал'
-            val={tour && tour.discount_in_prc}
-            options={[
-              { id: 0, name: 'Число' },
-              { id: 1, name: '%' },
-            ]}
-            // multiple
-          />
-        </DoubleWrapper>
-
-        <DoubleWrapper ratio='1-2'>
-          <Input
-            action={handleInput}
-            name='discount_starts'
-            label='Скидка действует с:'
-            value={tour && tour.discount_starts}
-            type='date'
-            // multiple
-          />
-          <Input
-            action={handleInput}
-            name='discount_finish'
-            label='Скидка действует до:'
-            value={tour && tour.discount_finish}
-            type='date'
-
-            // multiple
-          />
-        </DoubleWrapper>
-
-        <DoubleWrapper ratio='2-3'>
-          <Input
-            required={true}
-            action={handleInput}
-            name='prepay_amount'
-            label='Предоплата'
-            value={tour && tour.prepay_amount}
-            // type='date'
-            // multiple
-          />
-          <SelectInput
-            required={true}
-            action={handleInput}
-            name='prepay_in_prc'
-            label='Номинал'
-            val={tour && tour.prepay_in_prc}
-            options={[
-              { id: 0, name: 'Число' },
-              { id: 1, name: '%' },
-            ]}
-            // multiple
-          />
-        </DoubleWrapper>
-
-        {tour && !tour.postpay_days_before_start && (
-          <CheckboxInput
-            action={handleInput}
-            name='postpay_on_start_day'
-            label='Постоплата в день старта'
-            comment=''
-            value={tour && tour.postpay_on_start_day}
-          />
-        )}
-
-        {tour && !tour.postpay_on_start_day && (
-          <SingleWrapper label='Вносится за дней до старта ' comment=''>
+          <SingleWrapper label='Комментарий к стоимости' comment=''>
             <Input
               action={handleInput}
-              name='postpay_days_before_start'
-              label='Вносится за дней до старта'
-              value={tour && tour.postpay_days_before_start}
+              name='price_comment'
+              label='Комментарий к стоимости'
+              value={tour && tour.price_comment}
             />
           </SingleWrapper>
-        )}
 
-        <ExtraServicesComponent/>
+          <DoubleWrapper ratio='2-3'>
+            <Input
+              action={handleInput}
+              name='discount'
+              label='Размер скидки'
+              value={tour && tour.discount}
+              // type='date'
+              // multiple
+            />
+            <SelectInput
+              action={handleInput}
+              name='discount_in_prc'
+              label='Номинал'
+              val={tour && tour.discount_in_prc}
+              options={[
+                { id: 0, name: 'Число' },
+                { id: 1, name: '%' },
+              ]}
+              // multiple
+            />
+          </DoubleWrapper>
 
-        <SingleWrapper label='В стоимость включено' comment='Вводить через точку с запятой.'>
-          <TextArea
-            required={true}
+          <DoubleWrapper ratio='1-2'>
+            <Input
+              action={handleInput}
+              name='discount_starts'
+              label='Скидка действует с:'
+              value={tour && tour.discount_starts}
+              type='date'
+              // multiple
+            />
+            <Input
+              action={handleInput}
+              name='discount_finish'
+              label='Скидка действует до:'
+              value={tour && tour.discount_finish}
+              type='date'
+
+              // multiple
+            />
+          </DoubleWrapper>
+
+          <DoubleWrapper ratio='2-3'>
+            <Input
+              required={true}
+              action={handleInput}
+              name='prepay_amount'
+              label='Предоплата*'
+              value={tour && tour.prepay_amount}
+              // type='date'
+              // multiple
+            />
+            <SelectInput
+              required={true}
+              action={handleInput}
+              name='prepay_in_prc'
+              label='Номинал*'
+              val={tour && tour.prepay_in_prc}
+              options={[
+                { id: 0, name: 'Число' },
+                { id: 1, name: '%' },
+              ]}
+              // multiple
+            />
+          </DoubleWrapper>
+
+          {tour && !tour.postpay_days_before_start && (
+            <CheckboxInput
+              action={handleInput}
+              name='postpay_on_start_day'
+              label='Постоплата в день старта'
+              comment=''
+              value={tour && tour.postpay_on_start_day}
+            />
+          )}
+
+          {tour && !tour.postpay_on_start_day && (
+            <SingleWrapper label='Вносится за дней до старта ' comment=''>
+              <Input
+                action={handleInput}
+                name='postpay_days_before_start'
+                label='Вносится за дней до старта'
+                value={tour && tour.postpay_days_before_start}
+              />
+            </SingleWrapper>
+          )}
+
+          <ExtraServicesComponent/>
+
+          <SingleWrapper label='В стоимость включено*' comment='Вводить через точку с запятой.'>
+            <TextArea
+              required={true}
+              action={handleInput}
+              name='tour_included_services'
+              label=''
+              value={tour && tour.tour_included_services}
+              rows='7'
+            />
+          </SingleWrapper>
+
+          <SingleWrapper label='В стоимость не включено*' comment='Вводить через точку с запятой.'>
+            <TextArea
+              required={true}
+              action={handleInput}
+              name='tour_excluded_services'
+              label=''
+              value={tour && tour.tour_excluded_services}
+              rows='7'
+            />
+          </SingleWrapper>
+
+          <SingleWrapper label='Авиабилеты*' comment=''>
+            <TextArea
+              required={true}
+              action={handleInput}
+              name='air_tickets'
+              label=''
+              value={tour && tour.air_tickets}
+              rows='7'
+            />
+          </SingleWrapper>
+
+          <CheckboxInput
             action={handleInput}
-            name='tour_included_services'
-            label=''
-            value={tour && tour.tour_included_services}
-            rows='7'
+            name='flight_included'
+            label='В стоимость включен перелёт'
+            comment=''
+            value={tour && tour.flight_included}
           />
-        </SingleWrapper>
 
-        <SingleWrapper label='В стоимость не включено' comment='Вводить через точку с запятой.'>
-          <TextArea
-            required={true}
-            action={handleInput}
-            name='tour_excluded_services'
-            label=''
-            value={tour && tour.tour_excluded_services}
-            rows='7'
-          />
-        </SingleWrapper>
+          <SingleWrapper
+            label='Укажите свои условия отмены:*'
+            comment='Расскажите клиентам, какая у вас политика возвратов. Какая сумма вернется пользователю в случае отмены по инициативе путешественника? Обратите внимание, что сервисный сбор платит тревел-эксперт и он является фактически понесенными расходами.'
+          >
+            <TextArea
+              required={true}
+              action={handleInput}
+              name='cancellation_terms'
+              label=''
+              value={tour && tour.cancellation_terms}
+              rows='7'
+            />
+          </SingleWrapper>
 
-        <SingleWrapper label='Авиабилеты' comment=''>
-          <TextArea
-            required={true}
-            action={handleInput}
-            name='air_tickets'
-            label=''
-            value={tour && tour.air_tickets}
-            rows='7'
-          />
-        </SingleWrapper>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '66%',
+            }}
+          >
 
-        <CheckboxInput
-          action={handleInput}
-          name='flight_included'
-          label='В стоимость включен перелёт'
-          comment=''
-          value={tour && tour.flight_included}
-        />
+            <Button
+              text={'Назад'}
+              color={'button-primary'}
+              type='submit'
+              action={() => setUrl('/account/tours/edit/review')}
+            />
+            <Button
+              text={'Продолжить'}
+              color={'button-success'}
+              type='submit'
+              action={() => setUrl('/account/tours/edit/gallery')}
+            />
+          </div>
 
-        <SingleWrapper
-          label='Укажите свои условия отмены:*'
-          comment='Расскажите клиентам, какая у вас политика возвратов. Какая сумма вернется пользователю в случае отмены по инициативе путешественника? Обратите внимание, что сервисный сбор платит тревел-эксперт и он является фактически понесенными расходами.'
-        >
-          <TextArea
-            required={true}
-            action={handleInput}
-            name='cancellation_terms'
-            label=''
-            value={tour && tour.cancellation_terms}
-            rows='7'
-          />
-        </SingleWrapper>
+        </form>
 
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          width: '66%',
-        }}
-      >
 
-        <Link
-          className={`add-tour-button button-primary`}
-          to='/account/tours/edit/review'
-          onClick={handleButtonSubmit}>
-          Назад
-        </Link>
-        <Link
-          className={`add-tour-button button-success`}
-          to='/account/tours/edit/gallery'
-          onClick={handleButtonSubmit}>
-          Продолжить
-        </Link>
-      </div>
       </ToursEditLayout>
     </>
   )

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
+import CircularProgress from '@mui/material/CircularProgress'
 
 
-const TextEditor = ({ action, name, value }) => {
+const TextEditor = ({ action, name, value, required }) => {
 
   const editorRef = useRef()
   const [editorLoaded, setEditorLoaded] = useState(false)
@@ -30,34 +31,41 @@ const TextEditor = ({ action, name, value }) => {
   // }
 
   return editorLoaded ? (
-    <CKEditor
-      editor={ClassicEditor}
-      data={data}
-      value={data}
-      config={{
-        toolbar: [
-          'bold',
-          'italic',
-          'blockQuote',
-          '|',
-          // 'link',
-          'numberedList',
-          'bulletedList',
-          '|',
-          // 'imageUpload',
-          // 'mediaEmbed',
-          // '|',
-          'undo',
-          'redo',
-        ],
-      }}
-      onChange={(event, editor) => {
-        const data = editor.getData()
-        action(name, data)
-      }}
-    />
+    <div className={'ckeditor-textarea-wrapper'}>
+      <CKEditor
+        editor={ClassicEditor}
+        data={data}
+        value={data}
+        config={{
+          toolbar: [
+            'bold',
+            'italic',
+            'blockQuote',
+            '|',
+            // 'link',
+            'numberedList',
+            'bulletedList',
+            '|',
+            // 'imageUpload',
+            // 'mediaEmbed',
+            // '|',
+            'undo',
+            'redo',
+          ],
+        }}
+        onChange={(event, editor) => {
+          const data = editor.getData()
+          action(name, data)
+        }}
+        onBlur={(event, editor) => {
+          const data = editor.getData()
+          action(name, data === '<p></p>' ? '' : data)
+        }}
+      />
+      <textarea required={required} value={data} onChange={e => setData(e.target.value)}/>
+    </div>
   ) : (
-    <div>Editor loading</div>
+    <div><CircularProgress/></div>
   )
 }
 

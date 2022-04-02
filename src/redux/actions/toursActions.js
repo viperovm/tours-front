@@ -73,6 +73,10 @@ import {
   GET_TOUR_PREVIEW_FAIL,
   SET_PAGE,
   GET_CITIES_SUCCESS,
+  DELETE_TOUR_IMAGE_SUCCESS,
+  DELETE_TOUR_IMAGE_FAIL,
+  DELETE_PROPERTY_IMAGE_SUCCESS,
+  DELETE_PROPERTY_IMAGE_FAIL,
 } from '../types'
 import axios from 'axios'
 
@@ -175,9 +179,11 @@ export const tourToServer = (data, id) => async dispatch => {
   try {
     const res = await axios.patch(`${API_URL}/api/tours/${id}/`, body, config)
 
+    const payload = {data: res.data, id: id,}
+
     dispatch({
       type: UPDATE_TOUR_SUCCESS,
-      payload: res.data,
+      payload: payload,
     })
     // dispatch(set_tour(res.data))
   } catch (err) {
@@ -256,6 +262,7 @@ export const deleteTour = id => async dispatch => {
 
     dispatch({
       type: DELETE_TOUR,
+      payload: id,
     })
     dispatch(clearCurrentTour())
   } catch (err) {
@@ -349,6 +356,35 @@ export const setTourImages = (image, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: SET_TOUR_IMAGE_FAIL,
+    })
+  }
+}
+
+export const deleteTourImage = (image, id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(image)
+
+  try {
+    await axios.patch(
+      `${API_URL}/api/tours/${id}/gallary/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: DELETE_TOUR_IMAGE_SUCCESS,
+      payload: image,
+    })
+  } catch (err) {
+    dispatch({
+      type: DELETE_TOUR_IMAGE_FAIL,
     })
   }
 }
@@ -521,6 +557,35 @@ export const setPropertyImage = (image, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: SET_PROPERTY_IMAGE_FAIL,
+    })
+  }
+}
+
+export const deletePropertyImage = (image, id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(image)
+
+  try {
+    await axios.patch(
+      `${API_URL}/api/tours/${id}/propertyimages/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: DELETE_PROPERTY_IMAGE_SUCCESS,
+      payload: image,
+    })
+  } catch (err) {
+    dispatch({
+      type: DELETE_PROPERTY_IMAGE_FAIL,
     })
   }
 }
@@ -775,7 +840,8 @@ export const getTourLeaders = () => async dispatch => {
   }
 }
 
-export const clearCurrentTour = () => async dispatch => {
+export const clearCurrentTour = () => dispatch => {
+  console.log(3)
   dispatch({
     type: CLEAR_CURRENT_TOUR,
   })

@@ -44,12 +44,6 @@ const ToursEditLayout = ({
     return <Redirect to='/login'/>
   }
 
-  // useEffect(() => {
-  //   if (!isNotEmptyObject(tour)) {
-  //     console.log(tour)
-  //     addTour()
-  //   }
-  // }, [tour])
 
   useEffect(() => {
     openSecondaryMenu(true)
@@ -66,13 +60,11 @@ const ToursEditLayout = ({
 
   const handleTourCopy = () => {
     history.push('/account/tours/list')
-    location.reload()
   }
 
   const handleTourDelete = () => {
     deleteTour(tour.id)
     history.push('/account/tours/list')
-    location.reload()
   }
 
   const handleTourPreview = () => {
@@ -92,25 +84,22 @@ const ToursEditLayout = ({
     }
   }, [tour, loading])
 
-  const handleModeration = () => {
-    tourToServer({...tour, on_moderation: true, is_draft: false}, tour.id)
+  const handleModeration = async () => {
+    await tourToServer({...tour, on_moderation: true, is_draft: false}, tour.id)
     clearCurrentTour()
     history.push('/account/tours/list')
-    location.reload()
   }
 
-  const handleSave = () => {
-    tourToServer(tour, tour.id)
+  const handleSave = async () => {
+    await tourToServer(tour, tour.id)
     clearCurrentTour()
     history.push('/account/tours/list')
-    location.reload()
   }
 
-  const handleDraft = () => {
-    tourToServer({...tour, on_moderation: false, is_draft: true}, tour.id)
+  const handleDraft = async () => {
+    await tourToServer({...tour, on_moderation: false, is_draft: true}, tour.id)
     clearCurrentTour()
     history.push('/account/tours/list')
-    location.reload()
   }
 
 
