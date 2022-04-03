@@ -15,6 +15,7 @@ import FileInput from "../../../components/AccountTours/FormFields/FileInput";
 import ProfileInputDoubleWrapper from "../../../components/AccountProfile/Wrappers/ProfileInputDoubleWrapper";
 import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxInput";
 import cross from '../../../assets/img/x.svg'
+import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
 
 const Settings = ({
                     user, status, setPage, update_user, getLanguages, languages, update_avatar, email_confirm_request,
@@ -133,7 +134,7 @@ const Settings = ({
             Личные данные
           </h4>
         </div>
-        <ProfileInputWrapper label=''>
+        <SingleWrapper label=''>
           <FileInput
             max={1}
             action={handleImageChange}
@@ -141,56 +142,50 @@ const Settings = ({
             value={avatar}
             type='file'
           />
-        </ProfileInputWrapper>
-        <ProfileInputDoubleWrapper>
-          <ProfileInputWrapper label='Имя'>
-            <Input
-              label={'Имя'}
-              action={handleChange}
-              name='first_name'
-              value={profile.first_name}
-            />
-          </ProfileInputWrapper>
-          <ProfileInputWrapper label='Фамилия'>
-            <Input
-              label={'Фамилия'}
-              action={handleChange}
-              name='last_name'
-              value={profile.last_name}
-            />
-          </ProfileInputWrapper>
-        </ProfileInputDoubleWrapper>
+        </SingleWrapper>
+        <DoubleWrapper full={true}>
+          <Input
+            label={'Имя'}
+            action={handleChange}
+            name='first_name'
+            value={profile.first_name}
+          />
+          <Input
+            label={'Фамилия'}
+            action={handleChange}
+            name='last_name'
+            value={profile.last_name}
+          />
+        </DoubleWrapper>
 
-        <ProfileInputDoubleWrapper>
-          <ProfileInputWrapper label='Номер телефона'>
-            <Input
-              label={'Номер телефона'}
-              action={handleChange}
-              name='phone'
-              value={profile.phone}
-            />
-            {profile.phone_confirmed ? (<div className="verified-note">
-                <span className="confirmed-green">Телефон подтвержден и скрыт от других пользователей</span>
-              </div>
+        <DoubleWrapper full={true}>
+          <Input
+            label={'Номер телефона'}
+            action={handleChange}
+            name='phone'
+            value={profile.phone}
+          />
+          <Input
+            label={'Email'}
+            action={handleChange}
+            name='email'
+            value={profile.email}
+          />
+        </DoubleWrapper>
+        <DoubleWrapper full={true}>
+          {profile.phone_confirmed ? (<div className="verified-note">
+              <span className="confirmed-green">Телефон подтвержден и скрыт от других пользователей</span>
+            </div>
 
-            ) : (<div className="verified-note">
-              Телефон не подтвержден! <span>Подвердить?</span>
-            </div>)}
-          </ProfileInputWrapper>
-          <ProfileInputWrapper label='Email'>
-            <Input
-              label={'Email'}
-              action={handleChange}
-              name='email'
-              value={profile.email}
-            />
-            {profile.email_confirmed ? (<div className="verified-note">
-              <span className="confirmed-green">Email подтвержден</span>
-            </div>) : (<div className="verified-note">
-              Email не подтвержден! <span onClick={handleEmailConfirm} style={{cursor: 'pointer'}}>Подвердить?</span>
-            </div>)}
-          </ProfileInputWrapper>
-        </ProfileInputDoubleWrapper>
+          ) : (<div className="verified-note">
+            Телефон не подтвержден! <span>Подвердить?</span>
+          </div>)}
+          {profile.email_confirmed ? (<div className="verified-note">
+            <span className="confirmed-green">Email подтвержден</span>
+          </div>) : (<div className="verified-note">
+            Email не подтвержден! <span onClick={handleEmailConfirm} style={{cursor: 'pointer'}}>Подвердить?</span>
+          </div>)}
+        </DoubleWrapper>
 
         <Button
           color={'button-primary'}
@@ -199,14 +194,14 @@ const Settings = ({
           // action={handleSubmit}
         />
 
-        <ProfileInputWrapper label='Видео'>
+        <SingleWrapper label='Видео' width={'100%'} margin={'0'}>
           <Input
             label={'Ссылка на видео'}
             action={handleChange}
             name='video'
             value={profile.video}
           />
-        </ProfileInputWrapper>
+        </SingleWrapper>
 
         <div className="profile-settings-subheading">
           <h4>
@@ -242,26 +237,22 @@ const Settings = ({
 
         <ProfileInputWrapper label='Для смены учетных данных, введите в поле новый пароль и его подтверждение:'/>
 
-        <ProfileInputDoubleWrapper>
-          <ProfileInputWrapper label='Новый пароль'>
-            <Input
-              type='password'
-              label={'Новый пароль'}
-              action={handleChange}
-              name='password'
-              value={profile.password}
-            />
-          </ProfileInputWrapper>
-          <ProfileInputWrapper label='Подтверждение пароля'>
-            <Input
-              type='password'
-              label={'Подтверждение пароля'}
-              action={handleChange}
-              name='re_password'
-              value={profile.re_password}
-            />
-          </ProfileInputWrapper>
-        </ProfileInputDoubleWrapper>
+        <DoubleWrapper full={true}>
+          <Input
+            type='password'
+            label={'Новый пароль'}
+            action={handleChange}
+            name='password'
+            value={profile.password}
+          />
+          <Input
+            type='password'
+            label={'Подтверждение пароля'}
+            action={handleChange}
+            name='re_password'
+            value={profile.re_password}
+          />
+        </DoubleWrapper>
 
         <Button
           text='Сохранить настройки'

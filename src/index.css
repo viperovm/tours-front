@@ -3666,7 +3666,7 @@ input[type='file'] {
   font-size: 13px;
   line-height: 16px;
   color: rgba(0, 0, 0, 0.5);
-  margin-top: 5px;
+  margin-top: -30px;
 }
 
 .verified-note span {
@@ -3858,6 +3858,12 @@ input[type='file'] {
   border: 1px solid rgba(0, 0, 0, 0.1)!important;
   background: #F6F7F9!important;
   align-items: center!important;
+  font-family: 'AvenirNextCyr-Regular';
+  font-style: normal;
+  font-weight: 450;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
 }
 
 .custom-textarea-style {
@@ -3867,6 +3873,12 @@ input[type='file'] {
   border: 1px solid rgba(0, 0, 0, 0.1)!important;
   background: #F6F7F9!important;
   align-items: center!important;
+  font-family: 'AvenirNextCyr-Regular';
+  font-style: normal;
+  font-weight: 450;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
 }
 
 .react-dropdown-select-content {

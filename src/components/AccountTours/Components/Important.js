@@ -152,7 +152,7 @@ const ExtraServices = ({
               text={'На модерацию'}
               color={'button-success'}
               type='submit'
-              action={() => setUrl('/account/tours')}
+              action={() => setUrl('/account/tours/list')}
             />
           </div>
         </form>

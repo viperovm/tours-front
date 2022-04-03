@@ -79,22 +79,22 @@ const MyProfile = ({ user, status, setPage, update_user, getLanguages, languages
                 </div>
               </aside>
               <div className="profile-page-content">
-                <ProfileInputWrapper label='Страна'>
+                <SingleWrapper label='Страна' width={'100%'} margin={'0'}>
                   <Input
                     name='country'
                     label='Укажите страну в которой вы живете'
                     value={profile.country}
                     action={handleChange}
                   />
-                </ProfileInputWrapper>
-                <ProfileInputWrapper label='Город'>
+                </SingleWrapper>
+                <SingleWrapper label='Город' width={'100%'} margin={'0'}>
                   <Input
                     name='city'
                     label='Укажите город в котором вы живете'
                     value={profile.city}
                     action={handleChange}
                   />
-                </ProfileInputWrapper>
+                </SingleWrapper>
                 <SingleWrapper label='Язык' full={true} margin={'0'}>
                   <SelectInput
                     name='languages'
@@ -105,14 +105,14 @@ const MyProfile = ({ user, status, setPage, update_user, getLanguages, languages
                     multiple={true}
                   />
                 </SingleWrapper>
-                <ProfileInputWrapper label='Где вы были?'>
+                <SingleWrapper label='Где вы были?' width={'100%'} margin={'0'}>
                   <Input
                     name='visited_countries'
                     label='Укажите колличечство стран, в которых вы были'
                     value={profile.visited_countries}
                     action={handleChange}
                   />
-                </ProfileInputWrapper>
+                </SingleWrapper>
                 <ProfileInputWrapper label='Это всем интересно'>
                   <TextArea
                     name='about'

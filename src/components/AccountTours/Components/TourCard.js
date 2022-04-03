@@ -158,7 +158,7 @@ const TourCard = ({
             onClick={handleTourEdit}
             style={{ cursor: 'pointer' }}
           >
-            <div className='tour-region'>{tour.start_country}</div>
+            <div className='tour-region'>{tour.start_country.name}</div>
             <div
               className='tour-name'
               onClick={handleTourEdit}
