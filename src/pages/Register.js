@@ -2,20 +2,34 @@ import React, { useState, useEffect } from 'react'
 import MainLayout from '../layouts/MainLayout'
 import {clear_errors, signUp} from '../redux/actions/authActions'
 import { connect } from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import Input from "../components/AccountTours/FormFields/Input";
+import PopUp from "../components/PopUp/PopUp";
 
-const Register = ({ signUp, error }) => {
-  const [data, setData] = useState({
-    email: '',
-    password: '',
-    re_password: '',
-  })
+const Register = ({ signUp, error, reg_status, clear_errors }) => {
+  const [data, setData] = useState({})
   const [isExpert, setIsExpert] = useState(false)
   const [status, setStatus] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [activePopUp, setActivePopUp] = useState(false)
+
+  const history = useHistory()
 
   useEffect(() => {
-    return () => clear_errors()
+    if(submitted && reg_status >= 200 && reg_status < 300) {
+      setActivePopUp(true)
+    }
+  }, [submitted, reg_status])
+
+
+  useEffect(() => {
+    return () => {
+      console.log('clear')
+      // setData({})
+      clear_errors()
+      setActivePopUp(false)
+      // setSubmitted(false)
+    }
   }, [])
 
   useEffect(() => {
@@ -33,20 +47,20 @@ const Register = ({ signUp, error }) => {
     })
   }
 
-  const handleAction = async e => {
+  const handleAction = e => {
     e.preventDefault()
-    await signUp(status, data)
-    setData({
-      email: '',
-      password: '',
-      re_password: '',
-    })
-
+    setSubmitted(true)
+    signUp(status, data)
+  }
+  const handleRedirect = () => {
+    history.push('/login')
   }
 
   return (
     <MainLayout>
       <>
+        {activePopUp && <PopUp status={'ok'} title={'Вы успешно зарегистрировались'}
+                text={'Для авторизации на сайте перейдите в раздел "Вход"'} button={'Ок'} action={handleRedirect}/>}
         <section>
           <div className='wrapper'>
             <div className='breadcrumbs breadcrumbs_margin'>
@@ -69,13 +83,13 @@ const Register = ({ signUp, error }) => {
                 <div className='auth_form'>
                   <div className='change_type_block'>
                     <button
-                      className={!isExpert && 'active'}
+                      className={!isExpert ? 'active' : ''}
                       onClick={() => setIsExpert(false)}
                     >
                       Я путешественник
                     </button>
                     <button
-                      className={isExpert && 'active'}
+                      className={isExpert ? 'active' : ''}
                       onClick={() => setIsExpert(true)}
                     >
                       Я тревел-эксперт
@@ -169,11 +183,13 @@ const Register = ({ signUp, error }) => {
 }
 
 const mapStateToProps = state => ({
-  error: state.auth.error
+  error: state.auth.error,
+  reg_status: state.auth.reg_status
 })
 
 const mapDispatchToProps = {
   signUp,
+  clear_errors,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register)

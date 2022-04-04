@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { connect } from 'react-redux'
 import ToursList from "../../../components/AccountTours/Components/ToursList";
-import {Link, Redirect} from 'react-router-dom'
+import {Link, Redirect, useHistory} from 'react-router-dom'
 import Account from "../../../layouts/account/account";
 import {addTour} from "../../../redux/actions/toursActions";
 import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
@@ -10,12 +10,21 @@ const MyTours = ({isAuthenticated, addTour, tour}) => {
 
   const [buttonText, setButtonText] = useState('Добавить путешествие')
 
+  const [edit, setEdit] = useState(false)
+
+  useEffect(() => {
+    if(isNotEmptyObject(tour) && edit) {
+      setEdit(false)
+      history.push(`/account/tours/${tour.id}/edit/main`)
+    }
+  }, [tour])
+
+  const history = useHistory()
+
   useEffect(() => {
     if(tour.id) {
-      console.log(1)
       setButtonText('Продолжить редактирование')
     } else {
-      console.log(2)
       setButtonText('Добавить путешествие')
     }
   }, [tour])
@@ -25,9 +34,9 @@ const MyTours = ({isAuthenticated, addTour, tour}) => {
   }
 
   const handleEditingButton = () => {
-    if (tour && !isNotEmptyObject(tour)) {
-      addTour()
-    }
+    setEdit(true)
+    addTour()
+
   }
 
   return (
@@ -42,10 +51,10 @@ const MyTours = ({isAuthenticated, addTour, tour}) => {
               Вам доступно безлимитное добавление туров и путешествий, более 2
               000 000 человек ждут их.
             </div>
-            <div className='tours-list-add-button-button green'>
-              <Link to='/account/tours/edit/main' onClick={handleEditingButton}>
+            <div className='tours-list-add-button-button green' onClick={handleEditingButton}>
+              <div>
                 {buttonText}
-              </Link>
+              </div>
             </div>
           </div>
           <div className='control-buttons'>

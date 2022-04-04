@@ -1,6 +1,7 @@
 import * as t from '../types'
 import {DELETE_AVATAR_SUCCESS, EMAIL_CONFIRM_REQUEST_FAIL} from "../types";
 import {email_confirm_request} from "../actions/authActions";
+import {isNotEmptyObject} from "../../functions";
 
 const initialState = {
   reg_status: null,
@@ -15,7 +16,7 @@ const initialState = {
   avatar: '',
   email_confirm_request: null,
   email_confirm: null,
-  error: [],
+  error: {},
 }
 
 const authReducer = (state = initialState, action) => {
@@ -63,6 +64,13 @@ const authReducer = (state = initialState, action) => {
         ...state,
         reg_status: payload,
       }
+    case t.LOGIN_FAIL:
+    case t.SIGNUP_FAIL:
+      return {
+        ...state,
+        error: payload.data,
+        reg_status: payload.status,
+      }
     case t.SET_PAGE:
       return {
         ...state,
@@ -102,16 +110,12 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
       }
-    case t.LOGIN_FAIL:
-    case t.SIGNUP_FAIL:
-      return {
-        ...state,
-        error: payload
-      }
+
     case t.CLEAR_ERRORS:
       return {
         ...state,
-        error: []
+        error: {},
+        reg_status: null,
       }
     default:
       return state

@@ -14,7 +14,8 @@ import {
   updateTourWallpaper,
   setName,
   tourToServer,
-  setSecondaryNav, getTourLeaders
+  setSecondaryNav, getTourLeaders,
+  getTour,
 } from '../../../redux/actions/toursActions'
 
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
@@ -24,6 +25,8 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "./Button";
 import {getTeamMembers} from "../../../redux/actions/profileActions";
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
+import PopUp from "../../PopUp/PopUp";
 
 const Main = ({
                 secondary_nav,
@@ -38,12 +41,46 @@ const Main = ({
                 tour_leaders,
                 getTourLeaders,
                 getTeamMembers,
-                members
+                members,
+                match,
+                getTour,
+                res_status,
+                error,
                 }) => {
 
   const history = useHistory()
 
   const [url, setUrl] = useState('')
+
+  const [loading, setLoading] = useState(false)
+
+  const [submitted, setSubmitted] = useState(false)
+
+  const [activePopUp, setActivePopUp] = useState(false)
+
+  useEffect(() => {
+    if(submitted && res_status && res_status >= 200 && res_status < 300) {
+      handleRedirect()
+    } else if(submitted && res_status >= 400 && res_status < 600) {
+      setActivePopUp(true)
+    }
+  }, [submitted, res_status])
+
+  const handleRedirect = () => {
+    setSubmitted(false)
+    history.push(url)
+  }
+
+  useEffect(() => {
+    const loadTour = async () => {
+      setLoading(true)
+      await getTour(match.params.id)
+      setLoading(false)
+    }
+    if(!isNotEmptyObject(tour)) {
+      loadTour()
+    }
+  }, [tour])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -51,8 +88,6 @@ const Main = ({
     getTeamMembers()
     return () => setUrl('')
   }, [])
-
-  const [loading, setLoading] = useState(false)
 
   const handleInput = (name, value) => {
     updateTour({
@@ -68,7 +103,7 @@ const Main = ({
   const handleSubmit = e => {
     e.preventDefault()
     tourToServer(tour, tour.id)
-    history.push(url)
+    setSubmitted(true)
   }
 
 
@@ -124,7 +159,12 @@ const Main = ({
 
   return (
     <>
-      <ToursEditLayout secondary_item='main' secondary_name='Основное'>
+      <ToursEditLayout secondary_item='main' secondary_name='Основное' tour_id={match.params.id}>
+      {activePopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
+                             text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'} button={'Ок'} action={() => {
+        setActivePopUp(false)
+        setSubmitted(false)
+      }}/>}
         <div className='my-tours-section-heading'>
           <h4>Основное</h4>
         </div>
@@ -153,6 +193,7 @@ const Main = ({
               name='vacants_number'
               label='Осталось мест*'
               value={tour && tour.vacants_number}
+              error={error}
             />
             <Input
               required={true}
@@ -160,6 +201,7 @@ const Main = ({
               name='members_number'
               label='Всего мест*'
               value={tour && tour.members_number}
+              error={error}
             />
           </DoubleWrapper>
 
@@ -241,6 +283,7 @@ const Main = ({
               action={handleInput}
               name='first_name'
               value={tour && tour.guest_guide && tour.guest_guide.first_name}
+              error={error}
               // multiple
             />
           </SingleWrapper>
@@ -278,13 +321,14 @@ const Main = ({
               action={handleInput}
               name='tour_url'
               value={tour && tour.tour_url}
+              error={error}
             />
           </SingleWrapper>
         <Button
           text={'Продолжить'}
           color={'button-success'}
           type='submit'
-          action={() => setUrl('/account/tours/edit/review')}
+          action={() => setUrl(`/account/tours/${match.params.id}/edit/review`)}
         />
         </form>
 
@@ -297,9 +341,11 @@ const mapStateToProps = state => ({
   secondary_nav: state.tours.secondary_nav,
   toursTypes: state.tours.tour_types,
   tour: state.tours.current_tour,
+  res_status: state.tours.res_status,
+  error: state.tours.error,
   tour_name: state.tours.tour_name,
   tour_leaders: state.tours.tour_leaders,
-  members: state.profile.members
+  members: state.profile.members,
 
 })
 
@@ -311,5 +357,6 @@ export default connect(mapStateToProps, {
   tourToServer,
   setSecondaryNav,
   getTourLeaders,
-  getTeamMembers
+  getTeamMembers,
+  getTour,
 })(Main)

@@ -10,21 +10,58 @@ import {
   setSecondaryNav,
   setEditing,
   clearCurrentTour,
+  getTour,
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
 import {Link, useHistory} from "react-router-dom";
 import ObjectFileInput from "../FormFields/ObjectFileInput";
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
+import PopUp from "../../PopUp/PopUp";
 
 const Gallery = ({
                    tour,
                    setTourImages,
                    tourToServer,
                    secondary_nav,
+                   getTour,
+                   match,
+                   res_status,
+                   error,
                  }) => {
 
   const history = useHistory()
 
+  const [loading, setLoading] = useState(false)
+
   const [url, setUrl] = useState('')
+
+  const [submitted, setSubmitted] = useState(false)
+
+  const [activePopUp, setActivePopUp] = useState(false)
+
+  useEffect(() => {
+    if(submitted && res_status && res_status >= 200 && res_status < 300) {
+      handleRedirect()
+    } else if(submitted && res_status >= 400 && res_status < 600) {
+      setActivePopUp(true)
+    }
+  }, [submitted, res_status])
+
+  const handleRedirect = () => {
+    setSubmitted(false)
+    history.push(url)
+  }
+
+  useEffect(() => {
+    const loadTour = async () => {
+      setLoading(true)
+      await getTour(match.params.id)
+      setLoading(false)
+    }
+    if(!isNotEmptyObject(tour)) {
+      loadTour()
+    }
+  }, [tour])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -34,10 +71,9 @@ const Gallery = ({
   const handleSubmit = e => {
     e.preventDefault()
     tourToServer(tour, tour.id)
-    history.push(url)
+    setSubmitted(true)
   }
 
-  const [loading, setLoading] = useState(false)
   const [previews, setPreviews] = useState([])
 
   const handleInput = image => {
@@ -97,7 +133,12 @@ const Gallery = ({
 
   return (
     <>
-      <ToursEditLayout secondary_item='gallery' secondary_name='Галерея'>
+      <ToursEditLayout secondary_item='gallery' secondary_name='Галерея' tour_id={match.params.id}>
+        {activePopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
+                               text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'} button={'Ок'} action={() => {
+          setActivePopUp(false)
+          setSubmitted(false)
+        }}/>}
         <div className='my-tours-section-heading'>
           <h4>Галерея</h4>
         </div>
@@ -132,13 +173,13 @@ const Gallery = ({
               text={'Назад'}
               color={'button-primary'}
               type='submit'
-              action={() => setUrl('/account/tours/edit/prices')}
+              action={() => setUrl(`/account/tours/${match.params.id}/edit/prices`)}
             />
             <Button
               text={'Продолжить'}
               color={'button-success'}
               type='submit'
-              action={() => setUrl('/account/tours/edit/route')}
+              action={() => setUrl(`/account/tours/${match.params.id}/edit/route`)}
             />
 
           </div>
@@ -153,6 +194,8 @@ const Gallery = ({
 const mapStateToProps = state => ({
   secondary_nav: state.tours.secondary_nav,
   tour: state.tours.current_tour,
+  res_status: state.tours.res_status,
+  error: state.tours.error,
 })
 
 export default connect(mapStateToProps, {
@@ -161,4 +204,5 @@ export default connect(mapStateToProps, {
   setEditing,
   clearCurrentTour,
   tourToServer,
+  getTour,
 })(Gallery)

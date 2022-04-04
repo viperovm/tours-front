@@ -7,7 +7,15 @@ import {connect} from 'react-redux'
 import SideBar from '../../components/sideBar/SideBar'
 
 import {load_user} from '../../redux/actions/authActions'
-import {openSecondaryMenu, addTour, deleteTour, tourToServer, clearCurrentTour, setPage} from "../../redux/actions/toursActions";
+import {
+  openSecondaryMenu,
+  addTour,
+  deleteTour,
+  tourToServer,
+  clearCurrentTour,
+  setPage,
+  getTour
+} from "../../redux/actions/toursActions";
 
 import CircularProgress from '@mui/material/CircularProgress'
 import Modal from "../../components/AccountTours/Components/Modal";
@@ -15,7 +23,7 @@ import Modal from "../../components/AccountTours/Components/Modal";
 import isNotEmptyObject from "../../helpers/isNotEmptyObject";
 
 const ToursEditLayout = ({
-                            preview=false,
+                           preview = false,
                            tour,
                            menu_item,
                            secondary_item,
@@ -30,6 +38,7 @@ const ToursEditLayout = ({
                            clearCurrentTour,
                            setPage,
                            page,
+                           tour_id,
                          }) => {
 
   const history = useHistory()
@@ -68,10 +77,10 @@ const ToursEditLayout = ({
   }
 
   const handleTourPreview = () => {
-    if(!preview) {
+    if (!preview) {
       tourToServer(tour, tour.id)
       setPage(history.location)
-      history.push('/account/tours/edit/preview')
+      history.push(`/account/tours/${tour_id}/edit/preview`)
     } else {
       history.push(page)
       setPage('')
@@ -117,7 +126,7 @@ const ToursEditLayout = ({
             <div className='breadcrumbs breadcrumbs_margin'>
               <span><Link to='/'>Главная</Link></span> - <span><Link
               to='/account'>Личный кабинет</Link></span> - <span><Link
-              to='/account/tours/edit/main'>Редактирование тура</Link></span> - <span>{secondary_name}</span>
+              to={`/account/tours/${tour_id}/edit/main`}>Редактирование тура</Link></span> - <span>{secondary_name}</span>
             </div>
           </div>
         </section>
@@ -125,7 +134,7 @@ const ToursEditLayout = ({
         <section>
           <div className='wrapper'>
             <div className='account_block'>
-              <SideBar menu_item='tours/list' secondary_item={secondary_item}/>
+              <SideBar menu_item='tours/list' secondary_item={secondary_item} tour_id={tour_id}/>
 
 
               <main>
@@ -135,12 +144,12 @@ const ToursEditLayout = ({
 
                 <div className='control-buttons'>
                   <div className='control-buttons-set'>
-                    <button onClick={handleTourDelete}>Удалить</button>
-                    <button><Modal tour_id={tour.id} button_name='Создать копию' action={handleTourCopy}/></button>
+                    <div onClick={handleTourDelete}>Удалить</div>
+                    <div><Modal tour_id={tour.id} button_name='Создать копию' action={handleTourCopy}/></div>
                     {preview ?
-                      <button onClick={handleTourPreview}>Редактировать</button>
+                      <div onClick={handleTourPreview}>Редактировать</div>
                       :
-                      <button onClick={handleTourPreview}>Предпросмотр</button>}
+                      <div onClick={handleTourPreview}>Предпросмотр</div>}
                   </div>
 
                   {/*<div className='control-buttons-set'>*/}
@@ -181,4 +190,5 @@ export default connect(mapStateToProps, {
   tourToServer,
   clearCurrentTour,
   setPage,
+  getTour,
 })(ToursEditLayout)

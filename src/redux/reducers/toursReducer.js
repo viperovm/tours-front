@@ -78,6 +78,8 @@ import {
 } from '../types'
 
 const initialState = {
+  res_status: null,
+  error: {},
   tours: [],
   cities: [],
   current_tour: {},
@@ -354,7 +356,8 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         current_tour: payload.data,
-        tours: state.tours.map(item => (item.id === payload.id ? payload.data : item))
+        tours: state.tours.map(item => (item.id === payload.id ? payload.data : item)),
+        res_status: payload.status,
       }
 
     case ADD_TOUR_SUCCESS:
@@ -371,11 +374,17 @@ const toursReducer = (state = initialState, action) => {
       }
 
     case ADD_TOUR_FAIL:
-    case UPDATE_TOUR_FAIL:
     case GET_TOUR_FAIL:
       return {
         ...state,
         current_tour: {},
+      }
+
+    case UPDATE_TOUR_FAIL:
+      return {
+        ...state,
+        res_status: payload.status,
+        error: payload.data,
       }
     case GET_TOUR_TYPES_SUCCESS:
       return {

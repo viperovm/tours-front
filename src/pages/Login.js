@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import MainLayout from '../layouts/MainLayout'
-import { login, checkAuthenticated } from '../redux/actions/authActions'
+import {login, checkAuthenticated, clear_errors} from '../redux/actions/authActions'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import Input from "../components/AccountTours/FormFields/Input";
+import PopUp from "../components/PopUp/PopUp";
 
 
-const Login = ({ isAuthenticated, login, checkAuthenticated }) => {
+const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors,
+                 reg_status }) => {
+
+
+  const [data, setData] = useState({})
+  const [check, setCheck] = useState(true)
+
+  console.log('error: ', error)
 
   if (isAuthenticated) {
+    // setData({})
     return <Redirect to="/account" />
   }
-
-  const [data, setData] = useState({
-    email: '',
-    password: '',
-  })
-
-  const [check, setCheck] = useState(true)
 
   const handleCheckbox = () => {
     setCheck(!check)
@@ -32,19 +34,16 @@ const Login = ({ isAuthenticated, login, checkAuthenticated }) => {
 
   const handleAction = e => {
     e.preventDefault()
+    clear_errors()
     login(data)
-    setData({
-      email: '',
-      password: '',
-    })
-    // setTimeout(() => {if (isAuthenticated) {
-    //   return <Redirect to='/account' />
-    // }}, 500)
+    // setData({})
   }
 
   return (
     <MainLayout>
       <>
+        {/*{activePopUp && <PopUp status={'ok'} title={'Вы успешно зарегистрировались'}*/}
+        {/*                       text={'Для авторизации на сайте перейдите в раздел "Вход"'} button={'Ок'} action={() => setActivePopUp(false)}/>}*/}
         <section>
           <div className='wrapper'>
             <div className='breadcrumbs breadcrumbs_margin'>
@@ -72,6 +71,7 @@ const Login = ({ isAuthenticated, login, checkAuthenticated }) => {
                       type='email'
                       value={data.email}
                       margin={'0 0 25px 0'}
+                      error={error}
                     />
                     <Input
                       required={true}
@@ -82,6 +82,7 @@ const Login = ({ isAuthenticated, login, checkAuthenticated }) => {
                       type='password'
                       value={data.password}
                       margin={'0 0 25px 0'}
+                      error={error}
                     />
 
 
@@ -133,6 +134,8 @@ const Login = ({ isAuthenticated, login, checkAuthenticated }) => {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
+  error: state.auth.error,
+  reg_status: state.auth.reg_status
 })
 
-export default connect(mapStateToProps, { login, checkAuthenticated })(Login)
+export default connect(mapStateToProps, { login, checkAuthenticated, clear_errors })(Login)

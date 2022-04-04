@@ -141,15 +141,19 @@ export const signUp = (status, data) => async dispatch => {
   try {
     const res = await axios.post(`${API_URL}/api/${status}/`, body, config)
 
+    console.log(res.status)
 
     dispatch({
       type: t.SIGNUP_SUCCESS,
-      // payload: res.status
+      payload: res.status
     })
   } catch (err) {
+
+    console.log({data: err.response.data, status: err.response.status})
+
     dispatch({
       type: t.SIGNUP_FAIL,
-      payload: err.response.data
+      payload: {data: err.response.data, status: err.response.status},
     })
   }
 }
@@ -170,12 +174,11 @@ export const login = data => async dispatch => {
       type: t.LOGIN_SUCCESS,
       payload: res.data,
     })
-
     dispatch(load_user())
   } catch (err) {
     dispatch({
       type: t.LOGIN_FAIL,
-      payload: err.response.data,
+      payload: {data: err.response.data, status: err.response.status},
     })
   }
 }

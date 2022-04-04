@@ -14,10 +14,12 @@ import {
   addActivity,
   setSecondaryNav,
   tourToServer,
-  clearCurrentTour
+  clearCurrentTour,
+  getTour,
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
 import {Link, useHistory} from "react-router-dom";
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 
 const ExtraServices = ({
                          tour,
@@ -26,11 +28,48 @@ const ExtraServices = ({
                          updateTour,
                          tourToServer,
                          clearCurrentTour,
+                         getTour,
+                         match,
+                         res_status,
+                         error,
                        }) => {
 
   const history = useHistory()
 
   const [url, setUrl] = useState('')
+
+  const [loading, setLoading] = useState(false)
+
+  const [submitted, setSubmitted] = useState(false)
+
+  const [activePopUp, setActivePopUp] = useState(false)
+
+  useEffect(() => {
+    if(submitted && res_status && res_status >= 200 && res_status < 300) {
+      handleRedirect()
+    } else if(submitted && res_status >= 400 && res_status < 600) {
+      setActivePopUp(true)
+    }
+  }, [submitted, res_status])
+
+  const handleRedirect = () => {
+    setSubmitted(false)
+    if(url && url === '/account/tours/list') {
+      clearCurrentTour()
+    }
+    history.push(url)
+  }
+
+  useEffect(() => {
+    const loadTour = async () => {
+      setLoading(true)
+      await getTour(match.params.id)
+      setLoading(false)
+    }
+    if (!isNotEmptyObject(tour)) {
+      loadTour()
+    }
+  }, [tour])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -39,16 +78,15 @@ const ExtraServices = ({
 
   const handleSubmit = e => {
     e.preventDefault()
-    if(url && url === '/account/tours') {
+    if(url && url === '/account/tours/list') {
       tourToServer({
         ...tour,
         on_moderation: true,
       }, tour.id)
-      clearCurrentTour()
     } else if(url!==''){
       tourToServer(tour, tour.id)
     }
-    history.push(url)
+    handleRedirect()
   }
 
   const handleInput = (name, value) => {
@@ -94,7 +132,7 @@ const ExtraServices = ({
 
   return (
     <>
-      <ToursEditLayout secondary_item='important' secondary_name='Важно знать'>
+      <ToursEditLayout secondary_item='important' secondary_name='Важно знать' tour_id={match.params.id}>
         <div className='my-tours-section-heading'>
           <h4>Важно знать</h4>
         </div>
@@ -146,8 +184,9 @@ const ExtraServices = ({
               text={'Назад'}
               color={'button-primary'}
               type='submit'
-              action={() => setUrl('/account/tours/edit/accommodation')}
+              action={() => setUrl(`/account/tours/${match.params.id}/edit/accommodation`)}
             />
+
             <Button
               text={'На модерацию'}
               color={'button-success'}
@@ -181,4 +220,5 @@ export default connect(mapStateToProps, {
   getTourAccomodations,
   tourToServer,
   clearCurrentTour,
+  getTour,
 })(ExtraServices)

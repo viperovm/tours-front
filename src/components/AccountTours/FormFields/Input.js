@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import email from '../../../assets/img/message.svg'
 import password from '../../../assets/img/padlock5.svg'
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 
 const Input = ({
                  label,
@@ -10,30 +11,33 @@ const Input = ({
                  value,
                  required,
                  icon,
-                 error = [],
+                 error = {},
                  margin = '0',
                }) => {
   const [data, setData] = useState('')
   const [currentError, setCurrentError] = useState([])
 
-  console.log(error)
-  console.log(name)
-  console.log(currentError)
-  console.log(error[name])
+  console.log('name: ', name)
+  console.log('Error: ', error)
+  console.log('currentError: ', error[name])
 
   useEffect(() => {
-    if(error[name]) {
+    if(isNotEmptyObject(error) && error.detail) {
+      let arr = []
+      arr.push(error.detail)
+      setCurrentError(arr)
+    } else if(isNotEmptyObject(error) && name === 're_password') {
+      setCurrentError(error['password'])
+    } else if(error[name]) {
       setCurrentError(error[name])
     }
   }, [error, name])
-
-  console.log(currentError)
 
   useEffect(() => {
     if (value) {
       setData(value)
     }
-  })
+  }, [value])
 
   const handleData = e => {
     setCurrentError([])
@@ -43,12 +47,11 @@ const Input = ({
   // const handleSend = () => {
   //   action(name, data)
   // }
-
   return (
     <>
       {type === 'date' && <input
         required={required}
-        className='custom-input-style'
+        className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
         placeholder={label}
         name={name}
         value={data}
@@ -57,14 +60,13 @@ const Input = ({
         max="2999-12-31"
       />
       }
-
       {type !== 'date' &&
         <>
           <div className="with-errors-wrapper" style={{margin: margin}}>
             {icon && <div className={`with-icon`}>
               <input
                 required={required}
-                className='custom-input-style'
+                className={`custom-input-style ${Array.isArray(currentError) && currentError.length > 0 ? 'error' : 'ok'}`}
                 placeholder={label}
                 name={name}
                 value={data}
@@ -88,21 +90,18 @@ const Input = ({
               />
             </div>}
             <div className="errors-list">
+              {/*{currentError}*/}
               <ul>
-                {currentError.map((item, index) => (
+                { Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
                   <li key={index} >{item}</li>
                 ))
                 }
               </ul>
             </div>
           </div>
-
         </>
-
-
       }
     </>
   )
 }
-
 export default Input

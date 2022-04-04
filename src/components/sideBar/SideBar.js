@@ -4,12 +4,12 @@ import Promo from './Promo'
 import Social from './Social'
 import {connect} from "react-redux";
 
-const SideBar = ({ status, menu_item, secondary_item }) => {
+const SideBar = ({ status, menu_item, secondary_item, tour_id }) => {
   return (
     <>
       <aside className='aside'>
         <nav className='navigation account-sidebar-menu '>
-          <Nav status={status} menu_item={menu_item} secondary_item={secondary_item} />
+          <Nav status={status} menu_item={menu_item} secondary_item={secondary_item} tour_id={tour_id}/>
         </nav>
         <Promo />
         <Social />

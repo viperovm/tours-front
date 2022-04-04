@@ -56,16 +56,16 @@ const App = () => {
           <Route exact path='/account/team/edit' component={TeamEdit} />
           <Route exact path='/account/tours/list' component={Tours} />
 
-          <Route exact path='/account/tours/edit/main' component={Main} />
-          <Route exact path='/account/tours/edit/review' component={Review} />
-          <Route exact path='/account/tours/edit/prices' component={Prices} />
-          <Route exact path='/account/tours/edit/gallery' component={Gallery} />
-          <Route exact path='/account/tours/edit/route' component={TourRoute} />
-          <Route exact path='/account/tours/edit/accommodation' component={Accommodation} />
-          <Route exact path='/account/tours/edit/details' component={Details} />
-          <Route exact path='/account/tours/edit/important' component={Important} />
+          <Route exact path='/account/tours/:id/edit/main' component={Main} />
+          <Route exact path='/account/tours/:id/edit/review' component={Review} />
+          <Route exact path='/account/tours/:id/edit/prices' component={Prices} />
+          <Route exact path='/account/tours/:id/edit/gallery' component={Gallery} />
+          <Route exact path='/account/tours/:id/edit/route' component={TourRoute} />
+          <Route exact path='/account/tours/:id/edit/accommodation' component={Accommodation} />
+          <Route exact path='/account/tours/:id/edit/details' component={Details} />
+          <Route exact path='/account/tours/:id/edit/important' component={Important} />
 
-          <Route exact path='/account/tours/edit/preview' component={TourPage} />
+          <Route exact path='/account/tours/:id/edit/preview' component={TourPage} />
           <Route exact path='/activate/:uid/:token' component={EmailActivate} />
           <Route path='*' component={Page404} />
         </Switch>

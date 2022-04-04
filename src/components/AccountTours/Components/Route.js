@@ -9,12 +9,15 @@ import {
   updateTour,
   setSecondaryNav,
   tourToServer,
-  getCities
+  getCities,
+  getTour,
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
 import {Link, useHistory} from "react-router-dom";
 import CitySelectInput from "../FormFields/CitySelectInput";
 import Button from "./Button";
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
+import PopUp from "../../PopUp/PopUp";
 
 const TourRoute = ({
                      tour,
@@ -23,12 +26,46 @@ const TourRoute = ({
                      updateTour,
                      tourToServer,
                      cities,
-                     getCities
+                     getCities,
+                     getTour,
+                     match,
+                     res_status,
+                     error,
                    }) => {
 
   const history = useHistory()
 
   const [url, setUrl] = useState('')
+
+  const [loading, setLoading] = useState(false)
+
+  const [submitted, setSubmitted] = useState(false)
+
+  const [activePopUp, setActivePopUp] = useState(false)
+
+  useEffect(() => {
+    if(submitted && res_status && res_status >= 200 && res_status < 300) {
+      handleRedirect()
+    } else if(submitted && res_status >= 400 && res_status < 600) {
+      setActivePopUp(true)
+    }
+  }, [submitted, res_status])
+
+  const handleRedirect = () => {
+    setSubmitted(false)
+    history.push(url)
+  }
+
+  useEffect(() => {
+    const loadTour = async () => {
+      setLoading(true)
+      await getTour(match.params.id)
+      setLoading(false)
+    }
+    if(!isNotEmptyObject(tour)) {
+      loadTour()
+    }
+  }, [tour])
 
   useEffect(() => {
     getCities()
@@ -39,7 +76,7 @@ const TourRoute = ({
   const handleSubmit = e => {
     e.preventDefault()
     tourToServer(tour, tour.id)
-    history.push(url)
+    setSubmitted(true)
   }
 
   const handleInput = (name, value) => {
@@ -89,7 +126,12 @@ const TourRoute = ({
 
   return (
     <>
-      <ToursEditLayout secondary_item='route' secondary_name='Маршрут'>
+      <ToursEditLayout secondary_item='route' secondary_name='Маршрут' tour_id={match.params.id}>
+        {activePopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
+                               text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'} button={'Ок'} action={() => {
+          setActivePopUp(false)
+          setSubmitted(false)
+        }}/>}
         <div className='my-tours-section-heading'>
           <h4>Маршрут</h4>
         </div>
@@ -103,6 +145,7 @@ const TourRoute = ({
               label='Дата начала тура*'
               value={tour && tour.start_date}
               type='date'
+              error={error}
             />
             <Input
               required={true}
@@ -111,6 +154,7 @@ const TourRoute = ({
               label='Дата завершения тура*'
               value={tour && tour.finish_date}
               type='date'
+              error={error}
             />
           </DoubleWrapper>
           <DoubleWrapper comment=''>
@@ -121,6 +165,7 @@ const TourRoute = ({
               value={tour && tour.start_time}
               type='time'
               label='Время начала тура (местное)*'
+              error={error}
             />
             <Input
               required={true}
@@ -129,6 +174,7 @@ const TourRoute = ({
               value={tour && tour.finish_time}
               type='time'
               label='Время окончания тура (местное)*'
+              error={error}
             />
           </DoubleWrapper>
 
@@ -165,18 +211,20 @@ const TourRoute = ({
               width: '66%',
             }}
           >
+
             <Button
               text={'Назад'}
               color={'button-primary'}
               type='submit'
-              action={() => setUrl('/account/tours/edit/gallery')}
+              action={() => setUrl(`/account/tours/${match.params.id}/edit/gallery`)}
             />
             <Button
               text={'Продолжить'}
               color={'button-success'}
               type='submit'
-              action={() => setUrl('/account/tours/edit/accommodation')}
+              action={() => setUrl(`/account/tours/${match.params.id}/edit/accommodation`)}
             />
+
           </div>
         </form>
       </ToursEditLayout>
@@ -188,11 +236,14 @@ const mapStateToProps = state => ({
   secondary_nav: state.tours.secondary_nav,
   tour: state.tours.current_tour,
   cities: state.tours.cities,
+  res_status: state.tours.res_status,
+  error: state.tours.error,
 })
 
 export default connect(mapStateToProps, {
   setSecondaryNav,
   updateTour,
   tourToServer,
-  getCities
+  getCities,
+  getTour,
 })(TourRoute)

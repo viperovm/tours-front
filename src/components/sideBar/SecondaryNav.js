@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { setCurrentSection } from '../../redux/actions/toursActions'
 import {Link} from "react-router-dom";
 
-const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_item }) => {
+const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_item, tour_id }) => {
   const handleClick = data => {
 
     if (data && data.active && data.value) {
@@ -24,7 +24,7 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_i
                 key={index}
                 // onClick={() => handleClick(item)}
               >
-                <Link to={`/account/tours/edit/${item.value}`} style={{width: '100%'}} >
+                <Link to={`/account/tours/${tour_id}/edit/${item.value}`} style={{width: '100%'}} >
                 <div
                   className={`tours-submenu-name-wrap ${
                     secondary_item === item.value ? 'item-active' : 'item-inactive'

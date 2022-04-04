@@ -179,7 +179,7 @@ export const tourToServer = (data, id) => async dispatch => {
   try {
     const res = await axios.patch(`${API_URL}/api/tours/${id}/`, body, config)
 
-    const payload = {data: res.data, id: id,}
+    const payload = {data: res.data, id: id, status: res.status}
 
     dispatch({
       type: UPDATE_TOUR_SUCCESS,
@@ -189,6 +189,7 @@ export const tourToServer = (data, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: UPDATE_TOUR_FAIL,
+      payload: {status: err.response.status, data: err.response.data},
     })
   }
 }

@@ -116,34 +116,34 @@ a {
 	width: 31.5%;
 } */
 
-ol {
-  display: flex;
-  list-style-type: none;
-  padding-left: 0;
-}
+/*ol {*/
+/*  display: flex;*/
+/*  list-style-type: none;*/
+/*  padding-left: 0;*/
+/*}*/
 
-ol li:before {
-  content: '—';
-  position: relative;
-  left: -5px;
-}
+/*ol li:before {*/
+/*  content: '—';*/
+/*  position: relative;*/
+/*  left: -5px;*/
+/*}*/
 
-ol li:nth-child(1):before {
-  content: '';
-  position: relative;
-  left: -5px;
-}
+/*ol li:nth-child(1):before {*/
+/*  content: '';*/
+/*  position: relative;*/
+/*  left: -5px;*/
+/*}*/
 
-li {
-  margin-right: 10px;
-  font-size: 12px;
-  line-height: 15px;
+/*li {*/
+/*  margin-right: 10px;*/
+/*  font-size: 12px;*/
+/*  line-height: 15px;*/
   /* text-decoration: underline; */
   /* identical to box height */
 
-  color: rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.3px;
-}
+/*  color: rgba(0, 0, 0, 0.5);*/
+/*  letter-spacing: 0.3px;*/
+/*}*/
 
 .rub-sign {
   font-family: var(--font-family-rub);
@@ -1862,15 +1862,15 @@ li {
   color: #000000;
 }
 
-li {
-  list-style-type: none;
-  border-bottom: 1px solid #ebebeb;
-  margin-bottom: 1px;
-}
+/*li {*/
+/*  list-style-type: none;*/
+/*  border-bottom: 1px solid #ebebeb;*/
+/*  margin-bottom: 1px;*/
+/*}*/
 
-li:nth-last-child(1) {
-  border-bottom: none;
-}
+/*li:nth-last-child(1) {*/
+/*  border-bottom: none;*/
+/*}*/
 
 .account-sidebar-menu li {
   display: flex;
@@ -2563,7 +2563,12 @@ li.li-border-none:last-child {
   border-radius: 4px;
 }
 
-.control-buttons-set button {
+.control-buttons-set {
+  display: flex;
+}
+
+.control-buttons-set button,
+.control-buttons-set>div {
   font-size: 12px;
   line-height: 15px;
   padding: 10px 20px;
@@ -2571,6 +2576,9 @@ li.li-border-none:last-child {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 400;
+  color: #000000;
+
 }
 
 .control-buttons-set button.button-green {
@@ -2580,7 +2588,8 @@ li.li-border-none:last-child {
   color: #fff;
 }
 
-.control-buttons-set button:not(:last-child) {
+.control-buttons-set button:not(:last-child),
+.control-buttons-set>div {
   margin-right: 10px;
 }
 
@@ -3065,7 +3074,7 @@ li.li-border-none:last-child {
   /*flex: 1;*/
 }
 
-.tours-list-add-button-button a {
+.tours-list-add-button-button>div {
   display: flex;
   flex-wrap: nowrap;
   border: none;
@@ -3073,14 +3082,13 @@ li.li-border-none:last-child {
   font-weight: 750;
   font-size: 16px;
   line-height: 20px;
-
   text-transform: uppercase;
   padding: 16px 32px;
   color: #ffffff;
   cursor: pointer;
 }
 
-.tours-list-add-button-button.green a {
+.tours-list-add-button-button.green>div {
   background: #84bb59;
 }
 
@@ -3855,8 +3863,6 @@ input[type='file'] {
   height: 60px;
   border-radius: 8px!important;
   padding: 13px 20px!important;
-  border: 1px solid rgba(0, 0, 0, 0.1)!important;
-  background: #F6F7F9!important;
   align-items: center!important;
   font-family: 'AvenirNextCyr-Regular';
   font-style: normal;
@@ -3864,6 +3870,13 @@ input[type='file'] {
   font-size: 16px;
   line-height: 20px;
   color: #000000;
+  border: 1px solid rgba(0, 0, 0, 0.1)!important;
+  background: #F6F7F9!important;
+}
+
+.custom-input-style.error {
+  border: 1px solid #DF7070!important;
+  background: #FFECEC!important;
 }
 
 .custom-textarea-style {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
 import DoubleWrapper from '../Wrappers/DoubleWrapper'
 import Input from '../FormFields/Input'
@@ -8,7 +8,7 @@ import SelectInput from '../FormFields/SelectInput'
 import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
 
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {
   getTourTypes,
   getTourPropertyTypes,
@@ -19,6 +19,7 @@ import {
   addActivity,
   setSecondaryNav,
   tourToServer,
+  getTour,
 } from '../../../redux/actions/toursActions'
 
 // import Activities from './Activities'
@@ -30,8 +31,11 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
 import {Link, useHistory} from "react-router-dom";
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
+import PopUp from "../../PopUp/PopUp";
 
-function TabPanel({ children, value, index }) {
+function TabPanel({children, value, index}) {
+
   return (
     <div
       role='tabpanel'
@@ -40,7 +44,7 @@ function TabPanel({ children, value, index }) {
       aria-labelledby={`simple-tab-${index}`}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{p: 3}}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -56,18 +60,52 @@ function a11yProps(index) {
 }
 
 const Details = ({
-  tour,
-  secondary_nav,
-  setSecondaryNav,
-  updateTour,
-  tourToServer,
-  getLanguages,
-  languages,
-}) => {
+                   tour,
+                   secondary_nav,
+                   setSecondaryNav,
+                   updateTour,
+                   tourToServer,
+                   getLanguages,
+                   languages,
+                   getTour,
+                   match,
+                   res_status,
+                   error,
+                 }) => {
 
   const history = useHistory()
 
   const [url, setUrl] = useState('')
+
+  const [loading, setLoading] = useState(false)
+
+  const [submitted, setSubmitted] = useState(false)
+
+  const [activePopUp, setActivePopUp] = useState(false)
+
+  useEffect(() => {
+    if(submitted && res_status && res_status >= 200 && res_status < 300) {
+      handleRedirect()
+    } else if(submitted && res_status >= 400 && res_status < 600) {
+      setActivePopUp(true)
+    }
+  }, [submitted, res_status])
+
+  const handleRedirect = () => {
+    setSubmitted(false)
+    history.push(url)
+  }
+
+  useEffect(() => {
+    const loadTour = async () => {
+      setLoading(true)
+      await getTour(match.params.id)
+      setLoading(false)
+    }
+    if (!isNotEmptyObject(tour)) {
+      loadTour()
+    }
+  }, [tour])
 
   useEffect(() => {
     getLanguages()
@@ -78,11 +116,11 @@ const Details = ({
   const handleSubmit = e => {
     e.preventDefault()
     tourToServer(tour, tour.id)
-    history.push(url)
+    setSubmitted(true)
   }
 
   const handleInput = (name, value) => {
-    updateTour({ ...tour, [name]: value })
+    updateTour({...tour, [name]: value})
   }
 
   useEffect(() => {
@@ -127,10 +165,15 @@ const Details = ({
 
   return (
     <>
-      <ToursEditLayout secondary_item='details' secondary_name='Детали'>
-      <div className='my-tours-section-heading'>
-        <h4>Детали</h4>
-      </div>
+      <ToursEditLayout secondary_item='details' secondary_name='Детали' tour_id={match.params.id}>
+        {activePopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
+                               text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'} button={'Ок'} action={() => {
+          setActivePopUp(false)
+          setSubmitted(false)
+        }}/>}
+        <div className='my-tours-section-heading'>
+          <h4>Детали</h4>
+        </div>
 
         <form onSubmit={handleSubmit}>
           <SingleWrapper
@@ -182,6 +225,7 @@ const Details = ({
               name='age_starts'
               label='Возраст участников от:*'
               value={tour && tour.age_starts}
+              error={error}
             />
             <Input
               required={true}
@@ -189,6 +233,7 @@ const Details = ({
               name='age_ends'
               label='Возраст участников до:*'
               value={tour && tour.age_ends}
+              error={error}
             />
           </DoubleWrapper>
 
@@ -212,14 +257,15 @@ const Details = ({
               text={'Назад'}
               color={'button-primary'}
               type='submit'
-              action={() => setUrl('/account/tours/edit/accommodation')}
+              action={() => setUrl(`/account/tours/${match.params.id}/edit/accommodation`)}
             />
             <Button
               text={'Продолжить'}
               color={'button-success'}
               type='submit'
-              action={() => setUrl('/account/tours/edit/important')}
+              action={() => setUrl(`/account/tours/${match.params.id}/edit/important`)}
             />
+
           </div>
         </form>
       </ToursEditLayout>
@@ -234,6 +280,8 @@ const mapStateToProps = state => ({
   languages: state.tours.languages,
   secondary_nav: state.tours.secondary_nav,
   tour: state.tours.current_tour,
+  res_status: state.tours.res_status,
+  error: state.tours.error,
 })
 
 export default connect(mapStateToProps, {
@@ -246,4 +294,5 @@ export default connect(mapStateToProps, {
   getTourPropertyTypes,
   getTourAccomodations,
   tourToServer,
+  getTour,
 })(Details)

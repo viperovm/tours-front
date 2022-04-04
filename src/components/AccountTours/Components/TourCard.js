@@ -59,11 +59,13 @@ const TourCard = ({
 
   const handleTourEdit = () => {
     getTour(tour.id)
-    history.push('/account/tours/edit/main')
+    setActive(false)
+    history.push(`/account/tours/${tour.id}/edit/main`)
   }
 
   const handleTourCopy = () => {
     getTour(tour.id)
+    setActive(false)
     setEditing(true)
   }
 
@@ -72,6 +74,7 @@ const TourCard = ({
   }
   const handleDelete = () => {
     deleteTour(tour.id)
+    setActive(false)
     // location.reload()
   }
 

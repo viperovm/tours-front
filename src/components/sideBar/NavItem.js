@@ -25,7 +25,8 @@ const NavItem = ({
                    title,
                    secondary_nav,
                    secondary,
-                   secondary_item
+                   secondary_item,
+                   tour_id
                  }) => {
 
 
@@ -123,7 +124,7 @@ const NavItem = ({
           {title}
         </Link>
       </li>
-      {secondary_nav && name === active && <SecondaryNav data={secondary_nav} secondary_item={secondary_item}/>}
+      {secondary_nav && name === active && <SecondaryNav data={secondary_nav} secondary_item={secondary_item} tour_id={tour_id}/>}
     </>
   )
 }

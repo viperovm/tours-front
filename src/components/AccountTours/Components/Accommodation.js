@@ -15,10 +15,13 @@ import {
   getTourPropertyTypes,
   getTourAccomodations,
   tourToServer,
+  getTour,
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
 import {Link, useHistory} from "react-router-dom";
 import Button from "./Button";
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
+import PopUp from "../../PopUp/PopUp";
 
 
 const Accommodation = ({ getTourTypes,
@@ -36,6 +39,10 @@ const Accommodation = ({ getTourTypes,
                          languages,
                          secondary_nav,
                          tour,
+                         getTour,
+                         match,
+                         res_status,
+                         error,
                        }) => {
 
   const history = useHistory()
@@ -43,6 +50,34 @@ const Accommodation = ({ getTourTypes,
   const [url, setUrl] = useState('')
   const [previews, setPreviews] = useState([])
   const [loading, setLoading] = useState(false)
+
+  const [submitted, setSubmitted] = useState(false)
+
+  const [activePopUp, setActivePopUp] = useState(false)
+
+  useEffect(() => {
+    if(submitted && res_status && res_status >= 200 && res_status < 300) {
+      handleRedirect()
+    } else if(submitted && res_status >= 400 && res_status < 600) {
+      setActivePopUp(true)
+    }
+  }, [submitted, res_status])
+
+  const handleRedirect = () => {
+    setSubmitted(false)
+    history.push(url)
+  }
+
+  useEffect(() => {
+    const loadTour = async () => {
+      setLoading(true)
+      await getTour(match.params.id)
+      setLoading(false)
+    }
+    if(!isNotEmptyObject(tour)) {
+      loadTour()
+    }
+  }, [tour])
 
   useEffect(() => {
     getTourPropertyTypes()
@@ -54,7 +89,7 @@ const Accommodation = ({ getTourTypes,
   const handleSubmit = e => {
     e.preventDefault()
     tourToServer(tour, tour.id)
-    history.push(url)
+    setSubmitted(true)
   }
 
   const handleInput = (name, value) => {
@@ -164,7 +199,12 @@ const Accommodation = ({ getTourTypes,
   }, [tour])
 
   return (
-    <ToursEditLayout secondary_item='accommodation' secondary_name='Проживание'>
+    <ToursEditLayout secondary_item='accommodation' secondary_name='Проживание' tour_id={match.params.id}>
+      {activePopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
+                             text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'} button={'Ок'} action={() => {
+        setActivePopUp(false)
+        setSubmitted(false)
+      }}/>}
         <div className='my-tours-section-heading'>
           <h4>Проживание</h4>
         </div>
@@ -190,6 +230,7 @@ const Accommodation = ({ getTourTypes,
             name='hotel_name'
             value={tour && tour.hotel_name}
             options={toursTypes}
+            error={error}
           />
         </SingleWrapper>
         <SingleWrapper label='Размещение*' comment=''>
@@ -226,18 +267,20 @@ const Accommodation = ({ getTourTypes,
             width: '66%',
           }}
         >
+
           <Button
             text={'Назад'}
             color={'button-primary'}
             type='submit'
-            action={() => setUrl('/account/tours/edit/route')}
+            action={() => setUrl(`/account/tours/${match.params.id}/edit/route`)}
           />
           <Button
             text={'Продолжить'}
             color={'button-success'}
             type='submit'
-            action={() => setUrl('/account/tours/edit/details')}
+            action={() => setUrl(`/account/tours/${match.params.id}/edit/details`)}
           />
+
         </div>
       </form>
     </ToursEditLayout>
@@ -251,6 +294,8 @@ const mapStateToProps = state => ({
   languages: state.tours.languages,
   secondary_nav: state.tours.secondary_nav,
   tour: state.tours.current_tour,
+  res_status: state.tours.res_status,
+  error: state.tours.error,
 })
 
 export default connect(mapStateToProps, {
@@ -263,4 +308,5 @@ export default connect(mapStateToProps, {
   getTourPropertyTypes,
   getTourAccomodations,
   tourToServer,
+  getTour,
 })(Accommodation)

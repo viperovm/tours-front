@@ -5,33 +5,70 @@ import Input from '../FormFields/Input'
 import SelectInput from '../FormFields/SelectInput'
 import CheckboxInput from '../FormFields/CheckboxInput'
 
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {
   updateTour,
   getCurrencies,
   setSecondaryNav,
   tourToServer,
+  getTour,
 } from '../../../redux/actions/toursActions'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
 import {Link, useHistory} from "react-router-dom";
 import ExtraServicesComponent from "./ExtraServicesComponent";
 import TextArea from "../FormFields/TextArea";
 import Button from "./Button";
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
+import PopUp from "../../PopUp/PopUp";
 
 
 const Prices = ({
-  tour,
-  secondary_nav,
-  setSecondaryNav,
-  updateTour,
-  getCurrencies,
-  currencies,
-  tourToServer,
-}) => {
+                  tour,
+                  secondary_nav,
+                  setSecondaryNav,
+                  updateTour,
+                  getCurrencies,
+                  currencies,
+                  tourToServer,
+                  getTour,
+                  match,
+                  res_status,
+                  error,
+                }) => {
 
   const history = useHistory()
 
   const [url, setUrl] = useState('')
+
+  const [loading, setLoading] = useState(false)
+
+  const [submitted, setSubmitted] = useState(false)
+
+  const [activePopUp, setActivePopUp] = useState(false)
+
+  useEffect(() => {
+    if(submitted && res_status && res_status >= 200 && res_status < 300) {
+      handleRedirect()
+    } else if(submitted && res_status >= 400 && res_status < 600) {
+      setActivePopUp(true)
+    }
+  }, [submitted, res_status])
+
+  const handleRedirect = () => {
+    setSubmitted(false)
+    history.push(url)
+  }
+
+  useEffect(() => {
+    const loadTour = async () => {
+      setLoading(true)
+      await getTour(match.params.id)
+      setLoading(false)
+    }
+    if(!isNotEmptyObject(tour)) {
+      loadTour()
+    }
+  }, [tour])
 
   useEffect(() => {
     getCurrencies()
@@ -42,11 +79,11 @@ const Prices = ({
   const handleSubmit = e => {
     e.preventDefault()
     tourToServer(tour, tour.id)
-    history.push(url)
+    setSubmitted(true)
   }
 
   const handleInput = (name, value) => {
-    updateTour({ ...tour, [name]: value })
+    updateTour({...tour, [name]: value})
   }
 
   useEffect(() => {
@@ -93,10 +130,15 @@ const Prices = ({
 
   return (
     <>
-      <ToursEditLayout secondary_item='prices' secondary_name='Цены'>
-      <div className='my-tours-section-heading'>
-        <h4>Цены</h4>
-      </div>
+      <ToursEditLayout secondary_item='prices' secondary_name='Цены' tour_id={match.params.id}>
+        {activePopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
+                               text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'} button={'Ок'} action={() => {
+          setActivePopUp(false)
+          setSubmitted(false)
+        }}/>}
+        <div className='my-tours-section-heading'>
+          <h4>Цены</h4>
+        </div>
 
         <form onSubmit={handleSubmit}>
 
@@ -107,6 +149,7 @@ const Prices = ({
               name='price'
               label='Стоимость*'
               value={tour && tour.price}
+              error={error}
             />
             <SelectInput
               required={true}
@@ -124,6 +167,7 @@ const Prices = ({
               name='price_comment'
               label='Комментарий к стоимости'
               value={tour && tour.price_comment}
+              error={error}
             />
           </SingleWrapper>
 
@@ -133,8 +177,7 @@ const Prices = ({
               name='discount'
               label='Размер скидки'
               value={tour && tour.discount}
-              // type='date'
-              // multiple
+              error={error}
             />
             <SelectInput
               action={handleInput}
@@ -142,10 +185,9 @@ const Prices = ({
               label='Номинал'
               val={tour && tour.discount_in_prc}
               options={[
-                { id: 0, name: 'Число' },
-                { id: 1, name: '%' },
+                {id: 0, name: 'Число'},
+                {id: 1, name: '%'},
               ]}
-              // multiple
             />
           </DoubleWrapper>
 
@@ -156,7 +198,7 @@ const Prices = ({
               label='Скидка действует с:'
               value={tour && tour.discount_starts}
               type='date'
-              // multiple
+              error={error}
             />
             <Input
               action={handleInput}
@@ -164,8 +206,7 @@ const Prices = ({
               label='Скидка действует до:'
               value={tour && tour.discount_finish}
               type='date'
-
-              // multiple
+              error={error}
             />
           </DoubleWrapper>
 
@@ -176,8 +217,7 @@ const Prices = ({
               name='prepay_amount'
               label='Предоплата*'
               value={tour && tour.prepay_amount}
-              // type='date'
-              // multiple
+              error={error}
             />
             <SelectInput
               required={true}
@@ -186,10 +226,9 @@ const Prices = ({
               label='Номинал*'
               val={tour && tour.prepay_in_prc}
               options={[
-                { id: 0, name: 'Число' },
-                { id: 1, name: '%' },
+                {id: 0, name: 'Число'},
+                {id: 1, name: '%'},
               ]}
-              // multiple
             />
           </DoubleWrapper>
 
@@ -283,13 +322,14 @@ const Prices = ({
               text={'Назад'}
               color={'button-primary'}
               type='submit'
-              action={() => setUrl('/account/tours/edit/review')}
+              action={() => setUrl(`/account/tours/${match.params.id}/edit/review`)}
             />
             <Button
               text={'Продолжить'}
               color={'button-success'}
               type='submit'
-              action={() => setUrl('/account/tours/edit/gallery')}
+              action={() => setUrl(`/account/tours/${match.params.id}/edit/gallery`)}
+
             />
           </div>
 
@@ -305,6 +345,8 @@ const mapStateToProps = state => ({
   secondary_nav: state.tours.secondary_nav,
   currencies: state.tours.currencies,
   tour: state.tours.current_tour,
+  res_status: state.tours.res_status,
+  error: state.tours.error,
 })
 
 export default connect(mapStateToProps, {
@@ -312,4 +354,5 @@ export default connect(mapStateToProps, {
   updateTour,
   getCurrencies,
   tourToServer,
+  getTour,
 })(Prices)
