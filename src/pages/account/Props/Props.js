@@ -75,7 +75,6 @@ const Props = ({user, status}) => {
     }
   }, [user])
 
-  console.log(profile)
 
   const handleChange = (name, value) => {
     setProfile({

@@ -34,7 +34,6 @@ const TourPreviewLayout = ({
 
   const history = useHistory()
 
-  console.log(history)
 
   const [title, setTitle] = useState('Название тура')
 

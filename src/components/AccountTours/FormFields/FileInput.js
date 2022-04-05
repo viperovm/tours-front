@@ -18,8 +18,6 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
 
   const inputFileRef = useRef(null)
 
-  console.log(value)
-
   useEffect(() => {
     if (value) {
       if (max === 1) {

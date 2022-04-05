@@ -9,25 +9,29 @@ import {
   addDay,
   updateDay,
   setDayImage,
+  deleteDayImage,
 } from '../../../redux/actions/toursActions'
 import { connect } from 'react-redux'
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
+const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayImage }) => {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
   const [previews, setPreviews] = useState([])
-
-  console.log(previews)
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
-    let arr = []
+    if(previews.length === 0 && day && day.image && Array.isArray(day.image) && day.image.length > 0) {
+      setPreviews(day.image)
+      setLoading(true)
+    }
+  }, [previews])
+
+
+  useEffect(() => {
     if (day && day.image && Array.isArray(day.image) && day.image.length > 0) {
-      day.image.map(item => {
-        if (!day.image.includes(item.tmb_image)) {
-          arr.push(item.tmb_image)
-        }
-      })
-      setPreviews(arr)
+      setPreviews(day.image)
       setLoading(true)
     }
   }, [day])
@@ -44,11 +48,15 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
   const handleImageInput = value => {
     setLoading(true)
     setDayImage(value, id, tour.id)
+    setLoading(false)
   }
 
-  console.log(day)
-  console.log(tour)
-
+  const handleImageDelete = (image) => {
+    setLoading(true)
+    deleteDayImage(day.id, image.id)
+    setPreviews(previews.filter(item => item.id !== image.id))
+    setLoading(false)
+  }
 
   return (
     <>
@@ -102,17 +110,20 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage }) => {
         label='Добавить фото'
         comment='Вы можете добавить до 3 фото для каждого дня'
       >
-        <ObjectFileInput
-          required={true}
+        {!loading && <ObjectFileInput
+          required={day && !day.image}
           action={handleImageInput}
           name='day_photo'
           type='file'
           max={3}
           value={previews}
-          // options={toursTypes}
-          // multiple
-        />
+          delete_action={handleImageDelete}
+        />}
+        {loading && (
+          <CircularProgress/>
+        )}
       </SingleWrapper>
+
     </>
   )
 }
@@ -121,4 +132,4 @@ const mapStateToProps = state => ({
   tour: state.tours.current_tour,
 })
 
-export default connect(mapStateToProps, { addDay, updateDay, setDayImage })(Day)
+export default connect(mapStateToProps, { addDay, updateDay, setDayImage, deleteDayImage })(Day)

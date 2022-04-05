@@ -86,6 +86,15 @@ const Prices = ({
     updateTour({...tour, [name]: value})
   }
 
+  const handlePrcInput = (name, value) => {
+    console.log(15, value)
+    if(value && value.id && value.id === 0) {
+      updateTour({...tour, [name]: false})
+    } else if(value && value.id && value.id === 1) {
+      updateTour({...tour, [name]: true})
+    }
+  }
+
   useEffect(() => {
     if (tour) {
       if (tour.price &&
@@ -180,14 +189,12 @@ const Prices = ({
               error={error}
             />
             <SelectInput
-              action={handleInput}
               name='discount_in_prc'
               label='Номинал'
               val={tour && tour.discount_in_prc}
-              options={[
-                {id: 0, name: 'Число'},
-                {id: 1, name: '%'},
-              ]}
+              action={handlePrcInput}
+              currency={tour && tour.currency && tour.currency.short_name}
+              prc={true}
             />
           </DoubleWrapper>
 
@@ -221,14 +228,12 @@ const Prices = ({
             />
             <SelectInput
               required={true}
-              action={handleInput}
               name='prepay_in_prc'
               label='Номинал*'
               val={tour && tour.prepay_in_prc}
-              options={[
-                {id: 0, name: 'Число'},
-                {id: 1, name: '%'},
-              ]}
+              action={handlePrcInput}
+              currency={tour && tour.currency && tour.currency.short_name}
+              prc={true}
             />
           </DoubleWrapper>
 

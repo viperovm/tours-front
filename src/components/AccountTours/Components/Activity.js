@@ -32,7 +32,6 @@ const Activity = ({
   }, [activity])
 
   const handleInput = (name, value) => {
-    console.log(value)
     updateActivity(id, value)
   }
   const handleImageInput = (value) => {

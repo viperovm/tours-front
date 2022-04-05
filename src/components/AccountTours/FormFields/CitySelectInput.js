@@ -91,7 +91,6 @@ const CitySelectInput = ({action, name, label, val, options, multiple, margin, b
       setResults(res.data)
       setIsSearching(false);
     } catch (err) {
-      console.log(err)
     }
   }
 

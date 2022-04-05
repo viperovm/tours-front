@@ -3092,6 +3092,10 @@ li.li-border-none:last-child {
   background: #84bb59;
 }
 
+.tours-list-add-button-button.blue>div {
+  background-color: #2AA2D6;
+}
+
 .add-tour-button {
   display: inline-flex;
   justify-content: center;
@@ -3533,10 +3537,6 @@ input[type='file'] {
 
 .tour-menu-dots img {
   filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.5));
-}
-
-.tours-list-add-button-button.blue a {
-  background-color: #2AA2D6;
 }
 
 .user-profile-aside {

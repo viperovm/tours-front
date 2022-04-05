@@ -25,7 +25,6 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
     getLanguages()
   }, [])
 
-  console.log(member)
 
   const storage = localStorage.getItem('team_member_id')
 
@@ -39,7 +38,6 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
     }
   }, [member])
 
-  console.log(localStorage)
 
   const [profile, setProfile] = useState({})
   const [loading, setLoading] = useState(false)

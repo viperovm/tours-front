@@ -43,8 +43,6 @@ const ToursEditLayout = ({
 
   const history = useHistory()
 
-  console.log(history)
-
   const [title, setTitle] = useState('Название тура')
 
   const [loading, setLoading] = useState(false)

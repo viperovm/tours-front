@@ -28,10 +28,8 @@ const EmailActivate = ({match, email_confirm, status}) => {
     }
   }, [verified])
 
-  console.log('status: ', status)
 
   useEffect(() => {
-    console.log('status: ', status)
     if(status !== 'error' && status >= 200 && status < 300) {
       setRequestSuccess(true)
     } else {

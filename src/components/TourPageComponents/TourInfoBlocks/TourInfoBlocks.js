@@ -7,7 +7,6 @@ const TourInfoBlocks = ({comfort, difficulty= 5, language, age}) => {
     const arr = [1, 2, 3, 4, 5]
     return (<div className={styles.dots_container}>
       {arr.map((item, index) => {
-        console.log(item, difficulty)
         let color = item <= difficulty ? "#EF8F21" : "#CFD4DE"
         return (<svg key={index} width="11" height="11" viewBox="0 0 11 11" fill={color} xmlns="http://www.w3.org/2000/svg">
           <circle cx="5.5" cy="5.5" r="5.5"/>

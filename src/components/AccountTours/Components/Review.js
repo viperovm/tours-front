@@ -81,7 +81,6 @@ const Review = ({
   }
 
   const handleInput = (name, value) => {
-    console.log(name, value)
     updateTour({
       ...tour,
       [name]: value,

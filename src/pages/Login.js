@@ -14,8 +14,6 @@ const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors
   const [data, setData] = useState({})
   const [check, setCheck] = useState(true)
 
-  console.log('error: ', error)
-
   if (isAuthenticated) {
     // setData({})
     return <Redirect to="/account" />

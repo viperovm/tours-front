@@ -8,14 +8,28 @@ import {
 } from "../../../redux/actions/toursActions";
 
 const SelectInput = ({action, name, label, val, options, multiple, margin, basic_type, required, tour,
-                       tourToServer, labelField='name'}) => {
+                       tourToServer, labelField='name', currency, prc=false}) => {
 
   const [data, setData] = useState([])
   const [optionsArray, setOptionsArray] = useState([])
 
-  console.log(data)
-  console.log(val)
-  console.log(basic_type)
+  useEffect(() => {
+    if(prc && currency) {
+      setOptionsArray([{id: 0, name: currency}, {id: 1, name: '%'}])
+    }
+  }, [prc, currency])
+
+  useEffect(() => {
+    if(prc && optionsArray) {
+      let arr = []
+      if(val === true) {
+        arr.push(optionsArray[1])
+      } else if(val === false) {
+        arr.push(optionsArray[0])
+      }
+      setData(arr)
+    }
+  }, [prc, optionsArray, val])
 
   const handleSelect = (values) => {
     if(!multiple){
@@ -35,10 +49,11 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
   useEffect(() => {
     if(basic_type) {
       setOptionsArray(options.filter(item => item.id !== basic_type.id))
+    } else if(prc) {
     } else {
       setOptionsArray(options)
     }
-  }, [options, basic_type])
+  }, [options, basic_type, prc, val])
 
   useEffect(() => {
     if (Array.isArray(val) && val.length > 0 && basic_type) {
@@ -53,23 +68,37 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
   }, [val, basic_type])
 
   return (
-    <Select
-      required={required}
-      style={{margin: margin, padding: '10px 20px'}}
-      className='custom-select-style'
-      placeholder={'Выбрать'}
-      searchable
-      clearable
-      multi={multiple}
-      options={optionsArray}
-      onChange={handleSelect}
-      values={data}
-      labelField={labelField}
-      valueField={'id'}
-      create={!multiple && true}
-      onCreateNew={handleAddNew}
-      createNewLabel="Добавить {search}"
-    />
+    <>
+      {!prc && <Select
+        required={required}
+        style={{margin: margin, padding: '10px 20px'}}
+        className='custom-select-style'
+        placeholder={'Выбрать'}
+        searchable
+        // clearable
+        multi={multiple}
+        options={optionsArray}
+        onChange={handleSelect}
+        values={data}
+        labelField={labelField}
+        valueField={'id'}
+        create={!multiple && true}
+        onCreateNew={handleAddNew}
+        createNewLabel="Добавить {search}"
+      />}
+      {prc && optionsArray.length> 0 && <Select
+        required={required}
+        style={{margin: margin, padding: '10px 20px'}}
+        className='custom-select-style'
+        placeholder={'Выбрать'}
+        // clearable
+        options={optionsArray}
+        onChange={handleSelect}
+        values={data}
+        labelField={'name'}
+        valueField={'id'}
+      />}
+    </>
   )
 }
 

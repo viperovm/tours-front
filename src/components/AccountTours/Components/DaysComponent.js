@@ -49,8 +49,6 @@ const DaysComponent = ({ tour, addDay }) => {
   const [days, setDays] = useState([1])
   const [loading, setLoading] = useState(false)
 
-  console.log(tour)
-
   useEffect(() => {
     if (tour && tour.tour_days == null) {
       addDay({ id: 1, image: [], description: '', location: '', day_title: '' })

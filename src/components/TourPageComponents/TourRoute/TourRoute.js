@@ -5,9 +5,6 @@ import dateFormat, { masks } from 'dateformat'
 
 const TourRoute = ({start_date, start_city, start_time, finish_date, finish_city, finish_time,}) => {
 
-  console.log(start_date)
-  console.log(new Date(start_date))
-
   return (
     <>
       <div className={styles.tour_route_container}>

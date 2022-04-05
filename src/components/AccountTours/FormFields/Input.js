@@ -17,10 +17,6 @@ const Input = ({
   const [data, setData] = useState('')
   const [currentError, setCurrentError] = useState([])
 
-  console.log('name: ', name)
-  console.log('Error: ', error)
-  console.log('currentError: ', error[name])
-
   useEffect(() => {
     if(isNotEmptyObject(error) && error.detail) {
       let arr = []

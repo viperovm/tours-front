@@ -77,6 +77,7 @@ import {
   DELETE_TOUR_IMAGE_FAIL,
   DELETE_PROPERTY_IMAGE_SUCCESS,
   DELETE_PROPERTY_IMAGE_FAIL,
+  DELETE_TOUR_DAY_IMAGE
 } from '../types'
 import axios from 'axios'
 
@@ -292,7 +293,6 @@ export const updateTourWallpaper = (image, id) => async dispatch => {
       config
     )
 
-    console.log(res.data)
 
     dispatch({
       type: UPDATE_TOUR_WALLPAPER_SUCCESS,
@@ -347,7 +347,6 @@ export const setTourImages = (image, id) => async dispatch => {
       config
     )
 
-    console.log(res.data)
 
     dispatch({
       type: SET_TOUR_IMAGE_SUCCESS,
@@ -450,9 +449,15 @@ export const setDayImage = (image, id, tour_id) => async dispatch => {
   }
 }
 
+export const deleteDayImage = (day_id, image_id) => async dispatch => {
+  dispatch({
+    type: DELETE_TOUR_DAY_IMAGE,
+    payload: {day: day_id, image: image_id},
+  })
+}
+
 export const addActivity = data => dispatch => {
   const activity = data ? data : ''
-  console.log('activity: ', activity)
   dispatch({
     type: ADD_ACTIVITY_SUCCESS,
     payload: activity,
@@ -474,7 +479,6 @@ export const setActivityImage = (image, id, tour_id) => async dispatch => {
       Authorization: `JWT ${localStorage.getItem('access')}`,
     },
   }
-  console.log(image)
   let form_data = new FormData()
   form_data.append('image', image, image.name)
   try {
@@ -521,7 +525,6 @@ export const setGuestGuideImage = (image, id) => async dispatch => {
       config
     )
 
-    console.log(res.data)
 
     dispatch({
       type: SET_GUEST_GUIDE_IMAGE_SUCCESS,
@@ -822,13 +825,11 @@ export const getTourLeaders = () => async dispatch => {
   try {
     const res = await axios.get(`${API_URL}/api/teammembers/`, config)
 
-    console.log(res.data)
 
     const guides = res.data.map(item => ({
       id: item.id,
       name: item.first_name + ' ' + item.last_name,
     }))
-    console.log(guides)
 
     dispatch({
       type: GET_TOUR_LEADERS_SUCCESS,
@@ -842,7 +843,6 @@ export const getTourLeaders = () => async dispatch => {
 }
 
 export const clearCurrentTour = () => dispatch => {
-  console.log(3)
   dispatch({
     type: CLEAR_CURRENT_TOUR,
   })

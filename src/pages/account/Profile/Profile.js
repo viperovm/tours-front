@@ -33,7 +33,6 @@ const MyProfile = ({ user, status, setPage, update_user, getLanguages, languages
     }
   }, [user])
 
-  console.log(profile)
 
   const handleChange = (name, value) => {
     setProfile({
@@ -61,13 +60,9 @@ const MyProfile = ({ user, status, setPage, update_user, getLanguages, languages
                 Проверенным экспертам туристы доверяют на 75% больше чем остальным. Получите статус бесплатно!
               </div>
               <div className='tours-list-add-button-button blue'>
-                <Link
-                  to='#'
-                  // to='/account/tours/edit/common'
-                  // onClick={handleEditingButton}
-                >
+                <div>
                   Получить статус
-                </Link>
+                </div>
               </div>
             </div>
             <div className="profile-page-body">

@@ -141,15 +141,12 @@ export const signUp = (status, data) => async dispatch => {
   try {
     const res = await axios.post(`${API_URL}/api/${status}/`, body, config)
 
-    console.log(res.status)
 
     dispatch({
       type: t.SIGNUP_SUCCESS,
       payload: res.status
     })
   } catch (err) {
-
-    console.log({data: err.response.data, status: err.response.status})
 
     dispatch({
       type: t.SIGNUP_FAIL,
@@ -356,7 +353,6 @@ export const email_confirm_request = () => async dispatch => {
         config
       )
 
-      console.log(res)
 
       dispatch({
         type: t.EMAIL_CONFIRM_REQUEST_SUCCESS,

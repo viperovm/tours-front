@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from './Team.module.css';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import Account from "../../../layouts/account/account";
 import { connect } from 'react-redux'
 import {setPage, update_user} from "../../../redux/actions/authActions";
@@ -9,6 +9,8 @@ import TeamList from "../../../components/AccountTours/Components/TeamList";
 import {addTeamMember} from "../../../redux/actions/profileActions";
 
 const Team = ({user, status, addTeamMember, members}) => {
+
+  const history = useHistory()
 
   useEffect(() => {
     setPage('team')
@@ -30,7 +32,6 @@ const Team = ({user, status, addTeamMember, members}) => {
     }
   }, [user])
 
-  console.log(profile)
 
   const handleChange = (name, value) => {
     setProfile({
@@ -39,8 +40,9 @@ const Team = ({user, status, addTeamMember, members}) => {
     })
   }
 
-  const handleAddButton = () => {
-    addTeamMember()
+  const handleAddButton = async () => {
+    await addTeamMember()
+    history.push('/account/team/edit')
   }
 
   const handleSubmit = () => {
@@ -62,12 +64,9 @@ const Team = ({user, status, addTeamMember, members}) => {
                 Добавьте членов вашей команды, которые проводят туры вместе с вами.
               </div>
               <div className='tours-list-add-button-button blue'>
-                <Link
-                  to='/account/team/edit'
-                  onClick={handleAddButton}
-                >
+                <div onClick={handleAddButton}>
                   Добавить
-                </Link>
+                </div>
               </div>
             </div>
             <div className="team-subtitle">

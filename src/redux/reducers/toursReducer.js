@@ -75,6 +75,7 @@ import {
   DELETE_TOUR,
   DELETE_PROPERTY_IMAGE_SUCCESS,
   DELETE_PROPERTY_IMAGE_FAIL,
+  DELETE_TOUR_DAY_IMAGE
 } from '../types'
 
 const initialState = {
@@ -102,14 +103,14 @@ const initialState = {
   current_section: 'common',
   active_sections: [],
   secondary_nav: [
-    { value: 'main', text: 'Основное', active: false },
-    { value: 'review', text: 'Обзор', active: false },
-    { value: 'prices', text: 'Цены', active: false },
-    { value: 'gallery', text: 'Галерея', active: false },
-    { value: 'route', text: 'Маршрут', active: false },
-    { value: 'accommodation', text: 'Проживание', active: false },
-    { value: 'details', text: 'Детали', active: false },
-    { value: 'important', text: 'Важно знать', active: false },
+    {value: 'main', text: 'Основное', active: false},
+    {value: 'review', text: 'Обзор', active: false},
+    {value: 'prices', text: 'Цены', active: false},
+    {value: 'gallery', text: 'Галерея', active: false},
+    {value: 'route', text: 'Маршрут', active: false},
+    {value: 'accommodation', text: 'Проживание', active: false},
+    {value: 'details', text: 'Детали', active: false},
+    {value: 'important', text: 'Важно знать', active: false},
   ],
   secondary: false,
   tour_name: '',
@@ -117,14 +118,14 @@ const initialState = {
 }
 
 const toursReducer = (state = initialState, action) => {
-  const { type, payload } = action
+  const {type, payload} = action
 
   const setTourWallpaper = (tour, data) => {
     return {
       ...tour,
       wallpaper: data.wallpaper,
       tmb_wallpaper: data.tmb_wallpaper,
-      }
+    }
   }
 
   const deleteTourWallpaper = (tour) => {
@@ -132,7 +133,7 @@ const toursReducer = (state = initialState, action) => {
       ...tour,
       wallpaper: '',
       tmb_wallpaper: '',
-      }
+    }
   }
 
   const setPropertyImages = (tour, image) => {
@@ -142,7 +143,6 @@ const toursReducer = (state = initialState, action) => {
     }
   }
   const setTourImages = (tour, data) => {
-    console.log(data)
     return {
       ...tour,
       tour_images: data,
@@ -176,18 +176,19 @@ const toursReducer = (state = initialState, action) => {
         arr = item.image
       }
     })
-    arr.push(data.image)
-    let result = {
+    arr = [
+      ...arr, data.image
+    ]
+    return {
       ...tour,
       tour_days: tour.tour_days.map(item => {
         if (item.id === data.id) {
-          return { ...item, image: arr }
+          return {...item, image: arr}
         } else {
           return item
         }
       }),
     }
-    return result
   }
 
   const updateDay = (tour, day) => {
@@ -195,7 +196,7 @@ const toursReducer = (state = initialState, action) => {
       ...tour,
       tour_days: tour.tour_days.map(item => {
         if (item.id === day.id) {
-          return { ...item, [day.name]: day.data }
+          return {...item, [day.name]: day.data}
         } else {
           return item
         }
@@ -228,7 +229,7 @@ const toursReducer = (state = initialState, action) => {
       ...tour,
       plan: tour.plan.map(item => {
         if (item.id === data.id) {
-          return { ...item, image: data.image }
+          return {...item, image: data.image}
         } else {
           return item
         }
@@ -242,7 +243,7 @@ const toursReducer = (state = initialState, action) => {
       ...tour,
       plan: tour.plan.map(item => {
         if (item.id === data.id) {
-          return { ...item, description: data.description }
+          return {...item, description: data.description}
         } else {
           return item
         }
@@ -288,7 +289,7 @@ const toursReducer = (state = initialState, action) => {
       ...tour,
       tour_addetional_services: tour.tour_addetional_services.map(item => {
         if (item.id === data.id) {
-          return { ...item, [data.name]: data.data }
+          return {...item, [data.name]: data.data}
         } else {
           return item
         }
@@ -495,6 +496,25 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         // plan: payload,
         current_tour: setDayImage(state.current_tour, payload),
+      }
+    case DELETE_TOUR_DAY_IMAGE:
+      const handleImageDelete = (tour, data) => {
+        const days = tour.tour_days.map(item => {
+            if (item.id === data.day) {
+              item.image = item.image.filter(image => image.id !== data.image)
+            }
+            return item
+          }
+        )
+        return {
+          ...tour,
+          tour_days: days
+        }
+
+      }
+      return {
+        ...state,
+        current_tour: handleImageDelete(state.current_tour, payload),
       }
     case UPDATE_ACTIVITY_SUCCESS:
       return {

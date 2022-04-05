@@ -4,8 +4,6 @@ import star from './star.svg'
 
 const TourLeader = ({leader}) => {
 
-  console.log(leader)
-
   return (
     <>
       <h3>Тревел-эксперт</h3>

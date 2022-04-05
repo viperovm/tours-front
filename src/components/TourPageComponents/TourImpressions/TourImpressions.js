@@ -4,10 +4,7 @@ import ok from './ok.svg'
 
 const TourImpressions = ({impressions}) => {
 
-  console.log(impressions)
-
   const getNumber = (num) => {
-      console.log(num.length % 2)
     if(num.length % 2 === 0) {
       return num.length / 2
     } else {

@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 const ObjectFileInput = ({
                            tour, action, name, value=[], max, required, position, deleteTourImage,
                            deleteTourWallpaper,
-                           delete_avatar, deletePropertyImage,
+                           delete_avatar, deletePropertyImage, delete_action,
                          }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
@@ -20,8 +20,6 @@ const ObjectFileInput = ({
 
 
   const inputFileRef = useRef(null)
-
-  console.log(value)
 
   useEffect(() => {
     if (loading && value.length > 0) {
@@ -46,6 +44,11 @@ const ObjectFileInput = ({
     }
     if (name === 'avatar') {
       delete_avatar()
+      setPreview(null)
+      setActive(true)
+    }
+    if (name === 'day_photo') {
+      delete_action(image)
       setPreview(null)
       setActive(true)
     }
@@ -95,7 +98,64 @@ const ObjectFileInput = ({
           <div className='camera-image'/>
           <div className='fake-file-input-text'>Добавить новое фото</div>
         </div>
-        {value.length > 0 && value.map((item, index) => (
+        {name === 'day_photo' && value.length > 0 && value.map((item, index) => (
+          <Fragment key={index}>
+            <div
+              key={index}
+              className='fake-file-input image-container'
+              style={{
+                backgroundImage: 'url(' + item.tmb_image + ')',
+                position: 'relative',
+              }}
+            >
+              <div
+                className='tour-menu-dots'
+                style={{
+                  padding: '5px',
+                  position: 'absolute',
+                  top: 15,
+                  right: 15,
+                  cursor: 'pointer',
+                }}
+                onMouseOver={() => setBubbleActive(index)}
+                onMouseOut={() => setBubbleActive(null)}
+                onClick={() => handleDelete(item)}
+              >
+                <img src={menu} alt='menu'/>
+              </div>
+
+              {index === bubbleActive && (
+                <>
+                  <div
+                    className='tour-menu'
+                    // ref={myRef}
+                    style={{
+                      position: 'absolute',
+                      top: 20,
+                      right: 40,
+                      border: '1px solid rgba(0, 0, 0, 0.1)',
+                      boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
+                      borderRadius: 8,
+                      backgroundColor: '#fff',
+                    }}
+                  >
+                    <div
+                      className='tour-item-top'
+                      style={{
+                        padding: 10,
+                        lineHeight: '15px',
+                        textAlign: 'right',
+                      }}
+                    >
+                      Удалить
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </Fragment>
+        ))}
+        {name !== 'day_photo' && value.length > 0 && value.map((item, index) => (
           <Fragment key={index}>
             <div
               key={index}

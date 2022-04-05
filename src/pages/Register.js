@@ -24,7 +24,6 @@ const Register = ({ signUp, error, reg_status, clear_errors }) => {
 
   useEffect(() => {
     return () => {
-      console.log('clear')
       // setData({})
       clear_errors()
       setActivePopUp(false)

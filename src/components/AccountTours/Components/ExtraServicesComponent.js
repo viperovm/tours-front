@@ -48,8 +48,6 @@ const ExtraServicesComponent = ({ tour, addExtraService }) => {
   const [days, setDays] = useState([1])
   const [loading, setLoading] = useState(false)
 
-  console.log(tour)
-
   useEffect(() => {
     if (tour && tour.tour_addetional_services == null) {
       addExtraService({ id: 1, extra_text: '', extra_service_price: ''})

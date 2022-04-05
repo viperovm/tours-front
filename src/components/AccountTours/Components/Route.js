@@ -85,7 +85,7 @@ const TourRoute = ({
 
   useEffect(() => {
     if (tour) {
-      if (tour.day && tour.day.length > 0 &&
+      if (tour.tour_days && tour.tour_days.length > 0 &&
       tour.start_date &&
       tour.finish_date &&
       tour.start_time &&

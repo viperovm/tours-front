@@ -25,7 +25,6 @@ const DaysImages = ({slides}) => {
       return (
         <>
           {slides.map((slide, index) => {
-            console.log(slide)
             return (
               <>
                 <div key={index} className={`${styles.day_image} ${styles.slide} ${index === current ? styles.active : ''}`} style={{
