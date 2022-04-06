@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Account from '../../../layouts/account/account'
 
 import { connect } from 'react-redux'
-import {setPage, update_user} from '../../../redux/actions/authActions'
+import {setPage, update_user, clear_errors} from '../../../redux/actions/authActions'
 import {getLanguages} from '../../../redux/actions/toursActions'
 import {Link} from "react-router-dom";
 import Input from "../../../components/AccountTours/FormFields/Input";
@@ -11,14 +11,28 @@ import ProfileInputWrapper from "../../../components/AccountProfile/Wrappers/Pro
 import TextArea from "../../../components/AccountTours/FormFields/TextArea";
 import Button from "../../../components/AccountTours/Components/Button";
 import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
+import TextEditor from "../../../components/AccountTours/FormFields/TextEditor";
+import PopUp from "../../../components/PopUp/PopUp";
 
-const MyProfile = ({ user, status, setPage, update_user, getLanguages, languages }) => {
+const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getLanguages, languages, clear_errors }) => {
   useEffect(() => {
     setPage('profile')
     getLanguages()
+    return () => {
+      clear_errors()
+      setActivePopUp(false)
+    }
   }, [])
 
   const [profile, setProfile] = useState({})
+  const [submitted, setSubmitted] = useState(false)
+  const [activePopUp, setActivePopUp] = useState(false)
+
+  useEffect(() => {
+    if(submitted && reg_status >= 200 && reg_status < 300) {
+      setActivePopUp(true)
+    }
+  }, [submitted, reg_status])
 
   useEffect(() => {
     if(user) {
@@ -42,6 +56,7 @@ const MyProfile = ({ user, status, setPage, update_user, getLanguages, languages
   }
 
   const handleSubmit = () => {
+    setSubmitted(true)
     update_user({
       ...profile,
     })
@@ -49,6 +64,8 @@ const MyProfile = ({ user, status, setPage, update_user, getLanguages, languages
 
   return (
     <Account title='Мой профиль' menu_item='profile'>
+      {activePopUp && <PopUp status={'ok'} title={'Успешно обновлено'}
+                             text={''} button={'Ок'} action={() => setActivePopUp(false)}/>}
       <>
         {status === 'experts' && (
           <main>
@@ -108,15 +125,15 @@ const MyProfile = ({ user, status, setPage, update_user, getLanguages, languages
                     action={handleChange}
                   />
                 </SingleWrapper>
-                <ProfileInputWrapper label='Это всем интересно'>
-                  <TextArea
+                <SingleWrapper label='Это всем интересно' width={'100%'} margin={'0'}>
+                  <TextEditor
                     name='about'
                     label='Расскажите о себе'
                     rows='7'
                     value={profile.about}
                     action={handleChange}
                   />
-                </ProfileInputWrapper>
+                </SingleWrapper>
                 <Button
                   text='Сохранить'
                   action={handleSubmit}
@@ -136,6 +153,8 @@ const mapStateToProps = state => ({
   user: state.auth.user,
   status: state.auth.status,
   languages: state.tours.languages,
+  error: state.auth.error,
+  reg_status: state.auth.reg_status
 })
 
-export default connect(mapStateToProps, { setPage, update_user, getLanguages })(MyProfile)
+export default connect(mapStateToProps, { setPage, update_user, getLanguages, clear_errors })(MyProfile)

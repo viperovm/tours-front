@@ -21,6 +21,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Modal from "../../components/AccountTours/Components/Modal";
 
 import isNotEmptyObject from "../../helpers/isNotEmptyObject";
+import PopUp from "../../components/PopUp/PopUp";
 
 const ToursEditLayout = ({
                            preview = false,
@@ -46,6 +47,8 @@ const ToursEditLayout = ({
   const [title, setTitle] = useState('Название тура')
 
   const [loading, setLoading] = useState(false)
+
+  const [activePopUp, setActivePopUp] = useState(false)
 
   if (!isAuthenticated) {
     return <Redirect to='/login'/>
@@ -120,6 +123,13 @@ const ToursEditLayout = ({
         </MetaTags>
 
         <section>
+          {activePopUp && <PopUp status={'danger'}
+                                 title={'Уверены, что хотите удалить?'}
+                                 text={'Информация будет удалена навсегда.'}
+                                 button={'Отменить'}
+                                 button2={'Удалить'}
+                                 action={() => setActivePopUp(false)}
+                                 second_action={handleTourDelete}/>}
           <div className='wrapper'>
             <div className='breadcrumbs breadcrumbs_margin'>
               <span><Link to='/'>Главная</Link></span> - <span><Link
@@ -142,7 +152,7 @@ const ToursEditLayout = ({
 
                 <div className='control-buttons'>
                   <div className='control-buttons-set'>
-                    <div onClick={handleTourDelete}>Удалить</div>
+                    <div onClick={() => setActivePopUp(true)}>Удалить</div>
                     <div><Modal tour_id={tour.id} button_name='Создать копию' action={handleTourCopy}/></div>
                     {preview ?
                       <div onClick={handleTourPreview}>Редактировать</div>

@@ -111,6 +111,7 @@ export const update_user = data => async dispatch => {
       const data = {
         data: res.data,
         status: user,
+        reg_status: res.status,
       }
 
       dispatch({

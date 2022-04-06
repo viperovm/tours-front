@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Account from '../../../layouts/account/account'
 
 import {connect} from 'react-redux'
-import {setPage, update_user, update_avatar, delete_avatar, email_confirm_request, clear_confirm_status} from '../../../redux/actions/authActions'
+import {setPage, update_user, clear_errors, update_avatar, delete_avatar, email_confirm_request, clear_confirm_status} from '../../../redux/actions/authActions'
 import {getLanguages} from '../../../redux/actions/toursActions'
 import {Link} from "react-router-dom";
 import Input from "../../../components/AccountTours/FormFields/Input";
@@ -16,14 +16,19 @@ import ProfileInputDoubleWrapper from "../../../components/AccountProfile/Wrappe
 import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxInput";
 import cross from '../../../assets/img/x.svg'
 import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
+import PopUp from "../../../components/PopUp/PopUp";
 
 const Settings = ({
-                    user, status, setPage, update_user, getLanguages, languages, update_avatar, email_confirm_request,
-                    delete_avatar, request_status, clear_confirm_status,
+                    reg_status, user, status, setPage, update_user, getLanguages, languages, update_avatar, email_confirm_request,
+                    delete_avatar, request_status, clear_confirm_status, clear_errors,
                   }) => {
   useEffect(() => {
     setPage('profile')
     getLanguages()
+    return () => {
+      clear_errors()
+      setActivePopUp(false)
+    }
   }, [])
 
   const [profile, setProfile] = useState({})
@@ -32,6 +37,14 @@ const Settings = ({
 
   const [requestActive, setRequestActive] = useState(false)
   const [requestSuccess, setRequestSuccess] = useState(true)
+  const [submitted, setSubmitted] = useState(false)
+  const [activePopUp, setActivePopUp] = useState(false)
+
+  useEffect(() => {
+    if(submitted && reg_status >= 200 && reg_status < 300) {
+      setActivePopUp(true)
+    }
+  }, [submitted, reg_status])
 
   useEffect(() => {
     if(request_status !== 'error' && request_status >= 200 && request_status < 300) {
@@ -88,6 +101,7 @@ const Settings = ({
   }
 
   const handleSubmit = () => {
+    setSubmitted(true)
     update_user({
       ...profile,
     })
@@ -95,6 +109,8 @@ const Settings = ({
 
   return (<Account title='Настройки' menu_item='settings'>
     <>
+      {activePopUp && <PopUp status={'ok'} title={'Успешно обновлено'}
+                             text={''} button={'Ок'} action={() => setActivePopUp(false)}/>}
       {requestActive && (
         <div className={`modal-request-confirm`}>
           {request_status && (<div className="modal-request-body">
@@ -269,9 +285,10 @@ const mapStateToProps = state => ({
   status: state.auth.status,
   request_status: state.auth.email_confirm_request,
   languages: state.tours.languages,
+  reg_status: state.auth.reg_status
 })
 
 export default connect(mapStateToProps, {
   setPage, update_user, getLanguages, update_avatar, email_confirm_request,
-  delete_avatar, clear_confirm_status,
+  delete_avatar, clear_confirm_status, clear_errors
 })(Settings)

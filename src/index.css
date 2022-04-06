@@ -53,6 +53,18 @@ body {
   /* grid-row-gap: 20px; */
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .header {
   grid-area: header;
   display: grid;
@@ -3856,6 +3868,10 @@ input[type='file'] {
   align-items: center!important;
   /*overflow-x: auto;*/
   /*flex-wrap: nowrap;*/
+}
+
+.custom-select-style input {
+  width: calc(100% - 70px);
 }
 
 .custom-input-style {
