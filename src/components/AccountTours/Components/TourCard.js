@@ -84,7 +84,11 @@ const TourCard = ({
       <div className='tour-card'>
         <div
           className='tour-image'
-          style={{ backgroundImage: 'url(' + tour.tmb_wallpaper + ')' }}
+          style={{
+            backgroundImage: 'url(' + tour.tmb_wallpaper + ')',
+            // cursor: 'pointer'
+        }}
+          // onClick={handleTourEdit}
         >
           <div
             className='tour-menu-dots'
@@ -94,6 +98,7 @@ const TourCard = ({
               top: 15,
               right: 15,
               cursor: 'pointer',
+              zIndex: '2',
             }}
             onClick={handleMenu}
           >
@@ -184,7 +189,7 @@ const TourCard = ({
                 {tour.duration} дн. (с{' '}
                 {dateFormat(new Date(tour.start_date), 'dd.mm.yyyy')})
               </div>
-              <div className='tour-footer-price'>от {tour.price} <span className='rub-sign'>₽</span></div>
+              <div className='tour-footer-price'>{tour.price} <span className='rub-sign'>₽</span></div>
             </div>
             <div className='tour-footer-right'>
               <div className='tour-footer-sold'>
@@ -195,7 +200,7 @@ const TourCard = ({
               </div>
               <div className='tour-footer-watched'>
                 <div className='tour-footer-value'>
-                  {tour.watched ? tour.watched : '125'}
+                  {tour.watched ? tour.watched : '0'}
                 </div>{' '}
                 <img src={view} alt='view' />
               </div>

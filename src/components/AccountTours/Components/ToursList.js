@@ -9,11 +9,7 @@ import {
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 
-const ToursList = ({ tours, getTours }) => {
-  useEffect(() => {
-    getTours()
-  }, [])
-
+const ToursList = ({ tours }) => {
 
   const [active, setActive] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -46,8 +42,4 @@ const ToursList = ({ tours, getTours }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  tours: state.tours.tours,
-})
-
-export default connect(mapStateToProps, { getTours })(ToursList)
+export default ToursList

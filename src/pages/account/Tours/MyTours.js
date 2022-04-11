@@ -3,14 +3,41 @@ import { connect } from 'react-redux'
 import ToursList from "../../../components/AccountTours/Components/ToursList";
 import {Link, Redirect, useHistory} from 'react-router-dom'
 import Account from "../../../layouts/account/account";
-import {addTour} from "../../../redux/actions/toursActions";
+import {addTour, getTours} from "../../../redux/actions/toursActions";
 import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const MyTours = ({isAuthenticated, addTour, tour}) => {
+const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, }) => {
+
+  const [loading, setLoading] = useState(false)
 
   const [buttonText, setButtonText] = useState('Добавить путешествие')
 
   const [edit, setEdit] = useState(false)
+
+  const [filter, setFilter] = useState('all')
+
+  const [toursList, setToursList] = useState(null)
+
+  useEffect(() => {
+    getTours()
+  }, [])
+
+  useEffect(() => {
+    if(tours && filter === 'all') {
+      setToursList(tours)
+    } else if(tours && filter === 'is_active') {
+      setToursList(tours.filter(item => item.is_active))
+    } else if(tours && filter === 'on_moderation') {
+      setToursList(tours.filter(item => item.on_moderation))
+    } else if(tours && filter === 'is_draft') {
+      setToursList(tours.filter(item => item.is_draft))
+    } else if(tours && filter === 'is_archive') {
+      setToursList(tours.filter(item => item.is_archive))
+    }
+  }, [tours, filter])
+
 
   useEffect(() => {
     if(isNotEmptyObject(tour) && edit) {
@@ -59,13 +86,15 @@ const MyTours = ({isAuthenticated, addTour, tour}) => {
           </div>
           <div className='control-buttons'>
             <div className='control-buttons-set'>
-              <button>Опубликовано</button>
-              <button>На модерации</button>
-              <button>Черновики</button>
+              <button className={filter === 'all' && 'active'} onClick={() => setFilter('all')}>Все</button>
+              <button className={filter === 'is_active' && 'active'} onClick={() => setFilter('is_active')}>Опубликовано</button>
+              <button className={filter === 'on_moderation' && 'active'} onClick={() => setFilter('on_moderation')}>На модерации</button>
+              <button className={filter === 'is_draft' && 'active'} onClick={() => setFilter('is_draft')}>Черновики</button>
+              <button className={filter === 'is_archive' && 'active'} onClick={() => setFilter('is_archive')}>В архиве</button>
             </div>
 
           </div>
-          <ToursList/>
+          {toursList && <ToursList tours={toursList}/>}
         </main>
       </Account>
     </>
@@ -75,8 +104,10 @@ const MyTours = ({isAuthenticated, addTour, tour}) => {
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   tour: state.tours.current_tour,
+  tours: state.tours.tours,
 })
 
 export default connect(mapStateToProps, {
   addTour,
+  getTours
 })(MyTours)
