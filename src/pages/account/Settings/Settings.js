@@ -40,6 +40,8 @@ const Settings = ({
   const [submitted, setSubmitted] = useState(false)
   const [activePopUp, setActivePopUp] = useState(false)
 
+  console.log(submitted)
+
   useEffect(() => {
     if(submitted && reg_status >= 200 && reg_status < 300) {
       setActivePopUp(true)
@@ -107,10 +109,15 @@ const Settings = ({
     })
   }
 
+  const handlePopUp = () => {
+    setActivePopUp(false)
+    setSubmitted(false)
+  }
+
   return (<Account title='Настройки' menu_item='settings'>
     <>
       {activePopUp && <PopUp status={'ok'} title={'Успешно обновлено'}
-                             text={''} button={'Ок'} action={() => setActivePopUp(false)}/>}
+                             text={''} button={'Ок'} action={handlePopUp}/>}
       {requestActive && (
         <div className={`modal-request-confirm`}>
           {request_status && (<div className="modal-request-body">
