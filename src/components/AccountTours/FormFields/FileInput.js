@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { deleteTourWallpaper } from '../../../redux/actions/toursActions'
 import {delete_avatar} from '../../../redux/actions/authActions'
 import {deleteTeamMemberAvatar} from "../../../redux/actions/profileActions";
+import PopUp from "../../PopUp/PopUp";
 
 const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar, required, type, deleteTeamMemberAvatar, member }) => {
   const [data, setData] = useState([])
@@ -14,7 +15,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
   const [active, setActive] = useState(true)
   const [bubbleActive, setBubbleActive] = useState(false)
   const [preview, setPreview] = useState(null)
-
+  const [activePopUp, setActivePopUp] = useState(false)
 
   const inputFileRef = useRef(null)
 
@@ -61,6 +62,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
       setActive(true)
     }
     setLoading(false)
+    setActivePopUp(false)
   }
 
   const onBtnClick = () => {
@@ -85,6 +87,13 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
 
   return (
     <>
+      {activePopUp && <PopUp status={'danger'}
+                             title={'Уверены, что хотите удалить?'}
+                             text={'Картинка будет удалена навсегда.'}
+                             button={'Отменить'}
+                             button2={'Удалить'}
+                             action={() => setActivePopUp(false)}
+                             second_action={() => handleDelete()}/>}
       <div className='fake-file-input-component'>
         <input
           required={required}
@@ -128,7 +137,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
                     }}
                     onMouseOver={() => setBubbleActive(true)}
                     onMouseOut={() => setBubbleActive(false)}
-                    onClick={handleDelete}
+                    onClick={() => setActivePopUp(true)}
                   >
                     <img src={menu} alt='menu' />
                   </div>
@@ -189,7 +198,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
                 }}
                 onMouseOver={() => setBubbleActive(true)}
                 onMouseOut={() => setBubbleActive(false)}
-                onClick={handleDelete}
+                onClick={() => setActivePopUp(true)}
               >
                 <img src={menu} alt='menu' />
               </div>

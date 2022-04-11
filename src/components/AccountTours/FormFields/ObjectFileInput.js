@@ -5,6 +5,7 @@ import menu from '../../../assets/img/trash.svg'
 import {deletePropertyImage, deleteTourImage, deleteTourWallpaper,} from "../../../redux/actions/toursActions";
 import {delete_avatar} from "../../../redux/actions/authActions";
 import {connect} from "react-redux";
+import PopUp from "../../PopUp/PopUp";
 
 const ObjectFileInput = ({
                            tour, action, name, value=[], max, required, position, deleteTourImage,
@@ -16,6 +17,8 @@ const ObjectFileInput = ({
   const [active, setActive] = useState(true)
   const [bubbleActive, setBubbleActive] = useState(null)
   const [preview, setPreview] = useState([])
+  const [activePopUp, setActivePopUp] = useState(false)
+  const [item, setItem] = useState('')
 
 
 
@@ -35,7 +38,12 @@ const ObjectFileInput = ({
     }
   }, [max, value])
 
-  const handleDelete = image => {
+  const handleSetItem = image => {
+    setItem(image)
+    setActivePopUp(true)
+  }
+
+  const handleDelete = () => {
     setLoading(true)
     if (name === 'wallpaper') {
       deleteTourWallpaper(tour.id)
@@ -48,17 +56,18 @@ const ObjectFileInput = ({
       setActive(true)
     }
     if (name === 'day_photo') {
-      delete_action(image)
+      delete_action(item)
       setPreview(null)
       setActive(true)
     }
     if (position === 'gallery') {
-      deleteTourImage(image, tour.id)
+      deleteTourImage(item, tour.id)
     }
     if (position === 'accommodation') {
-      deletePropertyImage(image, tour.id)
+      deletePropertyImage(item, tour.id)
     }
     setLoading(false)
+    setActivePopUp(false)
   }
 
 
@@ -77,6 +86,13 @@ const ObjectFileInput = ({
 
   return (
     <>
+      {activePopUp && <PopUp status={'danger'}
+                             title={'Уверены, что хотите удалить?'}
+                             text={'Картинка будет удалена навсегда.'}
+                             button={'Отменить'}
+                             button2={'Удалить'}
+                             action={() => setActivePopUp(false)}
+                             second_action={() => handleDelete(item)}/>}
       <div className='fake-file-input-component'>
       <input
         name={name}
@@ -119,7 +135,7 @@ const ObjectFileInput = ({
                 }}
                 onMouseOver={() => setBubbleActive(index)}
                 onMouseOut={() => setBubbleActive(null)}
-                onClick={() => handleDelete(item)}
+                onClick={() => handleSetItem(item)}
               >
                 <img src={menu} alt='menu'/>
               </div>
@@ -176,7 +192,7 @@ const ObjectFileInput = ({
                 }}
                 onMouseOver={() => setBubbleActive(index)}
                 onMouseOut={() => setBubbleActive(null)}
-                onClick={() => handleDelete(item)}
+                onClick={() => handleSetItem(item)}
               >
                 <img src={menu} alt='menu'/>
               </div>
