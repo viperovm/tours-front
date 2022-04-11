@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cart from '../../../assets/img/shopping-cart.svg'
 import view from '../../../assets/img/view.svg'
-// import menu from '../../../assets/img/trash.svg'
 import menu from '../../../assets/img/menu-dots.svg'
 import dateFormat, { masks } from 'dateformat'
 
@@ -15,6 +14,7 @@ import {
 import { connect } from 'react-redux'
 import Modal from "./Modal";
 import {useHistory} from "react-router-dom";
+import PopUp from "../../PopUp/PopUp";
 
 const TourCard = ({
   tour,
@@ -45,6 +45,7 @@ const TourCard = ({
   const myRef = useRef()
 
   const [active, setActive] = useState(false)
+  const [activePopUp, setActivePopUp] = useState(false)
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -74,8 +75,8 @@ const TourCard = ({
   }
   const handleDelete = () => {
     deleteTour(tour.id)
+    setActivePopUp(false)
     setActive(false)
-    // location.reload()
   }
 
   return (
@@ -144,11 +145,18 @@ const TourCard = ({
                 textAlign: 'right',
                 cursor: 'pointer',
               }}
-              onClick={handleDelete}
+              onClick={() => setActivePopUp(true)}
             >
               Удалить
             </div>
           </div>
+          {activePopUp && <PopUp status={'danger'}
+                                 title={'Уверены, что хотите удалить?'}
+                                 text={'Информация будет удалена навсегда.'}
+                                 button={'Отменить'}
+                                 button2={'Удалить'}
+                                 action={() => setActivePopUp(false)}
+                                 second_action={handleDelete}/>}
           <div
             className={`tour-label tour-label${cssClass ? '-' + cssClass : ''}`}
           >

@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Modal from "./Modal";
 import {useHistory} from "react-router-dom";
 import {deleteTeamMember, getTeamMember} from "../../../redux/actions/profileActions";
+import PopUp from "../../PopUp/PopUp";
 
 const TeamCard = ({
                     member,
@@ -19,6 +20,7 @@ const TeamCard = ({
   const [more, setMore] = useState(false)
   const [showMore, setShowMore] = useState(false)
   const [about, setAbout] = useState('')
+  const [activePopUp, setActivePopUp] = useState(false)
 
   useEffect(() => {
     if(member && member.about && member.about.length>120) {
@@ -50,11 +52,19 @@ const TeamCard = ({
   }
   const handleDelete = () => {
     deleteTeamMember(member.id)
+    setActivePopUp(false)
     // location.reload()
   }
 
   return (
     <>
+      {activePopUp && <PopUp status={'danger'}
+                             title={'Уверены, что хотите удалить?'}
+                             text={'Информация будет удалена навсегда.'}
+                             button={'Отменить'}
+                             button2={'Удалить'}
+                             action={() => setActivePopUp(false)}
+                             second_action={handleDelete}/>}
       <div className='team-card'>
         <div className="team-image-wrapper">
           <div
@@ -109,7 +119,7 @@ const TeamCard = ({
                   textAlign: 'right',
                   cursor: 'pointer',
                 }}
-                onClick={handleDelete}
+                onClick={() => setActivePopUp(true)}
               >
                 Удалить
               </div>

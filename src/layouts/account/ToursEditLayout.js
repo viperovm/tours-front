@@ -17,23 +17,17 @@ import {
   getTour
 } from "../../redux/actions/toursActions";
 
-import CircularProgress from '@mui/material/CircularProgress'
 import Modal from "../../components/AccountTours/Components/Modal";
-
-import isNotEmptyObject from "../../helpers/isNotEmptyObject";
 import PopUp from "../../components/PopUp/PopUp";
 
 const ToursEditLayout = ({
                            preview = false,
                            tour,
-                           menu_item,
                            secondary_item,
                            secondary_name,
-                           completed,
                            isAuthenticated,
                            children,
                            openSecondaryMenu,
-                           addTour,
                            deleteTour,
                            tourToServer,
                            clearCurrentTour,
