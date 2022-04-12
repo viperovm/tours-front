@@ -33,6 +33,7 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
   }, [prc, currency])
 
   console.log(optionsArray)
+  console.log(currency)
 
   useEffect(() => {
     if(prc && optionsArray) {

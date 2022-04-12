@@ -50,6 +50,7 @@ const TourRoute = ({
       let key = Object.keys(error)[0]
       let anchor = document.getElementById(key)
       anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+      setSubmitted(false)
     } else if(submitted && res_status >= 500 && res_status < 600) {
       setActivePopUp(true)
     }

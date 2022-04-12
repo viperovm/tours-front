@@ -53,6 +53,7 @@ const Prices = ({
       let key = Object.keys(error)[0]
       let anchor = document.getElementById(key)
       anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+      setSubmitted(false)
     } else if(submitted && res_status >= 500 && res_status < 600) {
       setActivePopUp(true)
     }
@@ -94,11 +95,12 @@ const Prices = ({
   }
 
   const handlePrcInput = (name, value) => {
-    console.log(15, value)
-    if(value && value.id && value.id === 0) {
-      updateTour({...tour, [name]: false})
-    } else if(value && value.id && value.id === 1) {
-      updateTour({...tour, [name]: true})
+    if(value){
+      if(value.id === 0) {
+        updateTour({...tour, [name]: false})
+      } else if(value.id === 1) {
+        updateTour({...tour, [name]: true})
+      }
     }
   }
 
@@ -196,10 +198,10 @@ const Prices = ({
             />
             <SelectInput
               name='discount_in_prc'
-              label='Номинал'
+              label={tour && tour.currency ? 'Номинал' : 'Выберите валюту тура'}
               val={tour && tour.discount_in_prc}
               action={handlePrcInput}
-              currency={tour && tour.currency && tour.currency.short_name + '1'}
+              currency={tour && tour.currency && tour.currency.short_name}
               prc={true}
               error={error}
             />
@@ -234,7 +236,7 @@ const Prices = ({
             />
             <SelectInput
               name='prepay_in_prc'
-              label='Номинал'
+              label={tour && tour.currency ? 'Номинал' : 'Выберите валюту тура'}
               val={tour && tour.prepay_in_prc}
               action={handlePrcInput}
               currency={tour && tour.currency && tour.currency.short_name}
