@@ -82,7 +82,10 @@ const Prices = ({
 
   const handleSubmit = e => {
     e.preventDefault()
-    tourToServer(tour, tour.id)
+    tourToServer({
+      ...tour,
+      section: 'prices',
+    }, tour.id)
     setSubmitted(true)
   }
 
@@ -196,7 +199,7 @@ const Prices = ({
               label='Номинал'
               val={tour && tour.discount_in_prc}
               action={handlePrcInput}
-              currency={tour && tour.currency && tour.currency.short_name}
+              currency={tour && tour.currency && tour.currency.short_name + '1'}
               prc={true}
               error={error}
             />

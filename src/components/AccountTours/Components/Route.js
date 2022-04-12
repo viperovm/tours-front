@@ -79,7 +79,10 @@ const TourRoute = ({
 
   const handleSubmit = e => {
     e.preventDefault()
-    tourToServer(tour, tour.id)
+    tourToServer({
+      ...tour,
+      section: 'route',
+    }, tour.id)
     setSubmitted(true)
   }
 

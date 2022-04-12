@@ -81,7 +81,10 @@ const Review = ({
 
   const handleSubmit = e => {
     e.preventDefault()
-    tourToServer(tour, tour.id)
+    tourToServer({
+      ...tour,
+      section: 'review',
+    }, tour.id)
     setSubmitted(true)
   }
 

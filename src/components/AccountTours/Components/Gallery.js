@@ -74,7 +74,10 @@ const Gallery = ({
 
   const handleSubmit = e => {
     e.preventDefault()
-    tourToServer(tour, tour.id)
+    tourToServer({
+      ...tour,
+      section: 'gallery',
+    }, tour.id)
     setSubmitted(true)
   }
 

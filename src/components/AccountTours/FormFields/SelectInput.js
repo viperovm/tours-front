@@ -32,6 +32,8 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
     }
   }, [prc, currency])
 
+  console.log(optionsArray)
+
   useEffect(() => {
     if(prc && optionsArray) {
       let arr = []

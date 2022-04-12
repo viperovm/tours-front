@@ -92,7 +92,10 @@ const Accommodation = ({ getTourTypes,
 
   const handleSubmit = e => {
     e.preventDefault()
-    tourToServer(tour, tour.id)
+    tourToServer({
+      ...tour,
+      section: 'accommodation',
+    }, tour.id)
     setSubmitted(true)
   }
 
