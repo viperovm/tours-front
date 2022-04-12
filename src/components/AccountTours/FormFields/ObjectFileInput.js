@@ -6,11 +6,12 @@ import {deletePropertyImage, deleteTourImage, deleteTourWallpaper,} from "../../
 import {delete_avatar} from "../../../redux/actions/authActions";
 import {connect} from "react-redux";
 import PopUp from "../../PopUp/PopUp";
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 
 const ObjectFileInput = ({
                            tour, action, name, value=[], max, required, position, deleteTourImage,
                            deleteTourWallpaper,
-                           delete_avatar, deletePropertyImage, delete_action,
+                           delete_avatar, deletePropertyImage, delete_action, error
                          }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
@@ -19,10 +20,21 @@ const ObjectFileInput = ({
   const [preview, setPreview] = useState([])
   const [activePopUp, setActivePopUp] = useState(false)
   const [item, setItem] = useState('')
+  const [currentError, setCurrentError] = useState([])
 
 
 
   const inputFileRef = useRef(null)
+
+  useEffect(() => {
+    if(isNotEmptyObject(error) && error.detail) {
+      let arr = []
+      arr.push(error.detail)
+      setCurrentError(arr)
+    } else if(error[name]) {
+      setCurrentError(error[name])
+    }
+  }, [error, name])
 
   useEffect(() => {
     if (loading && value.length > 0) {
@@ -79,6 +91,7 @@ const ObjectFileInput = ({
   const onFilechange = e => {
     setLoading(true)
     if (e.target.files[0]) {
+      setCurrentError([])
       setData(e.target.files[0])
       action(e.target.files[0])
     }
@@ -113,6 +126,15 @@ const ObjectFileInput = ({
         >
           <div className='camera-image'/>
           <div className='fake-file-input-text'>Добавить новое фото</div>
+        </div>
+        <div className="errors-list">
+          {/*{currentError}*/}
+          <ul>
+            { Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
+              <li key={index} >{item}</li>
+            ))
+            }
+          </ul>
         </div>
         {name === 'day_photo' && value.length > 0 && value.map((item, index) => (
           <Fragment key={index}>

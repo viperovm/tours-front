@@ -27,8 +27,6 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
       let arr = []
       arr.push(error.detail)
       setCurrentError(arr)
-    } else if(isNotEmptyObject(error) && name === 're_password') {
-      setCurrentError(error['password'])
     } else if(error[name]) {
       setCurrentError(error[name])
     }
@@ -87,6 +85,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
   const onFilechange = e => {
     setLoading(true)
     if (e.target.files[0]) {
+      setCurrentError([])
       setData(e.target.files[0])
       action(e.target.files[0])
       setLoading(false)
@@ -129,7 +128,8 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
           >
             <div className='camera-image' />
             <div className='fake-file-input-text'>Добавить новое фото</div>
-          </div><div className="errors-list">
+          </div>
+          <div className="errors-list">
           {/*{currentError}*/}
           <ul>
             { Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
