@@ -27,25 +27,24 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
   }, [error, name])
 
   useEffect(() => {
-    if(prc && currency) {
-      setOptionsArray([{id: 0, name: currency}, {id: 1, name: '%'}])
+    if(prc) {
+      if(currency) {
+        setOptionsArray([{id: 0, name: currency}, {id: 1, name: '%'}])
+      } else {
+        setOptionsArray([{id: 1, name: '%'}])
+      }
     }
   }, [prc, currency])
 
-  console.log(optionsArray)
-  console.log(currency)
 
   useEffect(() => {
     if(prc && optionsArray) {
       let arr = []
-      // if(val === true) {
-      //   arr.push(optionsArray[1])
-      // } else if(val === false) {
-      //   arr.push(optionsArray[0])
-      // }
-      arr.push(optionsArray[val])
-      console.log(name && name, ': ', val)
-      console.log(name && name, ': ', arr)
+      if(val === true) {
+        arr.push(optionsArray[1])
+      } else if(val === false) {
+        arr.push(optionsArray[0])
+      }
       setData(arr)
     }
   }, [prc, optionsArray, val])

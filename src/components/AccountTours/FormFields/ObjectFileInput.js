@@ -26,7 +26,6 @@ const ObjectFileInput = ({
 
   const inputFileRef = useRef(null)
 
-  console.log(error)
 
   useEffect(() => {
     if(error && isNotEmptyObject(error) && error.detail) {

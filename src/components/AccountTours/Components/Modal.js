@@ -46,8 +46,6 @@ const Modal = ({
     setActive(false)
   }
   const handleInput = (name, value) => {
-    console.log(name)
-    console.log(value)
     setDate(value)
   }
 

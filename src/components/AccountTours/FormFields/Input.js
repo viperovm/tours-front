@@ -44,10 +44,10 @@ const Input = ({
   //   action(name, data)
   // }
 
-  console.log(currentError)
 
   return (
     <>
+      <div className="with-errors-wrapper" style={{margin: margin}} id={name}>
       {type === 'date' && <input
         required={required}
         className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
@@ -61,7 +61,7 @@ const Input = ({
       }
       {type !== 'date' &&
         <>
-          <div className="with-errors-wrapper" style={{margin: margin}} id={name}>
+
             {icon && <div className={`with-icon`}>
               <input
                 required={required}
@@ -88,19 +88,22 @@ const Input = ({
                 onChange={handleData}
               />
             </div>}
-            <div className="errors-list">
-              {/*{currentError}*/}
-              <ul>
-                { Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
-                  <li key={index} >{item}</li>
-                ))
-                }
-              </ul>
-            </div>
-          </div>
+
+
         </>
       }
+        <div className="errors-list">
+          {/*{currentError}*/}
+          <ul>
+            { Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
+              <li key={index} >{item}</li>
+            ))
+            }
+          </ul>
+        </div>
+      </div>
     </>
+
   )
 }
 export default Input

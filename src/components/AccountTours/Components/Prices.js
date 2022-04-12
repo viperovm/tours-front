@@ -95,13 +95,7 @@ const Prices = ({
   }
 
   const handlePrcInput = (name, value) => {
-    if(value){
-      if(value.id === 0) {
-        updateTour({...tour, [name]: false})
-      } else if(value.id === 1) {
-        updateTour({...tour, [name]: true})
-      }
-    }
+    value && value.id === 0 ? updateTour({...tour, [name]: false}) : updateTour({...tour, [name]: true})
   }
 
   useEffect(() => {

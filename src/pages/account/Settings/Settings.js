@@ -40,7 +40,6 @@ const Settings = ({
   const [submitted, setSubmitted] = useState(false)
   const [activePopUp, setActivePopUp] = useState(false)
 
-  console.log(submitted)
 
   useEffect(() => {
     if(submitted && reg_status >= 200 && reg_status < 300) {
