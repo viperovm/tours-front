@@ -84,11 +84,11 @@ const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, }) => {
           </div>
           <div className='control-buttons'>
             <div className='control-buttons-set'>
-              <button className={filter === 'all' && 'active'} onClick={() => setFilter('all')}>Все</button>
-              <button className={filter === 'is_active' && 'active'} onClick={() => setFilter('is_active')}>Опубликовано</button>
-              <button className={filter === 'on_moderation' && 'active'} onClick={() => setFilter('on_moderation')}>На модерации</button>
-              <button className={filter === 'is_draft' && 'active'} onClick={() => setFilter('is_draft')}>Черновики</button>
-              <button className={filter === 'is_archive' && 'active'} onClick={() => setFilter('is_archive')}>В архиве</button>
+              <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>Все</button>
+              <button className={filter === 'is_active' ? 'active' : ''} onClick={() => setFilter('is_active')}>Опубликовано</button>
+              <button className={filter === 'on_moderation' ? 'active' : ''} onClick={() => setFilter('on_moderation')}>На модерации</button>
+              <button className={filter === 'is_draft' ? 'active' : ''} onClick={() => setFilter('is_draft')}>Черновики</button>
+              <button className={filter === 'is_archive' ? 'active' : ''} onClick={() => setFilter('is_archive')}>В архиве</button>
             </div>
 
           </div>

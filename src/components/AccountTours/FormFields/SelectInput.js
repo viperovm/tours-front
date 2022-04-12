@@ -50,6 +50,7 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
   }, [prc, optionsArray, val])
 
   const handleSelect = (values) => {
+    setCurrentError([])
     if(!multiple){
       action(name, values[0])
     } else {
@@ -104,7 +105,7 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
         onCreateNew={handleAddNew}
         createNewLabel="Добавить {search}"
       />}
-      {prc && optionsArray.length> 0 && <Select
+      {prc && currency && optionsArray.length> 0 && <Select
         required={required}
         style={{margin: margin, padding: '10px 20px'}}
         className={`custom-select-style ${currentError.length > 0 ? 'error' : 'ok'}`}
