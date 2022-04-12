@@ -129,15 +129,15 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
             <div className='camera-image' />
             <div className='fake-file-input-text'>Добавить новое фото</div>
           </div>
-          <div className="errors-list">
-          {/*{currentError}*/}
-          <ul>
-            { Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
-              <li key={index} >{item}</li>
-            ))
-            }
-          </ul>
-        </div>
+          {currentError.length > 0 && <div className="errors-list">
+            {/*{currentError}*/}
+            <ul>
+              {Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))
+              }
+            </ul>
+          </div>}
           {max !== 1 &&
             preview && preview.map((item, index) => (
               <Fragment key={index}>

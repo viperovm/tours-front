@@ -359,6 +359,7 @@ const toursReducer = (state = initialState, action) => {
         current_tour: payload.data,
         tours: state.tours.map(item => (item.id === payload.id ? payload.data : item)),
         res_status: payload.status,
+        error: {},
       }
 
     case ADD_TOUR_SUCCESS:

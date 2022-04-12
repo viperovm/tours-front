@@ -26,8 +26,10 @@ const ObjectFileInput = ({
 
   const inputFileRef = useRef(null)
 
+  console.log(error)
+
   useEffect(() => {
-    if(isNotEmptyObject(error) && error.detail) {
+    if(error && isNotEmptyObject(error) && error.detail) {
       let arr = []
       arr.push(error.detail)
       setCurrentError(arr)
@@ -127,15 +129,15 @@ const ObjectFileInput = ({
           <div className='camera-image'/>
           <div className='fake-file-input-text'>Добавить новое фото</div>
         </div>
-        <div className="errors-list">
+        {currentError.length > 0 && <div className="errors-list">
           {/*{currentError}*/}
           <ul>
-            { Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
-              <li key={index} >{item}</li>
+            {Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
+              <li key={index}>{item}</li>
             ))
             }
           </ul>
-        </div>
+        </div>}
         {name === 'day_photo' && value.length > 0 && value.map((item, index) => (
           <Fragment key={index}>
             <div

@@ -22,11 +22,7 @@ import {
   getTour,
 } from '../../../redux/actions/toursActions'
 
-// import Activities from './Activities'
-import Activity from './Activity'
 
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import ToursEditLayout from "../../../layouts/account/ToursEditLayout";

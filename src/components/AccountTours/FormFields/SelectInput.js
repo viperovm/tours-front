@@ -38,11 +38,14 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
   useEffect(() => {
     if(prc && optionsArray) {
       let arr = []
-      if(val === true) {
-        arr.push(optionsArray[1])
-      } else if(val === false) {
-        arr.push(optionsArray[0])
-      }
+      // if(val === true) {
+      //   arr.push(optionsArray[1])
+      // } else if(val === false) {
+      //   arr.push(optionsArray[0])
+      // }
+      arr.push(optionsArray[val])
+      console.log(name && name, ': ', val)
+      console.log(name && name, ': ', arr)
       setData(arr)
     }
   }, [prc, optionsArray, val])

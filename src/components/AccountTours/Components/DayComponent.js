@@ -15,7 +15,7 @@ import { connect } from 'react-redux'
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayImage }) => {
+const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayImage, error }) => {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
   const [previews, setPreviews] = useState([])
@@ -118,6 +118,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
           max={3}
           value={previews}
           delete_action={handleImageDelete}
+          error={error}
         />}
         {loading && (
           <CircularProgress/>
@@ -130,6 +131,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
 
 const mapStateToProps = state => ({
   tour: state.tours.current_tour,
+  error: state.tours.error,
 })
 
 export default connect(mapStateToProps, { addDay, updateDay, setDayImage, deleteDayImage })(Day)
