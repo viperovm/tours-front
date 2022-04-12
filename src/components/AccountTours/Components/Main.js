@@ -175,7 +175,7 @@ const Main = ({
           <h4>Основное</h4>
         </div>
         <form onSubmit={handleSubmit}>
-          <SingleWrapper label='Название тура*' comment='Максимум 50 символов' tour={tour} name={'name'}>
+          <SingleWrapper label='Название тура' comment='Максимум 50 символов' tour={tour} name={'name'}>
             <NameInput
               action={handleInput}
               name='name'
@@ -183,7 +183,7 @@ const Main = ({
               error={error}
             />
           </SingleWrapper>
-          <SingleWrapper label='Обложка тура*' comment='' tour={tour} name={'wallpaper'}>
+          <SingleWrapper label='Обложка тура' comment='' tour={tour} name={'wallpaper'}>
             <FileInput
               action={handleWallpaperInput}
               name='wallpaper'
@@ -196,20 +196,20 @@ const Main = ({
             <Input
               action={handleInput}
               name='vacants_number'
-              label='Осталось мест*'
+              label='Осталось мест'
               value={tour && tour.vacants_number}
               error={error}
             />
             <Input
               action={handleInput}
               name='members_number'
-              label='Всего мест*'
+              label='Всего мест'
               value={tour && tour.members_number}
               error={error}
             />
           </DoubleWrapper>
 
-          <SingleWrapper label='Основной тип тура*' comment='' tour={tour} name={'basic_type'}>
+          <SingleWrapper label='Основной тип тура' comment='' tour={tour} name={'basic_type'}>
             <SelectInput
               action={handleInput}
               name='basic_type'
@@ -257,7 +257,7 @@ const Main = ({
           />
 
           <SingleWrapper
-            label='Выберите гида из списка, либо укажите его данные ниже*'
+            label='Выберите гида из списка, либо укажите его данные ниже'
             comment={<div>
               <p>
                 Путешественники очень расстраиваются, когда вместо обещанного гида

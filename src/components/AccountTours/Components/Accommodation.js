@@ -213,7 +213,7 @@ const Accommodation = ({ getTourTypes,
           <h4>Проживание</h4>
         </div>
       <form onSubmit={handleSubmit}>
-        <SingleWrapper label='Где планируется проживание*' comment=''>
+        <SingleWrapper label='Где планируется проживание' comment=''>
           <SelectInput
             action={handleInput}
             name='tour_property_types'
@@ -225,7 +225,7 @@ const Accommodation = ({ getTourTypes,
           />
         </SingleWrapper>
         <SingleWrapper
-          label='Название отеля*'
+          label='Название отеля'
           comment='Вводите, если уверены в 100% гарантии размещения '
         >
           <Input
@@ -236,7 +236,7 @@ const Accommodation = ({ getTourTypes,
             error={error}
           />
         </SingleWrapper>
-        <SingleWrapper label='Размещение*' comment=''>
+        <SingleWrapper label='Размещение' comment=''>
           <SelectInput
             action={handleInput}
             name='accomodation'
@@ -249,7 +249,7 @@ const Accommodation = ({ getTourTypes,
         </SingleWrapper>
 
         <SingleWrapper
-          label='Добавить фото мест проживания в путешествии*'
+          label='Добавить фото мест проживания в путешествии'
           comment=''
         >
           <ObjectFileInput

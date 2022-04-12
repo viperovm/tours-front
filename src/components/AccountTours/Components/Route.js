@@ -145,7 +145,7 @@ const TourRoute = ({
             <Input
               action={handleInput}
               name='start_date'
-              label='Дата начала тура*'
+              label='Дата начала тура'
               value={tour && tour.start_date}
               type='date'
               error={error}
@@ -153,7 +153,7 @@ const TourRoute = ({
             <Input
               action={handleInput}
               name='finish_date'
-              label='Дата завершения тура*'
+              label='Дата завершения тура'
               value={tour && tour.finish_date}
               type='date'
               error={error}
@@ -165,7 +165,7 @@ const TourRoute = ({
               name='start_time'
               value={tour && tour.start_time}
               type='time'
-              label='Время начала тура (местное)*'
+              label='Время начала тура (местное)'
               error={error}
             />
             <Input
@@ -173,12 +173,12 @@ const TourRoute = ({
               name='finish_time'
               value={tour && tour.finish_time}
               type='time'
-              label='Время окончания тура (местное)*'
+              label='Время окончания тура (местное)'
               error={error}
             />
           </DoubleWrapper>
 
-          <SingleWrapper label='Город начала тура*' comment=''>
+          <SingleWrapper label='Город начала тура' comment=''>
             <CitySelectInput
               action={handleInput}
               name='start_city'
@@ -189,7 +189,7 @@ const TourRoute = ({
               error={error}
             />
           </SingleWrapper>
-          <SingleWrapper label='Город конца тура*' comment=''>
+          <SingleWrapper label='Город конца тура' comment=''>
             <CitySelectInput
               action={handleInput}
               name='finish_city'

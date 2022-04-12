@@ -181,7 +181,7 @@ const Details = ({
 
         <form onSubmit={handleSubmit}>
           <SingleWrapper
-            label='На каком языке говорят в путешествии*'
+            label='На каком языке говорят в путешествии'
             comment='Выбирайте только те языки, на которых будут говорить в путешествии '
           >
             <SelectInput
@@ -197,7 +197,7 @@ const Details = ({
           <RadioInput
             action={handleInput}
             name='difficulty_level'
-            label='Укажите сложность программы*'
+            label='Укажите сложность программы'
             value={tour && tour.difficulty_level}
             comment='Уровень активности должен соответствовать нагрузкам, которые ожидаются в путешествии. Градацию уровней активности можно посмотреть здесь'
           />
@@ -217,7 +217,7 @@ const Details = ({
           <RadioInput
             action={handleInput}
             name='comfort_level'
-            label='Как вы оцениваете уровень комфорта в путешествии?*'
+            label='Как вы оцениваете уровень комфорта в путешествии?'
             value={tour && tour.comfort_level}
             comment='Комфорт - один из главных критериев выбора путешествия. Градацию уровней комфорта можно посмотреть здесь'
           />
@@ -225,14 +225,14 @@ const Details = ({
             <Input
               action={handleInput}
               name='age_starts'
-              label='Возраст участников от:*'
+              label='Возраст участников от:'
               value={tour && tour.age_starts}
               error={error}
             />
             <Input
               action={handleInput}
               name='age_ends'
-              label='Возраст участников до:*'
+              label='Возраст участников до:'
               value={tour && tour.age_ends}
               error={error}
             />

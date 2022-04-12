@@ -159,14 +159,14 @@ const Prices = ({
             <Input
               action={handleInput}
               name='price'
-              label='Стоимость*'
+              label='Стоимость'
               value={tour && tour.price}
               error={error}
             />
             <SelectInput
               action={handleInput}
               name='currency'
-              label='Валюта тура*'
+              label='Валюта тура'
               val={tour && tour.currency}
               options={currencies}
               error={error}
@@ -225,13 +225,13 @@ const Prices = ({
             <Input
               action={handleInput}
               name='prepay_amount'
-              label='Предоплата*'
+              label='Предоплата'
               value={tour && tour.prepay_amount}
               error={error}
             />
             <SelectInput
               name='prepay_in_prc'
-              label='Номинал*'
+              label='Номинал'
               val={tour && tour.prepay_in_prc}
               action={handlePrcInput}
               currency={tour && tour.currency && tour.currency.short_name}
@@ -264,7 +264,7 @@ const Prices = ({
 
           <ExtraServicesComponent/>
 
-          <SingleWrapper label='В стоимость включено*' comment='Вводить через точку с запятой.'>
+          <SingleWrapper label='В стоимость включено' comment='Вводить через точку с запятой.'>
             <TextArea
               action={handleInput}
               name='tour_included_services'
@@ -275,7 +275,7 @@ const Prices = ({
             />
           </SingleWrapper>
 
-          <SingleWrapper label='В стоимость не включено*' comment='Вводить через точку с запятой.'>
+          <SingleWrapper label='В стоимость не включено' comment='Вводить через точку с запятой.'>
             <TextArea
               action={handleInput}
               name='tour_excluded_services'
@@ -286,7 +286,7 @@ const Prices = ({
             />
           </SingleWrapper>
 
-          <SingleWrapper label='Авиабилеты*' comment=''>
+          <SingleWrapper label='Авиабилеты' comment=''>
             <TextArea
               action={handleInput}
               name='air_tickets'
@@ -306,7 +306,7 @@ const Prices = ({
           />
 
           <SingleWrapper
-            label='Укажите свои условия отмены:*'
+            label='Укажите свои условия отмены:'
             comment='Расскажите клиентам, какая у вас политика возвратов. Какая сумма вернется пользователю в случае отмены по инициативе путешественника? Обратите внимание, что сервисный сбор платит тревел-эксперт и он является фактически понесенными расходами.'
           >
             <TextArea

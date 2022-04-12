@@ -6,7 +6,7 @@ const SingleWrapper = ({children, label, comment, margin='0 30px 0 0', full, wid
 
   return (
     <>
-      <div className='single-input-label'>{`${label} ${tour && tour.required_fields && tour.required_fields.includes(name) && '*'}`}</div>
+      <div className='single-input-label'>{`${label} ${tour && tour.required_fields && tour.required_fields.includes(name) ? '*' : ''}`}</div>
       <div className='tour-input-wrapper'>
         <div className={`single-input-input ${full ? 'full' : ''}`} style={{margin: margin, width: width, padding: padding}}>
           {children}

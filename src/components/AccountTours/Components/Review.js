@@ -149,7 +149,7 @@ const Review = ({
               error={error}
             />
           </SingleWrapper>
-          <SingleWrapper label='Описание тура*' comment=''>
+          <SingleWrapper label='Описание тура' comment=''>
             <TextEditor
               action={handleInput}
               name='description'
