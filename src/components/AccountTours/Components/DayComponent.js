@@ -82,6 +82,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
           action={handleInput}
           name='day_title'
           value={day && day.day_title}
+          error={error}
           // options={toursTypes}
           // multiple
         />
@@ -91,6 +92,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
           action={handleInput}
           name='location'
           value={day && day.location}
+          error={error}
           // options={toursTypes}
           // multiple
         />
@@ -100,6 +102,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
           action={handleInput}
           name='description'
           value={day && day.description}
+          error={error}
           // options={toursTypes}
           // multiple
         />

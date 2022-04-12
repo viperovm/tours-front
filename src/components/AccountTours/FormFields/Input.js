@@ -42,7 +42,7 @@ const Input = ({
         {type === 'date' && <input
           required={required}
           className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
-          placeholder={`${label} ${tour && tour.required_fields && tour.required_fields.includes(name) ? '*' : ''}`}
+          placeholder={label}
           name={name}
           value={data}
           type={type}
@@ -55,7 +55,7 @@ const Input = ({
             <input
               required={required}
               className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
-              placeholder={`${label} ${tour && tour.required_fields && tour.required_fields.includes(name) ? '*' : ''}`}
+              placeholder={label}
               name={name}
               value={data}
               type={type}
@@ -70,7 +70,7 @@ const Input = ({
             <input
               required={required}
               className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
-              placeholder={`${label} ${tour && tour.required_fields && tour.required_fields.includes(name) ? '*' : ''}`}
+              placeholder={label}
               name={name}
               value={data}
               type={type}

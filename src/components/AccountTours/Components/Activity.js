@@ -21,6 +21,7 @@ const Activity = ({
   activity,
   updateActivity,
   setActivityImage,
+                    error,
 }) => {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
@@ -79,6 +80,7 @@ const Activity = ({
 
 const mapStateToProps = state => ({
   tour: state.tours.current_tour,
+  error: state.tours.error,
 })
 
 export default connect(mapStateToProps, { updateActivity, setActivityImage })(
