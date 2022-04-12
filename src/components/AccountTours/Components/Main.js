@@ -193,7 +193,7 @@ const Main = ({
               error={error}
             />
           </SingleWrapper>
-          <DoubleWrapper ratio='1-2'>
+          <DoubleWrapper ratio='1-2' tour={tour}>
             <Input
               action={handleInput}
               name='vacants_number'

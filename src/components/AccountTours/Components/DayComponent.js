@@ -79,7 +79,6 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
         }
       >
         <Input
-          required={true}
           action={handleInput}
           name='day_title'
           value={day && day.day_title}
@@ -98,7 +97,6 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
       </SingleWrapper>
       <SingleWrapper label='Описание дня' comment=''>
         <TextEditor
-          required={true}
           action={handleInput}
           name='description'
           value={day && day.description}

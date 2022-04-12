@@ -221,7 +221,7 @@ const Details = ({
             value={tour && tour.comfort_level}
             comment='Комфорт - один из главных критериев выбора путешествия. Градацию уровней комфорта можно посмотреть здесь'
           />
-          <DoubleWrapper ratio='1-2'>
+          <DoubleWrapper ratio='1-2' tour={tour}>
             <Input
               action={handleInput}
               name='age_starts'

@@ -154,7 +154,7 @@ const Prices = ({
 
         <form onSubmit={handleSubmit}>
 
-          <DoubleWrapper ratio='2-3'>
+          <DoubleWrapper ratio='2-3' tour={tour}>
             <Input
               action={handleInput}
               name='price'
@@ -182,7 +182,7 @@ const Prices = ({
             />
           </SingleWrapper>
 
-          <DoubleWrapper ratio='2-3'>
+          <DoubleWrapper ratio='2-3' tour={tour}>
             <Input
               action={handleInput}
               name='discount'
@@ -201,7 +201,7 @@ const Prices = ({
             />
           </DoubleWrapper>
 
-          <DoubleWrapper ratio='1-2'>
+          <DoubleWrapper ratio='1-2' tour={tour}>
             <Input
               action={handleInput}
               name='discount_starts'
@@ -220,7 +220,7 @@ const Prices = ({
             />
           </DoubleWrapper>
 
-          <DoubleWrapper ratio='2-3'>
+          <DoubleWrapper ratio='2-3' tour={tour}>
             <Input
               action={handleInput}
               name='prepay_amount'

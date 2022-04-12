@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DoubleWrapper = ({ children, ratio='1-2', comment, full }) => {
+const DoubleWrapper = ({ children, ratio='1-2', comment, full, tour }) => {
   return (
 
     <div className='tour-input-wrapper'>
@@ -8,7 +8,7 @@ const DoubleWrapper = ({ children, ratio='1-2', comment, full }) => {
         {children &&
           children.map((el, index) => (
             <div key={index} className='double-input-item'>
-              <div className='input-label'>{el.props.label}</div>
+              <div className='input-label'>{`${el.props.label} ${tour && tour.required_fields && tour.required_fields.includes(el.props.name) ? '*' : ''}`}</div>
               {el}
             </div>
           ))}

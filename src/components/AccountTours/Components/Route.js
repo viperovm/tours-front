@@ -145,7 +145,7 @@ const TourRoute = ({
         </div>
 
         <form onSubmit={handleSubmit}>
-          <DoubleWrapper ratio='1-2'>
+          <DoubleWrapper ratio='1-2' tour={tour}>
             <Input
               action={handleInput}
               name='start_date'
@@ -163,7 +163,7 @@ const TourRoute = ({
               error={error}
             />
           </DoubleWrapper>
-          <DoubleWrapper comment=''>
+          <DoubleWrapper comment='' tour={tour}>
             <Input
               action={handleInput}
               name='start_time'
