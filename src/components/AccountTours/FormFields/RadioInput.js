@@ -17,7 +17,7 @@ const RadioInput = ({ label, comment, action, name, value }) => {
     action(name, e.target.value)
   }
   return (
-    <form>
+    <form id={name}>
       <div className='my-tours-input-section'>
         <div className='input-label'>{label}</div>
         <div className='my-tours-input-full-radio'>

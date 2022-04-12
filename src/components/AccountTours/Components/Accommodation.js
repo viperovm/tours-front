@@ -58,7 +58,11 @@ const Accommodation = ({ getTourTypes,
   useEffect(() => {
     if(submitted && res_status && res_status >= 200 && res_status < 300) {
       handleRedirect()
-    } else if(submitted && res_status >= 400 && res_status < 600) {
+    } else if(submitted && res_status >= 400 && res_status < 500) {
+      let key = Object.keys(error)[0]
+      let anchor = document.getElementById(key)
+      anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+    } else if(submitted && res_status >= 500 && res_status < 600) {
       setActivePopUp(true)
     }
   }, [submitted, res_status])
@@ -211,13 +215,13 @@ const Accommodation = ({ getTourTypes,
       <form onSubmit={handleSubmit}>
         <SingleWrapper label='Где планируется проживание*' comment=''>
           <SelectInput
-            required={true}
             action={handleInput}
             name='tour_property_types'
             label='Где планируется проживание'
             val={tour && tour.tour_property_types}
             options={tour_property_types}
             multiple={true}
+            error={error}
           />
         </SingleWrapper>
         <SingleWrapper
@@ -225,7 +229,6 @@ const Accommodation = ({ getTourTypes,
           comment='Вводите, если уверены в 100% гарантии размещения '
         >
           <Input
-            required={true}
             action={handleInput}
             name='hotel_name'
             value={tour && tour.hotel_name}
@@ -235,13 +238,13 @@ const Accommodation = ({ getTourTypes,
         </SingleWrapper>
         <SingleWrapper label='Размещение*' comment=''>
           <SelectInput
-            required={true}
             action={handleInput}
             name='accomodation'
             label='Размещение'
             val={tour && tour.accomodation}
             options={tour_accomodations}
             multiple={true}
+            error={error}
           />
         </SingleWrapper>
 
@@ -252,11 +255,11 @@ const Accommodation = ({ getTourTypes,
           <ObjectFileInput
             position={'accommodation'}
             tour={tour}
-            required={!previews}
             action={handleImageLoad}
             name='tour_property_images'
             value={tour && tour.tour_property_images}
             type='file'
+            error={error}
           />
         </SingleWrapper>
 

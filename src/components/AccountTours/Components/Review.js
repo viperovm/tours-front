@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import AnchorLink from 'react-anchor-link-smooth-scroll'
 import SingleWrapper from '../Wrappers/SingleWrapper'
 import Input from '../FormFields/Input'
 
@@ -48,7 +49,11 @@ const Review = ({
   useEffect(() => {
     if(submitted && res_status && res_status >= 200 && res_status < 300) {
       handleRedirect()
-    } else if(submitted && res_status >= 400 && res_status < 600) {
+    } else if(submitted && res_status >= 400 && res_status < 500) {
+      let key = Object.keys(error)[0]
+      let anchor = document.getElementById(key)
+      anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+    } else if(submitted && res_status >= 500 && res_status < 600) {
       setActivePopUp(true)
     }
   }, [submitted, res_status])
@@ -141,14 +146,15 @@ const Review = ({
               label=''
               value={tour && tour.main_impressions}
               rows='7'
+              error={error}
             />
           </SingleWrapper>
           <SingleWrapper label='Описание тура*' comment=''>
             <TextEditor
-              required={true}
               action={handleInput}
               name='description'
               value={tour && tour.description}
+              error={error}
             />
           </SingleWrapper>
 

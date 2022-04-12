@@ -43,6 +43,9 @@ const Input = ({
   // const handleSend = () => {
   //   action(name, data)
   // }
+
+  console.log(currentError)
+
   return (
     <>
       {type === 'date' && <input
@@ -58,11 +61,11 @@ const Input = ({
       }
       {type !== 'date' &&
         <>
-          <div className="with-errors-wrapper" style={{margin: margin}}>
+          <div className="with-errors-wrapper" style={{margin: margin}} id={name}>
             {icon && <div className={`with-icon`}>
               <input
                 required={required}
-                className={`custom-input-style ${Array.isArray(currentError) && currentError.length > 0 ? 'error' : 'ok'}`}
+                className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
                 placeholder={label}
                 name={name}
                 value={data}
@@ -77,7 +80,7 @@ const Input = ({
             {!icon && <div>
               <input
                 required={required}
-                className='custom-input-style'
+                className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
                 placeholder={label}
                 name={name}
                 value={data}

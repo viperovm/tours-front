@@ -1,12 +1,7 @@
 import React, {useState, useEffect} from 'react'
 
 const TextArea = ({
-                    label,
-                    action,
-                    name,
-                    value,
-                    rows = 5,
-                    required,
+                    label, action, name, value, rows = 5, required,
                   }) => {
   const [data, setData] = useState('')
 
@@ -22,6 +17,7 @@ const TextArea = ({
   }
 
   return (
+    <div id={name}>
     <textarea
       required={required}
       className='custom-textarea-style'
@@ -31,7 +27,7 @@ const TextArea = ({
       onChange={handleData}
       rows={rows}
     />
-  )
+    </div>)
 }
 
 export default TextArea

@@ -3385,6 +3385,16 @@ input[type='file'] {
   flex-grow: 1;
 }
 
+.fake-file-input.ok {
+  background: #f6f7f9;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.fake-file-input.error {
+  border: 1px solid #DF7070!important;
+  background: #FFECEC!important;
+}
+
 .fake-file-input.file-input-active {
   cursor: pointer;
 }
@@ -3872,11 +3882,19 @@ input[type='file'] {
   height: 60px;
   border-radius: 8px!important;
   padding: 10px 20px!important;
-  border: 1px solid rgba(0, 0, 0, 0.1)!important;
-  background: #F6F7F9!important;
   align-items: center!important;
   /*overflow-x: auto;*/
   /*flex-wrap: nowrap;*/
+}
+
+.custom-select-style.ok {
+  border: 1px solid rgba(0, 0, 0, 0.1)!important;
+  background: #F6F7F9!important;
+}
+
+.custom-select-style.error {
+  border: 1px solid #DF7070!important;
+  background: #FFECEC!important;
 }
 
 .custom-select-style input {
@@ -3895,6 +3913,11 @@ input[type='file'] {
   font-size: 16px;
   line-height: 20px;
   color: #000000;
+  /*border: 1px solid rgba(0, 0, 0, 0.1)!important;*/
+  /*background: #F6F7F9!important;*/
+}
+
+.custom-input-style.ok {
   border: 1px solid rgba(0, 0, 0, 0.1)!important;
   background: #F6F7F9!important;
 }

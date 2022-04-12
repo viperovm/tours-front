@@ -8,8 +8,9 @@ import { deleteTourWallpaper } from '../../../redux/actions/toursActions'
 import {delete_avatar} from '../../../redux/actions/authActions'
 import {deleteTeamMemberAvatar} from "../../../redux/actions/profileActions";
 import PopUp from "../../PopUp/PopUp";
+import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 
-const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar, required, type, deleteTeamMemberAvatar, member }) => {
+const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar, required, type, deleteTeamMemberAvatar, member, error = {}, }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
@@ -18,6 +19,20 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
   const [activePopUp, setActivePopUp] = useState(false)
 
   const inputFileRef = useRef(null)
+
+  const [currentError, setCurrentError] = useState([])
+
+  useEffect(() => {
+    if(isNotEmptyObject(error) && error.detail) {
+      let arr = []
+      arr.push(error.detail)
+      setCurrentError(arr)
+    } else if(isNotEmptyObject(error) && name === 're_password') {
+      setCurrentError(error['password'])
+    } else if(error[name]) {
+      setCurrentError(error[name])
+    }
+  }, [error, name])
 
   useEffect(() => {
     if (value) {
@@ -94,7 +109,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
                              button2={'Удалить'}
                              action={() => setActivePopUp(false)}
                              second_action={() => handleDelete()}/>}
-      <div className='fake-file-input-component'>
+      <div className='fake-file-input-component' id={name}>
         <input
           required={required}
           name={name}
@@ -109,12 +124,20 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
           <div
             className={`fake-file-input file-input ${
               active ? 'file-input-active' : 'file-input-inactive'
-            }`}
+            } ${Array.isArray(currentError) && currentError.length > 0 ? 'error' : 'ok'}`}
             onClick={onBtnClick}
           >
             <div className='camera-image' />
             <div className='fake-file-input-text'>Добавить новое фото</div>
-          </div>
+          </div><div className="errors-list">
+          {/*{currentError}*/}
+          <ul>
+            { Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
+              <li key={index} >{item}</li>
+            ))
+            }
+          </ul>
+        </div>
           {max !== 1 &&
             preview && preview.map((item, index) => (
               <Fragment key={index}>
@@ -239,6 +262,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
               </Box>
             </div>
           )}
+
         </div>
       </div>
     </>

@@ -38,6 +38,7 @@ const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, }) => {
     }
   }, [tours, filter])
 
+  const history = useHistory()
 
   useEffect(() => {
     if(isNotEmptyObject(tour) && edit) {
@@ -45,8 +46,6 @@ const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, }) => {
       history.push(`/account/tours/${tour.id}/edit/main`)
     }
   }, [tour])
-
-  const history = useHistory()
 
   useEffect(() => {
     if(tour.id) {
@@ -63,7 +62,6 @@ const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, }) => {
   const handleEditingButton = () => {
     setEdit(true)
     addTour()
-
   }
 
   return (

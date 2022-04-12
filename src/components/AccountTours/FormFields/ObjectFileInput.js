@@ -93,7 +93,7 @@ const ObjectFileInput = ({
                              button2={'Удалить'}
                              action={() => setActivePopUp(false)}
                              second_action={() => handleDelete(item)}/>}
-      <div className='fake-file-input-component'>
+      <div className='fake-file-input-component' id={name}>
       <input
         name={name}
         required={required}

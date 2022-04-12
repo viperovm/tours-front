@@ -42,7 +42,11 @@ const Gallery = ({
   useEffect(() => {
     if(submitted && res_status && res_status >= 200 && res_status < 300) {
       handleRedirect()
-    } else if(submitted && res_status >= 400 && res_status < 600) {
+    } else if(submitted && res_status >= 400 && res_status < 500) {
+      let key = Object.keys(error)[0]
+      let anchor = document.getElementById(key)
+      anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+    } else if(submitted && res_status >= 500 && res_status < 600) {
       setActivePopUp(true)
     }
   }, [submitted, res_status])
@@ -152,10 +156,10 @@ const Gallery = ({
             <ObjectFileInput
               position={'gallery'}
               tour={tour}
-              required={!previews}
               action={handleInput}
               name='tour_images'
               type='file'
+              error={error}
               value={tour &&
                 tour.tour_images &&
                 tour.tour_images.length > 0 && tour.tour_images}

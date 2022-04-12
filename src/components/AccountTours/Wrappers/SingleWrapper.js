@@ -1,16 +1,12 @@
 import React from 'react'
 
-const SingleWrapper = ({children, label, comment, margin='0 30px 0 0', full, width, padding}) => {
+const SingleWrapper = ({children, label, comment, margin='0 30px 0 0', full, width, padding, name, tour}) => {
+
+
+
   return (
-    // <div className='my-tours-input-section'>
-    //   <div className='input-label'>{label}</div>
-    //   <div className='my-tours-input-full'>
-    //     {children}
-    //     <div className='my-tours-input-explanations'>{comment}</div>
-    //   </div>
-    // </div>
     <>
-      <div className='single-input-label'>{label}</div>
+      <div className='single-input-label'>{`${label} ${tour && tour.required_fields && tour.required_fields.includes(name) && '*'}`}</div>
       <div className='tour-input-wrapper'>
         <div className={`single-input-input ${full ? 'full' : ''}`} style={{margin: margin, width: width, padding: padding}}>
           {children}

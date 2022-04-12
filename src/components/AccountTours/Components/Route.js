@@ -46,7 +46,11 @@ const TourRoute = ({
   useEffect(() => {
     if(submitted && res_status && res_status >= 200 && res_status < 300) {
       handleRedirect()
-    } else if(submitted && res_status >= 400 && res_status < 600) {
+    } else if(submitted && res_status >= 400 && res_status < 500) {
+      let key = Object.keys(error)[0]
+      let anchor = document.getElementById(key)
+      anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+    } else if(submitted && res_status >= 500 && res_status < 600) {
       setActivePopUp(true)
     }
   }, [submitted, res_status])
@@ -139,7 +143,6 @@ const TourRoute = ({
         <form onSubmit={handleSubmit}>
           <DoubleWrapper ratio='1-2'>
             <Input
-              required={true}
               action={handleInput}
               name='start_date'
               label='Дата начала тура*'
@@ -148,7 +151,6 @@ const TourRoute = ({
               error={error}
             />
             <Input
-              required={true}
               action={handleInput}
               name='finish_date'
               label='Дата завершения тура*'
@@ -159,7 +161,6 @@ const TourRoute = ({
           </DoubleWrapper>
           <DoubleWrapper comment=''>
             <Input
-              required={true}
               action={handleInput}
               name='start_time'
               value={tour && tour.start_time}
@@ -168,7 +169,6 @@ const TourRoute = ({
               error={error}
             />
             <Input
-              required={true}
               action={handleInput}
               name='finish_time'
               value={tour && tour.finish_time}
@@ -180,24 +180,24 @@ const TourRoute = ({
 
           <SingleWrapper label='Город начала тура*' comment=''>
             <CitySelectInput
-              required={true}
               action={handleInput}
               name='start_city'
               label='Город начала тура'
               comment=''
               val={tour && tour.start_city}
               options={cities}
+              error={error}
             />
           </SingleWrapper>
           <SingleWrapper label='Город конца тура*' comment=''>
             <CitySelectInput
-              required={true}
               action={handleInput}
               name='finish_city'
               label='Город конца тура'
               comment=''
               val={tour && tour.finish_city}
               options={cities}
+              error={error}
             />
           </SingleWrapper>
 

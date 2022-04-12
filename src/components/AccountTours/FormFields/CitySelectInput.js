@@ -114,7 +114,7 @@ const CitySelectInput = ({action, name, label, val, options, multiple, margin, b
 
     return (
       <>
-        <div className='custom-select-dropdown'>
+        <div className='custom-select-dropdown' id={name}>
           {props.options.length === 0 && !isSearching && <div className='select-empty-list'>
             Нет данных. Начните набирать название города для поиска.
           </div>}

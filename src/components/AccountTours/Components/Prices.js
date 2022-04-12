@@ -49,7 +49,11 @@ const Prices = ({
   useEffect(() => {
     if(submitted && res_status && res_status >= 200 && res_status < 300) {
       handleRedirect()
-    } else if(submitted && res_status >= 400 && res_status < 600) {
+    } else if(submitted && res_status >= 400 && res_status < 500) {
+      let key = Object.keys(error)[0]
+      let anchor = document.getElementById(key)
+      anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+    } else if(submitted && res_status >= 500 && res_status < 600) {
       setActivePopUp(true)
     }
   }, [submitted, res_status])
@@ -153,7 +157,6 @@ const Prices = ({
 
           <DoubleWrapper ratio='2-3'>
             <Input
-              required={true}
               action={handleInput}
               name='price'
               label='Стоимость*'
@@ -161,12 +164,12 @@ const Prices = ({
               error={error}
             />
             <SelectInput
-              required={true}
               action={handleInput}
               name='currency'
               label='Валюта тура*'
               val={tour && tour.currency}
               options={currencies}
+              error={error}
             />
           </DoubleWrapper>
 
@@ -195,6 +198,7 @@ const Prices = ({
               action={handlePrcInput}
               currency={tour && tour.currency && tour.currency.short_name}
               prc={true}
+              error={error}
             />
           </DoubleWrapper>
 
@@ -219,7 +223,6 @@ const Prices = ({
 
           <DoubleWrapper ratio='2-3'>
             <Input
-              required={true}
               action={handleInput}
               name='prepay_amount'
               label='Предоплата*'
@@ -227,13 +230,13 @@ const Prices = ({
               error={error}
             />
             <SelectInput
-              required={true}
               name='prepay_in_prc'
               label='Номинал*'
               val={tour && tour.prepay_in_prc}
               action={handlePrcInput}
               currency={tour && tour.currency && tour.currency.short_name}
               prc={true}
+              error={error}
             />
           </DoubleWrapper>
 
@@ -254,6 +257,7 @@ const Prices = ({
                 name='postpay_days_before_start'
                 label='Вносится за дней до старта'
                 value={tour && tour.postpay_days_before_start}
+                error={error}
               />
             </SingleWrapper>
           )}
@@ -262,34 +266,34 @@ const Prices = ({
 
           <SingleWrapper label='В стоимость включено*' comment='Вводить через точку с запятой.'>
             <TextArea
-              required={true}
               action={handleInput}
               name='tour_included_services'
               label=''
               value={tour && tour.tour_included_services}
               rows='7'
+              error={error}
             />
           </SingleWrapper>
 
           <SingleWrapper label='В стоимость не включено*' comment='Вводить через точку с запятой.'>
             <TextArea
-              required={true}
               action={handleInput}
               name='tour_excluded_services'
               label=''
               value={tour && tour.tour_excluded_services}
               rows='7'
+              error={error}
             />
           </SingleWrapper>
 
           <SingleWrapper label='Авиабилеты*' comment=''>
             <TextArea
-              required={true}
               action={handleInput}
               name='air_tickets'
               label=''
               value={tour && tour.air_tickets}
               rows='7'
+              error={error}
             />
           </SingleWrapper>
 
@@ -306,12 +310,12 @@ const Prices = ({
             comment='Расскажите клиентам, какая у вас политика возвратов. Какая сумма вернется пользователю в случае отмены по инициативе путешественника? Обратите внимание, что сервисный сбор платит тревел-эксперт и он является фактически понесенными расходами.'
           >
             <TextArea
-              required={true}
               action={handleInput}
               name='cancellation_terms'
               label=''
               value={tour && tour.cancellation_terms}
               rows='7'
+              error={error}
             />
           </SingleWrapper>
 

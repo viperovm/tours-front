@@ -61,7 +61,11 @@ const Main = ({
   useEffect(() => {
     if(submitted && res_status && res_status >= 200 && res_status < 300) {
       handleRedirect()
-    } else if(submitted && res_status >= 400 && res_status < 600) {
+    } else if(submitted && res_status >= 400 && res_status < 500) {
+      let key = Object.keys(error)[0]
+      let anchor = document.getElementById(key)
+      anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+    } else if(submitted && res_status >= 500 && res_status < 600) {
       setActivePopUp(true)
     }
   }, [submitted, res_status])
@@ -102,10 +106,12 @@ const Main = ({
 
   const handleSubmit = e => {
     e.preventDefault()
-    tourToServer(tour, tour.id)
+    tourToServer({
+      ...tour,
+      section: 'main',
+    }, tour.id)
     setSubmitted(true)
   }
-
 
   const handleImageInput = value => {
     setLoading(true)
@@ -169,26 +175,25 @@ const Main = ({
           <h4>Основное</h4>
         </div>
         <form onSubmit={handleSubmit}>
-          <SingleWrapper label='Название тура*' comment='Максимум 50 символов'>
+          <SingleWrapper label='Название тура*' comment='Максимум 50 символов' tour={tour} name={'name'}>
             <NameInput
-              required={true}
               action={handleInput}
               name='name'
               value={tour_name ? tour_name : tour && tour.name}
+              error={error}
             />
           </SingleWrapper>
-          <SingleWrapper label='Обложка тура*' comment=''>
+          <SingleWrapper label='Обложка тура*' comment='' tour={tour} name={'wallpaper'}>
             <FileInput
-              required={!(tour && tour.tmb_wallpaper)}
               action={handleWallpaperInput}
               name='wallpaper'
               max={1}
               value={tour && tour.tmb_wallpaper}
+              error={error}
             />
           </SingleWrapper>
           <DoubleWrapper ratio='1-2'>
             <Input
-              required={true}
               action={handleInput}
               name='vacants_number'
               label='Осталось мест*'
@@ -196,7 +201,6 @@ const Main = ({
               error={error}
             />
             <Input
-              required={true}
               action={handleInput}
               name='members_number'
               label='Всего мест*'
@@ -205,20 +209,21 @@ const Main = ({
             />
           </DoubleWrapper>
 
-          <SingleWrapper label='Основной тип тура*' comment=''>
+          <SingleWrapper label='Основной тип тура*' comment='' tour={tour} name={'basic_type'}>
             <SelectInput
-              required={true}
               action={handleInput}
               name='basic_type'
               label='Основной тип тура'
               val={tour && tour.basic_type}
               options={toursTypes}
+              error={error}
             />
           </SingleWrapper>
 
           <SingleWrapper
             label='Дополнительные типы тура'
             comment='Основной тип тура отображается в карточке тура в каталоге. Все возможные типы туров вы можете посмотреть здесь'
+            tour={tour} name={'additional_types'}
           >
             <SelectInput
               basic_type={tour && tour.basic_type}
@@ -229,6 +234,7 @@ const Main = ({
               val={tour && tour.additional_types}
               options={toursTypes}
               multiple
+              error={error}
             />
           </SingleWrapper>
 
@@ -267,46 +273,17 @@ const Main = ({
                 ниже.
               </p>
             </div>}
+            tour={tour} name={'team_member'}
           >
             <SelectInput
-              required={true}
               action={handleInput}
               name='team_member'
               label='Выберите гида из списка, либо укажите его данные ниже'
               val={tour && tour.team_member}
               options={members ? members : []}
               labelField='full_name'
-            />
-          </SingleWrapper>
-          <SingleWrapper label='Имя гида' comment=''>
-            <Input
-              action={handleInput}
-              name='first_name'
-              value={tour && tour.guest_guide && tour.guest_guide.first_name}
               error={error}
-              // multiple
             />
-          </SingleWrapper>
-          <SingleWrapper label='Информация о гиде' comment=''>
-            <TextEditor
-              action={handleInput}
-              name='about'
-              value={tour && tour.guest_guide && tour.guest_guide.about}
-            />
-          </SingleWrapper>
-
-          <SingleWrapper label='Фотография гида' comment=''>
-            {!loading && (<FileInput
-              action={handleImageInput}
-              name='avatar'
-              max={1}
-              value={tour && tour.guest_guide && tour.guest_guide.avatar}
-            />)}
-            {loading && (<div className='fake-file-input loader-spinner'>
-              <Box sx={{display: 'flex'}}>
-                <CircularProgress/>
-              </Box>
-            </div>)}
           </SingleWrapper>
 
           <CheckboxInput
@@ -316,7 +293,7 @@ const Main = ({
             comment='Выбор этой опции уберет ваш тур из выдачи на сайте. Подходит для заказов на индивидуальные программы '
             value={tour && tour.direct_link}
           />
-          <SingleWrapper label='Ссылка на тур:' comment=''>
+          <SingleWrapper label='Ссылка на тур:' comment='' tour={tour} name={'tour_url'}>
             <Input
               action={handleInput}
               name='tour_url'

@@ -86,7 +86,11 @@ const Details = ({
   useEffect(() => {
     if(submitted && res_status && res_status >= 200 && res_status < 300) {
       handleRedirect()
-    } else if(submitted && res_status >= 400 && res_status < 600) {
+    } else if(submitted && res_status >= 400 && res_status < 500) {
+      let key = Object.keys(error)[0]
+      let anchor = document.getElementById(key)
+      anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+    } else if(submitted && res_status >= 500 && res_status < 600) {
       setActivePopUp(true)
     }
   }, [submitted, res_status])
@@ -181,17 +185,16 @@ const Details = ({
             comment='Выбирайте только те языки, на которых будут говорить в путешествии '
           >
             <SelectInput
-              required={true}
               action={handleInput}
               name='languages'
               label='Валюта тура'
               val={tour && tour.languages}
               options={languages}
               multiple={true}
+              error={error}
             />
           </SingleWrapper>
           <RadioInput
-            required={true}
             action={handleInput}
             name='difficulty_level'
             label='Укажите сложность программы*'
@@ -208,10 +211,10 @@ const Details = ({
               label=''
               value={tour && tour.difficulty_description}
               rows='7'
+              error={error}
             />
           </SingleWrapper>
           <RadioInput
-            required={true}
             action={handleInput}
             name='comfort_level'
             label='Как вы оцениваете уровень комфорта в путешествии?*'
@@ -220,7 +223,6 @@ const Details = ({
           />
           <DoubleWrapper ratio='1-2'>
             <Input
-              required={true}
               action={handleInput}
               name='age_starts'
               label='Возраст участников от:*'
@@ -228,7 +230,6 @@ const Details = ({
               error={error}
             />
             <Input
-              required={true}
               action={handleInput}
               name='age_ends'
               label='Возраст участников до:*'

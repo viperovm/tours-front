@@ -8,10 +8,23 @@ import {
 } from "../../../redux/actions/toursActions";
 
 const SelectInput = ({action, name, label, val, options, multiple, margin, basic_type, required, tour,
-                       tourToServer, labelField='name', currency, prc=false}) => {
+                       tourToServer, labelField='name', currency, prc=false, error = {},}) => {
 
   const [data, setData] = useState([])
   const [optionsArray, setOptionsArray] = useState([])
+  const [currentError, setCurrentError] = useState([])
+
+  useEffect(() => {
+    if(isNotEmptyObject(error) && error.detail) {
+      let arr = []
+      arr.push(error.detail)
+      setCurrentError(arr)
+    } else if(isNotEmptyObject(error) && name === 're_password') {
+      setCurrentError(error['password'])
+    } else if(error[name]) {
+      setCurrentError(error[name])
+    }
+  }, [error, name])
 
   useEffect(() => {
     if(prc && currency) {
@@ -68,11 +81,11 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
   }, [val, basic_type])
 
   return (
-    <>
+    <div id={name}>
       {!prc && <Select
         required={required}
         style={{margin: margin, padding: '10px 20px'}}
-        className='custom-select-style'
+        className={`custom-select-style ${currentError.length > 0 ? 'error' : 'ok'}`}
         placeholder={'Выбрать'}
         searchable
         // clearable
@@ -89,7 +102,7 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
       {prc && optionsArray.length> 0 && <Select
         required={required}
         style={{margin: margin, padding: '10px 20px'}}
-        className='custom-select-style'
+        className={`custom-select-style ${currentError.length > 0 ? 'error' : 'ok'}`}
         placeholder={'Выбрать'}
         // clearable
         options={optionsArray}
@@ -98,7 +111,16 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
         labelField={'name'}
         valueField={'id'}
       />}
-    </>
+      <div className="errors-list">
+        {/*{currentError}*/}
+        <ul>
+          { Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
+            <li key={index} >{item}</li>
+          ))
+          }
+        </ul>
+      </div>
+    </div>
   )
 }
 

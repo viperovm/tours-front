@@ -31,7 +31,7 @@ const TextEditor = ({ action, name, value, required }) => {
   // }
 
   return editorLoaded ? (
-    <div className={'ckeditor-textarea-wrapper'}>
+    <div className={'ckeditor-textarea-wrapper'} id={name}>
       <CKEditor
         editor={ClassicEditor}
         data={data}

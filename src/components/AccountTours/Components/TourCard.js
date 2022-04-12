@@ -98,7 +98,6 @@ const TourCard = ({
               top: 15,
               right: 15,
               cursor: 'pointer',
-              zIndex: '2',
             }}
             onClick={handleMenu}
           >
