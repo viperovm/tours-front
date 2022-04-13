@@ -7,7 +7,14 @@ import {connect} from 'react-redux'
 import SideBar from '../../components/sideBar/SideBar'
 
 import {load_user} from '../../redux/actions/authActions'
-import {openSecondaryMenu, addTour, deleteTour, tourToServer, clearCurrentTour, setPage} from "../../redux/actions/toursActions";
+import {
+  openSecondaryMenu,
+  addTour,
+  deleteTour,
+  tourToServerUpdate,
+  clearCurrentTour,
+  setPage
+} from "../../redux/actions/toursActions";
 
 import CircularProgress from '@mui/material/CircularProgress'
 import Modal from "../../components/AccountTours/Components/Modal";
@@ -15,22 +22,23 @@ import Modal from "../../components/AccountTours/Components/Modal";
 import isNotEmptyObject from "../../helpers/isNotEmptyObject";
 
 const TourPreviewLayout = ({
-                           preview=false,
-                           tour,
-                           menu_item,
-                           secondary_item,
-                           secondary_name,
-                           completed,
-                           isAuthenticated,
-                           children,
-                           openSecondaryMenu,
-                           addTour,
-                           deleteTour,
-                           tourToServer,
-                           clearCurrentTour,
-                           setPage,
-                           page,
-                         }) => {
+                             preview = false,
+                             tour,
+                             menu_item,
+                             secondary_item,
+                             secondary_name,
+                             completed,
+                             isAuthenticated,
+                             children,
+                             openSecondaryMenu,
+                             addTour,
+                             deleteTour,
+                             tourToServer,
+                             clearCurrentTour,
+                             setPage,
+                             page,
+                             tour_id,
+                           }) => {
 
   const history = useHistory()
 
@@ -45,7 +53,6 @@ const TourPreviewLayout = ({
 
   // useEffect(() => {
   //   if (!isNotEmptyObject(tour)) {
-  //     console.log(tour)
   //     addTour()
   //   }
   // }, [tour])
@@ -65,20 +72,18 @@ const TourPreviewLayout = ({
 
   const handleTourCopy = () => {
     history.push('/account/tours/list')
-    location.reload()
   }
 
-  const handleTourDelete = () => {
-    deleteTour(tour.id)
-    history.push('/account/tours/list')
-    location.reload()
+  const handleTourDelete = async () => {
+    await deleteTour(tour.id)
+      .then(() => history.push('/account/tours/list'))
   }
 
   const handleTourPreview = () => {
-    if(!preview) {
-      tourToServer(tour, tour.id)
+    if (!preview) {
+      tourToServerUpdate(tour, tour.id)
       setPage(history.location)
-      history.push('/account/tours/edit/preview')
+      history.push(`/account/tours/${tour_id}/edit/preview`)
     } else {
       history.push(page)
       setPage('')
@@ -91,25 +96,22 @@ const TourPreviewLayout = ({
     }
   }, [tour, loading])
 
-  const handleModeration = () => {
-    tourToServer({...tour, on_moderation: true, is_draft: false}, tour.id)
-    clearCurrentTour()
-    history.push('/account/tours/list')
-    location.reload()
+  const handleModeration = async () => {
+    await tourToServerUpdate({...tour, on_moderation: true, is_draft: false}, tour.id)
+      .then(() => history.push('/account/tours/list'))
+      .then(() => clearCurrentTour())
   }
 
-  const handleSave = () => {
-    tourToServer(tour, tour.id)
-    clearCurrentTour()
-    history.push('/account/tours/list')
-    location.reload()
+  const handleSave = async () => {
+    await tourToServerUpdate(tour, tour.id)
+      .then(() => history.push('/account/tours/list'))
+      .then(() => clearCurrentTour())
   }
 
-  const handleDraft = () => {
-    tourToServer({...tour, on_moderation: false, is_draft: true}, tour.id)
-    clearCurrentTour()
-    history.push('/account/tours/list')
-    location.reload()
+  const handleDraft = async () => {
+    await tourToServerUpdate({...tour, on_moderation: false, is_draft: true}, tour.id)
+      .then(() => history.push('/account/tours/list'))
+      .then(() => clearCurrentTour())
   }
 
 
@@ -174,7 +176,7 @@ export default connect(mapStateToProps, {
   openSecondaryMenu,
   addTour,
   deleteTour,
-  tourToServer,
+  tourToServerUpdate,
   clearCurrentTour,
   setPage,
 })(TourPreviewLayout)

@@ -82,6 +82,19 @@
 }
 
 .price_row_total_price {
+    display: flex;
+    flex-direction: column;
+}
+
+.price_row_total_price_total {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    text-decoration-line: line-through;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.price_row_total_price_discounted {
     font-style: normal;
     font-weight: 600;
     font-size: 28px;

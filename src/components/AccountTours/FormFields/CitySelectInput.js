@@ -7,17 +7,30 @@ import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 import {connect} from "react-redux";
 import {
   getCities,
-  tourToServer,
+  tourToServerUpdate,
 } from "../../../redux/actions/toursActions";
 import useDebounce from "../../../hooks/useDebounce";
 import axios from "axios";
 import {GET_CITIES_FAIL, GET_CITIES_SUCCESS} from "../../../redux/types";
 
 const CitySelectInput = ({action, name, label, val, options, multiple, margin, basic_type, required, tour,
-                       tourToServer, labelField='name'}) => {
+                       tourToServerUpdate, labelField='name', error = {},}) => {
 
   const [data, setData] = useState([])
   const [optionsArray, setOptionsArray] = useState([])
+  const [currentError, setCurrentError] = useState([])
+
+  useEffect(() => {
+    if(isNotEmptyObject(error) && error.detail) {
+      let arr = []
+      arr.push(error.detail)
+      setCurrentError(arr)
+    } else if(isNotEmptyObject(error) && name === 're_password') {
+      setCurrentError(error['password'])
+    } else if(error[name]) {
+      setCurrentError(error[name])
+    }
+  }, [error, name])
 
   const handleSelect = (values) => {
     if(!multiple){
@@ -28,7 +41,7 @@ const CitySelectInput = ({action, name, label, val, options, multiple, margin, b
   }
 
   const handleAddNew = (values) => {
-    tourToServer({
+    tourToServerUpdate({
       ...tour,
       [name]: {
         id: null,
@@ -114,7 +127,7 @@ const CitySelectInput = ({action, name, label, val, options, multiple, margin, b
 
     return (
       <>
-        <div className='custom-select-dropdown' id={name}>
+        <div className='custom-select-dropdown'>
           {props.options.length === 0 && !isSearching && <div className='select-empty-list'>
             Нет данных. Начните набирать название города для поиска.
           </div>}
@@ -141,10 +154,11 @@ const CitySelectInput = ({action, name, label, val, options, multiple, margin, b
 
 
   return (
+    <div id={name}>
     <Select
       required={required}
       style={{margin: margin, padding: '10px 20px'}}
-      className='custom-select-style'
+      className={`custom-select-style ${currentError.length > 0 ? 'error' : 'ok'}`}
       placeholder={'Выбрать'}
       searchable={true}
       clearable
@@ -162,6 +176,16 @@ const CitySelectInput = ({action, name, label, val, options, multiple, margin, b
       // dropdownRenderer={customDropdownRenderer}
       // inputRenderer={({ props, state, methods, inputRef }) => <component ref={inputRef}/>}
     />
+      <div className="errors-list">
+        {/*{currentError}*/}
+        <ul>
+          { Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
+            <li key={index} >{item}</li>
+          ))
+          }
+        </ul>
+      </div>
+      </div>
   )
 }
 
@@ -170,5 +194,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-  tourToServer,
+  tourToServerUpdate,
 })(CitySelectInput)

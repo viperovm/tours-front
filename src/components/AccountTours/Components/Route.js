@@ -7,247 +7,123 @@ import DaysComponent from './DaysComponent'
 import {connect} from 'react-redux'
 import {
   updateTour,
-  setSecondaryNav,
-  tourToServer,
-  getCities,
-  getTour,
+  deleteKey,
+  clearErrors,
 } from '../../../redux/actions/toursActions'
-import ToursEditLayout from "../../../layouts/account/ToursEditLayout";
-import {Link, useHistory} from "react-router-dom";
 import CitySelectInput from "../FormFields/CitySelectInput";
-import Button from "./Button";
-import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
-import PopUp from "../../PopUp/PopUp";
+import ToursFormLayout from "../../../layouts/account/ToursFormLayout";
 
 const TourRoute = ({
                      tour,
-                     secondary_nav,
-                     setSecondaryNav,
                      updateTour,
-                     tourToServer,
                      cities,
-                     getCities,
-                     getTour,
                      match,
-                     res_status,
                      error,
+                     deleteKey,
+                     field_key,
+                     clearErrors,
                    }) => {
 
-  const history = useHistory()
-
-  const [url, setUrl] = useState('')
-
-  const [loading, setLoading] = useState(false)
-
-  const [submitted, setSubmitted] = useState(false)
-
-  const [activePopUp, setActivePopUp] = useState(false)
-
   useEffect(() => {
-    if(submitted && res_status && res_status >= 200 && res_status < 300) {
-      handleRedirect()
-    } else if(submitted && res_status >= 400 && res_status < 500) {
-      let key = Object.keys(error)[0]
-      let anchor = document.getElementById(key)
+    const scrollTo = async (el) => {
+      let anchor = document.getElementById(el)
       anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
-      setSubmitted(false)
-    } else if(submitted && res_status >= 500 && res_status < 600) {
-      setActivePopUp(true)
     }
-  }, [submitted, res_status])
-
-  const handleRedirect = () => {
-    setSubmitted(false)
-    history.push(url)
-  }
-
-  useEffect(() => {
-    const loadTour = async () => {
-      setLoading(true)
-      await getTour(match.params.id)
-      setLoading(false)
+    if (field_key) {
+      scrollTo(field_key).then(() => deleteKey())
     }
-    if(!isNotEmptyObject(tour)) {
-      loadTour()
-    }
-  }, [tour])
-
-  useEffect(() => {
-    getCities()
-    window.scrollTo(0, 0)
-    return () => setUrl('')
-  }, [])
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    tourToServer({
-      ...tour,
-      section: 'route',
-    }, tour.id)
-    setSubmitted(true)
-  }
+    return () => clearErrors()
+  }, [field_key])
 
   const handleInput = (name, value) => {
     updateTour({...tour, [name]: value})
   }
 
-  useEffect(() => {
-    if (tour) {
-      if (tour.tour_days && tour.tour_days.length > 0 &&
-      tour.start_date &&
-      tour.finish_date &&
-      tour.start_time &&
-      tour.finish_time &&
-      tour.start_city &&
-      tour.finish_city
-      ) {
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'route') {
-              return {
-                ...item,
-                active: true,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      } else {
-        let arr = secondary_nav
-        setSecondaryNav(
-          arr.map(item => {
-            if (item.value === 'route') {
-              return {
-                ...item,
-                active: false,
-              }
-            } else {
-              return item
-            }
-          })
-        )
-      }
-    }
-  }, [tour])
-
   return (
     <>
-      <ToursEditLayout secondary_item='route' secondary_name='Маршрут' tour_id={match.params.id}>
-        {activePopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
-                               text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'} button={'Ок'} action={() => {
-          setActivePopUp(false)
-          setSubmitted(false)
-        }}/>}
-        <div className='my-tours-section-heading'>
-          <h4>Маршрут</h4>
-        </div>
+      <ToursFormLayout
+        section_slug={'route'}
+        section_name={'Маршрут'}
+        tour_id={match.params.id}
+        forward_url={'accommodation'}
+        backward_url={'gallery'}
+        submit_url={''}
+      >
+        <DoubleWrapper ratio='1-2' tour={tour}>
+          <Input
+            action={handleInput}
+            name='start_date'
+            label='Дата начала тура'
+            value={tour && tour.start_date}
+            type='date'
+            error={error}
+          />
+          <Input
+            action={handleInput}
+            name='finish_date'
+            label='Дата завершения тура'
+            value={tour && tour.finish_date}
+            type='date'
+            error={error}
+          />
+        </DoubleWrapper>
+        <DoubleWrapper comment='' tour={tour}>
+          <Input
+            action={handleInput}
+            name='start_time'
+            value={tour && tour.start_time}
+            type='time'
+            label='Время начала тура (местное)'
+            error={error}
+          />
+          <Input
+            action={handleInput}
+            name='finish_time'
+            value={tour && tour.finish_time}
+            type='time'
+            label='Время окончания тура (местное)'
+            error={error}
+          />
+        </DoubleWrapper>
 
-        <form onSubmit={handleSubmit}>
-          <DoubleWrapper ratio='1-2' tour={tour}>
-            <Input
-              action={handleInput}
-              name='start_date'
-              label='Дата начала тура'
-              value={tour && tour.start_date}
-              type='date'
-              error={error}
-            />
-            <Input
-              action={handleInput}
-              name='finish_date'
-              label='Дата завершения тура'
-              value={tour && tour.finish_date}
-              type='date'
-              error={error}
-            />
-          </DoubleWrapper>
-          <DoubleWrapper comment='' tour={tour}>
-            <Input
-              action={handleInput}
-              name='start_time'
-              value={tour && tour.start_time}
-              type='time'
-              label='Время начала тура (местное)'
-              error={error}
-            />
-            <Input
-              action={handleInput}
-              name='finish_time'
-              value={tour && tour.finish_time}
-              type='time'
-              label='Время окончания тура (местное)'
-              error={error}
-            />
-          </DoubleWrapper>
+        <SingleWrapper label='Город начала тура' comment=''>
+          <CitySelectInput
+            action={handleInput}
+            name='start_city'
+            label='Город начала тура'
+            comment=''
+            val={tour && tour.start_city}
+            options={cities}
+            error={error}
+          />
+        </SingleWrapper>
+        <SingleWrapper label='Город конца тура' comment=''>
+          <CitySelectInput
+            action={handleInput}
+            name='finish_city'
+            label='Город конца тура'
+            comment=''
+            val={tour && tour.finish_city}
+            options={cities}
+            error={error}
+          />
+        </SingleWrapper>
 
-          <SingleWrapper label='Город начала тура' comment=''>
-            <CitySelectInput
-              action={handleInput}
-              name='start_city'
-              label='Город начала тура'
-              comment=''
-              val={tour && tour.start_city}
-              options={cities}
-              error={error}
-            />
-          </SingleWrapper>
-          <SingleWrapper label='Город конца тура' comment=''>
-            <CitySelectInput
-              action={handleInput}
-              name='finish_city'
-              label='Город конца тура'
-              comment=''
-              val={tour && tour.finish_city}
-              options={cities}
-              error={error}
-            />
-          </SingleWrapper>
-
-          <DaysComponent/>
-
-
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              width: '66%',
-            }}
-          >
-
-            <Button
-              text={'Назад'}
-              color={'button-primary'}
-              type='submit'
-              action={() => setUrl(`/account/tours/${match.params.id}/edit/gallery`)}
-            />
-            <Button
-              text={'Продолжить'}
-              color={'button-success'}
-              type='submit'
-              action={() => setUrl(`/account/tours/${match.params.id}/edit/accommodation`)}
-            />
-
-          </div>
-        </form>
-      </ToursEditLayout>
+        <DaysComponent/>
+      </ToursFormLayout>
     </>
   )
 }
 
 const mapStateToProps = state => ({
-  secondary_nav: state.tours.secondary_nav,
   tour: state.tours.current_tour,
   cities: state.tours.cities,
-  res_status: state.tours.res_status,
   error: state.tours.error,
+  field_key: state.tours.key,
 })
 
 export default connect(mapStateToProps, {
-  setSecondaryNav,
   updateTour,
-  tourToServer,
-  getCities,
-  getTour,
+  deleteKey,
+  clearErrors,
 })(TourRoute)

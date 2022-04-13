@@ -3445,11 +3445,14 @@ input[type='file'] {
 .tour-card {
   /* min-width: 31%; */
   width: calc(33.33% - 14px);
-  height: 360px;
+  min-height: 360px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   box-sizing: border-box;
   margin-bottom: 21px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .tour-card:nth-child(3n+1),
@@ -4341,4 +4344,12 @@ li.select-list:hover {
   border-bottom: 1px solid #DF7070!important;
   border-right: 1px solid #DF7070!important;
   background: #FFECEC!important;
+}
+
+.form-loader-spinner {
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

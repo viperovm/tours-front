@@ -42,14 +42,32 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
   const [places, setPlaces] = useState(1)
 
   const handleAdd = () => {
-    if(places < tour.vacants_number) {
+    if (places < tour.vacants_number) {
       setPlaces(places + 1)
     }
   }
 
   const handleSubtract = () => {
-    if(places > 1) {
+    if (places > 1) {
       setPlaces(places - 1)
+    }
+  }
+
+  const getPrice = (amount) => {
+    if(tour && tour.discount) {
+      if(tour.discount_in_prc) {
+        return (amount * ((100 - tour.discount) / 100))
+      } else {
+        return amount - tour.discount
+      }
+    }
+  }
+
+  const getPrepay = () => {
+    if(tour && tour.prepay_in_prc) {
+      return (tour.price * (tour.prepay_amount / 100))
+    } else {
+      return tour.prepay_amount
     }
   }
 
@@ -64,27 +82,48 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
       <TourPreviewLayout secondary_item='' secondary_name='Общее' preview={true}>
         {isNotEmptyObject(tour_preview) && (
           <>
-            {<Wallpaper image={tour_preview.wallpaper}/>}
+            {tour_preview.wallpaper && <Wallpaper image={tour_preview.wallpaper}/>}
             <div className="wrapper">
               <div className={styles.preview_wrapper}>
                 <div className={styles.tour_body}>
-                  <TourHeader title={tour_preview.name} rating={tour_preview.rating} reviews={tour_preview.reviews_count}/>
-                  <TourLocation country={tour_preview.start_country}
-                                region={tour_preview.start_russian_region ? tour_preview.start_russian_region : tour_preview.start_city}/>
-                  <TourTypes main_type={tour_preview.basic_type} extra_types={tour_preview.additional_types}/>
-                  <TourInfoBlocks comfort={tour_preview.comfort_level} difficulty={tour_preview.difficulty_level}
-                                  language={tour_preview.languages}
-                                  age={tour_preview.age_starts + '-' + tour_preview.age_ends}/>
+                  {tour_preview.name &&
+                    < TourHeader
+                      title={tour_preview.name}
+                      rating={tour_preview.rating}
+                      reviews={tour_preview.reviews_count}
+                    />}
+                  {tour_preview.start_country && <TourLocation
+                    country={tour_preview.start_country}
+                    region={tour_preview.start_russian_region ? tour_preview.start_russian_region : tour_preview.start_city}
+                  />}
+                  {tour_preview.basic_type && <TourTypes
+                    main_type={tour_preview.basic_type}
+                    extra_types={tour_preview.additional_types}
+                  />}
+                  <TourInfoBlocks
+                    comfort={tour_preview.comfort_level} difficulty={tour_preview.difficulty_level}
+                    language={tour_preview.languages}
+                    age={tour_preview.age_starts + '-' + tour_preview.age_ends}
+                  />
                   <div className={styles.divider}/>
                   {tour_preview.main_impressions && <TourImpressions impressions={tour_preview.main_impressions}/>}
                   {tour_preview.plan && <TourReview text={tour_preview.description} activities={tour_preview.plan}/>}
-                  <TourGallery gallery={tour_preview.tour_images}/>
-                  <TourRoute start_date={tour_preview && tour_preview && tour_preview.start_date} start_city={tour_preview && tour_preview.start_city}
-                             start_time={tour_preview && tour_preview.start_time} finish_date={tour_preview && tour_preview.finish_date}
-                             finish_city={tour_preview && tour_preview.finish_city} finish_time={tour_preview && tour_preview.finish_time}/>
-                  {tour_preview && tour_preview.tour_days && <TourDays days={tour_preview && tour_preview.tour_days}/>}
-                  <TourAccommodation property_types={tour_preview.tour_property_types}
-                                     images={tour_preview.tour_property_images}/>
+                  {tour_preview.tour_images && <TourGallery gallery={tour_preview.tour_images}/>}
+                  <TourRoute
+                    start_date={tour_preview && tour_preview.start_date}
+                    start_city={tour_preview && tour_preview.start_city}
+                    start_time={tour_preview && tour_preview.start_time}
+                    finish_date={tour_preview && tour_preview.finish_date}
+                    finish_city={tour_preview && tour_preview.finish_city}
+                    finish_time={tour_preview && tour_preview.finish_time}
+                  />
+                  {tour_preview && tour_preview.tour_days &&
+                    <TourDays days={tour_preview && tour_preview.tour_days}/>
+                  }
+                  <TourAccommodation
+                    property_types={tour_preview.tour_property_types}
+                    images={tour_preview.tour_property_images}
+                  />
                   {tour_preview.tour_included_services && tour_preview.tour_excluded_services &&
                     <TourIncluded inclusions={tour_preview.tour_included_services}
                                   exclusions={tour_preview.tour_excluded_services}/>}
@@ -94,7 +133,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
 
                 <div
                   className={styles.tour_sidebar_body}
-                     // ref={stickyRef}
+                  // ref={stickyRef}
                   style={{position: 'sticky', top: '30px'}}
                 >
                   <div className={styles.tour_sidebar_header}>
@@ -102,7 +141,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                       Зарегистрируйтесь!
                     </Link>
                     <span>
-                      И начните путешествовать по новому!
+                    И начните путешествовать по новому!
                     </span>
                   </div>
 
@@ -124,9 +163,16 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                     </div>
                     <div className={styles.price_row}>
                       <div className={styles.price_row_total_price}>
-                        {tour_preview && tour_preview.price && tour_preview.price.toLocaleString('ru')}
-                        {' '}
-                        <span className='rub-sign'>₽</span>
+                        <div className={styles.price_row_total_price_total}>
+                          {tour_preview && tour_preview.price && tour_preview.price.toLocaleString('ru')}
+                          {' '}
+                          <span className='rub-sign'>₽</span>
+                        </div>
+                        <div className={styles.price_row_total_price_discounted}>
+                          {tour_preview && tour_preview.price && getPrice(tour_preview.price).toLocaleString('ru')}
+                          {' '}
+                          <span className='rub-sign'>₽</span>
+                        </div>
                       </div>
                       <div className={styles.price_row_daily_price}>
                         {'в день'}
@@ -137,7 +183,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                       </div>
                     </div>
                     <div className={styles.more_row}>
-                      {tour_preview.price_comment}  <Link>подробнее</Link>
+                      {tour_preview.price_comment} <Link to={'#'}>подробнее</Link>
                     </div>
 
                     <div className={styles.duration_row}>
@@ -204,10 +250,11 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
 
                     <div className={styles.inputs_row_text}>
                       <div className={styles.inputs_row_text_heading}>
-                        Для бронирования тура достаточно 8 750 <span className='rub-sign'>₽</span>
+                        Для бронирования тура достаточно {getPrepay().toLocaleString('ru')} <span className='rub-sign'>₽</span>
                       </div>
                       <div className={styles.inputs_row_text_text}>
-                        При отмене бронирования любого путешествия в течение 24 часов после оплаты вы получаете полный возврат.
+                        При отмене бронирования любого путешествия в течение 24 часов после оплаты вы получаете полный
+                        возврат.
                       </div>
                     </div>
 
@@ -217,7 +264,8 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                   <div className={styles.tour_sidebar_footer}>
 
                     <div className={styles.footer_row_leader}>
-                      <div className={styles.footer_row_leader_image} style={{backgroundImage: 'url(' + tour_preview.expert.tmb_avatar}}/>
+                      <div className={styles.footer_row_leader_image}
+                           style={{backgroundImage: 'url(' + tour_preview.expert.tmb_avatar}}/>
                       <div className={styles.footer_row_leader_leader}>
                         <div className={styles.footer_row_leader_name}>
                           <span>{tour_preview.expert.first_name}</span>, Автор туров

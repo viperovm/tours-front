@@ -75,10 +75,14 @@ import {
   DELETE_TOUR,
   DELETE_PROPERTY_IMAGE_SUCCESS,
   DELETE_PROPERTY_IMAGE_FAIL,
-  DELETE_TOUR_DAY_IMAGE
+  DELETE_TOUR_DAY_IMAGE,
+  CLEAR_ERRORS,
+  SET_KEY,
+  DELETE_KEY,
 } from '../types'
 
 const initialState = {
+  key: '',
   res_status: null,
   error: {},
   tours: [],
@@ -298,11 +302,35 @@ const toursReducer = (state = initialState, action) => {
     return result
   }
 
+  const updateNav = (nav, data) => {
+    return nav.map(item => {
+      if(data.includes(item.value)) {
+        return {
+          ...item,
+          active: true,
+        }
+      } else {
+        return item
+      }
+    })
+  }
+
   switch (type) {
     case GET_TOURS_SUCCESS:
       return {
         ...state,
         tours: payload,
+      }
+
+    case SET_KEY:
+      return {
+        ...state,
+        key: payload,
+      }
+    case DELETE_KEY:
+      return {
+        ...state,
+        key: '',
       }
     case COPY_TOUR_SUCCESS:
       const tours_list = state.tours
@@ -356,10 +384,10 @@ const toursReducer = (state = initialState, action) => {
     case UPDATE_TOUR_SUCCESS:
       return {
         ...state,
-        current_tour: payload.data,
-        tours: state.tours.map(item => (item.id === payload.id ? payload.data : item)),
-        res_status: payload.status,
+        current_tour: payload,
+        tours: state.tours.map(item => (item.id === payload.id ? payload : item)),
         error: {},
+        secondary_nav: updateNav(state.secondary_nav, payload.completed_sections),
       }
 
     case ADD_TOUR_SUCCESS:
@@ -368,6 +396,7 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         current_tour: payload,
+        secondary_nav: updateNav(state.secondary_nav, payload.completed_sections),
       }
     case GET_TOUR_PREVIEW_SUCCESS:
       return {
@@ -385,8 +414,7 @@ const toursReducer = (state = initialState, action) => {
     case UPDATE_TOUR_FAIL:
       return {
         ...state,
-        res_status: payload.status,
-        error: payload.data,
+        error: payload,
       }
     case GET_TOUR_TYPES_SUCCESS:
       return {
@@ -632,6 +660,13 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         current_tour: deleteTourWallpaper(state.current_tour),
+      }
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        res_status: null,
+        error: {},
       }
 
     case SET_TOUR_DAY_IMAGE_FAIL:

@@ -77,7 +77,10 @@ import {
   DELETE_TOUR_IMAGE_FAIL,
   DELETE_PROPERTY_IMAGE_SUCCESS,
   DELETE_PROPERTY_IMAGE_FAIL,
-  DELETE_TOUR_DAY_IMAGE
+  DELETE_TOUR_DAY_IMAGE,
+  CLEAR_ERRORS,
+  SET_KEY,
+  DELETE_KEY,
 } from '../types'
 import axios from 'axios'
 
@@ -158,7 +161,47 @@ export const getTours = () => async dispatch => {
   }
 }
 
-export const tourToServer = (data, id) => async dispatch => {
+export const tourToServer = (
+  // data, id
+  payload
+) => async dispatch => {
+  // const config = {
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     Authorization: `JWT ${localStorage.getItem('access')}`,
+  //     Accept: 'application/json',
+  //   },
+  // }
+  //
+  // if (data && data.wallpaper) {
+  //   delete data.wallpaper
+  // }
+  //
+  // if (data && data.tmb_wallpaper) {
+  //   delete data.tmb_wallpaper
+  // }
+  //
+  // const body = JSON.stringify(data)
+  //
+  // try {
+  //   const res = await axios.patch(`${API_URL}/api/tours/${id}/`, body, config)
+  //
+  //   const payload = {data: res.data, id: id, status: res.status}
+
+    dispatch({
+      type: UPDATE_TOUR_SUCCESS,
+      payload: payload,
+    })
+    // dispatch(set_tour(res.data))
+  // } catch (err) {
+  //   dispatch({
+  //     type: UPDATE_TOUR_FAIL,
+  //     payload: {status: err.response.status, data: err.response.data},
+  //   })
+  // }
+}
+
+export const tourToServerUpdate = ( data, id ) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -180,19 +223,24 @@ export const tourToServer = (data, id) => async dispatch => {
   try {
     const res = await axios.patch(`${API_URL}/api/tours/${id}/`, body, config)
 
-    const payload = {data: res.data, id: id, status: res.status}
-
-    dispatch({
-      type: UPDATE_TOUR_SUCCESS,
-      payload: payload,
-    })
-    // dispatch(set_tour(res.data))
+  dispatch({
+    type: UPDATE_TOUR_SUCCESS,
+    payload: res.data,
+  })
   } catch (err) {
     dispatch({
       type: UPDATE_TOUR_FAIL,
       payload: {status: err.response.status, data: err.response.data},
     })
   }
+}
+
+export const tourToServerError = (error) => async dispatch => {
+
+  dispatch({
+    type: UPDATE_TOUR_FAIL,
+    payload: error,
+  })
 }
 
 export const updateTour = data => async dispatch => {
@@ -895,5 +943,24 @@ export const setPage = page => async dispatch => {
   dispatch({
     type: SET_PAGE,
     payload: page,
+  })
+}
+
+export const clearErrors = () => async dispatch => {
+  dispatch({
+    type: CLEAR_ERRORS,
+  })
+}
+
+export const setKey = key => async dispatch => {
+  dispatch({
+    type: SET_KEY,
+    payload: key,
+  })
+}
+
+export const deleteKey = () => async dispatch => {
+  dispatch({
+    type: DELETE_KEY,
   })
 }

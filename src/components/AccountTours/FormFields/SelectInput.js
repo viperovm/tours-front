@@ -4,11 +4,11 @@ import Select from 'react-dropdown-select';
 import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 import {connect} from "react-redux";
 import {
-  tourToServer,
+  tourToServerUpdate,
 } from "../../../redux/actions/toursActions";
 
 const SelectInput = ({action, name, label, val, options, multiple, margin, basic_type, required, tour,
-                       tourToServer, labelField='name', currency, prc=false, error = {},}) => {
+                       tourToServerUpdate, labelField='name', currency, prc=false, error = {},}) => {
 
   const [data, setData] = useState([])
   const [optionsArray, setOptionsArray] = useState([])
@@ -59,7 +59,7 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
   }
 
   const handleAddNew = (values) => {
-    tourToServer({
+    tourToServerUpdate({
       ...tour,
       [name]: values.name
     }, tour.id)
@@ -135,5 +135,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-  tourToServer,
+  tourToServerUpdate,
 })(SelectInput)

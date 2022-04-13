@@ -11,7 +11,7 @@ import {
   openSecondaryMenu,
   addTour,
   deleteTour,
-  tourToServer,
+  tourToServerUpdate,
   clearCurrentTour,
   setPage,
   getTour
@@ -29,7 +29,7 @@ const ToursEditLayout = ({
                            children,
                            openSecondaryMenu,
                            deleteTour,
-                           tourToServer,
+                           tourToServerUpdate,
                            clearCurrentTour,
                            setPage,
                            page,
@@ -66,14 +66,14 @@ const ToursEditLayout = ({
     history.push('/account/tours/list')
   }
 
-  const handleTourDelete = () => {
-    deleteTour(tour.id)
-    history.push('/account/tours/list')
+  const handleTourDelete = async () => {
+    await deleteTour(tour.id)
+      .then(() => history.push('/account/tours/list'))
   }
 
   const handleTourPreview = () => {
     if (!preview) {
-      tourToServer(tour, tour.id)
+      tourToServerUpdate(tour, tour.id)
       setPage(history.location)
       history.push(`/account/tours/${tour_id}/edit/preview`)
     } else {
@@ -89,21 +89,21 @@ const ToursEditLayout = ({
   }, [tour, loading])
 
   const handleModeration = async () => {
-    await tourToServer({...tour, on_moderation: true, is_draft: false}, tour.id)
-    clearCurrentTour()
-    history.push('/account/tours/list')
+    await tourToServerUpdate({...tour, on_moderation: true, is_draft: false}, tour.id)
+      .then(() => history.push('/account/tours/list'))
+      .then(() => clearCurrentTour())
   }
 
   const handleSave = async () => {
-    await tourToServer(tour, tour.id)
-    clearCurrentTour()
-    history.push('/account/tours/list')
+    await tourToServerUpdate(tour, tour.id)
+      .then(() => history.push('/account/tours/list'))
+      .then(() => clearCurrentTour())
   }
 
   const handleDraft = async () => {
-    await tourToServer({...tour, on_moderation: false, is_draft: true}, tour.id)
-    clearCurrentTour()
-    history.push('/account/tours/list')
+    await tourToServerUpdate({...tour, on_moderation: false, is_draft: true}, tour.id)
+      .then(() => history.push('/account/tours/list'))
+      .then(() => clearCurrentTour())
   }
 
 
@@ -153,12 +153,6 @@ const ToursEditLayout = ({
                       :
                       <div onClick={handleTourPreview}>Предпросмотр</div>}
                   </div>
-
-                  {/*<div className='control-buttons-set'>*/}
-                  {/*  <button onClick={handleTourDelete}>Удалить</button>*/}
-                  {/*  <button><Modal tour_id={tour.id} button_name='Создать копию' action={handleSave}/></button>*/}
-                  {/*  <button>Предпросмотр</button>*/}
-                  {/*</div>*/}
                   <div className='control-buttons-set'>
                     <button onClick={handleDraft}>В черновик</button>
                     <button onClick={handleModeration}>На модерацию</button>
@@ -189,7 +183,7 @@ export default connect(mapStateToProps, {
   openSecondaryMenu,
   addTour,
   deleteTour,
-  tourToServer,
+  tourToServerUpdate,
   clearCurrentTour,
   setPage,
   getTour,

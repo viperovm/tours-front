@@ -179,7 +179,7 @@ const TourCard = ({
               onClick={handleTourEdit}
               // style={{ cursor: 'pointer' }}
             >
-              {tour.name}
+              {tour.name && (tour.name.length <= 23 ? tour.name : tour.name.substring(0, 23) + '...')}
             </div>
           </div>
           <div className='tour-footer'>
