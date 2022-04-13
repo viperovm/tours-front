@@ -19,8 +19,16 @@ const ObjectFileInput = ({
   const [bubbleActive, setBubbleActive] = useState(null)
   const [preview, setPreview] = useState([])
   const [activePopUp, setActivePopUp] = useState(false)
+  const [deleted, setDeleted] = useState(false)
   const [item, setItem] = useState('')
   const [currentError, setCurrentError] = useState([])
+
+  useEffect(() => {
+    if(deleted) {
+      window.location.reload(false)
+      setDeleted(false)
+    }
+  }, [deleted])
 
 
 
@@ -75,12 +83,14 @@ const ObjectFileInput = ({
     }
     if (position === 'gallery') {
       deleteTourImage(item, tour.id)
+
     }
     if (position === 'accommodation') {
       deletePropertyImage(item, tour.id)
     }
     setLoading(false)
     setActivePopUp(false)
+    setDeleted(true)
   }
 
 
@@ -194,7 +204,7 @@ const ObjectFileInput = ({
             </div>
           </Fragment>
         ))}
-        {name !== 'day_photo' && value.length > 0 && value.map((item, index) => (
+        { name !== 'day_photo' && value.length > 0 && value.map((item, index) => (
           <Fragment key={index}>
             <div
               key={index}
