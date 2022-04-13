@@ -86,7 +86,7 @@ const TourRoute = ({
           />
         </DoubleWrapper>
 
-        <SingleWrapper label='Город начала тура' comment=''>
+        <SingleWrapper label='Город начала тура' comment='' tour={tour} name='start_city'>
           <CitySelectInput
             action={handleInput}
             name='start_city'
@@ -97,7 +97,7 @@ const TourRoute = ({
             error={error}
           />
         </SingleWrapper>
-        <SingleWrapper label='Город конца тура' comment=''>
+        <SingleWrapper label='Город конца тура' comment='' tour={tour} name='finish_city'>
           <CitySelectInput
             action={handleInput}
             name='finish_city'

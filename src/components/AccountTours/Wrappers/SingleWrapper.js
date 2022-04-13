@@ -2,8 +2,6 @@ import React from 'react'
 
 const SingleWrapper = ({children, label, comment, margin='0 30px 0 0', full, width, padding, name, tour}) => {
 
-
-
   return (
     <>
       <div className='single-input-label'>{`${label} ${tour && tour.required_fields && tour.required_fields.includes(name) ? '*' : ''}`}</div>

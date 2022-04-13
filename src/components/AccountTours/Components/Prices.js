@@ -82,7 +82,7 @@ const Prices = ({
           />
         </DoubleWrapper>
 
-        <SingleWrapper label='Комментарий к стоимости' comment=''>
+        <SingleWrapper label='Комментарий к стоимости' comment='' name='price_comment'>
           <Input
             action={handleInput}
             name='price_comment'
@@ -158,7 +158,7 @@ const Prices = ({
         )}
 
         {tour && !tour.postpay_on_start_day && (
-          <SingleWrapper label='Вносится за дней до старта ' comment=''>
+          <SingleWrapper label='Вносится за дней до старта ' comment='' name='postpay_days_before_start'>
             <Input
               action={handleInput}
               name='postpay_days_before_start'
@@ -171,7 +171,7 @@ const Prices = ({
 
         <ExtraServicesComponent/>
 
-        <SingleWrapper label='В стоимость включено' comment='Вводить через точку с запятой.' tour={tour}>
+        <SingleWrapper label='В стоимость включено' comment='Вводить через точку с запятой.' tour={tour} name='tour_included_services' >
           <TextArea
             action={handleInput}
             name='tour_included_services'
@@ -182,7 +182,7 @@ const Prices = ({
           />
         </SingleWrapper>
 
-        <SingleWrapper label='В стоимость не включено' comment='Вводить через точку с запятой.' tour={tour}>
+        <SingleWrapper label='В стоимость не включено' comment='Вводить через точку с запятой.' tour={tour} name='tour_excluded_services'>
           <TextArea
             action={handleInput}
             name='tour_excluded_services'
@@ -193,7 +193,7 @@ const Prices = ({
           />
         </SingleWrapper>
 
-        <SingleWrapper label='Авиабилеты' comment='' tour={tour}>
+        <SingleWrapper label='Авиабилеты' comment='' tour={tour} name='air_tickets'>
           <TextArea
             action={handleInput}
             name='air_tickets'
@@ -214,6 +214,7 @@ const Prices = ({
 
         <SingleWrapper
           tour={tour}
+          name='cancellation_terms'
           label='Укажите свои условия отмены:'
           comment='Расскажите клиентам, какая у вас политика возвратов. Какая сумма вернется пользователю в случае отмены по инициативе путешественника? Обратите внимание, что сервисный сбор платит тревел-эксперт и он является фактически понесенными расходами.'
         >

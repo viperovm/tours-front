@@ -51,7 +51,7 @@ const Review = ({
         backward_url={'main'}
         submit_url={''}
       >
-        <SingleWrapper label='Главные впечатления' comment='Вводить через точку с запятой.'>
+        <SingleWrapper label='Главные впечатления' comment='Вводить через точку с запятой.' tour={tour} name='main_impressions'>
           <TextArea
             action={handleInput}
             name='main_impressions'
@@ -61,7 +61,7 @@ const Review = ({
             error={error}
           />
         </SingleWrapper>
-        <SingleWrapper label='Описание тура' comment=''>
+        <SingleWrapper label='Описание тура' comment='' tour={tour} name='description'>
           <TextEditor
             action={handleInput}
             name='description'
@@ -70,7 +70,7 @@ const Review = ({
           />
         </SingleWrapper>
 
-        <SingleWrapper label='Ссылка на видео (youtube или vimeo)' comment=''>
+        <SingleWrapper label='Ссылка на видео (youtube или vimeo)' comment='' tour={tour} name='media_link'>
           <Input
             action={handleInput}
             name='media_link'

@@ -60,7 +60,7 @@ const Accommodation = ({
       backward_url={'route'}
       submit_url={''}
     >
-      <SingleWrapper label='Где планируется проживание' comment=''>
+      <SingleWrapper label='Где планируется проживание' comment='' tour={tour} name='tour_property_types'>
         <SelectInput
           action={handleInput}
           name='tour_property_types'
@@ -74,6 +74,7 @@ const Accommodation = ({
       <SingleWrapper
         label='Название отеля'
         comment='Вводите, если уверены в 100% гарантии размещения '
+        tour={tour} name='hotel_name'
       >
         <Input
           action={handleInput}
@@ -83,7 +84,7 @@ const Accommodation = ({
           error={error}
         />
       </SingleWrapper>
-      <SingleWrapper label='Размещение' comment=''>
+      <SingleWrapper label='Размещение' comment='' tour={tour} name='accomodation'>
         <SelectInput
           action={handleInput}
           name='accomodation'
@@ -98,6 +99,7 @@ const Accommodation = ({
       <SingleWrapper
         label='Добавить фото мест проживания в путешествии'
         comment=''
+        tour={tour} name='tour_property_images'
       >
         <ObjectFileInput
           position={'accommodation'}

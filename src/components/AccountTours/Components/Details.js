@@ -56,11 +56,12 @@ const Details = ({
         <SingleWrapper
           label='На каком языке говорят в путешествии'
           comment='Выбирайте только те языки, на которых будут говорить в путешествии '
+          tour={tour} name='languages'
         >
           <SelectInput
             action={handleInput}
             name='languages'
-            label='Валюта тура'
+            label=''
             val={tour && tour.languages}
             options={languages}
             multiple={true}
@@ -77,6 +78,7 @@ const Details = ({
         <SingleWrapper
           label='Кратко опишите в чем заключается сложность тура'
           comment=''
+          tour={tour} name='difficulty_description'
         >
           <TextArea
             action={handleInput}
