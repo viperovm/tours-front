@@ -53,23 +53,6 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
     }
   }
 
-  const getPrice = (amount) => {
-    if(tour && tour.discount) {
-      if(tour.discount_in_prc) {
-        return (amount * ((100 - tour.discount) / 100))
-      } else {
-        return amount - tour.discount
-      }
-    }
-  }
-
-  const getPrepay = () => {
-    if(tour && tour.prepay_in_prc) {
-      return (tour.price * (tour.prepay_amount / 100))
-    } else {
-      return tour.prepay_amount
-    }
-  }
 
   useEffect(() => {
     if (isNotEmptyObject(tour)) {
@@ -162,25 +145,26 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                       </div>
                     </div>
                     <div className={styles.price_row}>
-                      <div className={styles.price_row_total_price}>
-                        <div className={styles.price_row_total_price_total}>
-                          {tour_preview && tour_preview.price && tour_preview.price.toLocaleString('ru')}
-                          {' '}
-                          <span className='rub-sign'>₽</span>
-                        </div>
+                      {tour_preview && tour_preview.price && <div className={styles.price_row_total_price}>
+                        {tour_preview && tour_preview.discounted_price &&
+                          <div className={styles.price_row_total_price_total}>
+                            {tour_preview && tour_preview.price && tour_preview.price.toLocaleString('ru')}
+                            {' '}
+                            <span className='rub-sign'>₽</span>
+                          </div>}
                         <div className={styles.price_row_total_price_discounted}>
-                          {tour_preview && tour_preview.price && getPrice(tour_preview.price).toLocaleString('ru')}
+                          {(tour_preview && tour_preview.discounted_price ? tour_preview.discounted_price : tour_preview.price).toLocaleString('ru')}
                           {' '}
                           <span className='rub-sign'>₽</span>
                         </div>
-                      </div>
-                      <div className={styles.price_row_daily_price}>
+                      </div>}
+                      {tour_preview && tour_preview.daily_price && <div className={styles.price_row_daily_price}>
                         {'в день'}
                         {' '}
-                        {(tour_preview.price / tour_preview.duration).toLocaleString('ru')}
+                        {tour_preview && tour_preview.daily_price && tour_preview.daily_price.toLocaleString('ru')}
                         {' '}
                         <span className='rub-sign'>₽</span>
-                      </div>
+                      </div>}
                     </div>
                     <div className={styles.more_row}>
                       {tour_preview.price_comment} <Link to={'#'}>подробнее</Link>
@@ -249,9 +233,11 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                     </div>
 
                     <div className={styles.inputs_row_text}>
-                      <div className={styles.inputs_row_text_heading}>
-                        Для бронирования тура достаточно {getPrepay().toLocaleString('ru')} <span className='rub-sign'>₽</span>
-                      </div>
+                      {tour_preview && tour_preview.book_price && <div className={styles.inputs_row_text_heading}>
+                        Для бронирования тура
+                        достаточно {tour_preview && tour_preview.book_price && tour_preview.book_price.toLocaleString('ru')}
+                        <span className='rub-sign'>₽</span>
+                      </div>}
                       <div className={styles.inputs_row_text_text}>
                         При отмене бронирования любого путешествия в течение 24 часов после оплаты вы получаете полный
                         возврат.
