@@ -47,14 +47,14 @@ const ExtraServices = ({
         backward_url={'details'}
         submit_url={'/account/tours/list'}
       >
-        <SingleWrapper label='Требования к гостю' comment=''>
+        <SingleWrapper label='Требования к гостю' comment='' tour={tour} name={'guest_requirements'}>
           <TextEditor
             action={handleInput}
             name='guest_requirements'
             value={tour && tour.guest_requirements}
           />
         </SingleWrapper>
-        <SingleWrapper label='Что взять с собой?*' comment=''>
+        <SingleWrapper label='Что взять с собой?' comment='' tour={tour} name={'take_with'}>
           <TextEditor
             required={true}
             action={handleInput}
@@ -62,14 +62,14 @@ const ExtraServices = ({
             value={tour && tour.take_with}
           />
         </SingleWrapper>
-        <SingleWrapper label='Ключевые  особенности?' comment=''>
+        <SingleWrapper label='Ключевые  особенности?' comment='' tour={tour} name={'key_features'}>
           <TextEditor
             action={handleInput}
             name='key_features'
             value={tour && tour.key_features}
           />
         </SingleWrapper>
-        <SingleWrapper label='Что нового я увижу?' comment=''>
+        <SingleWrapper label='Что нового я увижу?' comment='' tour={tour} name={'new_to_see'}>
           <TextEditor
             action={handleInput}
             name='new_to_see'

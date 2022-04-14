@@ -3887,7 +3887,7 @@ input[type='file'] {
   padding: 10px 20px!important;
   align-items: center!important;
   /*overflow-x: auto;*/
-  /*flex-wrap: nowrap;*/
+  /*flex-wrap: wrap;*/
 }
 
 .custom-select-style.ok {
@@ -3901,7 +3901,9 @@ input[type='file'] {
 }
 
 .custom-select-style input {
-  width: calc(100% - 70px);
+  /*width: calc(0ch + 5px);*/
+  /*width: calc(100% - 70px);*/
+  /*width: 100%;*/
 }
 
 .custom-input-style {
@@ -3958,9 +3960,13 @@ input[type='file'] {
   align-items: center!important;
   margin: 0!important;
   overflow-x: auto;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   width: 100%;
   position: absolute;
+}
+
+.react-dropdown-select-content input{
+
 }
 
 .react-dropdown-select-clear {
@@ -4352,4 +4358,22 @@ li.select-list:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.add-day-button a {
+  background: #2AA2D6;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  /* width: 400px; */
+  height: 60px;
+  border-radius: 8px;
+  font-weight: 750!important;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
+  text-transform: uppercase;
+  border: none;
+  margin-bottom: 20px;
+  padding: 0 50px;
 }

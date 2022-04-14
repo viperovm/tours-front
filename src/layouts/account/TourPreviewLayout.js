@@ -38,6 +38,7 @@ const TourPreviewLayout = ({
                              setPage,
                              page,
                              tour_id,
+                             tourToServerUpdate,
                            }) => {
 
   const history = useHistory()

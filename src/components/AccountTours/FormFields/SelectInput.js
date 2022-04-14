@@ -94,6 +94,7 @@ const SelectInput = ({action, name, label, val, options, multiple, margin, basic
         className={`custom-select-style ${currentError.length > 0 ? 'error' : 'ok'}`}
         placeholder={'Выбрать'}
         searchable
+        searchBy={'name'}
         // clearable
         multi={multiple}
         options={optionsArray}

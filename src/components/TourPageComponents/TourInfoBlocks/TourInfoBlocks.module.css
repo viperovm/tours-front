@@ -25,6 +25,37 @@
     text-align: center;
     color: #000000;
     margin-bottom: 4px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.tour_info_block_languages {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tour_info_block_language {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.tour_info_block_language:not(:last-child) {
+    margin-right: 10px;
+}
+
+.tour_info_block_language_name {
+
+}
+
+.tour_info_block_language_name div {
+    font-size: 12px;
+    line-height: 15px;
+    color: #000000;
+    padding: 10px;
 }
 
 .tour_info_block_name {

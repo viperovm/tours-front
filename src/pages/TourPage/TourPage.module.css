@@ -109,7 +109,7 @@
     color: rgba(0, 0, 0, 0.5);
 }
 
-.more_row {
+.price_comment_row {
     width: 100%;
     padding: 20px 0;
     border-bottom: 1px solid #EBEBEB;
@@ -120,8 +120,13 @@
     color: #000000;
 }
 
-.more_row a {
+.price_comment_row div{
+    display: inline-block;
+}
+
+.price_comment_row_more {
     font-weight: 600;
+    cursor: pointer;
     color: #2AA2D6;
 }
 

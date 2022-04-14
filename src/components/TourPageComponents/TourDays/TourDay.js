@@ -20,7 +20,7 @@ const TourDay = ({day={}, index, is_opened}) => {
       <div className={styles.day_container}>
         {active && day && day.image && day.image.length>0 && <DaysImages slides={day && day.image}/>}
         <div className={styles.day_title_container} onClick={handleToggleActive}>
-          <div className={styles.day_title}>День {index + 1}. {day.day_title} ({day.location})</div>
+          <div className={styles.day_title}>День {index + 1}. {day.day_title} {day.location ? ' (' + day.location + ')' : ''}</div>
           <div className={styles.day_arrow}>
             <img src={active ? up : down} alt="chevron"/>
           </div>

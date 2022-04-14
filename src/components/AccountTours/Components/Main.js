@@ -85,16 +85,16 @@ const Main = ({
         <DoubleWrapper ratio='1-2' tour={tour}>
           <Input
             action={handleInput}
-            name='vacants_number'
-            label='Осталось мест'
-            value={tour && tour.vacants_number}
+            name='members_number'
+            label='Всего мест'
+            value={tour && tour.members_number}
             error={error}
           />
           <Input
             action={handleInput}
-            name='members_number'
-            label='Всего мест'
-            value={tour && tour.members_number}
+            name='vacants_number'
+            label='Осталось мест'
+            value={tour && tour.vacants_number}
             error={error}
           />
         </DoubleWrapper>
@@ -147,7 +147,7 @@ const Main = ({
         />
 
         <SingleWrapper
-          label='Выберите гида из списка, либо укажите его данные ниже'
+          label='Выберите гида из списка'
           comment={<div>
             <p>
               Путешественники очень расстраиваются, когда вместо обещанного гида

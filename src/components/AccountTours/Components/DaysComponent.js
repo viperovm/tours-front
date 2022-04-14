@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import AnchorLink from 'react-anchor-link-smooth-scroll'
 import Button from './Button'
 
 import CircularProgress from '@mui/material/CircularProgress'
@@ -43,11 +44,28 @@ function a11yProps(index) {
 }
 
 const DaysComponent = ({ tour, addDay }) => {
+
+  const daysElement = useRef(null);
+
   const [value, setValue] = useState(0)
 
   const [dayData, setDayData] = useState([])
   const [days, setDays] = useState([1])
   const [loading, setLoading] = useState(false)
+  const [scroll, setScroll] = useState(false)
+
+  useEffect(() => {
+    if (scroll && daysElement.current) {
+      console.log(daysElement.current)
+      daysElement.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "start"
+      });
+    }
+    setScroll(false)
+    return () => setScroll(false)
+  }, [scroll])
 
   useEffect(() => {
     if (tour && tour.tour_days == null) {
@@ -85,40 +103,43 @@ const DaysComponent = ({ tour, addDay }) => {
     let id = days[days.length - 1] + 1
     addDay({ id: id, image: [], description: '', location: '', day_title: '' })
     setValue(id - 1)
+    setScroll(true)
   }
 
   return (
     <>
       
       {!loading && dayData.length > 0 && (
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label='basic tabs example'
-              variant='scrollable'
-              scrollButtons='auto'
-            >
-              {days.map((item, index) => (
-                <Tab
-                  key={index}
-                  label={`День ${item}`}
-                  {...a11yProps(index)}
+        <div ref={daysElement} id='days-element'>
+          <Box sx={{ width: '100%' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label='basic tabs example'
+                variant='scrollable'
+                scrollButtons='auto'
+              >
+                {days.map((item, index) => (
+                  <Tab
+                    key={index}
+                    label={`День ${item}`}
+                    {...a11yProps(index)}
+                  />
+                ))}
+              </Tabs>
+            </Box>
+            {dayData.map((item, index) => (
+              <TabPanel key={index} value={value} index={index}>
+                <DayComponent
+                  id={index + 1}
+                  action={handleDayInput}
+                  day={item}
                 />
-              ))}
-            </Tabs>
+              </TabPanel>
+            ))}
           </Box>
-          {dayData.map((item, index) => (
-            <TabPanel key={index} value={value} index={index}>
-              <DayComponent
-                id={index + 1}
-                action={handleDayInput}
-                day={item}
-              />
-            </TabPanel>
-          ))}
-        </Box>
+        </div>
       )}
       {loading && (
         <div className='fake-file-input loader-spinner'>
@@ -127,12 +148,15 @@ const DaysComponent = ({ tour, addDay }) => {
           </Box>
         </div>
       )}
-      <Button
-        active={true}
-        action={handleDayAdd}
-        color='button-primary'
-        text='Добавить день'
-      />
+      <div className="add-day-button" onClick={handleDayAdd}>
+        <AnchorLink offset='100' href='#days-element'>Добавить день</AnchorLink>
+      </div>
+      {/*<Button*/}
+      {/*  active={true}*/}
+      {/*  action={handleDayAdd}*/}
+      {/*  color='button-primary'*/}
+      {/*  text='Добавить день'*/}
+      {/*/>*/}
     </>
   )
 }

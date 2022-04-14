@@ -380,32 +380,34 @@ export const deleteTourWallpaper = (id) => async dispatch => {
 }
 
 export const setTourImages = (image, id) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-    },
-  }
-  let form_data = new FormData()
-  form_data.append('image', image, image.name)
-  try {
-    const res = await axios.post(
-      `${API_URL}/api/tours/${id}/gallary/`,
-      form_data,
-      config
-    )
+  // const config = {
+  //   headers: {
+  //     'Content-Type': 'multipart/form-data',
+  //     Authorization: `JWT ${localStorage.getItem('access')}`,
+  //   },
+  // }
+  // let form_data = new FormData()
+  // form_data.append('image', image, image.name)
+  // try {
+  //   const res = await axios.post(
+  //     `${API_URL}/api/tours/${id}/gallary/`,
+  //     form_data,
+  //     config
+  //   )
+  //
 
 
-    dispatch({
-      type: SET_TOUR_IMAGE_SUCCESS,
-      payload: res.data,
-    })
+  dispatch({
+    type: SET_TOUR_IMAGE_SUCCESS,
+    payload: image,
+    // payload: res.data,
+  })
     // dispatch(getTour(id))
-  } catch (err) {
-    dispatch({
-      type: SET_TOUR_IMAGE_FAIL,
-    })
-  }
+  // } catch (err) {
+  //   dispatch({
+  //     type: SET_TOUR_IMAGE_FAIL,
+  //   })
+  // }
 }
 
 export const deleteTourImage = (image, id) => async dispatch => {

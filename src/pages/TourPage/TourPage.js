@@ -60,6 +60,46 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
     }
   }, [tour])
 
+  const PriceComment = () => {
+    const [showMore, setShowMore] = useState(false)
+
+    return (
+      tour_preview && tour_preview.price_comment && tour_preview.price_comment && (
+        <>
+          {tour_preview && tour_preview.price_comment && tour_preview.price_comment.length <= 23
+            ?
+            (<div>
+              {tour_preview.price_comment}
+            </div>)
+            :
+            (
+              <>
+                {showMore
+                  ?
+                  <div>
+                    {tour_preview.price_comment + ' '}
+                    <div className={styles.price_comment_row_more} onClick={() => setShowMore(false)}>
+                      {' '}скрыть
+                    </div>
+                  </div>
+                  :
+                  <div>
+                    {tour_preview.price_comment.slice(0, 23) + ' '}
+                    <div className={styles.price_comment_row_more} onClick={() => setShowMore(true)}>
+                      {' '}подробнее...
+                    </div>
+                  </div>
+                }
+              </>
+            )
+          }
+        </>
+      )
+    )
+  }
+
+  console.log(tour_preview.media_link)
+
   return (
     <>
       <TourPreviewLayout secondary_item='' secondary_name='Общее' preview={true}>
@@ -90,7 +130,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                   />
                   <div className={styles.divider}/>
                   {tour_preview.main_impressions && <TourImpressions impressions={tour_preview.main_impressions}/>}
-                  {tour_preview.plan && <TourReview text={tour_preview.description} activities={tour_preview.plan}/>}
+                  {tour_preview.plan && <TourReview text={tour_preview.description} activities={tour_preview.plan} video={tour_preview && tour_preview.media_link ? tour_preview.media_link : ''}/>}
                   {tour_preview.tour_images && <TourGallery gallery={tour_preview.tour_images}/>}
                   <TourRoute
                     start_date={tour_preview && tour_preview.start_date}
@@ -166,8 +206,8 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                         <span className='rub-sign'>₽</span>
                       </div>}
                     </div>
-                    <div className={styles.more_row}>
-                      {tour_preview.price_comment} <Link to={'#'}>подробнее</Link>
+                    <div className={styles.price_comment_row}>
+                      <PriceComment/>
                     </div>
 
                     <div className={styles.duration_row}>

@@ -15,6 +15,15 @@
     margin: 20px 0;
 }
 
+.video_wrapper {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.video_wrapper iframe{
+    border-radius: 8px;
+}
+
 .activity_text {
     font-weight: normal;
     font-size: 14px;
