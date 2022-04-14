@@ -87,12 +87,18 @@ const MultipleFileInput = ({
   const onFileChange = async (e) => {
     setLoading(true)
     console.log(e.target.files)
+    const imageLoader = (image) => {
+      setLoading(true)
+      imageUploader(image, tour.id)
+        .then(r => setTourImages(r))
+      setLoading(true)
+    }
     if (e.target.files && e.target.files.length > 0) {
       Object.values(e.target.files).map(item => {
         console.log(item)
-        imageUploader(item, tour.id)
+        imageLoader(item)
           // .then(r => console.log(r))
-          .then(r => setData(r))
+
           // .then(() => console.log(data))
         // .then(() => window.location.reload())
         // .then(r => setTourImages(r[0]))
