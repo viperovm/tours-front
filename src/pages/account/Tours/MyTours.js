@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import ToursList from "../../../components/AccountTours/Components/ToursList";
 import {Link, Redirect, useHistory} from 'react-router-dom'
 import Account from "../../../layouts/account/account";
-import {addTour, getTours} from "../../../redux/actions/toursActions";
+import {addTour, clearCurrentTour, getTours} from "../../../redux/actions/toursActions";
 import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, }) => {
+const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, clearCurrentTour, }) => {
 
   const [loading, setLoading] = useState(false)
 
@@ -22,6 +22,7 @@ const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, }) => {
 
   useEffect(() => {
     getTours()
+    clearCurrentTour()
   }, [])
 
   useEffect(() => {
@@ -78,7 +79,7 @@ const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, }) => {
             </div>
             <div className='tours-list-add-button-button green' onClick={handleEditingButton}>
               <div>
-                {buttonText}
+                Добавить путешествие
               </div>
             </div>
           </div>
@@ -107,5 +108,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   addTour,
-  getTours
+  getTours,
+  clearCurrentTour,
 })(MyTours)

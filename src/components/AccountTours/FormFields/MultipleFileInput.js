@@ -80,13 +80,11 @@ const MultipleFileInput = ({
 
 
   const onBtnClick = () => {
-    /*Collecting node-element and performing click*/
     inputFileRef.current.click()
   }
 
   const onFileChange = async (e) => {
     setLoading(true)
-    console.log(e.target.files)
     const imageLoader = (image) => {
       setLoading(true)
       imageUploader(image, tour.id)
@@ -97,25 +95,8 @@ const MultipleFileInput = ({
       Object.values(e.target.files).map(item => {
         console.log(item)
         imageLoader(item)
-          // .then(r => console.log(r))
-
-          // .then(() => console.log(data))
-        // .then(() => window.location.reload())
-        // .then(r => setTourImages(r[0]))
-        // .then(r => setData([
-        //   ...data,
-        //   r[0]
-        // ]))
-        // .then(r => setTourImages(r[0]))
       })
-      // window.location.reload()
-
-      // const arr = Object.values(e.target.files)
-      console.log(data)
-
       setCurrentError([])
-      // window.location.reload()
-      // action(e.target.files[0])
     }
   }
 

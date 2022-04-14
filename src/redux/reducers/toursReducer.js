@@ -619,6 +619,16 @@ const toursReducer = (state = initialState, action) => {
         page: '',
         tour_leaders: [],
         tour_name: '',
+        secondary_nav: [
+          {value: 'main', text: 'Основное', active: false},
+          {value: 'review', text: 'Обзор', active: false},
+          {value: 'prices', text: 'Цены', active: false},
+          {value: 'gallery', text: 'Галерея', active: false},
+          {value: 'route', text: 'Маршрут', active: false},
+          {value: 'accommodation', text: 'Проживание', active: false},
+          {value: 'details', text: 'Детали', active: false},
+          {value: 'important', text: 'Важно знать', active: false},
+        ],
       }
 
     case SET_CURRENT_SECTION:
