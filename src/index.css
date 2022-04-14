@@ -157,6 +157,11 @@ a {
 /*  letter-spacing: 0.3px;*/
 /*}*/
 
+ul, ol {
+  margin: 16px 0;
+  padding-left: 40px;
+}
+
 .rub-sign {
   font-family: var(--font-family-rub);
 }
@@ -1896,6 +1901,10 @@ a {
   padding-left: 60px;
   position: relative;
   cursor: pointer;
+}
+
+.account-sidebar-menu ul {
+  padding-left: 0!important;
 }
 
 li.sidebar-menu-items {
