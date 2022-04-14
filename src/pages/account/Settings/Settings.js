@@ -194,7 +194,7 @@ const Settings = ({
             value={profile.email}
           />
         </DoubleWrapper>
-        <DoubleWrapper full={true}>
+        <DoubleWrapper full={true} undertext={true}>
           {profile.phone_confirmed ? (<div className="verified-note">
               <span className="confirmed-green">Телефон подтвержден и скрыт от других пользователей</span>
             </div>
