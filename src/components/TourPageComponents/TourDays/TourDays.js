@@ -14,7 +14,7 @@ const TourDays = ({days=[]}) => {
 
   return (
     <>
-      <div className={styles.tour_days_container}>
+      {Array.isArray(days) && days.length > 0 && <div className={styles.tour_days_container}>
         <div className={styles.tour_days_header}>
           <h3>День за днем</h3>
           <div className={styles.days_opener} onClick={toggleActive}>
@@ -23,7 +23,7 @@ const TourDays = ({days=[]}) => {
               'Закрыть все'
               :
               'Открыть все'
-              }
+            }
             {' '}
             {' '}
             <img src={active ? up : down} alt="chevron"/>
@@ -32,7 +32,7 @@ const TourDays = ({days=[]}) => {
         {days.map((item, index) => (
           <TourDay day={item} index={index} is_opened={active}/>
         ))}
-      </div>
+      </div>}
 
     </>)
 }

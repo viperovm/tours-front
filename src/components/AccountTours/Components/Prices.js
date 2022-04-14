@@ -169,6 +169,10 @@ const Prices = ({
           </SingleWrapper>
         )}
 
+        <div className='my-tours-section-heading'>
+          <h4>Дополнительные услуги</h4>
+        </div>
+
         <ExtraServicesComponent/>
 
         <SingleWrapper label='В стоимость включено' comment='Вводить через точку с запятой.' tour={tour} name='tour_included_services' >

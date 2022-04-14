@@ -9,9 +9,9 @@ const TourRoute = ({start_date, start_city, start_time, finish_date, finish_city
     <>
       <div className={styles.tour_route_container}>
         <h3>Маршрут</h3>
-        <div className={styles.tour_route_map}>
-          Карта
-        </div>
+        {/*<div className={styles.tour_route_map}>*/}
+        {/*  Карта*/}
+        {/*</div>*/}
         <div className={styles.tour_route_data_container}>
           <div className={styles.tour_route_data}>
             <div className={styles.tour_route_data_title}>Старт:</div>

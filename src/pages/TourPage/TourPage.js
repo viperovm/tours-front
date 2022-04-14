@@ -34,6 +34,7 @@ import group from '../../assets/img/users_group.svg'
 import calendar from '../../assets/img/calendar2.svg'
 import chevron_down from '../../assets/img/chevron_down.svg'
 import star from '../../components/TourPageComponents/TourLeader/star.svg'
+import AirTickets from "../../components/TourPageComponents/TourRoute/AirTickets";
 
 const TourPage = ({tour, getTourReview, tour_preview}) => {
 
@@ -129,29 +130,41 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                     age={tour_preview.age_starts + '-' + tour_preview.age_ends}
                   />
                   <div className={styles.divider}/>
-                  {tour_preview.main_impressions && <TourImpressions impressions={tour_preview.main_impressions}/>}
-                  {tour_preview.plan && <TourReview text={tour_preview.description} activities={tour_preview.plan} video={tour_preview && tour_preview.media_link ? tour_preview.media_link : ''}/>}
-                  {tour_preview.tour_images && <TourGallery gallery={tour_preview.tour_images}/>}
-                  <TourRoute
+                  {tour_preview.main_impressions && tour_preview.main_impressions.length > 0 && <TourImpressions impressions={tour_preview.main_impressions}/>}
+                  {((tour_preview.plan && tour_preview.plan.length > 0) || tour_preview.media_link) && <TourReview text={tour_preview.description} activities={tour_preview.plan} video={tour_preview && tour_preview.media_link ? tour_preview.media_link : ''}/>}
+                  {tour_preview.tour_images && tour_preview.tour_images.length > 0 && <TourGallery gallery={tour_preview.tour_images}/>}
+                  {tour_preview.start_date && tour_preview.start_city && <TourRoute
                     start_date={tour_preview && tour_preview.start_date}
                     start_city={tour_preview && tour_preview.start_city}
                     start_time={tour_preview && tour_preview.start_time}
                     finish_date={tour_preview && tour_preview.finish_date}
                     finish_city={tour_preview && tour_preview.finish_city}
                     finish_time={tour_preview && tour_preview.finish_time}
-                  />
-                  {tour_preview && tour_preview.tour_days &&
+                  />}
+                  {Array.isArray(tour_preview.tour_days) &&
                     <TourDays days={tour_preview && tour_preview.tour_days}/>
                   }
-                  <TourAccommodation
+                  {(Array.isArray(tour_preview.tour_property_types) || Array.isArray(tour_preview.tour_property_images)) && <TourAccommodation
                     property_types={tour_preview.tour_property_types}
                     images={tour_preview.tour_property_images}
-                  />
-                  {tour_preview.tour_included_services && tour_preview.tour_excluded_services &&
+                  />}
+                  {(tour_preview.tour_included_services.length > 0 || tour_preview.tour_excluded_services.length > 0) &&
                     <TourIncluded inclusions={tour_preview.tour_included_services}
                                   exclusions={tour_preview.tour_excluded_services}/>}
-                  <TourLeader
-                    leader={tour_preview.expert}/>
+                  {tour_preview.tour_included_services &&
+                    <AirTickets
+                      start_date={tour_preview && tour_preview.start_date}
+                      start_city={tour_preview && tour_preview.start_city}
+                      start_time={tour_preview && tour_preview.start_time}
+                      finish_date={tour_preview && tour_preview.finish_date}
+                      finish_city={tour_preview && tour_preview.finish_city}
+                      finish_time={tour_preview && tour_preview.finish_time}
+                      text={tour_preview && tour_preview.air_tickets}
+                    />
+                  }
+                  {tour_preview.expert && <TourLeader
+                    leader={tour_preview.expert}/>}
+
                 </div>
 
                 <div
@@ -184,7 +197,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                         <img src={heart} alt="heart"/>
                       </div>
                     </div>
-                    <div className={styles.price_row}>
+                    {tour_preview.price && <div className={styles.price_row}>
                       {tour_preview && tour_preview.price && <div className={styles.price_row_total_price}>
                         {tour_preview && tour_preview.discounted_price &&
                           <div className={styles.price_row_total_price_total}>
@@ -205,12 +218,12 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                         {' '}
                         <span className='rub-sign'>₽</span>
                       </div>}
-                    </div>
+                    </div>}
                     <div className={styles.price_comment_row}>
                       <PriceComment/>
                     </div>
 
-                    <div className={styles.duration_row}>
+                    {(tour_preview.duration || tour_preview.vacants_number || tour_preview.members_number) && <div className={styles.duration_row}>
                       <div className={styles.duration_row_col}>
                         <div className={styles.duration_row_icon}>
                           <img src={stopwatch} alt="stopwatch"/>
@@ -246,7 +259,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
 
                       </div>
 
-                    </div>
+                    </div>}
 
                     <div className={styles.inputs_row}>
                       {/*<div className={styles.inputs_row_date_input + ' ' + styles.calendar}>*/}
@@ -289,7 +302,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
 
                   <div className={styles.tour_sidebar_footer}>
 
-                    <div className={styles.footer_row_leader}>
+                    {tour_preview.expert && <div className={styles.footer_row_leader}>
                       <div className={styles.footer_row_leader_image}
                            style={{backgroundImage: 'url(' + tour_preview.expert.tmb_avatar}}/>
                       <div className={styles.footer_row_leader_leader}>
@@ -302,7 +315,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                           <span> (201)</span>
                         </div>
                       </div>
-                    </div>
+                    </div>}
 
                     <div className={styles.footer_row_button}>
                       Написать автору тура

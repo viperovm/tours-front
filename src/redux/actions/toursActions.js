@@ -83,6 +83,7 @@ import {
   DELETE_KEY,
 } from '../types'
 import axios from 'axios'
+import {isNotEmptyObject} from "../../functions";
 
 const API_URL = 'http://x3mart.ru'
 
@@ -216,6 +217,17 @@ export const tourToServerUpdate = ( data, id ) => async dispatch => {
 
   if (data && data.tmb_wallpaper) {
     delete data.tmb_wallpaper
+  }
+
+  if (data && data.plan && data.plan.length > 0) {
+    console.log(data.plan)
+    let arr = data.plan.filter(item => isNotEmptyObject(item.image) || item.description)
+    console.log(arr)
+    data = {
+      ...data,
+      plan: arr,
+    }
+    console.log(data)
   }
 
   const body = JSON.stringify(data)

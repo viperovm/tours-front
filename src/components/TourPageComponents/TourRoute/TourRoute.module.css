@@ -37,3 +37,11 @@
     line-height: 20px;
     color: #000000;
 }
+
+.air_tickets_text {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    margin: 10px 0 20px 0;
+}
