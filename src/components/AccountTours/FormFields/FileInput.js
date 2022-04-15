@@ -4,13 +4,13 @@ import Box from '@mui/material/Box'
 import menu from '../../../assets/img/trash.svg'
 import { connect } from 'react-redux'
 
-import { deleteTourWallpaper } from '../../../redux/actions/toursActions'
+import {deleteActivityImage, deleteTourWallpaper} from '../../../redux/actions/toursActions'
 import {delete_avatar} from '../../../redux/actions/authActions'
 import {deleteTeamMemberAvatar} from "../../../redux/actions/profileActions";
 import PopUp from "../../PopUp/PopUp";
 import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 
-const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar, required, type, deleteTeamMemberAvatar, member, error = {}, }) => {
+const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete_avatar, required, type, deleteTeamMemberAvatar, member, error = {}, activity_id=null, deleteActivityImage }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
@@ -69,8 +69,14 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
       delete_avatar()
       setPreview(null)
       setActive(true)
-    } if (name === 'avatar' && type === 'team_member' && member) {
+    }
+    if (name === 'avatar' && type === 'team_member' && member) {
       deleteTeamMemberAvatar(member.id)
+      setPreview(null)
+      setActive(true)
+    }
+    if (activity_id) {
+      deleteActivityImage(activity_id)
       setPreview(null)
       setActive(true)
     }
@@ -273,4 +279,4 @@ const mapStateToProps = state => ({
   tour: state.tours.current_tour,
 })
 
-export default connect(mapStateToProps, { deleteTourWallpaper, delete_avatar, deleteTeamMemberAvatar })(FileInput)
+export default connect(mapStateToProps, { deleteTourWallpaper, delete_avatar, deleteTeamMemberAvatar, deleteActivityImage })(FileInput)

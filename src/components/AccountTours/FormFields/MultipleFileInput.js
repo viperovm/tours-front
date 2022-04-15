@@ -5,7 +5,7 @@ import menu from '../../../assets/img/trash.svg'
 import {
   deletePropertyImage,
   deleteTourImage,
-  deleteTourWallpaper,
+  deleteTourWallpaper, setPropertyImage,
   setTourImages,
 } from "../../../redux/actions/toursActions";
 import {delete_avatar} from "../../../redux/actions/authActions";
@@ -17,7 +17,7 @@ import {imageUploader} from "../../../functions";
 const MultipleFileInput = ({
                            tour, action, name, value=[], max, required, position, deleteTourImage, setTourImages,
                            deleteTourWallpaper,
-                           delete_avatar, deletePropertyImage, delete_action, error
+                           delete_avatar, deletePropertyImage, delete_action, error, section, setPropertyImage
                          }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
@@ -72,10 +72,23 @@ const MultipleFileInput = ({
 
   const handleDelete = () => {
     setLoading(true)
-    deleteTourImage(item, tour.id)
+    if(section === 'gallery') {
+      deleteTourImage(item, tour.id)
+    } else if (section === 'accommodation') {
+      deletePropertyImage(item, tour.id)
+    }
+
     setLoading(false)
     setActivePopUp(false)
     setDeleted(true)
+  }
+
+  const handleSetImages = (data) => {
+    if(section === 'gallery') {
+      setTourImages(data)
+    } else if (section === 'accommodation') {
+      setPropertyImage(data)
+    }
   }
 
 
@@ -87,8 +100,8 @@ const MultipleFileInput = ({
     setLoading(true)
     const imageLoader = (image) => {
       setLoading(true)
-      imageUploader(image, tour.id)
-        .then(r => setTourImages(r))
+      imageUploader(image, tour.id, section)
+        .then(r => handleSetImages(r))
       setLoading(true)
     }
     if (e.target.files && e.target.files.length > 0) {
@@ -273,4 +286,5 @@ export default connect(null, {
   delete_avatar,
   deletePropertyImage,
   setTourImages,
+  setPropertyImage,
 })(MultipleFileInput)

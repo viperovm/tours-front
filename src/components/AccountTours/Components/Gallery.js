@@ -76,6 +76,7 @@ const Gallery = ({
             name='tour_images'
             type='file'
             error={error}
+            section={'gallery'}
             value={tour &&
               tour.tour_images &&
               tour.tour_images.length > 0 && tour.tour_images}

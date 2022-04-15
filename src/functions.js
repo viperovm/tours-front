@@ -27,9 +27,16 @@ export const proper_date = str => {
   return Moment(str).format('DD.MM.YYYY')
 }
 
-export const imageUploader = async (image, id) => {
+export const imageUploader = async (image, id, section) => {
 
-  console.log(image)
+  let url = ''
+
+  if(section === 'gallery') {
+    url = `/api/tours/${id}/gallary/`
+  } else if (section === 'accommodation') {
+    url = `/tours/${id}/propertyimages/`
+  }
+
 
   const config = {
     headers: {
@@ -41,12 +48,10 @@ export const imageUploader = async (image, id) => {
   form_data.append('image', image, image.name)
   try {
     const res = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/tours/${id}/gallary/`,
+      `${process.env.REACT_APP_API_URL}${url}`,
       form_data,
       config
     )
-    console.log(res)
-    console.log(res.data)
     return res.data
   } catch (err) {
     return err

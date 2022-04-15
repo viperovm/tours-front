@@ -2,15 +2,26 @@ import React, { useState, useEffect } from 'react'
 
 import { connect } from 'react-redux'
 
-import { setCurrentSection } from '../../redux/actions/toursActions'
-import {Link} from "react-router-dom";
+import {setCurrentSection, tourToServerUpdate} from '../../redux/actions/toursActions'
+import {Link, useHistory} from "react-router-dom";
 
-const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_item, tour_id }) => {
+const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_item, tour_id, tourToServerUpdate, tour }) => {
+
+  const history = useHistory()
+
   const handleClick = data => {
 
     if (data && data.active && data.value) {
       setCurrentSection(data.value)
     }
+  }
+
+  const handleNavigate = async (e, url) => {
+    e.preventDefault()
+    await tourToServerUpdate(tour, tour.id)
+      .then(() => history.push(url))
+    // .then(() => history.push('/account/tours/list'))
+    // .then(() => clearCurrentTour())
   }
 
   return (
@@ -24,7 +35,7 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_i
                 key={index}
                 // onClick={() => handleClick(item)}
               >
-                <Link to={`/account/tours/${tour_id}/edit/${item.value}`} style={{width: '100%'}} >
+                <Link to={`/account/tours/${tour_id}/edit/${item.value}`} style={{width: '100%'}} onClick={e => handleNavigate(e, `/account/tours/${tour_id}/edit/${item.value}`)}>
                 <div
                   className={`tours-submenu-name-wrap ${
                     secondary_item === item.value ? 'item-active' : 'item-inactive'
@@ -64,6 +75,7 @@ const mapStateToProps = state => ({
   activeSections: state.tours.active_sections,
   secondary_nav: state.tours.secondary_nav,
   secondary: state.tours.secondary,
+  tour: state.tours.current_tour,
 })
 
-export default connect(mapStateToProps, { setCurrentSection })(SecondaryNav)
+export default connect(mapStateToProps, { setCurrentSection, tourToServerUpdate })(SecondaryNav)

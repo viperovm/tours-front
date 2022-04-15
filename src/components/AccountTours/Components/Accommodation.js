@@ -13,6 +13,7 @@ import {
   clearErrors,
 } from '../../../redux/actions/toursActions'
 import ToursFormLayout from "../../../layouts/account/ToursFormLayout";
+import MultipleFileInput from "../FormFields/MultipleFileInput";
 
 
 const Accommodation = ({
@@ -101,15 +102,27 @@ const Accommodation = ({
         comment=''
         tour={tour} name='tour_property_images'
       >
-        <ObjectFileInput
+        <MultipleFileInput
           position={'accommodation'}
           tour={tour}
           action={handleImageLoad}
           name='tour_property_images'
-          value={tour && tour.tour_property_images}
           type='file'
           error={error}
+          section={'accommodation'}
+          value={tour &&
+            tour.tour_property_images &&
+            tour.tour_property_images.length > 0 && tour.tour_property_images}
         />
+        {/*<ObjectFileInput*/}
+        {/*  position={'accommodation'}*/}
+        {/*  tour={tour}*/}
+        {/*  action={handleImageLoad}*/}
+        {/*  name='tour_property_images'*/}
+        {/*  value={tour && tour.tour_property_images}*/}
+        {/*  type='file'*/}
+        {/*  error={error}*/}
+        {/*/>*/}
       </SingleWrapper>
     </ToursFormLayout>
   )

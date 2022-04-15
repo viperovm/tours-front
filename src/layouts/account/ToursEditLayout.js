@@ -43,6 +43,7 @@ const ToursEditLayout = ({
   const [loading, setLoading] = useState(false)
 
   const [activePopUp, setActivePopUp] = useState(false)
+  const [onSavePopUp, setOnSavePopUp] = useState(false)
 
   if (!isAuthenticated) {
     return <Redirect to='/login'/>
@@ -96,8 +97,14 @@ const ToursEditLayout = ({
 
   const handleSave = async () => {
     await tourToServerUpdate(tour, tour.id)
-      .then(() => history.push('/account/tours/list'))
-      .then(() => clearCurrentTour())
+      .then(() => setOnSavePopUp(true))
+      // .then(() => history.push('/account/tours/list'))
+      // .then(() => clearCurrentTour())
+  }
+
+  const handleRedirectToMenu = () => {
+    history.push('/account/tours/list')
+    clearCurrentTour()
   }
 
   const handleDraft = async () => {
@@ -124,6 +131,15 @@ const ToursEditLayout = ({
                                  button2={'Удалить'}
                                  action={() => setActivePopUp(false)}
                                  second_action={handleTourDelete}/>}
+          {onSavePopUp && <PopUp status={'ok'}
+                                 title={'Тур успешно сохранен.'}
+                                 text={'Можете продолжить редактирование или вернуться в меню.'}
+                                 button={'Продолжить редактирование'}
+                                 button2={'Вернуться в меню'}
+                                 second_color={'button-success'}
+                                 action={() => setOnSavePopUp(false)}
+                                 is_saved={true}
+                                 second_action={handleRedirectToMenu}/>}
           <div className='wrapper'>
             <div className='breadcrumbs breadcrumbs_margin'>
               <span><Link to='/'>Главная</Link></span> - <span><Link

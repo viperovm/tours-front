@@ -81,6 +81,7 @@ import {
   CLEAR_ERRORS,
   SET_KEY,
   DELETE_KEY,
+  DELETE_ACTIVITY_IMAGE,
 } from '../types'
 import axios from 'axios'
 import {isNotEmptyObject} from "../../functions";
@@ -564,6 +565,13 @@ export const setActivityImage = (image, id, tour_id) => async dispatch => {
   }
 }
 
+export const deleteActivityImage = (id) => dispatch => {
+  dispatch({
+    type: DELETE_ACTIVITY_IMAGE,
+    payload: id,
+  })
+}
+
 export const updateGuestGuide = data => dispatch => {
   dispatch({
     type: UPDATE_GUEST_GUIDE_SUCCESS,
@@ -599,32 +607,35 @@ export const setGuestGuideImage = (image, id) => async dispatch => {
   }
 }
 
-export const setPropertyImage = (image, id) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-    },
-  }
-  let form_data = new FormData()
-  form_data.append('image', image, image.name)
-  try {
-    const res = await axios.post(
-      `${API_URL}/api/tours/${id}/propertyimages/`,
-      form_data,
-      config
-    )
+export const setPropertyImage = (
+  data
+  // image, id
+) => async dispatch => {
+  // const config = {
+  //   headers: {
+  //     'Content-Type': 'multipart/form-data',
+  //     Authorization: `JWT ${localStorage.getItem('access')}`,
+  //   },
+  // }
+  // let form_data = new FormData()
+  // form_data.append('image', image, image.name)
+  // try {
+  //   const res = await axios.post(
+  //     `${API_URL}/api/tours/${id}/propertyimages/`,
+  //     form_data,
+  //     config
+  //   )
 
     dispatch({
       type: SET_PROPERTY_IMAGE_SUCCESS,
-      payload: res.data,
+      payload: data,
     })
     // dispatch(getTour(id))
-  } catch (err) {
-    dispatch({
-      type: SET_PROPERTY_IMAGE_FAIL,
-    })
-  }
+  // } catch (err) {
+  //   dispatch({
+  //     type: SET_PROPERTY_IMAGE_FAIL,
+  //   })
+  // }
 }
 
 export const deletePropertyImage = (image, id) => async dispatch => {

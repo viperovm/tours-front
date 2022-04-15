@@ -35,6 +35,7 @@ import calendar from '../../assets/img/calendar2.svg'
 import chevron_down from '../../assets/img/chevron_down.svg'
 import star from '../../components/TourPageComponents/TourLeader/star.svg'
 import AirTickets from "../../components/TourPageComponents/TourRoute/AirTickets";
+import TourImportantToKnow from "../../components/TourPageComponents/TourImportantToKnow";
 
 const TourPage = ({tour, getTourReview, tour_preview}) => {
 
@@ -164,6 +165,13 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                   }
                   {tour_preview.expert && <TourLeader
                     leader={tour_preview.expert}/>}
+
+                  {(tour_preview.guest_requirements || tour_preview.take_with || tour_preview.key_features || tour_preview.new_to_see) && <TourImportantToKnow
+                    guest_requirements={tour_preview.guest_requirements}
+                    take_with={tour_preview.take_with}
+                    key_features={tour_preview.key_features}
+                    new_to_see={tour_preview.new_to_see}
+                  />}
 
                 </div>
 

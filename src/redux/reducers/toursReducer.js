@@ -79,6 +79,7 @@ import {
   CLEAR_ERRORS,
   SET_KEY,
   DELETE_KEY,
+  DELETE_ACTIVITY_IMAGE,
 } from '../types'
 
 const initialState = {
@@ -229,7 +230,7 @@ const toursReducer = (state = initialState, action) => {
     return result
   }
   const setActivityImage = (tour, data) => {
-    let result = {
+    return {
       ...tour,
       plan: tour.plan.map(item => {
         if (item.id === data.id) {
@@ -239,7 +240,19 @@ const toursReducer = (state = initialState, action) => {
         }
       }),
     }
-    return result
+  }
+
+  const deleteActivityImage = (tour, id) => {
+    return {
+      ...tour,
+      plan: tour.plan.map(item => {
+        if (item.id === id) {
+          return {...item, image: {}}
+        } else {
+          return item
+        }
+      }),
+    }
   }
 
   const updateActivity = (tour, data) => {
@@ -487,6 +500,11 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         current_tour: setActivityImage(state.current_tour, payload),
+      }
+    case DELETE_ACTIVITY_IMAGE:
+      return {
+        ...state,
+        current_tour: deleteActivityImage(state.current_tour, payload),
       }
     case SET_TOUR_IMAGE_SUCCESS:
       return {

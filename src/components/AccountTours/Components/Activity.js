@@ -57,6 +57,7 @@ const Activity = ({
       >
         {!loading && (
           <FileInput
+            activity_id={id}
             action={handleImageInput}
             name='image'
             type='file'
