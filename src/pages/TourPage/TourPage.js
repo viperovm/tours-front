@@ -149,10 +149,10 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                     property_types={tour_preview.tour_property_types}
                     images={tour_preview.tour_property_images}
                   />}
-                  {(tour_preview.tour_included_services.length > 0 || tour_preview.tour_excluded_services.length > 0) &&
+                  {((tour_preview.tour_included_services && tour_preview.tour_included_services.length > 0) || (tour_preview.tour_excluded_services && tour_preview.tour_excluded_services.length > 0)) &&
                     <TourIncluded inclusions={tour_preview.tour_included_services}
                                   exclusions={tour_preview.tour_excluded_services}/>}
-                  {tour_preview.tour_included_services &&
+                  {tour_preview.air_tickets &&
                     <AirTickets
                       start_date={tour_preview && tour_preview.start_date}
                       start_city={tour_preview && tour_preview.start_city}

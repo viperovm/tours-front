@@ -40,7 +40,7 @@ const TourImportantToKnow = ({
     <>
       {data && Array.isArray(data) && <div className={styles.important_to_know_container}>
         <div className={styles.important_to_know_header}>
-          <h3>День за днем</h3>
+          <h3>Важно знать</h3>
           <div className={styles.important_to_know_opener} onClick={toggleActive}>
             {active
               ?

@@ -16,7 +16,7 @@ const FaqElement = ({title, text, is_opened}) => {
 
   return (
     <>
-      <div className={styles.faq_element_wrapper}>
+      {text && <div className={styles.faq_element_wrapper}>
         <div className={styles.faq_element_header} onClick={handleToggleActive}>
           <div className={styles.faq_element_name}>
             {title}
@@ -25,10 +25,9 @@ const FaqElement = ({title, text, is_opened}) => {
             <img src={active ? up : down} alt="chevron"/>
           </div>
         </div>
-        {active && <div className={styles.faq_element_body}>
-          {text}
+        {active && <div dangerouslySetInnerHTML={{__html: text}} className={styles.faq_element_body}>
         </div>}
-      </div>
+      </div>}
     </>
   );
 };
