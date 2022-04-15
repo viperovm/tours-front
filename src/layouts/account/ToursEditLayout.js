@@ -14,11 +14,14 @@ import {
   tourToServerUpdate,
   clearCurrentTour,
   setPage,
-  getTour
+  getTour, tourToServerError, setKey
 } from "../../redux/actions/toursActions";
 
 import Modal from "../../components/AccountTours/Components/Modal";
 import PopUp from "../../components/PopUp/PopUp";
+import {APPLICATION_CONFIG} from "../../data";
+import {tourTrimmed} from "../../functions";
+import axios from "axios";
 
 const ToursEditLayout = ({
                            preview = false,
@@ -34,6 +37,8 @@ const ToursEditLayout = ({
                            setPage,
                            page,
                            tour_id,
+                           tourToServerError,
+                           setKey,
                          }) => {
 
   const history = useHistory()
@@ -44,6 +49,7 @@ const ToursEditLayout = ({
 
   const [activePopUp, setActivePopUp] = useState(false)
   const [onSavePopUp, setOnSavePopUp] = useState(false)
+  const [onErrorPopUp, setOnErrorPopUp] = useState(false)
 
   if (!isAuthenticated) {
     return <Redirect to='/login'/>
@@ -96,10 +102,28 @@ const ToursEditLayout = ({
   }
 
   const handleSave = async () => {
-    await tourToServerUpdate(tour, tour.id)
-      .then(() => setOnSavePopUp(true))
+    // await tourToServerUpdate(tour, tour.id)
+    //   .then(() => setOnSavePopUp(true))
       // .then(() => history.push('/account/tours/list'))
       // .then(() => clearCurrentTour())
+
+    const config = APPLICATION_CONFIG
+
+    let new_tour = tourTrimmed(tour)
+
+    const body = JSON.stringify(new_tour)
+
+    try {
+      await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${tour.id}/`, body, config)
+      setOnSavePopUp(true)
+
+    } catch (err) {
+      console.error(err)
+      const errStatus = err.response.status
+      const errData = err.response.data
+      tourToServerError(errData)
+      errStatus >= 400 && errStatus < 500 ? setKey(Object.keys(errData)[0]) : setOnErrorPopUp(true)
+    }
   }
 
   const handleRedirectToMenu = () => {
@@ -140,6 +164,11 @@ const ToursEditLayout = ({
                                  action={() => setOnSavePopUp(false)}
                                  is_saved={true}
                                  second_action={handleRedirectToMenu}/>}
+          {onErrorPopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
+                                 text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'}
+                                 button={'Ок'} action={() => {
+            setOnErrorPopUp(false)
+          }}/>}
           <div className='wrapper'>
             <div className='breadcrumbs breadcrumbs_margin'>
               <span><Link to='/'>Главная</Link></span> - <span><Link
@@ -203,4 +232,6 @@ export default connect(mapStateToProps, {
   clearCurrentTour,
   setPage,
   getTour,
+  tourToServerError,
+  setKey,
 })(ToursEditLayout)

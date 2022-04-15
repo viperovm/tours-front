@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react'
 
 import { connect } from 'react-redux'
 
-import {setCurrentSection, tourToServerUpdate} from '../../redux/actions/toursActions'
+import {setCurrentSection, setKey, tourToServerError, } from '../../redux/actions/toursActions'
 import {Link, useHistory} from "react-router-dom";
+import axios from "axios";
+import isNotEmptyObject from "../../helpers/isNotEmptyObject";
+import PopUp from "../PopUp/PopUp";
+import {APPLICATION_CONFIG, application_config} from "../../data";
+import {tourTrimmed} from "../../functions";
 
-const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_item, tour_id, tourToServerUpdate, tour }) => {
+const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_item, tour_id, tour, tourToServerError, setKey }) => {
 
   const history = useHistory()
 
@@ -15,18 +20,37 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_i
       setCurrentSection(data.value)
     }
   }
+  const [activePopUp, setActivePopUp] = useState(false)
 
   const handleNavigate = async (e, url) => {
     e.preventDefault()
-    await tourToServerUpdate(tour, tour.id)
-      .then(() => history.push(url))
-    // .then(() => history.push('/account/tours/list'))
-    // .then(() => clearCurrentTour())
+    const config = APPLICATION_CONFIG
+
+    let new_tour = tourTrimmed(tour)
+
+    const body = JSON.stringify(new_tour)
+
+    try {
+      await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${tour.id}/`, body, config)
+      history.push(url)
+
+    } catch (err) {
+      console.error(err)
+      const errStatus = err.response.status
+      const errData = err.response.data
+      tourToServerError(errData)
+      errStatus >= 400 && errStatus < 500 ? setKey(Object.keys(errData)[0]) : setActivePopUp(true)
+      }
   }
 
   return (
     secondary && (
       <>
+        {activePopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
+                               text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'}
+                               button={'Ок'} action={() => {
+          setActivePopUp(false)
+        }}/>}
         <ul>
           {secondary_nav &&
             secondary_nav.map((item, index) => (
@@ -78,4 +102,4 @@ const mapStateToProps = state => ({
   tour: state.tours.current_tour,
 })
 
-export default connect(mapStateToProps, { setCurrentSection, tourToServerUpdate })(SecondaryNav)
+export default connect(mapStateToProps, { setCurrentSection, tourToServerError, setKey })(SecondaryNav)

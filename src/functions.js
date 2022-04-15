@@ -57,3 +57,60 @@ export const imageUploader = async (image, id, section) => {
     return err
   }
 }
+
+export const tourTrimmed = (tour) => {
+
+  if (tour && tour.wallpaper) {
+    delete tour.wallpaper
+  }
+
+  if (tour && tour.tmb_wallpaper) {
+    delete tour.tmb_wallpaper
+  }
+
+  if (tour && tour.start_time === '') {
+    tour = {
+      ...tour,
+      start_time: null,
+    }
+  }
+
+  if (tour && tour.finish_time === '') {
+    tour = {
+      ...tour,
+      finish_time: null,
+    }
+  }
+
+  if (tour && tour.plan && tour.plan.length > 0) {
+    let arr = tour.plan.filter(item => isNotEmptyObject(item.image) || item.description)
+    tour = {
+      ...tour,
+      plan: arr,
+    }
+  }
+
+  if (tour && tour.tour_days && tour.tour_days.length > 0) {
+    let arr = tour.tour_days.filter(item => item.image.length > 0 || item.location || item.day_title || item.description)
+    tour = {
+      ...tour,
+      tour_days: arr,
+    }
+  }
+  return tour
+}
+
+export const getData = (tour, direction, section) => {
+  if(direction == 'submit') {
+    return {
+      ...tour,
+      is_draft: false,
+      on_moderation: true,
+    }
+  } else {
+    return {
+      ...tour,
+      section: section,
+    }
+  }
+}

@@ -26,6 +26,8 @@ import PopUp from "../../components/PopUp/PopUp";
 import SubmitButton from "../../components/AccountTours/Components/SubmitButton";
 import axios from "axios";
 import {UPDATE_TOUR_FAIL, UPDATE_TOUR_SUCCESS} from "../../redux/types";
+import {APPLICATION_CONFIG} from "../../data";
+import {tourTrimmed, getData} from "../../functions";
 
 const ToursFormLayout = ({
                            section_slug,
@@ -82,68 +84,11 @@ const ToursFormLayout = ({
   }, [status])
 
   const toServer = async (section) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `JWT ${localStorage.getItem('access')}`,
-        Accept: 'application/json',
-      },
-    }
+    const config = APPLICATION_CONFIG
 
-    if (tour && tour.wallpaper) {
-      delete tour.wallpaper
-    }
+    let new_tour = tourTrimmed(tour)
 
-    if (tour && tour.tmb_wallpaper) {
-      delete tour.tmb_wallpaper
-    }
-
-    if (tour && tour.start_time === '') {
-      tour = {
-        ...tour,
-        start_time: null,
-      }
-    }
-
-    if (tour && tour.finish_time === '') {
-      tour = {
-        ...tour,
-        finish_time: null,
-      }
-    }
-
-    if (tour && tour.plan && tour.plan.length > 0) {
-      let arr = tour.plan.filter(item => isNotEmptyObject(item.image) || item.description)
-      tour = {
-        ...tour,
-        plan: arr,
-      }
-    }
-
-    if (tour && tour.tour_days && tour.tour_days.length > 0) {
-      let arr = tour.tour_days.filter(item => item.image.length > 0 || item.location || item.day_title || item.description)
-      tour = {
-        ...tour,
-        tour_days: arr,
-      }
-    }
-
-    const getData = () => {
-      if(direction == 'submit') {
-        return {
-          ...tour,
-          is_draft: false,
-          on_moderation: true,
-        }
-      } else {
-        return {
-          ...tour,
-          section: section,
-        }
-      }
-    }
-
-    const data = await getData()
+    const data = getData(new_tour, 'submit', section)
 
     const body = JSON.stringify(data)
 
@@ -165,24 +110,12 @@ const ToursFormLayout = ({
   }
 
   const toModeration = async () => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `JWT ${localStorage.getItem('access')}`,
-        Accept: 'application/json',
-      },
-    }
+    const config = APPLICATION_CONFIG
 
-    if (tour && tour.wallpaper) {
-      delete tour.wallpaper
-    }
-
-    if (tour && tour.tmb_wallpaper) {
-      delete tour.tmb_wallpaper
-    }
+    let new_tour = tourTrimmed(tour)
 
     const data = {
-      ...tour,
+      ...new_tour,
       is_draft: false,
       on_moderation: true,
     }
@@ -202,27 +135,6 @@ const ToursFormLayout = ({
       errStatus >= 400 && errStatus < 500 ? setKey(Object.keys(errData)[0]) : setActivePopUp(true)
     }
   }
-
-
-  // useEffect(() => {
-  //   if (status === 'ok') {
-  //     if (direction === 'forward') {
-  //       handleOk(forward_url)
-  //     } else if (direction === 'backward') {
-  //       handleOk(backward_url)
-  //     } else if (direction === 'submit') {
-  //       history.push(submit_url)
-  //     }
-  //   } else if (status === 'error') {
-  //     setKey(Object.keys(error)[0])
-  //   } else if (status === 'popup') {
-  //     setActivePopUp(true)
-  //   }
-  // }, [status, direction, error])
-  //
-  // const handleOk = (url) => {
-  //   history.push(`/account/tours/${tour_id}/edit/${url}`)
-  // }
 
   useEffect(() => {
     const loadTour = async () => {

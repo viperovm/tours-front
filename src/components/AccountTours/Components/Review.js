@@ -41,6 +41,19 @@ const Review = ({
     })
   }
 
+  const [errorList, setErrorList] = useState([])
+
+  console.log(error)
+
+  useEffect(() => {
+    if(error) {
+      console.log(error)
+      setErrorList(error)
+    } else {
+      setErrorList([])
+    }
+  }, [error])
+
   return (
     <>
       <ToursFormLayout
@@ -76,7 +89,7 @@ const Review = ({
             name='media_link'
             value={tour && tour.media_link}
             options={toursTypes}
-            error={error}
+            error={errorList}
           />
         </SingleWrapper>
 
