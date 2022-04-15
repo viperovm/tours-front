@@ -88,7 +88,8 @@ const ToursFormLayout = ({
 
     let new_tour = tourTrimmed(tour)
 
-    const data = getData(new_tour, 'submit', section)
+    const data = getData(new_tour, '', section)
+    // const data = getData(new_tour, 'submit', section)
 
     const body = JSON.stringify(data)
 
@@ -114,11 +115,7 @@ const ToursFormLayout = ({
 
     let new_tour = tourTrimmed(tour)
 
-    const data = {
-      ...new_tour,
-      is_draft: false,
-      on_moderation: true,
-    }
+    const data = getData(new_tour, 'submit', '')
 
     const body = JSON.stringify(data)
 
