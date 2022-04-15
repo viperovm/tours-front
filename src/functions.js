@@ -34,7 +34,7 @@ export const imageUploader = async (image, id, section) => {
   if(section === 'gallery') {
     url = `/api/tours/${id}/gallary/`
   } else if (section === 'accommodation') {
-    url = `/tours/${id}/propertyimages/`
+    url = `/api/tours/${id}/propertyimages/`
   }
 
 
