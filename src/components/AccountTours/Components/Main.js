@@ -32,6 +32,9 @@ const Main = ({
                 clearErrors,
               }) => {
 
+  console.log(2)
+  console.log(tour)
+
   useEffect(() => {
     const scrollTo = async (el) => {
       let anchor = document.getElementById(el)

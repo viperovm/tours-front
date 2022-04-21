@@ -60,13 +60,13 @@ export const imageUploader = async (image, id, section) => {
 
 export const tourTrimmed = (tour) => {
 
-  if (tour && tour.wallpaper) {
-    delete tour.wallpaper
-  }
-
-  if (tour && tour.tmb_wallpaper) {
-    delete tour.tmb_wallpaper
-  }
+  // if (tour && tour.wallpaper) {
+  //   delete tour.wallpaper
+  // }
+  //
+  // if (tour && tour.tmb_wallpaper) {
+  //   delete tour.tmb_wallpaper
+  // }
 
   if (tour && tour.start_time === '') {
     tour = {

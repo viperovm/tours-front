@@ -73,13 +73,14 @@ const Gallery = ({
             position={'gallery'}
             tour={tour}
             action={handleInput}
+            // delete_action
             name='tour_images'
             type='file'
             error={error}
             section={'gallery'}
             value={tour &&
               tour.tour_images &&
-              tour.tour_images.length > 0 && tour.tour_images}
+              tour.tour_images.length > 0 ? tour.tour_images : []}
           />
         </SingleWrapper>
       </ToursFormLayout>

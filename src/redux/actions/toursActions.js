@@ -148,7 +148,7 @@ export const getTours = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tour_set/`, config)
 
     dispatch({
       type: GET_TOURS_SUCCESS,
@@ -209,14 +209,14 @@ export const tourToServerUpdate = ( data, id ) => async dispatch => {
       Accept: 'application/json',
     },
   }
-
-  if (data && data.wallpaper) {
-    delete data.wallpaper
-  }
-
-  if (data && data.tmb_wallpaper) {
-    delete data.tmb_wallpaper
-  }
+  //
+  // if (data && data.wallpaper) {
+  //   delete data.wallpaper
+  // }
+  //
+  // if (data && data.tmb_wallpaper) {
+  //   delete data.tmb_wallpaper
+  // }
 
   if (data && data.plan && data.plan.length > 0) {
     console.log(data.plan)

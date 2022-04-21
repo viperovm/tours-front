@@ -20,22 +20,32 @@ const MultipleFileInput = ({
                            delete_avatar, deletePropertyImage, delete_action, error, section, setPropertyImage
                          }) => {
   const [data, setData] = useState([])
-  const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
   const [bubbleActive, setBubbleActive] = useState(null)
   const [preview, setPreview] = useState([])
   const [activePopUp, setActivePopUp] = useState(false)
+  const [added, setAdded] = useState(false)
   const [deleted, setDeleted] = useState(false)
   const [item, setItem] = useState('')
   const [currentError, setCurrentError] = useState([])
 
   useEffect(() => {
+    setAdded(true)
+    let timer = setTimeout(() => setAdded(false), 500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
     if(deleted) {
-      window.location.reload(false)
       setDeleted(false)
     }
   }, [deleted])
 
+  useEffect(() => {
+    if(added && value && value.length > 0) {
+      setAdded(false)
+    }
+  }, [added, value])
 
 
   const inputFileRef = useRef(null)
@@ -51,11 +61,11 @@ const MultipleFileInput = ({
     }
   }, [error, name])
 
-  useEffect(() => {
-    if (loading && value.length > 0) {
-      setLoading(false)
-    }
-  }, [value, loading])
+  // useEffect(() => {
+  //   if (loading && value.length > 0) {
+  //     setLoading(false)
+  //   }
+  // }, [value, loading])
 
   useEffect(() => {
     if (max) {
@@ -71,14 +81,12 @@ const MultipleFileInput = ({
   }
 
   const handleDelete = () => {
-    setLoading(true)
+    // setLoading(true)
     if(section === 'gallery') {
       deleteTourImage(item, tour.id)
     } else if (section === 'accommodation') {
       deletePropertyImage(item, tour.id)
     }
-
-    setLoading(false)
     setActivePopUp(false)
     setDeleted(true)
   }
@@ -97,12 +105,11 @@ const MultipleFileInput = ({
   }
 
   const onFileChange = async (e) => {
-    setLoading(true)
+    // setLoading(true)
+    setAdded(true)
     const imageLoader = (image) => {
-      setLoading(true)
       imageUploader(image, tour.id, section)
         .then(r => handleSetImages(r))
-      setLoading(true)
     }
     if (e.target.files && e.target.files.length > 0) {
       Object.values(e.target.files).map(item => {
@@ -122,7 +129,7 @@ const MultipleFileInput = ({
                              button2={'Удалить'}
                              action={() => setActivePopUp(false)}
                              second_action={() => handleDelete(item)}/>}
-      <div className='fake-file-input-component' id={name}>
+      {!deleted && <div className='fake-file-input-component' id={name}>
         <input
           multiple
           name={name}
@@ -144,6 +151,13 @@ const MultipleFileInput = ({
             <div className='camera-image'/>
             <div className='fake-file-input-text'>Добавить новое фото</div>
           </div>
+          {added && (
+            <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
+              <Box sx={{display: 'flex'}}>
+                <CircularProgress/>
+              </Box>
+            </div>
+          )}
           {currentError.length > 0 && <div className="errors-list">
             {/*{currentError}*/}
             <ul>
@@ -210,7 +224,7 @@ const MultipleFileInput = ({
               </div>
             </Fragment>
           ))}
-          { name !== 'day_photo' && value.length > 0 && value.map((item, index) => (
+          {name !== 'day_photo' && value.length > 0 && value.map((item, index) => (
             <Fragment key={index}>
               <div
                 key={index}
@@ -267,15 +281,22 @@ const MultipleFileInput = ({
               </div>
             </Fragment>
           ))}
-          {loading && (
-            <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
-              <Box sx={{display: 'flex'}}>
-                <CircularProgress/>
-              </Box>
-            </div>
-          )}
+          {/*{added && (*/}
+          {/*  <div className='fake-file-input loader-spinner' onClick={onBtnClick}>*/}
+          {/*    <Box sx={{display: 'flex'}}>*/}
+          {/*      <CircularProgress/>*/}
+          {/*    </Box>*/}
+          {/*  </div>*/}
+          {/*)}*/}
         </div>
-      </div>
+      </div>}
+      {deleted && (
+        <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
+          <Box sx={{display: 'flex'}}>
+            <CircularProgress/>
+          </Box>
+        </div>
+      )}
     </>
   )
 }

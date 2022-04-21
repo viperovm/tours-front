@@ -17,10 +17,32 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
   const [bubbleActive, setBubbleActive] = useState(false)
   const [preview, setPreview] = useState(null)
   const [activePopUp, setActivePopUp] = useState(false)
+  const [currentError, setCurrentError] = useState([])
+  const [added, setAdded] = useState(false)
+  const [deleted, setDeleted] = useState(false)
 
   const inputFileRef = useRef(null)
 
-  const [currentError, setCurrentError] = useState([])
+  console.log(1)
+  console.log(value)
+
+  useEffect(() => {
+    setAdded(true)
+    let timer = setTimeout(() => setAdded(false), 500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if(deleted) {
+      setDeleted(false)
+    }
+  }, [deleted])
+
+  useEffect(() => {
+    if(added && value && value.length > 0) {
+      setAdded(false)
+    }
+  }, [added, value])
 
   useEffect(() => {
     if(isNotEmptyObject(error) && error.detail) {
@@ -59,7 +81,6 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
   }, [max, preview])
 
   const handleDelete = () => {
-    setLoading(true)
     if (name === 'wallpaper') {
       deleteTourWallpaper(tour.id)
       setPreview(null)
@@ -80,8 +101,8 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
       setPreview(null)
       setActive(true)
     }
-    setLoading(false)
     setActivePopUp(false)
+    setDeleted(true)
   }
 
   const onBtnClick = () => {
@@ -89,21 +110,14 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
   }
 
   const onFilechange = e => {
-    setLoading(true)
+    setAdded(true)
     if (e.target.files[0]) {
       setCurrentError([])
       setData(e.target.files[0])
       action(e.target.files[0])
       setLoading(false)
     }
-    setLoading(false)
   }
-
-  useEffect(() => {
-    if (value && loading) {
-      setLoading(false)
-    }
-  }, [value, loading])
 
   return (
     <>
@@ -114,7 +128,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
                              button2={'Удалить'}
                              action={() => setActivePopUp(false)}
                              second_action={() => handleDelete()}/>}
-      <div className='fake-file-input-component' id={name}>
+      {!deleted && <div className='fake-file-input-component' id={name}>
         <input
           required={required}
           name={name}
@@ -132,9 +146,16 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
             } ${Array.isArray(currentError) && currentError.length > 0 ? 'error' : 'ok'}`}
             onClick={onBtnClick}
           >
-            <div className='camera-image' />
+            <div className='camera-image'/>
             <div className='fake-file-input-text'>Добавить новое фото</div>
           </div>
+          {added && (
+            <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
+              <Box sx={{display: 'flex'}}>
+                <CircularProgress/>
+              </Box>
+            </div>
+          )}
           {currentError.length > 0 && <div className="errors-list">
             {/*{currentError}*/}
             <ul>
@@ -168,7 +189,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
                     onMouseOut={() => setBubbleActive(false)}
                     onClick={() => setActivePopUp(true)}
                   >
-                    <img src={menu} alt='menu' />
+                    <img src={menu} alt='menu'/>
                   </div>
 
                   {bubbleActive && (
@@ -229,7 +250,7 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
                 onMouseOut={() => setBubbleActive(false)}
                 onClick={() => setActivePopUp(true)}
               >
-                <img src={menu} alt='menu' />
+                <img src={menu} alt='menu'/>
               </div>
               {bubbleActive && (
                 <>
@@ -261,16 +282,16 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
               )}
             </div>
           )}
-          {loading && (
-            <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
-              <Box sx={{ display: 'flex' }}>
-                <CircularProgress />
-              </Box>
-            </div>
-          )}
 
         </div>
-      </div>
+      </div>}
+      {deleted && (
+        <div className='fake-file-input loader-spinner' onClick={onBtnClick}>
+          <Box sx={{display: 'flex'}}>
+            <CircularProgress/>
+          </Box>
+        </div>
+      )}
     </>
   )
 }
