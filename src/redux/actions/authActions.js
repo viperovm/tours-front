@@ -2,8 +2,6 @@ import * as t from '../types'
 import axios from 'axios'
 import {UPDATE_TOUR_WALLPAPER_FAIL, UPDATE_TOUR_WALLPAPER_SUCCESS} from "../types";
 
-const API_URL = 'http://x3mart.ru'
-
 export const load_user = () => async dispatch => {
   if (localStorage.getItem('access')) {
     const config = {
@@ -32,7 +30,7 @@ export const load_user = () => async dispatch => {
     const user = parseJwt(localStorage.getItem('access')).user_status
 
     try {
-      const res = await axios.get(`${API_URL}/api/${user}/me/`, config)
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/${user}/me/`, config)
       const data = {
         data: res.data,
         status: user,
@@ -107,7 +105,7 @@ export const update_user = data => async dispatch => {
     const body = JSON.stringify(data)
 
     try {
-      const res = await axios.patch(`${API_URL}/api/${user}/me/`, body, config)
+      const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/${user}/me/`, body, config)
       const data = {
         data: res.data,
         status: user,
@@ -140,7 +138,7 @@ export const signUp = (status, data) => async dispatch => {
   const body = JSON.stringify(data)
 
   try {
-    const res = await axios.post(`${API_URL}/api/${status}/`, body, config)
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/${status}/`, body, config)
 
 
     dispatch({
@@ -166,7 +164,7 @@ export const login = data => async dispatch => {
   const body = JSON.stringify(data)
 
   try {
-    const res = await axios.post(`${API_URL}/auth/jwt/create/`, body, config)
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/jwt/create/`, body, config)
 
     dispatch({
       type: t.LOGIN_SUCCESS,
@@ -194,7 +192,7 @@ export const checkAuthenticated = () => async dispatch => {
     const body = JSON.stringify({token: localStorage.getItem('access')})
 
     try {
-      const res = await axios.post(`${API_URL}/auth/jwt/verify/`, body, config)
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/jwt/verify/`, body, config)
 
       if (res.data.code !== 'token_not_valid') {
         dispatch({
@@ -235,7 +233,7 @@ export const reset_password = email => async dispatch => {
   const body = JSON.stringify({email})
 
   try {
-    await axios.post(`${API_URL}/auth/users/reset_password/`, body, config)
+    await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/reset_password/`, body, config)
 
     dispatch({
       type: t.PASSWORD_RESET_SUCCESS,
@@ -259,7 +257,7 @@ export const reset_password_confirm =
 
     try {
       await axios.post(
-        `${API_URL}/auth/users/reset_password_confirm/`,
+        `${process.env.REACT_APP_API_URL}/auth/users/reset_password_confirm/`,
         body,
         config
       )
@@ -295,7 +293,7 @@ export const update_avatar = (image) => async dispatch => {
 
   try {
     const res = await axios.patch(
-      `${API_URL}/api/experts/avatar/`,
+      `${process.env.REACT_APP_API_URL}/api/experts/avatar/`,
       form_data,
       config
     )
@@ -321,7 +319,7 @@ export const delete_avatar = () => async dispatch => {
 
   try {
     const res = await axios.delete(
-      `${API_URL}/api/experts/avatar/`,
+      `${process.env.REACT_APP_API_URL}/api/experts/avatar/`,
       config
     )
 
@@ -349,7 +347,7 @@ export const email_confirm_request = () => async dispatch => {
 
     try {
       let res = await axios.post(
-        `${API_URL}/api/experts/send_confirmation_email/`,
+        `${process.env.REACT_APP_API_URL}/api/experts/send_confirmation_email/`,
         body,
         config
       )
@@ -380,7 +378,7 @@ export const email_confirm = (data) => async dispatch => {
 
   try {
     let res = await axios.post(
-      `${API_URL}/api/experts/confirm_email/`,
+      `${process.env.REACT_APP_API_URL}/api/experts/confirm_email/`,
       body,
       config
     )

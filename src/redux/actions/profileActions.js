@@ -15,9 +15,6 @@ import {
 
 import axios from 'axios'
 
-
-const API_URL = 'http://x3mart.ru'
-
 export const getTeamMembers = () => async dispatch => {
   const config = {
     headers: {
@@ -28,7 +25,7 @@ export const getTeamMembers = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/teammembers/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/teammembers/`, config)
 
     dispatch({
       type: GET_TEAM_MEMBERS_SUCCESS,
@@ -51,7 +48,7 @@ export const getTeamMember = id => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/teammembers/${id}/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/teammembers/${id}/`, config)
 
     dispatch({
       type: GET_TEAM_MEMBER_SUCCESS,
@@ -76,7 +73,7 @@ export const addTeamMember = data => async dispatch => {
   const body = JSON.stringify(data)
 
   try {
-    const res = await axios.post(`${API_URL}/api/teammembers/`, body, config)
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/teammembers/`, body, config)
 
     dispatch({
       type: ADD_TEAM_MEMBER_SUCCESS,
@@ -101,7 +98,7 @@ export const updateTeamMember = (data, id) => async dispatch => {
   const body = JSON.stringify(data)
 
   try {
-    const res = await axios.patch(`${API_URL}/api/teammembers/${id}/`, body, config)
+    const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/teammembers/${id}/`, body, config)
 
     dispatch({
       type: UPDATE_TEAM_MEMBER_SUCCESS,
@@ -124,7 +121,7 @@ export const deleteTeamMember = id => async dispatch => {
   }
 
   try {
-    await axios.delete(`${API_URL}/api/teammembers/${id}/`, config)
+    await axios.delete(`${process.env.REACT_APP_API_URL}/api/teammembers/${id}/`, config)
 
     dispatch({
       type: DELETE_TEAM_MEMBER_SUCCESS,
@@ -151,7 +148,7 @@ export const addTeamMemberAvatar = (image, id) => async dispatch => {
 
   try {
     const res = await axios.patch(
-      `${API_URL}/api/teammembers/${id}/avatar/`,
+      `${process.env.REACT_APP_API_URL}/api/teammembers/${id}/avatar/`,
       form_data,
       config
     )
@@ -178,7 +175,7 @@ export const deleteTeamMemberAvatar = (id) => async dispatch => {
 
   try {
     const res = await axios.delete(
-      `${API_URL}/api/teammembers/${id}/avatar/`,
+      `${process.env.REACT_APP_API_URL}/api/teammembers/${id}/avatar/`,
       config
     )
 

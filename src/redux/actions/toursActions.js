@@ -86,8 +86,6 @@ import {
 import axios from 'axios'
 import {isNotEmptyObject} from "../../functions";
 
-const API_URL = 'http://x3mart.ru'
-
 export const addTour = data => async dispatch => {
   const config = {
     headers: {
@@ -100,7 +98,7 @@ export const addTour = data => async dispatch => {
   const body = JSON.stringify(data)
 
   try {
-    const res = await axios.post(`${API_URL}/api/tours/`, body, config)
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/tours/`, body, config)
 
     dispatch({
       type: ADD_TOUR_SUCCESS,
@@ -126,7 +124,7 @@ export const copyTour = (id, date) => async dispatch => {
   const body = JSON.stringify(date)
 
   try {
-    const res = await axios.post(`${API_URL}/api/tours/${id}/tourcopy/`, body, config)
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/tours/${id}/tourcopy/`, body, config)
 
     dispatch({
       type: COPY_TOUR_SUCCESS,
@@ -150,7 +148,7 @@ export const getTours = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/tours/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/`, config)
 
     dispatch({
       type: GET_TOURS_SUCCESS,
@@ -186,7 +184,7 @@ export const tourToServer = (
   // const body = JSON.stringify(data)
   //
   // try {
-  //   const res = await axios.patch(`${API_URL}/api/tours/${id}/`, body, config)
+  //   const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${id}/`, body, config)
   //
   //   const payload = {data: res.data, id: id, status: res.status}
 
@@ -234,7 +232,7 @@ export const tourToServerUpdate = ( data, id ) => async dispatch => {
   const body = JSON.stringify(data)
 
   try {
-    const res = await axios.patch(`${API_URL}/api/tours/${id}/`, body, config)
+    const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${id}/`, body, config)
 
   dispatch({
     type: UPDATE_TOUR_SUCCESS,
@@ -273,7 +271,7 @@ export const getTour = id => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/tours/${id}`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${id}`, config)
 
     dispatch({
       type: GET_TOUR_SUCCESS,
@@ -297,7 +295,7 @@ export const getTourReview = id => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/tours/${id}/preview/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${id}/preview/`, config)
 
     dispatch({
       type: GET_TOUR_PREVIEW_SUCCESS,
@@ -321,7 +319,7 @@ export const deleteTour = id => async dispatch => {
   }
 
   try {
-    await axios.delete(`${API_URL}/api/tours/${id}/`, config)
+    await axios.delete(`${process.env.REACT_APP_API_URL}/api/tours/${id}/`, config)
 
     dispatch({
       type: DELETE_TOUR,
@@ -349,7 +347,7 @@ export const updateTourWallpaper = (image, id) => async dispatch => {
 
   try {
     const res = await axios.post(
-      `${API_URL}/api/tours/${id}/wallpaper/`,
+      `${process.env.REACT_APP_API_URL}/api/tours/${id}/wallpaper/`,
       form_data,
       config
     )
@@ -377,7 +375,7 @@ export const deleteTourWallpaper = (id) => async dispatch => {
 
   try {
     const res = await axios.delete(
-      `${API_URL}/api/tours/${id}/wallpaper/`,
+      `${process.env.REACT_APP_API_URL}/api/tours/${id}/wallpaper/`,
       config
     )
 
@@ -403,7 +401,7 @@ export const setTourImages = (image, id) => async dispatch => {
   // form_data.append('image', image, image.name)
   // try {
   //   const res = await axios.post(
-  //     `${API_URL}/api/tours/${id}/gallary/`,
+  //     `${process.env.REACT_APP_API_URL}/api/tours/${id}/gallary/`,
   //     form_data,
   //     config
   //   )
@@ -436,7 +434,7 @@ export const deleteTourImage = (image, id) => async dispatch => {
 
   try {
     await axios.patch(
-      `${API_URL}/api/tours/${id}/gallary/`,
+      `${process.env.REACT_APP_API_URL}/api/tours/${id}/gallary/`,
       body,
       config
     )
@@ -493,7 +491,7 @@ export const setDayImage = (image, id, tour_id) => async dispatch => {
   form_data.append('image', image, image.name)
   try {
     const res = await axios.post(
-      `${API_URL}/api/tours/${tour_id}/dayimages/`,
+      `${process.env.REACT_APP_API_URL}/api/tours/${tour_id}/dayimages/`,
       form_data,
       config
     )
@@ -546,7 +544,7 @@ export const setActivityImage = (image, id, tour_id) => async dispatch => {
   form_data.append('image', image, image.name)
   try {
     const res = await axios.post(
-      `${API_URL}/api/tours/${tour_id}/planimages/`,
+      `${process.env.REACT_APP_API_URL}/api/tours/${tour_id}/planimages/`,
       form_data,
       config
     )
@@ -590,7 +588,7 @@ export const setGuestGuideImage = (image, id) => async dispatch => {
   form_data.append('image', image, image.name)
   try {
     const res = await axios.post(
-      `${API_URL}/api/tours/${id}/guestguideimages/`,
+      `${process.env.REACT_APP_API_URL}/api/tours/${id}/guestguideimages/`,
       form_data,
       config
     )
@@ -621,7 +619,7 @@ export const setPropertyImage = (
   // form_data.append('image', image, image.name)
   // try {
   //   const res = await axios.post(
-  //     `${API_URL}/api/tours/${id}/propertyimages/`,
+  //     `${process.env.REACT_APP_API_URL}/api/tours/${id}/propertyimages/`,
   //     form_data,
   //     config
   //   )
@@ -651,7 +649,7 @@ export const deletePropertyImage = (image, id) => async dispatch => {
 
   try {
     await axios.patch(
-      `${API_URL}/api/tours/${id}/propertyimages/`,
+      `${process.env.REACT_APP_API_URL}/api/tours/${id}/propertyimages/`,
       body,
       config
     )
@@ -675,7 +673,7 @@ export const getTourTypes = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/tourtypes/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tourtypes/`, config)
 
     dispatch({
       type: GET_TOUR_TYPES_SUCCESS,
@@ -698,7 +696,7 @@ export const getRegions = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/regions/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/regions/`, config)
 
     dispatch({
       type: GET_REGIONS_SUCCESS,
@@ -722,7 +720,7 @@ export const getCountries = (region_id, option) => async dispatch => {
 
   try {
     const res = await axios.get(
-      `${API_URL}/api/countries/?region=${region_id}`,
+      `${process.env.REACT_APP_API_URL}/api/countries/?region=${region_id}`,
       config
     )
 
@@ -754,7 +752,7 @@ export const getRussianRegions = option => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/russianregions/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/russianregions/`, config)
 
     if (option === 'start') {
       dispatch({
@@ -783,7 +781,7 @@ export const getCities = (data) => async dispatch => {
       },
     }
     try {
-      const res = await axios.get(`${API_URL}/api/cities/?search=${data}`, config)
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/cities/?search=${data}`, config)
 
       dispatch({
         type: GET_CITIES_SUCCESS,
@@ -806,7 +804,7 @@ export const getCurrencies = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/currencies/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/currencies/`, config)
 
     dispatch({
       type: GET_CURRENCIES_SUCCESS,
@@ -829,7 +827,7 @@ export const getLanguages = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/languages/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/languages/`, config)
 
     dispatch({
       type: GET_LANGUAGES_SUCCESS,
@@ -852,7 +850,7 @@ export const getTourPropertyTypes = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/tourpropertytypes/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tourpropertytypes/`, config)
 
     dispatch({
       type: GET_TOUR_PROPERTY_TYPES_SUCCESS,
@@ -873,7 +871,7 @@ export const getTourAccomodations = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/touraccomodations/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/touraccomodations/`, config)
 
     dispatch({
       type: GET_TOUR_ACCOMODATIONS_SUCCESS,
@@ -896,7 +894,7 @@ export const getTourLeaders = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${API_URL}/api/teammembers/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/teammembers/`, config)
 
 
     const guides = res.data.map(item => ({

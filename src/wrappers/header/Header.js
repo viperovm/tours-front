@@ -1,21 +1,28 @@
 import React, {useState, useEffect} from 'react'
 import Logo from '../../components/logo/Logo'
-import MainNav from '../../components/mainNav/MainNav'
 import {Link} from 'react-router-dom'
 import { load_user } from '../../redux/actions/authActions'
 
 import { connect } from 'react-redux'
-import UserAvatar from '../../components/UserAvatar'
 import UserSmallAvatar from '../../components/UserSmallAvatar/UserSmallAvatar'
 
-const Header = ({ isAuthenticated, load_user, user }) => {
+const Header = ({ isAuthenticated, load_user, user, page }) => {
   const [isOpened, setIsOpened] = useState(false)
+  const [active, setActive] = useState('')
+
+  console.log(active)
 
   useEffect(() => {
     if(isAuthenticated){
       load_user()
     }
   }, [])
+
+  useEffect(() => {
+    if(page){
+      setActive(page)
+    }
+  }, [page])
 
   const toggleOpened = () => {
     setIsOpened(!isOpened)
@@ -42,8 +49,8 @@ const Header = ({ isAuthenticated, load_user, user }) => {
             <Logo />
             <div className='buttons_block'>
               <div className='buttons_block_find_tour'>Подберите мне тур</div>
-              <div className='buttons_block_travel'>Путешествия</div>
-              <div className='buttons_block_support'>Поддержка</div>
+              <Link to='/tours' className={`buttons_block_travel ${active === 'tours' ? 'active' : ''}`} onClick={() => setActive('tours')}>Путешествия</Link>
+              <div className={`buttons_block_travel ${active === 'поддержка' ? 'active' : ''}`} onClick={() => setActive('поддержка')}>Поддержка</div>
               <div className='buttons_block_country'>
                 <img src='./img/Flag.svg' alt='' />
               </div>

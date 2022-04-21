@@ -13,7 +13,8 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/account/Dashboard'
-import Tours from './pages/account/Tours/MyTours'
+import Tours from './pages/Tours'
+import MyTours from './pages/account/Tours/MyTours'
 import Chat from './pages/account/Chat'
 import Profile from './pages/account/Profile/Profile'
 import Orders from './pages/account/Orders'
@@ -43,6 +44,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path='/' component={Home} />
+          <Route exact path='/tours' component={Tours} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
           <Route exact path='/account' component={Dashboard} />
@@ -54,7 +56,7 @@ const App = () => {
           <Route exact path='/account/requests' component={Requests} />
           <Route exact path='/account/team' component={Team} />
           <Route exact path='/account/team/edit' component={TeamEdit} />
-          <Route exact path='/account/tours/list' component={Tours} />
+          <Route exact path='/account/tours/list' component={MyTours} />
 
           <Route exact path='/account/tours/:id/edit/main' component={Main} />
           <Route exact path='/account/tours/:id/edit/review' component={Review} />

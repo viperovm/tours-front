@@ -247,19 +247,45 @@ ul, ol {
 }
 
 .buttons_block_travel {
-  width: 160px;
+  /*width: 160px;*/
   height: 40px;
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
-  background-image: url(./assets/img/polygon.svg);
-  background-repeat: no-repeat;
-  background-position-x: 144px;
-  background-position-y: 19px;
-  padding: 12px 15px 9px 30px;
+  padding: 12px 0 9px 0;
+  margin: 0 30px;
 
   color: #000000;
   cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.buttons_block_travel::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  left: 50%;
+  bottom:0;
+  background-color: #000000;
+  transition: all ease-in-out .2s;
+}
+
+.buttons_block_travel:hover::after{
+  width: 100%;
+  left: 0;
+}
+
+.buttons_block_travel.active  {
+  border-bottom: 2px solid #000000;
+}
+
+.buttons_block_travel.active:hover::after{
+  height: 0;
+  width: 0;
+  opacity: 0;
+  left: 0;
 }
 
 .buttons_block_support {
@@ -546,12 +572,13 @@ ul, ol {
   font-weight: normal;
   font-size: 12px;
   line-height: 15px;
-  /* identical to box height */
-
-  text-decoration-line: underline;
 
   color: rgba(0, 0, 0, 0.5);
   cursor: pointer;
+}
+
+.breadcrumbs span a {
+  text-decoration-line: underline;
 }
 
 .breadcrumbs_margin {
