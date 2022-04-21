@@ -148,7 +148,7 @@ export const getTours = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tour_set/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/tour_set/`, config)
 
     dispatch({
       type: GET_TOURS_SUCCESS,
