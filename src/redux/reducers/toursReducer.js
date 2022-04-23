@@ -34,6 +34,7 @@ import {
   SET_TOUR_DAY_IMAGE_FAIL,
   ADD_DAY_SUCCESS,
   ADD_DAY_FAIL,
+  REMOVE_DAY_SUCCESS,
   UPDATE_DAY_SUCCESS,
   UPDATE_DAY_FAIL,
   SET_TOUR_IMAGE_SUCCESS,
@@ -41,6 +42,7 @@ import {
   GET_TOURS_SUCCESS,
   GET_TOURS_FAIL,
   ADD_ACTIVITY_SUCCESS,
+  REMOVE_ACTIVITY_SUCCESS,
   ADD_ACTIVITY_FAIL,
   UPDATE_ACTIVITY_SUCCESS,
   UPDATE_ACTIVITY_FAIL,
@@ -80,6 +82,8 @@ import {
   SET_KEY,
   DELETE_KEY,
   DELETE_ACTIVITY_IMAGE,
+  GET_ALL_TOURS_SUCCESS,
+  GET_ALL_TOURS_FAIL,
 } from '../types'
 
 const initialState = {
@@ -87,6 +91,7 @@ const initialState = {
   res_status: null,
   error: {},
   tours: [],
+  all_tours: [],
   cities: [],
   current_tour: {},
   tour_preview: {},
@@ -210,6 +215,14 @@ const toursReducer = (state = initialState, action) => {
     return result
   }
 
+  const deleteDay = (tour, day) => {
+    let result = {
+      ...tour,
+      tour_days: tour.tour_days.filter((item, index) => index !== day),
+    }
+    return result
+  }
+
   const setActivity = (tour, activity) => {
     let result = {}
     if (Array.isArray(tour.plan)) {
@@ -229,6 +242,14 @@ const toursReducer = (state = initialState, action) => {
     }
     return result
   }
+
+  const removeActivity = (tour, id) => {
+    return {
+      ...tour,
+      plan: tour.plan.filter(item => item.id !== id)
+    }
+  }
+
   const setActivityImage = (tour, data) => {
     return {
       ...tour,
@@ -333,6 +354,12 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         tours: payload,
+      }
+
+    case GET_ALL_TOURS_SUCCESS:
+      return {
+        ...state,
+        all_tours: payload,
       }
 
     case SET_KEY:
@@ -532,11 +559,21 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         current_tour: updateDay(state.current_tour, payload),
       }
+    case REMOVE_DAY_SUCCESS:
+      return {
+        ...state,
+        current_tour: deleteDay(state.current_tour, payload),
+      }
     case ADD_ACTIVITY_SUCCESS:
       return {
         ...state,
         // plan: payload,
         current_tour: setActivity(state.current_tour, payload),
+      }
+    case REMOVE_ACTIVITY_SUCCESS:
+      return {
+        ...state,
+        current_tour: removeActivity(state.current_tour, payload),
       }
     case SET_TOUR_DAY_IMAGE_SUCCESS:
       return {

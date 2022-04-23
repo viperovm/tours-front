@@ -4413,3 +4413,25 @@ li.select-list:hover {
   margin-bottom: 20px;
   padding: 0 50px;
 }
+
+.close-tab-button {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.1);
+  font-weight: 300;
+  font-size: 20px;
+  /*cursor: default;*/
+  cursor: pointer;
+  right: -16px;
+  top: -6px;
+  z-index: 1;
+}
+
+.Mui-selected .close-tab-button {
+  display: none;
+}
+
+.tab-title-wrapper {
+  position: relative;
+}

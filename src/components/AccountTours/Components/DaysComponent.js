@@ -9,6 +9,7 @@ import {
   updateTour,
   addDay,
   setSecondaryNav,
+  removeDay,
 } from '../../../redux/actions/toursActions'
 
 import TrippleWrapper from '../Wrappers/TrippleWrapper'
@@ -18,6 +19,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import PopUp from "../../PopUp/PopUp";
 
 function TabPanel({ children, value, index }) {
   return (
@@ -43,7 +45,7 @@ function a11yProps(index) {
   }
 }
 
-const DaysComponent = ({ tour, addDay }) => {
+const DaysComponent = ({ tour, addDay, removeDay }) => {
 
   const daysElement = useRef(null);
 
@@ -53,6 +55,7 @@ const DaysComponent = ({ tour, addDay }) => {
   const [days, setDays] = useState([1])
   const [loading, setLoading] = useState(false)
   const [scroll, setScroll] = useState(false)
+  const [activePopUp, setActivePopUp] = useState(false)
 
   useEffect(() => {
     if (scroll && daysElement.current) {
@@ -89,7 +92,16 @@ const DaysComponent = ({ tour, addDay }) => {
   }
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
+    if(event.target.tagName === 'DIV'){
+      if(value === (days.length - 1)) {
+        removeDay(newValue)
+        setValue(value - 1)
+      } else {
+        removeDay(newValue)
+      }
+    } else {
+      setValue(newValue)
+    }
   }
 
   useEffect(() => {
@@ -106,9 +118,20 @@ const DaysComponent = ({ tour, addDay }) => {
     setScroll(true)
   }
 
+  const CloseTabButton = () => {
+    return (
+      <div className={'close-tab-button'}>×</div>
+    )
+  }
+
   return (
     <>
-      
+      {activePopUp && <PopUp status={'danger'}
+                             title={'Невозможное действие'}
+                             text={'У тура должен быть как минимум один заполненный день.'}
+                             button={'Закрыть'}
+                             action={() => setActivePopUp(false)}
+      />}
       {!loading && dayData.length > 0 && (
         <div ref={daysElement} id='days-element'>
           <Box sx={{ width: '100%' }}>
@@ -123,7 +146,7 @@ const DaysComponent = ({ tour, addDay }) => {
                 {days.map((item, index) => (
                   <Tab
                     key={index}
-                    label={`День ${item}`}
+                    label={<span className={'tab-title-wrapper'}>{`День ${item}`}<CloseTabButton/></span>}
                     {...a11yProps(index)}
                   />
                 ))}
@@ -169,5 +192,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   updateTour,
   addDay,
-  setSecondaryNav,
+  removeDay,
 })(DaysComponent)

@@ -14,6 +14,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/account/Dashboard'
 import Tours from './pages/Tours'
+import Tour from './pages/Tour'
 import MyTours from './pages/account/Tours/MyTours'
 import Chat from './pages/account/Chat'
 import Profile from './pages/account/Profile/Profile'
@@ -45,6 +46,7 @@ const App = () => {
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/tours' component={Tours} />
+          <Route exact path='/tours/:id' component={Tour} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
           <Route exact path='/account' component={Dashboard} />

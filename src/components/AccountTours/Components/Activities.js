@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import Button from './Button'
 
 import CircularProgress from '@mui/material/CircularProgress'
 
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {
   updateTour,
   addActivity,
-  setSecondaryNav
+  removeActivity,
 } from '../../../redux/actions/toursActions'
 
-import TrippleWrapper from '../Wrappers/TrippleWrapper'
 import Activity from './Activity'
 
 import Tabs from '@mui/material/Tabs'
@@ -18,7 +17,7 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
-function TabPanel({ children, value, index }) {
+function TabPanel({children, value, index}) {
   return (
     <div
       role='tabpanel'
@@ -27,7 +26,7 @@ function TabPanel({ children, value, index }) {
       aria-labelledby={`simple-tab-${index}`}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{p: 3}}>
           <Typography component={'span'}>{children}</Typography>
         </Box>
       )}
@@ -43,10 +42,11 @@ function a11yProps(index) {
 }
 
 const Activities = ({
-  tour,
-  addActivity,
-}) => {
-  
+                      tour,
+                      addActivity,
+                      removeActivity,
+                    }) => {
+
   const [value, setValue] = useState(0)
 
   const [activityData, setActivityData] = useState([])
@@ -75,7 +75,16 @@ const Activities = ({
   }
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
+    if (event.target.tagName === 'DIV') {
+      if (value === (activities.length - 1)) {
+        removeActivity(newValue)
+        setValue(value - 1)
+      } else {
+        removeActivity(newValue)
+      }
+    } else {
+      setValue(newValue)
+    }
   }
 
   useEffect(() => {
@@ -86,20 +95,26 @@ const Activities = ({
 
   const handleActivityAdd = () => {
     setLoading(true)
-    let id = activities[activities.length-1] + 1
-    addActivity({ id: id, image: {}, description: '' })
+    let id = activities[activities.length - 1] + 1
+    addActivity({id: id, image: {}, description: ''})
     setValue(id - 1)
+  }
+
+  const CloseTabButton = () => {
+    return (
+      <div className={'close-tab-button'}>×</div>
+    )
   }
 
   return (
     <>
       <div className='my-tours-section-heading'>
-        <h4 style={{ marginBottom: 10 }}>Активности во время тура</h4>
+        <h4 style={{marginBottom: 10}}>Активности во время тура</h4>
       </div>
 
       {!loading && activityData.length > 0 && (
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{width: '100%'}}>
+          <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
             <Tabs
               value={value}
               onChange={handleChange}
@@ -110,7 +125,7 @@ const Activities = ({
               {activities.map((item, index) => (
                 <Tab
                   key={index}
-                  label={`Активность ${item}`}
+                  label={<span className={'tab-title-wrapper'}>{`Активность ${item}`}<CloseTabButton/></span>}
                   {...a11yProps(index)}
                 />
               ))}
@@ -130,8 +145,8 @@ const Activities = ({
       )}
       {loading && (
         <div className='fake-file-input loader-spinner'>
-          <Box sx={{ display: 'flex' }}>
-            <CircularProgress />
+          <Box sx={{display: 'flex'}}>
+            <CircularProgress/>
           </Box>
         </div>
       )}
@@ -153,5 +168,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   updateTour,
   addActivity,
-  setSecondaryNav,
+  removeActivity,
 })(Activities)

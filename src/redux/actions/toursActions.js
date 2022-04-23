@@ -82,6 +82,10 @@ import {
   SET_KEY,
   DELETE_KEY,
   DELETE_ACTIVITY_IMAGE,
+  REMOVE_DAY_SUCCESS,
+  REMOVE_ACTIVITY_SUCCESS,
+  GET_ALL_TOURS_SUCCESS,
+  GET_ALL_TOURS_FAIL,
 } from '../types'
 import axios from 'axios'
 import {isNotEmptyObject} from "../../functions";
@@ -157,6 +161,29 @@ export const getTours = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: GET_TOURS_FAIL,
+    })
+  }
+}
+
+export const getAllTours = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/`, config)
+
+    dispatch({
+      type: GET_ALL_TOURS_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_ALL_TOURS_FAIL,
     })
   }
 }
@@ -457,6 +484,13 @@ export const addDay = data => dispatch => {
   })
 }
 
+export const removeDay = id => dispatch => {
+  dispatch({
+    type: REMOVE_DAY_SUCCESS,
+    payload: id,
+  })
+}
+
 export const updateDay = (id, name, data) => async dispatch => {
   const day = { id: id, name: name, data: data }
   dispatch({
@@ -522,6 +556,14 @@ export const addActivity = data => dispatch => {
   dispatch({
     type: ADD_ACTIVITY_SUCCESS,
     payload: activity,
+  })
+}
+
+
+export const removeActivity = id => dispatch => {
+  dispatch({
+    type: REMOVE_ACTIVITY_SUCCESS,
+    payload: id,
   })
 }
 
