@@ -52,7 +52,7 @@ const ObjectFileInput = ({
       let arr = []
       arr.push(error.detail)
       setCurrentError(arr)
-    } else if(error[name]) {
+    } else if(error && error[name]) {
       setCurrentError(error[name])
     }
   }, [error, name])

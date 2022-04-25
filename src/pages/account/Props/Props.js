@@ -60,40 +60,31 @@ const data = [
 
 const Props = ({user, status}) => {
 
-  const [method, setMethod] = useState('card')
-
   useEffect(() => {
     setPage('profile')
     getLanguages()
   }, [])
 
-  const [profile, setProfile] = useState({})
+  const [localUser, setLocalUser] = useState({})
   const [active, setActive] = useState(1)
 
   useEffect(() => {
     if(user) {
-      setProfile({
-        ...profile,
-        country: user.country,
-        city: user.city,
-        languages: user.languages,
-        visited_countries: user.visited_countries,
-        about: user.about,
-      })
+      setLocalUser(user)
     }
   }, [user])
 
 
   const handleChange = (name, value) => {
-    setProfile({
-      ...profile,
+    setLocalUser({
+      ...localUser,
       [name]: value,
     })
   }
 
   const handleSubmit = () => {
     update_user({
-      ...profile,
+      ...localUser,
     })
   }
 
@@ -155,30 +146,16 @@ const Props = ({user, status}) => {
               <>
                 <DoubleWrapper full={true} margin={0}>
                   <Input
-                    label={'БИК Банка'}
-                    action={handleChange}
-                    name='bank_bik'
-                    value={user.bank_bik}
-                  />
-                  <Input
-                    label={'Банк-получатель'}
-                    action={handleChange}
-                    name='bank_name'
-                    value={user.bank_name}
-                  />
-                </DoubleWrapper>
-                <DoubleWrapper full={true} margin={0}>
-                  <Input
                     label={'Корр. Счет'}
                     action={handleChange}
                     name='bank_account'
-                    value={user.bank_account}
+                    value={localUser.bank_account}
                   />
                   <Input
                     label={'ИНН Банка'}
                     action={handleChange}
                     name='bank_inn'
-                    value={user.bank_inn}
+                    value={localUser.bank_inn}
                   />
                 </DoubleWrapper>
                 <DoubleWrapper full={true} margin={0}>
@@ -186,13 +163,13 @@ const Props = ({user, status}) => {
                     label={'КПП Банка'}
                     action={handleChange}
                     name='bank_kpp'
-                    value={user.bank_kpp}
+                    value={localUser.bank_kpp}
                   />
                   <Input
                     label={'Получатель (ФИО)'}
                     action={handleChange}
                     name='bank_recipient_full_name'
-                    value={user.bank_recipient_full_name}
+                    value={localUser.bank_recipient_full_name}
                   />
                 </DoubleWrapper>
                 <SingleWrapper full={true} margin={0} label={'Основание платежа'}>
@@ -200,7 +177,7 @@ const Props = ({user, status}) => {
                     label={'Основание платежа'}
                     action={handleChange}
                     name='bank_payment_reason'
-                    value={user.bank_payment_reason}
+                    value={localUser.bank_payment_reason}
                   />
                 </SingleWrapper>
               </>
@@ -213,13 +190,13 @@ const Props = ({user, status}) => {
                     label={'БИК Банка'}
                     action={handleChange}
                     name='bank_bik'
-                    value={user.bank_bik}
+                    value={localUser.bank_bik}
                   />
                   <Input
                     label={'Банк-получатель'}
                     action={handleChange}
                     name='bank_name'
-                    value={user.bank_name}
+                    value={localUser.bank_name}
                   />
                 </DoubleWrapper>
                 <DoubleWrapper full={true} margin={0}>
@@ -227,13 +204,13 @@ const Props = ({user, status}) => {
                     label={'Корр. Счет'}
                     action={handleChange}
                     name='bank_account'
-                    value={user.bank_account}
+                    value={localUser.bank_account}
                   />
                   <Input
                     label={'ИНН Банка'}
                     action={handleChange}
                     name='bank_inn'
-                    value={user.bank_inn}
+                    value={localUser.bank_inn}
                   />
                 </DoubleWrapper>
                 <DoubleWrapper full={true} margin={0}>
@@ -241,13 +218,13 @@ const Props = ({user, status}) => {
                     label={'КПП Банка'}
                     action={handleChange}
                     name='bank_kpp'
-                    value={user.bank_kpp}
+                    value={localUser.bank_kpp}
                   />
                   <Input
                     label={'ИНН Получателя'}
                     action={handleChange}
                     name='bank_recipient_inn'
-                    value={user.bank_recipient_inn}
+                    value={localUser.bank_recipient_inn}
                   />
                 </DoubleWrapper>
                 <DoubleWrapper full={true} margin={0}>
@@ -255,13 +232,13 @@ const Props = ({user, status}) => {
                     label={'Наименование получателя'}
                     action={handleChange}
                     name='bank_recipient_name'
-                    value={user.bank_recipient_name}
+                    value={localUser.bank_recipient_name}
                   />
                   <Input
                     label={'Р/С Получателя'}
                     action={handleChange}
                     name='bank_recipient_account'
-                    value={user.bank_recipient_account}
+                    value={localUser.bank_recipient_account}
                   />
                 </DoubleWrapper>
                 <SingleWrapper full={true} margin={0} label={'Основание платежа'}>
@@ -269,7 +246,7 @@ const Props = ({user, status}) => {
                     label={'Основание платежа'}
                     action={handleChange}
                     name='bank_payment_reason'
-                    value={user.bank_payment_reason}
+                    value={localUser.bank_payment_reason}
                   />
                 </SingleWrapper>
               </>
