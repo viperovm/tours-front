@@ -5,8 +5,6 @@ const TourInfoBlocks = ({comfort, difficulty = 5, language = [], age}) => {
 
   const [bubbleActive, setBubbleActive] = useState(null)
 
-  console.log(bubbleActive)
-
   const DifficultyDots = ({difficulty}) => {
     const arr = [1, 2, 3, 4, 5]
     return (<div className={styles.dots_container}>

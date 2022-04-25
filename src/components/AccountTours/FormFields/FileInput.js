@@ -23,9 +23,6 @@ const FileInput = ({ action, name, value, max, tour, deleteTourWallpaper, delete
 
   const inputFileRef = useRef(null)
 
-  console.log(1)
-  console.log(value)
-
   useEffect(() => {
     setAdded(true)
     let timer = setTimeout(() => setAdded(false), 500)

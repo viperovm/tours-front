@@ -59,7 +59,6 @@ const DaysComponent = ({ tour, addDay, removeDay }) => {
 
   useEffect(() => {
     if (scroll && daysElement.current) {
-      console.log(daysElement.current)
       daysElement.current.scrollIntoView({
         behavior: "smooth",
         block: "center",

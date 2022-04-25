@@ -246,14 +246,11 @@ export const tourToServerUpdate = ( data, id ) => async dispatch => {
   // }
 
   if (data && data.plan && data.plan.length > 0) {
-    console.log(data.plan)
     let arr = data.plan.filter(item => isNotEmptyObject(item.image) || item.description)
-    console.log(arr)
     data = {
       ...data,
       plan: arr,
     }
-    console.log(data)
   }
 
   const body = JSON.stringify(data)

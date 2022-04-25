@@ -43,11 +43,8 @@ const Review = ({
 
   const [errorList, setErrorList] = useState([])
 
-  console.log(error)
-
   useEffect(() => {
     if(error) {
-      console.log(error)
       setErrorList(error)
     } else {
       setErrorList([])

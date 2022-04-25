@@ -10,8 +10,6 @@ const Header = ({ isAuthenticated, load_user, user, page }) => {
   const [isOpened, setIsOpened] = useState(false)
   const [active, setActive] = useState('')
 
-  console.log(active)
-
   useEffect(() => {
     if(isAuthenticated){
       load_user()

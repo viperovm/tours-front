@@ -84,7 +84,17 @@ const ToursFormLayout = ({
   }, [status])
 
   const toServer = async (section) => {
-    const config = APPLICATION_CONFIG
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
+
+    console.log(localStorage.getItem('access'))
+
+    // const config = APPLICATION_CONFIG
 
     let new_tour = tourTrimmed(tour)
 

@@ -100,8 +100,6 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
     )
   }
 
-  console.log(tour_preview.media_link)
-
   return (
     <>
       <TourPreviewLayout secondary_item='' secondary_name='Общее' preview={true}>

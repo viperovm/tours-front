@@ -3,8 +3,6 @@ import styles from './TourReview.module.css';
 
 const TourReview = ({text, activities=[], video}) => {
 
-  console.log(video)
-
   const [videoUrl, setVideoUrl] = useState('')
 
   useEffect(() => {
