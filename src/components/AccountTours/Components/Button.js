@@ -14,6 +14,7 @@ const Button = ({
                 }) => {
   return (
     <button
+      disabled={!active}
       onClick={action}
       className={`add-tour-button ${
         active ? color : 'button-disabled'

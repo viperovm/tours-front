@@ -32,7 +32,6 @@ const Settings = ({
   }, [])
 
   const [profile, setProfile] = useState({})
-  const [avatar, setAvatar] = useState('')
   const [action, setAction] = useState(false)
 
   const [requestActive, setRequestActive] = useState(false)
@@ -83,22 +82,10 @@ const Settings = ({
     }
   }, [user])
 
-  useEffect(() => {
-    if (user && user.avatar) {
-      setAvatar(user.avatar)
-    }
-  }, [user && user.avatar])
-
   const handleChange = (name, value) => {
     setProfile({
       ...profile, [name]: value,
     })
-  }
-
-  const handleImageChange = (image) => {
-    setAction(true)
-    update_avatar(image)
-    setAction(false)
   }
 
   const handleSubmit = () => {
@@ -146,39 +133,16 @@ const Settings = ({
         <div className='global-h2-heading'>
           <h2>Настройки</h2>
         </div>
-        <div className='tours-list-add-button-wrapper'>
-          <div className='tours-list-add-button-text'>
-            Комиссия работы с сервисом, для вас составляет всего:
-          </div>
-        </div>
+        {/*<div className='tours-list-add-button-wrapper'>*/}
+        {/*  <div className='tours-list-add-button-text'>*/}
+        {/*    Комиссия работы с сервисом, для вас составляет всего:*/}
+        {/*  </div>*/}
+        {/*</div>*/}
         <div className="profile-settings-subheading">
           <h4>
             Личные данные
           </h4>
         </div>
-        <SingleWrapper label=''>
-          <FileInput
-            max={1}
-            action={handleImageChange}
-            name='avatar'
-            value={avatar}
-            type='file'
-          />
-        </SingleWrapper>
-        <DoubleWrapper full={true}>
-          <Input
-            label={'Имя'}
-            action={handleChange}
-            name='first_name'
-            value={profile.first_name}
-          />
-          <Input
-            label={'Фамилия'}
-            action={handleChange}
-            name='last_name'
-            value={profile.last_name}
-          />
-        </DoubleWrapper>
 
         <DoubleWrapper full={true}>
           <Input

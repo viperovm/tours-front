@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Account from '../../../layouts/account/account'
 
 import { connect } from 'react-redux'
-import {setPage, update_user, clear_errors} from '../../../redux/actions/authActions'
+import {setPage, update_user, clear_errors, update_avatar} from '../../../redux/actions/authActions'
 import {getLanguages} from '../../../redux/actions/toursActions'
 import {Link} from "react-router-dom";
 import Input from "../../../components/AccountTours/FormFields/Input";
@@ -13,8 +13,11 @@ import Button from "../../../components/AccountTours/Components/Button";
 import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
 import TextEditor from "../../../components/AccountTours/FormFields/TextEditor";
 import PopUp from "../../../components/PopUp/PopUp";
+import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
+import FileInput from "../../../components/AccountTours/FormFields/FileInput";
+import AvatarInput from "../../../components/AccountTours/FormFields/AvatarInput";
 
-const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getLanguages, languages, clear_errors }) => {
+const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getLanguages, languages, clear_errors, update_avatar }) => {
   useEffect(() => {
     setPage('profile')
     getLanguages()
@@ -27,6 +30,14 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
   const [profile, setProfile] = useState({})
   const [submitted, setSubmitted] = useState(false)
   const [activePopUp, setActivePopUp] = useState(false)
+  const [action, setAction] = useState(false)
+  const [avatar, setAvatar] = useState('')
+
+  useEffect(() => {
+    if (user && user.avatar) {
+      setAvatar(user.avatar)
+    }
+  }, [user])
 
   useEffect(() => {
     if(submitted && reg_status >= 200 && reg_status < 300) {
@@ -53,6 +64,12 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
       ...profile,
       [name]: value,
     })
+  }
+
+  const handleImageChange = (image) => {
+    setAction(true)
+    update_avatar(image)
+    setAction(false)
   }
 
   const handleSubmit = () => {
@@ -84,48 +101,69 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
             </div>
             <div className="profile-page-body">
               <aside className="user-profile-aside">
-                <div className="user-profile-avatar" style={{backgroundImage: 'url(' + user.avatar + ')'}}/>
+                {/*<div className="user-profile-avatar" style={{backgroundImage: 'url(' + user.avatar + ')'}}/>*/}
+                <AvatarInput
+                  max={1}
+                  action={handleImageChange}
+                  name='avatar'
+                  value={avatar}
+                  type='file'
+                />
                 <div className="user-profile-aside-text">
                   Пожалуйста, не публикуйте названия компаний, контакты, бренды и ссылки.
                   Публикации с подобной информацией могут быть удалены в одностороннем порядке.
                 </div>
               </aside>
               <div className="profile-page-content">
-                <SingleWrapper label='Страна' width={'100%'} margin={'0'}>
+                <DoubleWrapper full={true}>
                   <Input
-                    name='country'
-                    label='Укажите страну в которой вы живете'
-                    value={profile.country}
+                    label={'Имя'}
                     action={handleChange}
+                    name='first_name'
+                    value={profile.first_name}
                   />
-                </SingleWrapper>
-                <SingleWrapper label='Город' width={'100%'} margin={'0'}>
                   <Input
-                    name='city'
-                    label='Укажите город в котором вы живете'
-                    value={profile.city}
+                    label={'Фамилия'}
                     action={handleChange}
+                    name='last_name'
+                    value={profile.last_name}
                   />
-                </SingleWrapper>
-                <SingleWrapper label='Язык' full={true} margin={'0'}>
+                </DoubleWrapper>
+                {/*<SingleWrapper label='Страна' width={'100%'} margin={'0'}>*/}
+                {/*  <Input*/}
+                {/*    name='country'*/}
+                {/*    label='Укажите страну в которой вы живете'*/}
+                {/*    value={profile.country}*/}
+                {/*    action={handleChange}*/}
+                {/*  />*/}
+                {/*</SingleWrapper>*/}
+                {/*<SingleWrapper label='Город' width={'100%'} margin={'0'}>*/}
+                {/*  <Input*/}
+                {/*    name='city'*/}
+                {/*    label='Укажите город в котором вы живете'*/}
+                {/*    value={profile.city}*/}
+                {/*    action={handleChange}*/}
+                {/*  />*/}
+                {/*</SingleWrapper>*/}
+                <SingleWrapper label='Языки, которыми вы владеете' full={true} margin={'0'}>
                   <SelectInput
                     name='languages'
-                    label='Выберите языки'
+                    label='Языки, которыми вы владеете'
                     action={handleChange}
                     options={languages}
                     val={profile.languages}
                     multiple={true}
                   />
                 </SingleWrapper>
-                <SingleWrapper label='Где вы были?' width={'100%'} margin={'0'}>
-                  <Input
-                    name='visited_countries'
-                    label='Укажите колличечство стран, в которых вы были'
-                    value={profile.visited_countries}
-                    action={handleChange}
-                  />
-                </SingleWrapper>
-                <SingleWrapper label='Это всем интересно' width={'100%'} margin={'0'}>
+                {/*<SingleWrapper label='Где вы были?' width={'100%'} margin={'0'}>*/}
+                {/*  <Input*/}
+                {/*    name='visited_countries'*/}
+                {/*    label='Укажите колличечство стран, в которых вы были'*/}
+                {/*    value={profile.visited_countries}*/}
+                {/*    action={handleChange}*/}
+                {/*  />*/}
+                {/*</SingleWrapper>*/}
+                <SingleWrapper label='Расскажите о себе (это всем интересно)' width={'100%'} margin={'0'}>
                   <TextEditor
                     name='about'
                     label='Расскажите о себе'
@@ -157,4 +195,4 @@ const mapStateToProps = state => ({
   reg_status: state.auth.reg_status
 })
 
-export default connect(mapStateToProps, { setPage, update_user, getLanguages, clear_errors })(MyProfile)
+export default connect(mapStateToProps, { setPage, update_user, getLanguages, clear_errors, update_avatar })(MyProfile)

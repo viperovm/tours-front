@@ -18,6 +18,7 @@ import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxI
 const data = [
   {
     id: 1,
+    available: true,
     title: 'Дебетовая карта',
     subtitle: '(Валюта: RUR)',
     list: [
@@ -30,17 +31,7 @@ const data = [
   },
   {
     id: 2,
-    title: 'Международная платежная система Payoneer',
-    subtitle: '(Валюта: USD/EUR) ',
-    list: [
-      'Для получения выплат вам необходим аккаунт в Payoneer.',
-      'Срок выплаты до 7 рабочих дней.',
-      'В выходные и праздничные дни обработка платежа может быть увеличена.',
-      'Может содержать дополнительные комиссии до 2%',
-    ],
-  },
-  {
-    id: 3,
+    available: true,
     title: 'Банковский перевод',
     subtitle: '(Валюта: RUR)',
     list: [
@@ -50,9 +41,26 @@ const data = [
       'Без дополнительных сборов.',
     ],
   },
+  {
+    id: 3,
+    available: false,
+    title: 'Международная платежная система Payoneer',
+    subtitle: '(Валюта: USD/EUR) ',
+    // list: [
+    //   'Для получения выплат вам необходим аккаунт в Payoneer.',
+    //   'Срок выплаты до 7 рабочих дней.',
+    //   'В выходные и праздничные дни обработка платежа может быть увеличена.',
+    //   'Может содержать дополнительные комиссии до 2%',
+    // ],
+    list: [
+      'Временно недоступна',
+    ],
+  },
 ]
 
 const Props = ({user, status}) => {
+
+  const [method, setMethod] = useState('card')
 
   useEffect(() => {
     setPage('profile')
@@ -60,7 +68,7 @@ const Props = ({user, status}) => {
   }, [])
 
   const [profile, setProfile] = useState({})
-  const [active, setActive] = useState(0)
+  const [active, setActive] = useState(1)
 
   useEffect(() => {
     if(user) {
@@ -89,7 +97,7 @@ const Props = ({user, status}) => {
     })
   }
 
-  const Card = ({title, subtitle, list, id}) => (
+  const Card = ({title, subtitle, list, id, available}) => (
     <div className={`card-body ${active === id ? 'active' : ''}`}>
       <div className="card-data">
         <div className="card-title">
@@ -104,7 +112,7 @@ const Props = ({user, status}) => {
           </ul>
         </div>
       </div>
-      <Button text={`${active === id ? 'Выбрано' : 'Выбрать'}`} width={'100%'} color={`${active === id ? 'button-success' : 'button-primary'}`}/>
+      <Button text={`${active === id ? 'Выбрано' : 'Выбрать'}`} width={'100%'} color={`${active === id ? 'button-success' : 'button-primary'}`} active={available} action={() => setActive(id)}/>
     </div>
   )
 
@@ -118,15 +126,20 @@ const Props = ({user, status}) => {
             </div>
             <div className='tours-list-add-button-wrapper'>
               <div className='tours-list-add-button-text'>
-                <p>
-                Когда вы получаете платеж за бронирование, мы называем его выплатой. Наша безопасная система платежей может выплачивать средства разными способами в зависимости от настроек ниже.
-                </p>
-                <p>
-                Для получения оплат нужно обязательно выбрать метод, как вы хотите получать средства на счет. YouTravel.me обычно производит выплаты через 24 часа после оплаты клиентов. Срок зачисления средств зависит от способа выплаты.
-                </p>
-
+                Комиссия работы с сервисом, для вас составляет всего:
               </div>
             </div>
+            {/*<div className='tours-list-add-button-wrapper'>*/}
+            {/*  <div className='tours-list-add-button-text'>*/}
+            {/*    <p>*/}
+            {/*    Когда вы получаете платеж за бронирование, мы называем его выплатой. Наша безопасная система платежей может выплачивать средства разными способами в зависимости от настроек ниже.*/}
+            {/*    </p>*/}
+            {/*    <p>*/}
+            {/*    Для получения оплат нужно обязательно выбрать метод, как вы хотите получать средства на счет. YouTravel.me обычно производит выплаты через 24 часа после оплаты клиентов. Срок зачисления средств зависит от способа выплаты.*/}
+            {/*    </p>*/}
+
+            {/*  </div>*/}
+            {/*</div>*/}
             <div className="team-subtitle">
               Метод выплаты
             </div>
@@ -135,72 +148,198 @@ const Props = ({user, status}) => {
             </SingleWrapper>
 
             <div className="cards-wrapper">
-              {data.map(item => <Card id={item.id} list={item.list} subtitle={item.subtitle} title={item.title}/>)}
-            </div>
-            <div className="team-subtitle">
-              Реквизиты карты
-            </div>
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'Страна платежного адреса'}/>
-              <Input label={'Номер карты'}/>
-            </DoubleWrapper>
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'Срок действия'}/>
-              <Input label={'Владелец карты'}/>
-            </DoubleWrapper>
-
-            <div className="props-text">
-              Для того, чтобы мы смогли вам перечислить деньги на счет, Вам необходимо указать: паспортные данные и ИНН получателя (данные необходимы для выполнения требований законодательства в сфере противодействия легализации (отмывания) доходов, полученных преступным путем, и финансирования терроризма. Данные используются в указанных целях и НЕ передаются в иные организации)
+              {data.map(item => <Card id={item.id} list={item.list} subtitle={item.subtitle} title={item.title} available={item.available}/>)}
             </div>
 
-            <div className="props-text-bold">
-              Статус проверки СМЭВ: Проверка не производилась
-            </div>
+            {active === 1 && (
+              <>
+                <DoubleWrapper full={true} margin={0}>
+                  <Input
+                    label={'БИК Банка'}
+                    action={handleChange}
+                    name='bank_bik'
+                    value={user.bank_bik}
+                  />
+                  <Input
+                    label={'Банк-получатель'}
+                    action={handleChange}
+                    name='bank_name'
+                    value={user.bank_name}
+                  />
+                </DoubleWrapper>
+                <DoubleWrapper full={true} margin={0}>
+                  <Input
+                    label={'Корр. Счет'}
+                    action={handleChange}
+                    name='bank_account'
+                    value={user.bank_account}
+                  />
+                  <Input
+                    label={'ИНН Банка'}
+                    action={handleChange}
+                    name='bank_inn'
+                    value={user.bank_inn}
+                  />
+                </DoubleWrapper>
+                <DoubleWrapper full={true} margin={0}>
+                  <Input
+                    label={'КПП Банка'}
+                    action={handleChange}
+                    name='bank_kpp'
+                    value={user.bank_kpp}
+                  />
+                  <Input
+                    label={'Получатель (ФИО)'}
+                    action={handleChange}
+                    name='bank_recipient_full_name'
+                    value={user.bank_recipient_full_name}
+                  />
+                </DoubleWrapper>
+                <SingleWrapper full={true} margin={0} label={'Основание платежа'}>
+                  <Input
+                    label={'Основание платежа'}
+                    action={handleChange}
+                    name='bank_payment_reason'
+                    value={user.bank_payment_reason}
+                  />
+                </SingleWrapper>
+              </>
+            )}
 
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'Имя'}/>
-              <Input label={'Фамилия'}/>
-            </DoubleWrapper>
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'Отчество'}/>
-              <Input label={'Номер телефона'}/>
-            </DoubleWrapper>
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'Серия паспорта'}/>
-              <Input label={'Номер паспорта'}/>
-            </DoubleWrapper>
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'Паспорт/Кем выдан'}/>
-              <Input label={'Паспорт/Код подразделения'}/>
-            </DoubleWrapper>
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'Паспорт/Дата выдачи'}/>
-              <Input label={'Паспорт/Место рождения'}/>
-            </DoubleWrapper>
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'Дата рождения'}/>
-              <Input label={'ИНН'}/>
-            </DoubleWrapper>
+            {active === 2 && (
+              <>
+                <DoubleWrapper full={true} margin={0}>
+                  <Input
+                    label={'БИК Банка'}
+                    action={handleChange}
+                    name='bank_bik'
+                    value={user.bank_bik}
+                  />
+                  <Input
+                    label={'Банк-получатель'}
+                    action={handleChange}
+                    name='bank_name'
+                    value={user.bank_name}
+                  />
+                </DoubleWrapper>
+                <DoubleWrapper full={true} margin={0}>
+                  <Input
+                    label={'Корр. Счет'}
+                    action={handleChange}
+                    name='bank_account'
+                    value={user.bank_account}
+                  />
+                  <Input
+                    label={'ИНН Банка'}
+                    action={handleChange}
+                    name='bank_inn'
+                    value={user.bank_inn}
+                  />
+                </DoubleWrapper>
+                <DoubleWrapper full={true} margin={0}>
+                  <Input
+                    label={'КПП Банка'}
+                    action={handleChange}
+                    name='bank_kpp'
+                    value={user.bank_kpp}
+                  />
+                  <Input
+                    label={'ИНН Получателя'}
+                    action={handleChange}
+                    name='bank_recipient_inn'
+                    value={user.bank_recipient_inn}
+                  />
+                </DoubleWrapper>
+                <DoubleWrapper full={true} margin={0}>
+                  <Input
+                    label={'Наименование получателя'}
+                    action={handleChange}
+                    name='bank_recipient_name'
+                    value={user.bank_recipient_name}
+                  />
+                  <Input
+                    label={'Р/С Получателя'}
+                    action={handleChange}
+                    name='bank_recipient_account'
+                    value={user.bank_recipient_account}
+                  />
+                </DoubleWrapper>
+                <SingleWrapper full={true} margin={0} label={'Основание платежа'}>
+                  <Input
+                    label={'Основание платежа'}
+                    action={handleChange}
+                    name='bank_payment_reason'
+                    value={user.bank_payment_reason}
+                  />
+                </SingleWrapper>
+              </>
+            )}
 
-            <div className="team-subtitle">
-              Реквизиты для выставления счета
-            </div>
 
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'Наименование организации'}/>
-              <Input label={'ИНН'}/>
-            </DoubleWrapper>
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'КПП'}/>
-              <Input label={'БИК '}/>
-            </DoubleWrapper>
-            <DoubleWrapper full={true} margin={0}>
-              <Input label={'Наименование банка '}/>
-              <Input label={'Расчетный счет'}/>
-            </DoubleWrapper>
-            <SingleWrapper full={true} margin={0} label={'Кор. Счет'}>
-              <Input label={'Кор. Счет'}/>
-            </SingleWrapper>
+            {/*<div className="team-subtitle">*/}
+            {/*  Реквизиты карты*/}
+            {/*</div>*/}
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'Страна платежного адреса'}/>*/}
+            {/*  <Input label={'Номер карты'}/>*/}
+            {/*</DoubleWrapper>*/}
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'Срок действия'}/>*/}
+            {/*  <Input label={'Владелец карты'}/>*/}
+            {/*</DoubleWrapper>*/}
+
+            {/*<div className="props-text">*/}
+            {/*  Для того, чтобы мы смогли вам перечислить деньги на счет, Вам необходимо указать: паспортные данные и ИНН получателя (данные необходимы для выполнения требований законодательства в сфере противодействия легализации (отмывания) доходов, полученных преступным путем, и финансирования терроризма. Данные используются в указанных целях и НЕ передаются в иные организации)*/}
+            {/*</div>*/}
+
+            {/*<div className="props-text-bold">*/}
+            {/*  Статус проверки СМЭВ: Проверка не производилась*/}
+            {/*</div>*/}
+
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'Имя'}/>*/}
+            {/*  <Input label={'Фамилия'}/>*/}
+            {/*</DoubleWrapper>*/}
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'Отчество'}/>*/}
+            {/*  <Input label={'Номер телефона'}/>*/}
+            {/*</DoubleWrapper>*/}
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'Серия паспорта'}/>*/}
+            {/*  <Input label={'Номер паспорта'}/>*/}
+            {/*</DoubleWrapper>*/}
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'Паспорт/Кем выдан'}/>*/}
+            {/*  <Input label={'Паспорт/Код подразделения'}/>*/}
+            {/*</DoubleWrapper>*/}
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'Паспорт/Дата выдачи'}/>*/}
+            {/*  <Input label={'Паспорт/Место рождения'}/>*/}
+            {/*</DoubleWrapper>*/}
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'Дата рождения'}/>*/}
+            {/*  <Input label={'ИНН'}/>*/}
+            {/*</DoubleWrapper>*/}
+
+            {/*<div className="team-subtitle">*/}
+            {/*  Реквизиты для выставления счета*/}
+            {/*</div>*/}
+
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'Наименование организации'}/>*/}
+            {/*  <Input label={'ИНН'}/>*/}
+            {/*</DoubleWrapper>*/}
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'КПП'}/>*/}
+            {/*  <Input label={'БИК '}/>*/}
+            {/*</DoubleWrapper>*/}
+            {/*<DoubleWrapper full={true} margin={0}>*/}
+            {/*  <Input label={'Наименование банка '}/>*/}
+            {/*  <Input label={'Расчетный счет'}/>*/}
+            {/*</DoubleWrapper>*/}
+            {/*<SingleWrapper full={true} margin={0} label={'Кор. Счет'}>*/}
+            {/*  <Input label={'Кор. Счет'}/>*/}
+            {/*</SingleWrapper>*/}
 
             <Button text={'Готово'} width={'50%'}/>
           </main>

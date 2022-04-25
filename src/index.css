@@ -3186,6 +3186,7 @@ li.li-border-none:last-child {
 }
 
 .add-tour-button.button-disabled {
+  background-color: rgba(0, 0, 0, 0.3);
   pointer-events: none;
 }
 
@@ -3399,6 +3400,14 @@ input[type='file'] {
   margin-bottom: 20px;
   box-sizing: border-box;
 }
+
+.fake-file-input.avatar {
+  min-width: 255px;
+  max-width: 256px;
+  min-height: 355px;
+  max-height: 356px;
+}
+
 .fake-file-input.image-container {
   background-position: center;
   background-size: cover;
