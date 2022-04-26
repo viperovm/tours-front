@@ -110,6 +110,11 @@
     margin-bottom: 20px;
 }
 
+.tours_set_section {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .tour_card {
     width: 350px;
     height:360px;
@@ -117,6 +122,11 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.tour_card:not(:nth-child(3n+3)) {
+    margin-right: 30px;
 }
 
 .tour_image {
@@ -273,4 +283,5 @@
     text-decoration-line: line-through;
     color: rgba(0, 0, 0, 0.5);
 }
+
 

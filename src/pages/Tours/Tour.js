@@ -25,7 +25,7 @@ const Tour = ({tour}) => {
               {tour.main_type}
             </div>}
             {tour.vacants_number && <div className={styles.tour_badge + ' ' + styles.orange}>
-              {tour.vacants_number}
+              {`Осталось мест: ${tour.vacants_number}`}
             </div>}
 
           </div>
@@ -47,8 +47,8 @@ const Tour = ({tour}) => {
             <div className={styles.tour_price_section}>
               <div className={styles.tour_duration}>{`${tour.duration} дн. (с ${tour.start_date})`}</div>
               <div className={styles.tour_price}>
-                {tour.discount && <span className={styles.tour_discounted_price}>{tour && tour.price ? tour.price.toLocaleString('ru') : ''}<span className='rub-sign'>{tour.currency.sign}</span></span>}
-                {tour && tour.discount ? tour.discount.toLocaleString('ru') : ''}
+                {tour.discount && <span className={styles.tour_discounted_price} style={{marginRight: '5px'}}>{tour && tour.price ? tour.price.toLocaleString('ru') : ''}<span className='rub-sign'>{tour.currency.sign}</span></span>}
+                {tour && tour.discount ? tour.discount.toLocaleString('ru') : tour.price.toLocaleString('ru')}
                 <span className='rub-sign'>{tour.currency.sign}</span>
               </div>
             </div>
