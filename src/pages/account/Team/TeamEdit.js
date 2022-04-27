@@ -103,7 +103,7 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
             <div className='global-h2-heading'>
               <h2>Добавить члена команды</h2>
             </div>
-            <SingleWrapper full={true} margin={0}>
+            <SingleWrapper full={true} margin={0} label={'Аватар'}>
               <FileInput
                 name='avatar'
                 action={handleAvatarChange}
@@ -113,7 +113,7 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
                 member={member}
               />
             </SingleWrapper>
-            <SingleWrapper full={true} margin={0}>
+            <SingleWrapper full={true} margin={0} label={'Фамилия'}>
               <Input
                 label={'Фамилия'}
                 name='last_name'

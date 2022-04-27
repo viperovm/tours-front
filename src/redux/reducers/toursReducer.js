@@ -84,9 +84,14 @@ import {
   DELETE_ACTIVITY_IMAGE,
   GET_ALL_TOURS_SUCCESS,
   GET_ALL_TOURS_FAIL,
+  GET_LEGAL_DOCS_SUCCESS,
+  GET_LEGAL_DOCS_FAIL,
+  GET_LEGAL_DOC_SUCCESS,
 } from '../types'
 
 const initialState = {
+  doc: null,
+  docs: [],
   key: '',
   res_status: null,
   error: {},
@@ -354,6 +359,18 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         tours: payload,
+      }
+
+    case GET_LEGAL_DOCS_SUCCESS:
+      return {
+        ...state,
+        docs: payload,
+      }
+
+    case GET_LEGAL_DOC_SUCCESS:
+      return {
+        ...state,
+        doc: payload,
       }
 
     case GET_ALL_TOURS_SUCCESS:

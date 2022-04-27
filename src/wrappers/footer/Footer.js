@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import {connect} from "react-redux";
 import Logo from '../../components/logo/Logo'
 import Fb from '../../assets/img/14.svg'
 import Tweet from '../../assets/img/15.svg'
@@ -10,8 +11,16 @@ import Smile from '../../assets/img/smile-orange.svg'
 import User from '../../assets/img/user-orange.svg'
 import Defender from '../../assets/img/defender-orange.svg'
 import {Link} from "react-router-dom";
+import {getLegalDocs} from "../../redux/actions/toursActions";
 
-const Footer = () => {
+const Footer = ({getLegalDocs, docs = []}) => {
+
+  useEffect(() => {
+    getLegalDocs()
+  }, [])
+
+  console.log(docs)
+
     return (
       <footer className='footer'>
         <div className='wrapper_footer'>
@@ -24,16 +33,23 @@ const Footer = () => {
               каждой точки маршрута. Мы за непринужденный подход к групповым
               путешествиям, который больше похож на встречу со старыми друзьями.
             </p>
-            <p className='paragraph_content_underline'>
+            <Link to={'/'} className='paragraph_content_underline'>
               © 2020 . Traveler.market
-            </p>
-            <Link to={'/privacy'} className='paragraph_content_underline'>
-              Политика конфиденциальности
             </Link>
-            <p className='paragraph_content_underline'>Публичная оферта</p>
-            <p className='paragraph_content_underline'>
-              Согласие на обработку персональных данных
-            </p>
+            {docs && docs.map(item => (
+              <Link to={`/legal-documents/${item.docs_slug}`} className='paragraph_content_underline'>
+                {item.docs_name}
+              </Link>
+            ))}
+            {/*<Link to={'/legal-documents/politika_konfidentsialnosti'} className='paragraph_content_underline'>*/}
+            {/*  Политика конфиденциальности*/}
+            {/*</Link>*/}
+            {/*<Link to={'/legal-documents/politika_konfidentsialnosti'} className='paragraph_content_underline'>*/}
+            {/*  Публичная оферта*/}
+            {/*</Link>*/}
+            {/*<Link to={'/legal-documents/politika_konfidentsialnosti'} className='paragraph_content_underline'>*/}
+            {/*  Согласие на обработку персональных данных*/}
+            {/*</Link>*/}
           </div>
 
           <div className='col_2'>
@@ -114,4 +130,8 @@ const Footer = () => {
     )
 }
 
-export default Footer
+const mapStateToProps = state => ({
+  docs: state.tours.docs
+})
+
+export default connect(mapStateToProps, {getLegalDocs})(Footer)

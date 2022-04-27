@@ -50,7 +50,7 @@ const App = () => {
           <Route exact path='/tours/:id' component={Tour} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
-          <Route path='/privacy' component={PrivacyPolicy} />
+          <Route path='/legal-documents/:slug' component={PrivacyPolicy} />
           <Route exact path='/account' component={Dashboard} />
           <Route exact path='/account/chat' component={Chat} />
           <Route exact path='/account/profile' component={Profile} />

@@ -3,7 +3,7 @@ import menu from '../../../assets/img/menu-dots.svg'
 
 import { connect } from 'react-redux'
 import Modal from "./Modal";
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {deleteTeamMember, getTeamMember} from "../../../redux/actions/profileActions";
 import PopUp from "../../PopUp/PopUp";
 
@@ -68,8 +68,10 @@ const TeamCard = ({
       <div className='team-card'>
         <div className="team-image-wrapper">
           <div
+            onClick={handleMemberEdit}
             className='team-image'
             style={{ backgroundImage: 'url(' + member.avatar + ')' }}
+
           >
             <div
               className='tour-menu-dots'

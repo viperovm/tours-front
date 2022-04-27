@@ -464,9 +464,10 @@ ul, ol {
   opacity: 0.5;
 }
 
-.paragraph_content_underline:nth-child(2) {
+a.paragraph_content_underline {
+  display: block;
   font-size: 13px;
-  margin-top: 10px;
+  margin-top: 20px;
 
   text-decoration-line: underline;
 
@@ -474,6 +475,17 @@ ul, ol {
 
   opacity: 0.5;
 }
+
+/*.paragraph_content_underline:nth-child(2) {*/
+/*  font-size: 13px;*/
+/*  margin-top: 10px;*/
+
+/*  text-decoration-line: underline;*/
+
+/*  color: #ffffff;*/
+
+/*  opacity: 0.5;*/
+/*}*/
 
 .p_footer_block_second {
   margin-left: 20px;
@@ -4164,6 +4176,9 @@ input[type='file'] {
   height: 125px;
   border-radius: 50%;
   margin: 10px 0 20px 0;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
 }
 
 .team-data {
@@ -4447,11 +4462,20 @@ li.select-list:hover {
 
 .docs-header {
   text-align: center;
-  margin-top: 30px;
+  margin: 30px 0;
 
 }
 
 .docs-body {
   margin-bottom: 30px;
+  line-height: 1.5rem;
+}
+
+.docs-body p {
+  margin-bottom: 10px;
+}
+
+.docs-body li {
+  margin-bottom: 10px;
 }
 

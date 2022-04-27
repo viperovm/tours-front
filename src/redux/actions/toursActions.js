@@ -86,6 +86,10 @@ import {
   REMOVE_ACTIVITY_SUCCESS,
   GET_ALL_TOURS_SUCCESS,
   GET_ALL_TOURS_FAIL,
+  GET_LEGAL_DOCS_SUCCESS,
+  GET_LEGAL_DOCS_FAIL,
+  GET_LEGAL_DOC_SUCCESS,
+  GET_LEGAL_DOC_FAIL,
 } from '../types'
 import axios from 'axios'
 import {isNotEmptyObject} from "../../functions";
@@ -1025,4 +1029,50 @@ export const deleteKey = () => async dispatch => {
   dispatch({
     type: DELETE_KEY,
   })
+}
+
+export const getLegalDocs = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/legals/`, config)
+
+    dispatch({
+      type: GET_LEGAL_DOCS_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_LEGAL_DOCS_FAIL,
+    })
+  }
+}
+
+export const getLegalDoc = (slug) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/legals/${slug}/`, config)
+
+    dispatch({
+      type: GET_LEGAL_DOC_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_LEGAL_DOC_FAIL,
+    })
+  }
 }
