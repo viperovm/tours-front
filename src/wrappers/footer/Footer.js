@@ -9,6 +9,7 @@ import Lock from '../../assets/img/lock-orange.svg'
 import Smile from '../../assets/img/smile-orange.svg'
 import User from '../../assets/img/user-orange.svg'
 import Defender from '../../assets/img/defender-orange.svg'
+import {Link} from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -26,9 +27,9 @@ const Footer = () => {
             <p className='paragraph_content_underline'>
               © 2020 . Traveler.market
             </p>
-            <p className='paragraph_content_underline'>
+            <Link to={'/privacy'} className='paragraph_content_underline'>
               Политика конфиденциальности
-            </p>
+            </Link>
             <p className='paragraph_content_underline'>Публичная оферта</p>
             <p className='paragraph_content_underline'>
               Согласие на обработку персональных данных

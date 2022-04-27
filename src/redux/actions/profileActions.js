@@ -11,6 +11,12 @@ import {
   DELETE_TEAM_MEMBER_FAIL,
   ADD_TEAM_MEMBER_AVATAR_SUCCESS,
   ADD_TEAM_MEMBER_AVATAR_FAIL,
+  GET_USER_INN_SUCCESS,
+  GET_USER_INN_FAIL,
+  GET_BANK_DATA_SUCCESS,
+  GET_BANK_DATA_FAIL,
+  RESET_BANK_DATA,
+  RESET_USER_INN,
 } from '../types'
 
 import axios from 'axios'
@@ -189,4 +195,80 @@ export const deleteTeamMemberAvatar = (id) => async dispatch => {
       payload: res
     })
   }
+}
+
+export const getUserInn = (data) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  console.log(3)
+
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/get_recipient/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: GET_USER_INN_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_USER_INN_FAIL,
+      payload: err
+    })
+  }
+}
+
+export const resetUserInn = () => async dispatch => {
+
+  dispatch({
+    type: RESET_USER_INN,
+  })
+}
+
+export const getBankData = (data) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/get_bank/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: GET_BANK_DATA_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_BANK_DATA_FAIL,
+      payload: err
+    })
+  }
+}
+
+export const resetBankData = () => async dispatch => {
+
+  dispatch({
+    type: RESET_BANK_DATA,
+  })
 }

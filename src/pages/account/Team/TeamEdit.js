@@ -16,8 +16,9 @@ import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapp
 import {addTeamMemberAvatar, getTeamMember, updateTeamMember} from "../../../redux/actions/profileActions";
 import CircularProgress from '@mui/material/CircularProgress'
 import {isNotEmptyObject} from "../../../functions";
+import {clear_confirm_status, email_confirm_request} from "../../../redux/actions/authActions";
 
-const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMember, addTeamMemberAvatar, getTeamMember}) => {
+const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMember, addTeamMemberAvatar, getTeamMember, email_confirm_request, clear_confirm_status}) => {
 
   const history = useHistory()
 
@@ -41,6 +42,7 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
 
   const [profile, setProfile] = useState({})
   const [loading, setLoading] = useState(false)
+  const [requestActive, setRequestActive] = useState(false)
 
   useEffect(() => {
     if(member) {
@@ -82,6 +84,17 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
     history.push('/account/team')
   }
 
+  const handleModalClose = () => {
+    setRequestActive(false)
+    clear_confirm_status()
+  }
+
+  const handleEmailConfirm = () => {
+    setRequestActive(true)
+    email_confirm_request()
+    setTimeout(() => handleModalClose(), 3000)
+  }
+
   return (
     <Account subtitle='Моя команда' title='Добавить члена команды' menu_item='team'>
       <>
@@ -100,6 +113,14 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
                 member={member}
               />
             </SingleWrapper>
+            <SingleWrapper full={true} margin={0}>
+              <Input
+                label={'Фамилия'}
+                name='last_name'
+                action={handleChange}
+                value={profile.last_name}
+              />
+            </SingleWrapper>
             <DoubleWrapper full={true} margin={0}>
               <Input
                 label={'Имя'}
@@ -108,26 +129,39 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
                 value={profile.first_name}
               />
               <Input
-                label={'Фамилия'}
-                name='last_name'
-                action={handleChange}
-                value={profile.last_name}
-              />
-            </DoubleWrapper>
-            <DoubleWrapper full={true} margin={0}>
-              <Input
                 label={'Отчество'}
                 name='midle_name'
                 action={handleChange}
                 value={profile.midle_name}
               />
+            </DoubleWrapper>
+            <DoubleWrapper full={true}>
+              <Input
+                label={'Номер телефона'}
+                action={handleChange}
+                name='phone'
+                value={profile.phone}
+              />
               <Input
                 label={'Email'}
-                name='email'
                 action={handleChange}
+                name='email'
                 value={profile.email}
-                type='email'
               />
+            </DoubleWrapper>
+            <DoubleWrapper full={true} undertext={true}>
+              {profile.phone_confirmed ? (<div className="verified-note">
+                  <span className="confirmed-green">Телефон подтвержден и скрыт от других пользователей</span>
+                </div>
+
+              ) : (<div className="verified-note">
+                Телефон не подтвержден! <span>Подвердить?</span>
+              </div>)}
+              {profile.email_confirmed ? (<div className="verified-note">
+                <span className="confirmed-green">Email подтвержден</span>
+              </div>) : (<div className="verified-note">
+                Email не подтвержден! <span onClick={handleEmailConfirm} style={{cursor: 'pointer'}}>Подвердить?</span>
+              </div>)}
             </DoubleWrapper>
             <SingleWrapper full={true} margin={0} label={'Расскажите о гиде*'}>
               <TextArea
@@ -137,16 +171,16 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
                 value={profile.about}
               />
             </SingleWrapper>
-            <SingleWrapper margin={0} label={'Язык гида'} width={'50%'}>
-              <SelectInput
-                name='languages'
-                label='Выберите языки'
-                action={handleChange}
-                options={languages}
-                val={profile.languages}
-                multiple={true}
-              />
-            </SingleWrapper>
+            {/*<SingleWrapper margin={0} label={'Язык гида'} width={'50%'}>*/}
+            {/*  <SelectInput*/}
+            {/*    name='languages'*/}
+            {/*    label='Выберите языки'*/}
+            {/*    action={handleChange}*/}
+            {/*    options={languages}*/}
+            {/*    val={profile.languages}*/}
+            {/*    multiple={true}*/}
+            {/*  />*/}
+            {/*</SingleWrapper>*/}
             <Button text={'Сохранить'} width={'50%'} action={handleSubmit}/>
           </main>
         )}
@@ -163,4 +197,4 @@ const mapStateToProps = state => ({
   member: state.profile.member,
 })
 
-export default connect(mapStateToProps, { getLanguages, updateTeamMember, addTeamMemberAvatar, getTeamMember })(TeamEdit)
+export default connect(mapStateToProps, { getLanguages, updateTeamMember, addTeamMemberAvatar, getTeamMember, email_confirm_request, clear_confirm_status })(TeamEdit)

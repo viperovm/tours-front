@@ -15,7 +15,7 @@ const Tour = ({tour}) => {
   return (
     <>
       <div className={styles.tour_card}>
-        <div className={styles.tour_image} style={{backgroundImage: 'url(' + tour.tmb_wallpaper + ')'}}>
+        <div className={styles.tour_image} style={{backgroundImage: 'url(' + tour.tmb_wallpaper + ')'}} onClick={handleRedirect}>
           <div className={styles.tour_badges_upper}>
             <img src={heart} alt="favourite"/>
             {tour.is_recomended && <div className={styles.tour_badges_recomended}>рекомендуем</div>}

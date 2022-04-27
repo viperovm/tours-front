@@ -2,9 +2,11 @@ import React, {useState, useEffect} from 'react'
 import email from '../../../assets/img/message.svg'
 import password from '../../../assets/img/padlock5.svg'
 import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const Input = ({
-                 label, action, name, type = 'text', value, required, icon, error = {}, margin = '0', tour
+                 label, action, name, type = 'text', value, required, icon, error = {}, margin = '0', tour, spinner = false,
                }) => {
   const [data, setData] = useState('')
   const [currentError, setCurrentError] = useState([])
@@ -51,7 +53,7 @@ const Input = ({
         />}
         {type !== 'date' && <>
 
-          {icon && <div className={`with-icon`}>
+          {icon && !spinner && <div className={`with-icon`}>
             <input
               required={required}
               className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
@@ -66,7 +68,7 @@ const Input = ({
             </div>
 
           </div>}
-          {!icon && <div>
+          {!icon && !spinner && <div>
             <input
               required={required}
               className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
@@ -77,6 +79,10 @@ const Input = ({
               onChange={handleData}
             />
           </div>}
+
+          {spinner && <Box sx={{display: 'flex', justifyContent: 'center'}}>
+            <CircularProgress/>
+          </Box>}
 
 
         </>}

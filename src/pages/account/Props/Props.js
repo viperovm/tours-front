@@ -14,6 +14,7 @@ import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapp
 import FileInput from "../../../components/AccountTours/FormFields/FileInput";
 import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
 import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxInput";
+import {getBankData, resetBankData} from "../../../redux/actions/profileActions";
 
 const data = [
   {
@@ -58,15 +59,16 @@ const data = [
   },
 ]
 
-const Props = ({user, status}) => {
+const Props = ({user, status, bankData, getBankData, resetBankData}) => {
+
+  const [localUser, setLocalUser] = useState({})
+  const [active, setActive] = useState(1)
+  const [spinner, setSpinner] = useState(false)
 
   useEffect(() => {
     setPage('profile')
     getLanguages()
   }, [])
-
-  const [localUser, setLocalUser] = useState({})
-  const [active, setActive] = useState(1)
 
   useEffect(() => {
     if(user) {
@@ -74,8 +76,44 @@ const Props = ({user, status}) => {
     }
   }, [user])
 
+  useEffect(() => {
+    if(spinner) {
+      let timer = setTimeout(() => setSpinner(false), 1000)
+      if(bankData) {
+        setLocalUser({...localUser, ...bankData})
+        setSpinner(false)
+        clearTimeout(timer)
+      } else {
+        setLocalUser({
+          ...localUser,
+          bank_name: '',
+          bank_account: '',
+          bank_inn: '',
+          bank_kpp: '',
+        })
+      }
+    }
+
+  }, [bankData, spinner])
+
+  console.log('bankData: ', bankData)
+  console.log('localUser: ', localUser)
+
 
   const handleChange = (name, value) => {
+    setLocalUser({
+      ...localUser,
+      [name]: value,
+    })
+  }
+
+  const handleBankChange = (name, value) => {
+    setSpinner(true)
+    if(value.length === 9) {
+      getBankData({[name]: value})
+    } else {
+      resetBankData()
+    }
     setLocalUser({
       ...localUser,
       [name]: value,
@@ -188,11 +226,12 @@ const Props = ({user, status}) => {
                 <DoubleWrapper full={true} margin={0}>
                   <Input
                     label={'БИК Банка'}
-                    action={handleChange}
+                    action={handleBankChange}
                     name='bank_bik'
                     value={localUser.bank_bik}
                   />
                   <Input
+                    spinner={spinner}
                     label={'Банк-получатель'}
                     action={handleChange}
                     name='bank_name'
@@ -201,12 +240,14 @@ const Props = ({user, status}) => {
                 </DoubleWrapper>
                 <DoubleWrapper full={true} margin={0}>
                   <Input
+                    spinner={spinner}
                     label={'Корр. Счет'}
                     action={handleChange}
                     name='bank_account'
                     value={localUser.bank_account}
                   />
                   <Input
+                    spinner={spinner}
                     label={'ИНН Банка'}
                     action={handleChange}
                     name='bank_inn'
@@ -215,6 +256,7 @@ const Props = ({user, status}) => {
                 </DoubleWrapper>
                 <DoubleWrapper full={true} margin={0}>
                   <Input
+                    spinner={spinner}
                     label={'КПП Банка'}
                     action={handleChange}
                     name='bank_kpp'
@@ -330,6 +372,7 @@ const mapStateToProps = state => ({
   user: state.auth.user,
   status: state.auth.status,
   languages: state.tours.languages,
+  bankData: state.profile.bank_data,
 })
 
-export default connect(mapStateToProps, { setPage, update_user, getLanguages })(Props)
+export default connect(mapStateToProps, { setPage, update_user, getLanguages, getBankData, resetBankData })(Props)

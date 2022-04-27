@@ -12,6 +12,7 @@ import './index.css'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 import Dashboard from './pages/account/Dashboard'
 import Tours from './pages/Tours'
 import Tour from './pages/Tour'
@@ -49,6 +50,7 @@ const App = () => {
           <Route exact path='/tours/:id' component={Tour} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
+          <Route path='/privacy' component={PrivacyPolicy} />
           <Route exact path='/account' component={Dashboard} />
           <Route exact path='/account/chat' component={Chat} />
           <Route exact path='/account/profile' component={Profile} />

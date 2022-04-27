@@ -19,6 +19,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import ObjectFileInput from "../../../components/AccountTours/FormFields/ObjectFileInput";
+import {getUserInn, resetUserInn} from "../../../redux/actions/profileActions";
 
 const data = [
   {
@@ -103,19 +104,12 @@ function BpRadio(props) {
 
 
 
-const Requests = ({ user, status, setPage, error }) => {
+const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUserInn }) => {
 
   const [toursAmountActive, setToursAmountActive] = useState(false)
   const [active, setActive] = useState(1)
   const [localUser, setLocalUser] = useState({})
-
-  useEffect(() => {
-    setToursAmountActive(localUser && localUser.user_has_commercial_tours)
-    setToursAmountActive(localUser && localUser.user_has_commercial_tours)
-  }, [localUser])
-
-  console.log(localUser && localUser.user_has_commercial_tours)
-  console.log(toursAmountActive)
+  const [spinner, setSpinner] = useState(false)
 
   const Card = ({title, subtitle, list, id, available}) => (
     <div className={`card-body ${active === id ? 'active' : ''}`}>
@@ -140,14 +134,62 @@ const Requests = ({ user, status, setPage, error }) => {
     return <Redirect to='/404'/>
   }
 
+  console.log(localUser)
+
   useEffect(() => {
     if(user) {
       setLocalUser(user)
     }
   }, [user])
 
+  useEffect(() => {
+    if(spinner) {
+      let timer = setTimeout(() => setSpinner(false), 1000)
+      if(innData) {
+        setLocalUser({...localUser, ...innData})
+        setSpinner(false)
+        clearTimeout(timer)
+      } else {
+        setLocalUser({
+          ...localUser,
+          recipient_name: '',
+          recipient_ogrn: '',
+          recipient_status: '',
+          recipient_registration_date: '',
+        })
+      }
+    }
+
+  }, [innData, spinner])
+
 
   const handleChange = (name, value) => {
+    setLocalUser({
+      ...localUser,
+      [name]: value,
+    })
+  }
+
+  const handleInnChange = (name, value) => {
+    setSpinner(true)
+    if(value.length === 12) {
+      getUserInn({[name]: value})
+    } else {
+      resetUserInn()
+    }
+    setLocalUser({
+      ...localUser,
+      [name]: value,
+    })
+  }
+
+  const handleRadioChange = (e) => {
+    const {name, value} = e.target
+    if(value === 'true') {
+      setToursAmountActive(true)
+    } else if(value === 'false') {
+      setToursAmountActive(false)
+    }
     setLocalUser({
       ...localUser,
       [name]: value,
@@ -219,22 +261,22 @@ const Requests = ({ user, status, setPage, error }) => {
                   <Input
                     label={'Фамилия'}
                     action={handleChange}
-                    name='user_last_name'
-                    value={localUser.user_last_name}
+                    name='last_name'
+                    value={localUser.last_name}
                   />
                 </SingleWrapper>
                 <DoubleWrapper full={true} margin={0}>
                   <Input
                     label={'Имя'}
                     action={handleChange}
-                    name='user_first_name'
-                    value={localUser.user_first_name}
+                    name='first_name'
+                    value={localUser.first_name}
                   />
                   <Input
                     label={'Отчество'}
                     action={handleChange}
-                    name='user_middle_name'
-                    value={localUser.user_middle_name}
+                    name='middle_name'
+                    value={localUser.middle_name}
                   />
                 </DoubleWrapper>
                 <DoubleWrapper full={true} margin={0}>
@@ -282,24 +324,26 @@ const Requests = ({ user, status, setPage, error }) => {
                 <DoubleWrapper full={true} margin={0}>
                   <Input
                     label={'ИНН'}
-                    action={handleChange}
-                    name='user_inn'
-                    value={localUser.user_inn}
+                    action={handleInnChange}
+                    name='recipient_inn'
+                    value={localUser.recipient_inn}
                   />
                   <Input
+                    spinner={spinner}
                     label={'ОГРН (ОГРНИП)'}
                     action={handleChange}
-                    name='user_ogrn'
-                    value={localUser.user_ogrn}
+                    name='recipient_ogrn'
+                    value={localUser.recipient_ogrn}
                     error={error}
                   />
                 </DoubleWrapper>
                 <SingleWrapper label='Наименование Юр. лица' width={'100%'} margin={'0'}>
                   <Input
+                    spinner={spinner}
                     label={'Наименование Юр. лица'}
                     action={handleChange}
-                    name='user_company_name'
-                    value={localUser.user_company_name}
+                    name='recipient_name'
+                    value={localUser.recipient_name}
                   />
                 </SingleWrapper>
                 <SingleWrapper label='Юридический адрес' width={'100%'} margin={'0'}>
@@ -362,7 +406,9 @@ const Requests = ({ user, status, setPage, error }) => {
                   defaultValue={false}
                   aria-labelledby="demo-customized-radios"
                   name="user_has_commercial_tours"
-                  onChange={(e) => handleChange(e.target.name, e.target.value)}
+                  // onChange={(e) => console.log(typeof e.target.value)}
+                  // onChange={(e) => setToursAmountActive(e.target.value)}
+                  onChange={handleRadioChange}
                 >
                   <FormControlLabel value={true} control={<BpRadio />} label="Да" />
                   <FormControlLabel value={false} control={<BpRadio />} label="Нет" />
@@ -621,6 +667,8 @@ const mapStateToProps = state => ({
   user: state.auth.user,
   status: state.auth.status,
   error: state.auth.error,
+  innData: state.profile.user_inn_data,
+
 })
 
-export default connect(mapStateToProps, { setPage })(Requests)
+export default connect(mapStateToProps, { setPage, getUserInn, resetUserInn })(Requests)

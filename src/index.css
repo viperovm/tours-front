@@ -4444,3 +4444,14 @@ li.select-list:hover {
 .tab-title-wrapper {
   position: relative;
 }
+
+.docs-header {
+  text-align: center;
+  margin-top: 30px;
+
+}
+
+.docs-body {
+  margin-bottom: 30px;
+}
+
