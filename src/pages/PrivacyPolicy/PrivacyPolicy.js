@@ -16,6 +16,7 @@ const PrivacyPolicy = ({match, getLegalDoc, doc, }) => {
     if(slug) {
       getLegalDoc(slug)
     }
+    window.scrollTo(0, 0)
   }, [slug])
 
   return (

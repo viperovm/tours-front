@@ -170,13 +170,20 @@ export const getTours = () => async dispatch => {
 }
 
 export const getAllTours = () => async dispatch => {
-  const config = {
+  const config = localStorage.getItem('access') ? {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `JWT ${localStorage.getItem('access')}`,
       Accept: 'application/json',
     },
-  }
+  } :
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      }
+    }
+
 
   try {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/`, config)
@@ -1035,7 +1042,7 @@ export const getLegalDocs = () => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
+      // Authorization: `JWT ${localStorage.getItem('access')}`,
       Accept: 'application/json',
     },
   }
