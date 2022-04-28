@@ -46,7 +46,7 @@ const Tour = ({tour}) => {
               </div>
             </div>
             <div className={styles.tour_price_section}>
-              <div className={styles.tour_duration}>{`${tour.duration} дн. (с ${dateFormat(new Date(tour.start_date), 'dd.mm.yyyy')}))`}</div>
+              <div className={styles.tour_duration}>{`${tour.duration} дн. (с ${dateFormat(new Date(tour.start_date), 'dd.mm.yyyy')})`}</div>
               <div className={styles.tour_price}>
                 {tour.discount && <span className={styles.tour_discounted_price} style={{marginRight: '5px'}}>{tour && tour.price ? tour.price.toLocaleString('ru') : ''}<span className='rub-sign'>{tour.currency.sign}</span></span>}
                 {tour && tour.discount ? tour.discount.toLocaleString('ru') : tour.price.toLocaleString('ru')}
