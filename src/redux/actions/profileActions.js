@@ -298,32 +298,3 @@ export const getDataByInn = (data) => async dispatch => {
   }
 }
 
-// export const getBankTransactionData = (data) => async dispatch => {
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: `JWT ${localStorage.getItem('access')}`,
-//       Accept: 'application/json',
-//     },
-//   }
-//
-//   const body = JSON.stringify(data)
-//
-//   try {
-//     const res = await axios.post(
-//       `${process.env.REACT_APP_API_URL}/api/get_bank/`,
-//       body,
-//       config
-//     )
-//
-//     dispatch({
-//       type: GET_BANK_TRANSACTION_DATA_SUCCESS,
-//       payload: res.data,
-//     })
-//   } catch (err) {
-//     dispatch({
-//       type: GET_BANK_TRANSACTION_DATA_FAIL,
-//       payload: err
-//     })
-//   }
-// }

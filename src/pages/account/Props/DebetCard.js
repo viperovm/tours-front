@@ -3,14 +3,18 @@ import {connect} from "react-redux";
 import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
 import Input from "../../../components/AccountTours/FormFields/Input";
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
-import {update_local_user, getBikData, updateCardData, resetBikData} from "../../../redux/actions/authActions";
+import {update_local_user, getBikData, updateCardData, resetBikData, clear_errors} from "../../../redux/actions/authActions";
 import {isNotEmptyObject} from "../../../functions";
 
-const DebetCard = ({user, getBikData, resetBikData, update_local_user}) => {
+const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, clear_errors, }) => {
 
   const [debetCard, setDebetCard] = useState(null)
   const [spinner, setSpinner] = useState(false)
   const [clear, setClear] = useState(false)
+
+  useEffect(() => {
+    return () => clear_errors()
+  }, [])
 
   useEffect(() => {
     if(isNotEmptyObject(user) && isNotEmptyObject(user.debet_card)) {
@@ -49,6 +53,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user}) => {
           action={handleDataGet}
           name='bank_bik'
           value={user && user.debet_card && user.debet_card.bank_bik}
+          error={error}
         />
         <Input
           clear={clear}
@@ -57,6 +62,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user}) => {
           action={handleChange}
           name='bank_name'
           value={user && user.debet_card && user.debet_card.bank_name}
+          error={error}
         />
       </DoubleWrapper>
       <DoubleWrapper full={true} margin={0}>
@@ -67,6 +73,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user}) => {
           action={handleChange}
           name='bank_account'
           value={user && user.debet_card && user.debet_card.bank_account}
+          error={error}
         />
         <Input
           clear={clear}
@@ -75,6 +82,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user}) => {
           action={handleChange}
           name='bank_inn'
           value={user && user.debet_card && user.debet_card.bank_inn}
+          error={error}
         />
       </DoubleWrapper>
       <DoubleWrapper full={true} margin={0}>
@@ -85,12 +93,14 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user}) => {
           action={handleChange}
           name='bank_kpp'
           value={user && user.debet_card && user.debet_card.bank_kpp}
+          error={error}
         />
         <Input
           label={'Получатель (ФИО)'}
           action={handleChange}
           name='recipient_full_name'
           value={user && user.debet_card && user.debet_card.recipient_full_name}
+          error={error}
         />
       </DoubleWrapper>
       <SingleWrapper full={true} margin={0} label={'Основание платежа'}>
@@ -99,6 +109,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user}) => {
           action={handleChange}
           name='bank_payment_reason'
           value={user && user.debet_card && user.debet_card.bank_payment_reason}
+          error={error}
         />
       </SingleWrapper>
     </>
@@ -111,6 +122,7 @@ const mapStateToProps = state => ({
   languages: state.tours.languages,
   bik_data: state.profile.bik_data,
   recipient_inn_data: state.profile.recipient_inn_data,
+  // error: state.auth.error,
 })
 
-export default connect(mapStateToProps, {updateCardData, getBikData, resetBikData, update_local_user})(DebetCard)
+export default connect(mapStateToProps, {updateCardData, getBikData, resetBikData, update_local_user, clear_errors,})(DebetCard)

@@ -11,6 +11,7 @@ const initialState = {
     localStorage.getItem('access') && localStorage.getItem('refresh')
   ),
   user: null,
+  update_status: '',
   status: '',
   page: '',
   avatar: '',
@@ -52,6 +53,32 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         user: payload,
+      }
+
+    case t.UPDATE_CARD_DATA_SUCCESS:
+    case t.UPDATE_TRANSACTION_DATA_SUCCESS:
+      return {
+        ...state,
+        update_status: payload,
+        error: {},
+      }
+
+    case t.CLEAR_UPDATE_STATUS:
+      return {
+        ...state,
+        update_status: '',
+      }
+
+    case t.UPDATE_TRANSACTION_DATA_FAIL:
+      return {
+        ...state,
+        error: payload,
+      }
+
+    case t.UPDATE_CARD_DATA_FAIL:
+      return {
+        ...state,
+        error: payload,
       }
 
     case t.GET_DATA_BY_BIK_SUCCESS:

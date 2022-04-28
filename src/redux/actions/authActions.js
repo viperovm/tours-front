@@ -140,14 +140,6 @@ export const update_local_user = data => async dispatch => {
   })
 }
 
-
-
-
-
-
-
-
-
 export const signUp = (status, data) => async dispatch => {
   const config = {
     headers: {
@@ -429,7 +421,6 @@ export const clear_errors = () => dispatch => {
   })
 }
 
-
 export const getBikData = (data, source) => async dispatch => {
   const config = {
     headers: {
@@ -490,12 +481,12 @@ export const updateCardData = (id, data) => async dispatch => {
 
     dispatch({
       type: t.UPDATE_CARD_DATA_SUCCESS,
-      payload: res.data,
+      payload: res.status,
     })
   } catch (err) {
     dispatch({
       type: t.UPDATE_CARD_DATA_FAIL,
-      payload: err
+      payload: err.response.data,
     })
   }
 }
@@ -520,14 +511,21 @@ export const updateTransactionData = (id, data) => async dispatch => {
 
     dispatch({
       type: t.UPDATE_TRANSACTION_DATA_SUCCESS,
-      payload: res.data,
+      payload: res.status,
     })
   } catch (err) {
     dispatch({
       type: t.UPDATE_TRANSACTION_DATA_FAIL,
-      payload: err
+      payload: err.response.data
     })
   }
+}
+
+export const clear_update_status = () => dispatch => {
+
+  dispatch({
+    type: t.CLEAR_UPDATE_STATUS,
+  })
 }
 
 export const getInnData = (data, source) => async dispatch => {

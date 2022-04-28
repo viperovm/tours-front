@@ -3,11 +3,12 @@ import SelectInput from "../../../components/AccountTours/FormFields/SelectInput
 import Button from "../../../components/AccountTours/Components/Button";
 import Account from "../../../layouts/account/account";
 import {connect} from 'react-redux'
-import {setPage, update_user, updateCardData, updateTransactionData} from "../../../redux/actions/authActions";
+import {update_local_user, setPage, update_user, updateCardData, updateTransactionData, clear_errors, clear_update_status} from "../../../redux/actions/authActions";
 import {getCountries} from "../../../redux/actions/toursActions";
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
 import DebetCard from "./DebetCard";
 import Transaction from "./Transaction";
+import PopUp from "../../../components/PopUp/PopUp";
 
 const data = [
   {
@@ -52,14 +53,22 @@ const data = [
   },
 ]
 
-const Props = ({user, status, updateCardData, updateTransactionData, getCountries, countries}) => {
+const Props = ({update_local_user, user, status, updateCardData, updateTransactionData, getCountries, countries, clear_errors, error, update_status, clear_update_status, }) => {
 
   const [active, setActive] = useState(1)
+  const [activePopUp, setActivePopUp] = useState(false)
 
   useEffect(() => {
     setPage('profile')
     getCountries()
+    return () => setActivePopUp(false)
   }, [])
+
+  useEffect(() => {
+    if(update_status >= 200 && update_status < 300) {
+      setActivePopUp(true)
+    }
+  }, [update_status])
 
   const handleSubmit = () => {
     if (active === 1) {
@@ -67,15 +76,51 @@ const Props = ({user, status, updateCardData, updateTransactionData, getCountrie
     } else if (active === 2) {
       updateTransactionData(user.id, user.bank_transaction)
     }
+    if(user && user.debet_card && user.debet_card.billing_country) {
+      let {billing_country} = user.debet_card
+      let bank_transaction = user.bank_transaction
+      let debet_card = user.debet_card
+      bank_transaction = {
+        ...bank_transaction,
+        billing_country: billing_country,
+      }
+      updateTransactionData(user.id, bank_transaction)
+      debet_card = {
+        ...debet_card,
+        billing_country: billing_country,
+      }
+      updateCardData(user.id, debet_card)
+    } else if(user && user.bank_transaction && user.bank_transaction.billing_country) {
+      let {billing_country} = user.bank_transaction
+      let bank_transaction = user.bank_transaction
+      let debet_card = user.debet_card
+      bank_transaction = {
+        ...bank_transaction,
+        billing_country: billing_country,
+      }
+      updateTransactionData(user.id, bank_transaction)
+      debet_card = {
+        ...debet_card,
+        billing_country: billing_country,
+      }
+      updateCardData(user.id, debet_card)
+    }
   }
 
-  const handleInput = (name, value) => {
-    let {bank_transaction} = user
-    bank_transaction = {
-      ...bank_transaction,
-      [name]: value,
-    }
-    updateTransactionData(user.id, bank_transaction)
+  const handleChange = (name, value) => {
+    let bank_transaction = user.bank_transaction
+    let debet_card = user.debet_card
+    update_local_user({
+      ...user,
+      bank_transaction: {
+        ...bank_transaction,
+        [name]: value,
+      },
+      debet_card: {
+        ...debet_card,
+        [name]: value,
+      }
+    })
   }
 
   const Card = ({title, subtitle, list, id, available}) => (
@@ -102,6 +147,12 @@ const Props = ({user, status, updateCardData, updateTransactionData, getCountrie
   return (
     <Account title='Реквизиты' menu_item='props'>
       <>
+        {activePopUp && <PopUp status={'ok'} title={'Данные успешно обновлены'}
+                               text={''}
+                               button={'Ок'} action={() => {
+          setActivePopUp(false)
+          clear_update_status()
+        }}/>}
         {status === 'experts' && (
           <main>
             <div className='global-h2-heading'>
@@ -117,7 +168,7 @@ const Props = ({user, status, updateCardData, updateTransactionData, getCountrie
             </div>
             <SingleWrapper label='Страна платежного адреса' comment='' name={'billing_country'}>
               <SelectInput
-                action={handleInput}
+                action={handleChange}
                 name='billing_country'
                 label='Страна платежного адреса'
                 val={user && user.bank_transaction && user.bank_transaction.billing_country}
@@ -135,11 +186,11 @@ const Props = ({user, status, updateCardData, updateTransactionData, getCountrie
             </div>
 
             {active === 1 && (
-              <DebetCard/>
+              <DebetCard error={error}/>
             )}
 
             {active === 2 && (
-              <Transaction/>
+              <Transaction error={error}/>
             )}
 
             <Button text={'Сохранить'} width={'50%'} action={handleSubmit}/>
@@ -152,7 +203,9 @@ const Props = ({user, status, updateCardData, updateTransactionData, getCountrie
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  error: state.auth.error,
   status: state.auth.status,
+  update_status: state.auth.update_status,
   countries: state.tours.countries,
   bankCardData: state.profile.bank_card_data,
   bankTransactionData: state.profile.bank_transaction_data,
@@ -165,4 +218,7 @@ export default connect(mapStateToProps, {
   updateCardData,
   updateTransactionData,
   getCountries,
+  clear_errors,
+  clear_update_status,
+  update_local_user,
 })(Props)
