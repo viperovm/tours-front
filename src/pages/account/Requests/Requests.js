@@ -3,8 +3,7 @@ import Account from '../../../layouts/account/account'
 
 import {Redirect} from 'react-router-dom'
 
-import { connect } from 'react-redux'
-import { setPage } from '../../../redux/actions/authActions'
+import {connect} from 'react-redux'
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
 import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
 import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
@@ -12,7 +11,7 @@ import Input from "../../../components/AccountTours/FormFields/Input";
 import Button from "../../../components/AccountTours/Components/Button";
 import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxInput";
 
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -20,6 +19,13 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import ObjectFileInput from "../../../components/AccountTours/FormFields/ObjectFileInput";
 import {getUserInn, resetUserInn} from "../../../redux/actions/profileActions";
+import {
+  update_local_user,
+  setPage,
+  getRecipientInnData, resetRecipientInnData,
+} from "../../../redux/actions/authActions";
+import TextArea from "../../../components/AccountTours/FormFields/TextArea";
+import {getCountries} from "../../../redux/actions/toursActions";
 
 const data = [
   {
@@ -38,7 +44,7 @@ const data = [
   },
 ]
 
-const BpIcon = styled('span')(({ theme }) => ({
+const BpIcon = styled('span')(({theme}) => ({
   borderRadius: '50%',
   width: 24,
   height: 24,
@@ -95,21 +101,34 @@ function BpRadio(props) {
       }}
       disableRipple
       color="default"
-      checkedIcon={<BpCheckedIcon />}
-      icon={<BpIcon />}
+      checkedIcon={<BpCheckedIcon/>}
+      icon={<BpIcon/>}
       {...props}
     />
   );
 }
 
 
-
-const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUserInn }) => {
+const Requests = ({
+                    user,
+                    status,
+                    setPage,
+                    error,
+                    inn_data,
+                    getUserInn,
+                    resetUserInn,
+                    update_local_user,
+                    getCountries,
+                    getRecipientInnData,
+                    countries,
+                    resetRecipientInnData,
+                  }) => {
 
   const [toursAmountActive, setToursAmountActive] = useState(false)
   const [active, setActive] = useState(1)
   const [localUser, setLocalUser] = useState({})
   const [spinner, setSpinner] = useState(false)
+  const [clear, setClear] = useState(false)
 
   const Card = ({title, subtitle, list, id, available}) => (
     <div className={`card-body ${active === id ? 'active' : ''}`}>
@@ -126,7 +145,9 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
           </ul>
         </div>
       </div>
-      <Button text={`${active === id ? 'Выбрано' : 'Выбрать'}`} width={'100%'} color={`${active === id ? 'button-success' : 'button-primary'}`} active={available} action={() => setActive(id)}/>
+      <Button text={`${active === id ? 'Выбрано' : 'Выбрать'}`} width={'100%'}
+              color={`${active === id ? 'button-success' : 'button-primary'}`} active={available}
+              action={() => setActive(id)}/>
     </div>
   )
 
@@ -134,24 +155,27 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
     return <Redirect to='/404'/>
   }
 
-  console.log(localUser)
-
   useEffect(() => {
-    if(user) {
+    if (user) {
       setLocalUser(user)
     }
   }, [user])
 
   useEffect(() => {
-    if(spinner) {
-      let timer = setTimeout(() => setSpinner(false), 1000)
-      if(innData) {
-        setLocalUser({...localUser, ...innData})
+    getCountries()
+  }, [])
+
+  useEffect(() => {
+    if (spinner) {
+      let timer = setTimeout(() => setSpinner(false), 500)
+      if (inn_data) {
+        update_local_user({...user, ...inn_data})
         setSpinner(false)
         clearTimeout(timer)
       } else {
-        setLocalUser({
-          ...localUser,
+        update_local_user({
+          ...user,
+          recipient_inn: '',
           recipient_name: '',
           recipient_ogrn: '',
           recipient_status: '',
@@ -160,34 +184,38 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
       }
     }
 
-  }, [innData, spinner])
+  }, [inn_data, spinner])
 
 
   const handleChange = (name, value) => {
-    setLocalUser({
-      ...localUser,
+    update_local_user({
+      ...user,
       [name]: value,
     })
+    // setLocalUser({
+    //   ...localUser,
+    //   [name]: value,
+    // })
   }
 
   const handleInnChange = (name, value) => {
     setSpinner(true)
-    if(value.length === 12) {
-      getUserInn({[name]: value})
-    } else {
-      resetUserInn()
+    if (value.length === 10 || value.length === 12) {
+      setClear(false)
+      getRecipientInnData({[name]: value})
+    } else if (value.length !== 10 || value.length !== 12) {
+      setClear(true)
+      resetRecipientInnData()
     }
-    setLocalUser({
-      ...localUser,
-      [name]: value,
-    })
   }
+
+  console.log(clear)
 
   const handleRadioChange = (e) => {
     const {name, value} = e.target
-    if(value === 'true') {
+    if (value === 'yes') {
       setToursAmountActive(true)
-    } else if(value === 'false') {
+    } else if (value === 'no') {
       setToursAmountActive(false)
     }
     setLocalUser({
@@ -252,7 +280,8 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
             </div>
 
             <div className="cards-wrapper">
-              {data.map(item => <Card id={item.id} list={item.list} subtitle={item.subtitle} title={item.title} available={item.available}/>)}
+              {data.map(item => <Card id={item.id} list={item.list} subtitle={item.subtitle} title={item.title}
+                                      available={item.available}/>)}
             </div>
 
             {active === 1 && (
@@ -262,7 +291,7 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
                     label={'Фамилия'}
                     action={handleChange}
                     name='last_name'
-                    value={localUser.last_name}
+                    value={user.last_name}
                   />
                 </SingleWrapper>
                 <DoubleWrapper full={true} margin={0}>
@@ -270,13 +299,13 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
                     label={'Имя'}
                     action={handleChange}
                     name='first_name'
-                    value={localUser.first_name}
+                    value={user.first_name}
                   />
                   <Input
                     label={'Отчество'}
                     action={handleChange}
                     name='patronymic'
-                    value={localUser.patronymic}
+                    value={user.patronymic}
                   />
                 </DoubleWrapper>
                 <DoubleWrapper full={true} margin={0}>
@@ -284,13 +313,13 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
                     label={'Серия паспорта'}
                     action={handleChange}
                     name='passport_series'
-                    value={localUser.passport_series}
+                    value={user.passport_series}
                   />
                   <Input
                     label={'Номер паспорта'}
                     action={handleChange}
                     name='passport_number'
-                    value={localUser.passport_number}
+                    value={user.passport_number}
                   />
                 </DoubleWrapper>
                 <SingleWrapper label='Кем выдан' width={'100%'} margin={'0'}>
@@ -298,21 +327,21 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
                     label={'Кем выдан'}
                     action={handleChange}
                     name='passport_issued_by'
-                    value={localUser.passport_issued_by}
+                    value={user.passport_issued_by}
                   />
                 </SingleWrapper>
                 <DoubleWrapper full={true} margin={0}>
                   <Input
                     label={'Номер подразделения'}
                     action={handleChange}
-                    name='passport_branch_number'
-                    value={localUser.passport_branch_number}
+                    name='passport_code_issued_by'
+                    value={user.passport_code_issued_by}
                   />
                   <Input
                     label={'Дата выдачи'}
                     action={handleChange}
-                    name='passport_date_of_issue'
-                    value={localUser.passport_date_of_issue}
+                    name='passport_date'
+                    value={user.passport_date}
                     type={'date'}
                   />
                 </DoubleWrapper>
@@ -326,24 +355,26 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
                     label={'ИНН'}
                     action={handleInnChange}
                     name='recipient_inn'
-                    value={localUser.recipient_inn}
+                    value={user.recipient_inn}
                   />
                   <Input
+                    clear={clear}
                     spinner={spinner}
                     label={'ОГРН (ОГРНИП)'}
                     action={handleChange}
                     name='recipient_ogrn'
-                    value={localUser.recipient_ogrn}
+                    value={user.recipient_ogrn}
                     error={error}
                   />
                 </DoubleWrapper>
                 <SingleWrapper label='Наименование Юр. лица' width={'100%'} margin={'0'}>
                   <Input
+                    clear={clear}
                     spinner={spinner}
                     label={'Наименование Юр. лица'}
                     action={handleChange}
                     name='recipient_name'
-                    value={localUser.recipient_name}
+                    value={user.recipient_name}
                   />
                 </SingleWrapper>
                 <SingleWrapper label='Юридический адрес' width={'100%'} margin={'0'}>
@@ -351,7 +382,7 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
                     label={'Юридический адрес'}
                     action={handleChange}
                     name='user_legal_address'
-                    value={localUser.user_legal_address}
+                    value={user.recipient_legal_address}
                   />
                 </SingleWrapper>
                 <SingleWrapper label='Фактический адрес' width={'100%'} margin={'0'}>
@@ -359,7 +390,7 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
                     label={'Фактический адрес'}
                     action={handleChange}
                     name='user_billing_address'
-                    value={localUser.user_billing_address}
+                    value={user.recipient_real_address}
                   />
                 </SingleWrapper>
                 <SingleWrapper label='Сканы уставных документов (ИНН, ОГРН)' width={'100%'} margin={'0'}>
@@ -367,17 +398,20 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
                     label={'Сканы уставных документов (ИНН, ОГРН)'}
                     action={handleChange}
                     name='user_docs'
-                    value={localUser.user_docs}
+                    value={user.user_docs}
                   />
                 </SingleWrapper>
               </>
             )}
+
+
             <SingleWrapper margin={0} label={'Резидентом какой страны вы являетесь?'} width={'100%'}>
               <SelectInput
                 label={'Резидентом какой страны вы являетесь?'}
                 action={handleChange}
-                name='user_residency'
-                value={localUser.user_residency}
+                name='residency'
+                value={user.residency}
+                options={countries}
               />
             </SingleWrapper>
             <div className="team-subtitle">
@@ -386,13 +420,23 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
             <div className="radio-set">
               <FormControl>
                 <RadioGroup
-                  defaultValue={true}
+                  defaultValue={'yes'}
                   aria-labelledby="demo-customized-radios"
-                  name="user_has_license"
+                  name="license"
                   onChange={(e) => handleChange(e.target.name, e.target.value)}
                 >
-                  <FormControlLabel value={true} control={<BpRadio />} label="Да" />
-                  <FormControlLabel value={false} control={<BpRadio />} label="Нет" />
+                  <FormControlLabel
+                    selected={user.license === 'yes'}
+                    value={'yes'}
+                    control={<BpRadio/>}
+                    label="Да"
+                  />
+                  <FormControlLabel
+                    selected={user.license === 'no'}
+                    value={'no'}
+                    control={<BpRadio/>}
+                    label="Нет"
+                  />
 
                 </RadioGroup>
               </FormControl>
@@ -403,20 +447,30 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
             <div className="radio-set">
               <FormControl>
                 <RadioGroup
-                  defaultValue={false}
+                  defaultValue={'no'}
                   aria-labelledby="demo-customized-radios"
-                  name="user_has_commercial_tours"
+                  name="commercial_tours"
                   // onChange={(e) => console.log(typeof e.target.value)}
                   // onChange={(e) => setToursAmountActive(e.target.value)}
                   onChange={handleRadioChange}
                 >
-                  <FormControlLabel value={true} control={<BpRadio />} label="Да" />
-                  <FormControlLabel value={false} control={<BpRadio />} label="Нет" />
+                  <FormControlLabel
+                    selected={user.commercial_tours === 'yes'}
+                    value={'yes'}
+                    control={<BpRadio/>}
+                    label="Да"
+                  />
+                  <FormControlLabel
+                    selected={user.commercial_tours === 'no'}
+                    value={'no'}
+                    control={<BpRadio/>}
+                    label="Нет"
+                  />
 
                 </RadioGroup>
               </FormControl>
             </div>
-            {toursAmountActive ? (
+            {user.commercial_tours === 'yes' && (
               <>
                 <div className="team-subtitle">
                   Сколько туров вы проводите в год?
@@ -424,34 +478,170 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
                 <div className="radio-set">
                   <FormControl>
                     <RadioGroup
-                      defaultValue={"under_5"}
+                      defaultValue={"до 5"}
                       aria-labelledby="demo-customized-radios"
-                      name="user_tours_amount_yearly"
+                      name="commercial_tours_yearly"
                       onChange={(e) => handleChange(e.target.name, e.target.value)}
                     >
-                      <FormControlLabel value="under_5" control={<BpRadio />} label="до 5" />
-                      <FormControlLabel value="from_5_to_12" control={<BpRadio />} label="5-12" />
-                      <FormControlLabel value="from_13_to_20" control={<BpRadio />} label="13-20" />
-                      <FormControlLabel value="from_21_to_30" control={<BpRadio />} label="21-30" />
-                      <FormControlLabel value="above_30" control={<BpRadio />} label="30+" />
+                      <FormControlLabel
+                        selected={user.commercial_tours_yearly}
+                        value="до 5"
+                        control={<BpRadio/>}
+                        label="до 5"
+                      />
+                      <FormControlLabel
+                        selected={user.commercial_tours_yearly}
+                        value="5-12"
+                        control={<BpRadio/>}
+                        label="5-12"
+                      />
+                      <FormControlLabel
+                        selected={user.commercial_tours_yearly}
+                        value="13-20"
+                        control={<BpRadio/>}
+                        label="13-20"
+                      />
+                      <FormControlLabel
+                        selected={user.commercial_tours_yearly}
+                        value="21-30"
+                        control={<BpRadio/>}
+                        label="21-30"
+                      />
+                      <FormControlLabel
+                        selected={user.commercial_tours_yearly}
+                        value="30+"
+                        control={<BpRadio/>}
+                        label="30+"
+                      />
 
                     </RadioGroup>
                   </FormControl>
                 </div>
+                <SingleWrapper
+                  label='Укажите ссылки на отзывы'
+                  comment='Вводите через запятую'
+                  name='reviews_links'
+                >
+                  <TextArea
+                    action={handleChange}
+                    name='reviews_links'
+                    label=''
+                    value={user.reviews_links}
+                    rows='7'
+                    error={error}
+                  />
+                </SingleWrapper>
+
               </>
-            )
-            :
-              ''
-            }
+            )}
 
 
+            <SingleWrapper margin={0} label={'В какие страны вы планируете организовывать туры?'} width={'100%'}>
+              <SelectInput
+                label={'В какие страны вы планируете организовывать туры?'}
+                action={handleChange}
+                name='tours_countries'
+                value={user.tours_countries}
+                options={countries}
+                multiple={true}
+              />
+            </SingleWrapper>
+            <SingleWrapper
+              label='Укажите ссылки на ресурсы (Социальные сети, Сайты), где размещены ваши туры'
+              comment='Вводите через запятую'
+              name='tours_links'
+            >
+              <TextArea
+                action={handleChange}
+                name='tours_links'
+                label=''
+                value={user.tours_links}
+                rows='7'
+                error={error}
+              />
+            </SingleWrapper>
+            <div className="team-subtitle">
+              Возникали ли у вас конфликтные ситуации с участниками тура?
+            </div>
+            <div className="radio-set">
+              <FormControl>
+                <RadioGroup
+                  defaultValue={'no'}
+                  aria-labelledby="demo-customized-radios"
+                  name="conflicts"
+                  onChange={handleRadioChange}
+                >
+                  <FormControlLabel
+                    selected={user.conflicts === 'yes'}
+                    value={'yes'}
+                    control={<BpRadio/>}
+                    label="Да"
+                  />
+                  <FormControlLabel
+                    selected={user.conflicts === 'no'}
+                    value={'no'}
+                    control={<BpRadio/>}
+                    label="Нет"
+                  />
 
+                </RadioGroup>
+              </FormControl>
+            </div>
+            {user.conflicts === 'yes' && <SingleWrapper
+              label='Опишите вкратце ситуацию'
+              comment=''
+              name='conflicts_review'
+            >
+              <TextArea
+                action={handleChange}
+                name='conflicts_review'
+                label=''
+                value={user.conflicts_review}
+                rows='7'
+                error={error}
+              />
+            </SingleWrapper>}
+            <div className="team-subtitle">
+              Имеются ли у вас юридические ограничения?
+            </div>
+            <div className="radio-set">
+              <FormControl>
+                <RadioGroup
+                  defaultValue={'no'}
+                  aria-labelledby="demo-customized-radios"
+                  name="legal_restrictions"
+                  onChange={handleRadioChange}
+                >
+                  <FormControlLabel
+                    selected={user.legal_restrictions === 'yes'}
+                    value={'yes'}
+                    control={<BpRadio/>}
+                    label="Да"
+                  />
+                  <FormControlLabel
+                    selected={user.legal_restrictions === 'no'}
+                    value={'no'}
+                    control={<BpRadio/>}
+                    label="Нет"
+                  />
 
-
-
-
-
-
+                </RadioGroup>
+              </FormControl>
+            </div>
+            {user.legal_restrictions === 'yes' && <SingleWrapper
+              label='Опишите вкратце ситуацию'
+              comment=''
+              name='legal_restrictions_review'
+            >
+              <TextArea
+                action={handleChange}
+                name='legal_restrictions_review'
+                label=''
+                value={user.legal_restrictions_review}
+                rows='7'
+                error={error}
+              />
+            </SingleWrapper>}
 
 
             {/*<SingleWrapper margin={0} label={'Проверьте пожалуйста, что у вас есть аккаунт на почте, которую вы укажите. Иначе мы не сможем вам сообщить результаты проверки. '} full={true}>*/}
@@ -521,7 +711,6 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
             {/*</SingleWrapper>*/}
 
 
-
             {/*<div className="team-subtitle">*/}
             {/*  Вы уже проводили групповые многодневные туры на коммерческой основе?*/}
             {/*</div>*/}
@@ -578,7 +767,6 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
             {/*<SingleWrapper margin={0} full={true}>*/}
             {/*  <Input label={'Ваш ответ'}/>*/}
             {/*</SingleWrapper>*/}
-
 
 
             {/*<div className="team-subtitle">*/}
@@ -649,14 +837,10 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
             {/*</SingleWrapper>*/}
 
 
-
-
             <Button text={'ОТПРАВИТЬ ЗАПРОС НА ПРОВЕРКУ'}/>
           </main>
         )}
       </>
-
-
 
 
     </Account>
@@ -665,10 +849,19 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  inn_data: state.auth.inn_data,
   status: state.auth.status,
   error: state.auth.error,
-  innData: state.profile.user_inn_data,
+  countries: state.tours.countries,
 
 })
 
-export default connect(mapStateToProps, { setPage, getUserInn, resetUserInn })(Requests)
+export default connect(mapStateToProps, {
+  setPage,
+  getUserInn,
+  resetUserInn,
+  update_local_user,
+  getCountries,
+  getRecipientInnData,
+  resetRecipientInnData,
+})(Requests)

@@ -454,7 +454,6 @@ export const getBikData = (data, source) => async dispatch => {
 }
 
 export const resetBikData = (source) => async dispatch => {
-  console.log(3)
   dispatch({
     type: t.RESET_BIK_DATA,
     payload: source,
@@ -558,10 +557,46 @@ export const getInnData = (data, source) => async dispatch => {
   }
 }
 
-export const resetInnData = (source) => async dispatch => {
-  console.log(3)
+export const resetInnData = () => async dispatch => {
   dispatch({
     type: t.RESET_INN_DATA,
+  })
+}
+
+export const getRecipientInnData = (data, source) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/get_recipient/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: t.GET_RECIPIENT_DATA_BY_INN_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.GET_RECIPIENT_DATA_BY_INN_FAIL,
+      payload: err
+    })
+  }
+}
+
+export const resetRecipientInnData = (source) => async dispatch => {
+  console.log(3)
+  dispatch({
+    type: t.RESET_RECIPIENT_INN_DATA,
     payload: source,
   })
 }

@@ -18,6 +18,7 @@ const initialState = {
   email_confirm_request: null,
   email_confirm: null,
   error: {},
+  inn_data: null,
 }
 
 const authReducer = (state = initialState, action) => {
@@ -79,6 +80,19 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         error: payload,
+      }
+
+    case t.GET_RECIPIENT_DATA_BY_INN_SUCCESS:
+      return {
+        ...state,
+        inn_data: payload,
+      }
+
+    case t.GET_RECIPIENT_DATA_BY_INN_FAIL:
+    case t.RESET_RECIPIENT_INN_DATA:
+      return {
+        ...state,
+        inn_data: null,
       }
 
     case t.GET_DATA_BY_BIK_SUCCESS:

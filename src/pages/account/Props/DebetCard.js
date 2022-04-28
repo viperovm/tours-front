@@ -3,10 +3,18 @@ import {connect} from "react-redux";
 import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
 import Input from "../../../components/AccountTours/FormFields/Input";
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
-import {update_local_user, getBikData, updateCardData, resetBikData, clear_errors} from "../../../redux/actions/authActions";
+import {
+  update_local_user,
+  getBikData,
+  updateCardData,
+  resetBikData,
+  clear_errors
+} from "../../../redux/actions/authActions";
+import {getCountries} from "../../../redux/actions/toursActions";
 import {isNotEmptyObject} from "../../../functions";
+import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
 
-const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, clear_errors, }) => {
+const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, clear_errors, getCountries, countries,}) => {
 
   const [debetCard, setDebetCard] = useState(null)
   const [spinner, setSpinner] = useState(false)
@@ -17,7 +25,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
   }, [])
 
   useEffect(() => {
-    if(isNotEmptyObject(user) && isNotEmptyObject(user.debet_card)) {
+    if (isNotEmptyObject(user) && isNotEmptyObject(user.debet_card)) {
       setDebetCard(user.debet_card)
       setSpinner(false)
     }
@@ -25,10 +33,10 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
 
   const handleDataGet = (name, value) => {
     setSpinner(true)
-    if(value.length === 9) {
+    if (value.length === 9) {
       setClear(false)
       getBikData({[name]: value}, 'card')
-    } else if(value.length !== 9) {
+    } else if (value.length !== 9) {
       setClear(true)
       resetBikData('card')
     }
@@ -47,6 +55,16 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
 
   return (
     <>
+      <SingleWrapper label='Страна платежного адреса' comment='' name={'billing_country'} full={true} margin={0}>
+        <SelectInput
+          action={handleChange}
+          name='billing_country'
+          label='Страна платежного адреса'
+          val={user && user.debet_card && user.debet_card.billing_country}
+          options={countries}
+          error={error}
+        />
+      </SingleWrapper>
       <DoubleWrapper full={true} margin={0}>
         <Input
           label={'БИК Банка'}
@@ -118,6 +136,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  countries: state.tours.countries,
   status: state.auth.status,
   languages: state.tours.languages,
   bik_data: state.profile.bik_data,
@@ -125,4 +144,11 @@ const mapStateToProps = state => ({
   // error: state.auth.error,
 })
 
-export default connect(mapStateToProps, {updateCardData, getBikData, resetBikData, update_local_user, clear_errors,})(DebetCard)
+export default connect(mapStateToProps, {
+  updateCardData,
+  getBikData,
+  resetBikData,
+  update_local_user,
+  clear_errors,
+  getCountries,
+})(DebetCard)

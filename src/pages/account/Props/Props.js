@@ -76,52 +76,23 @@ const Props = ({update_local_user, user, status, updateCardData, updateTransacti
     } else if (active === 2) {
       updateTransactionData(user.id, user.bank_transaction)
     }
-    if(user && user.debet_card && user.debet_card.billing_country) {
-      let {billing_country} = user.debet_card
-      let bank_transaction = user.bank_transaction
-      let debet_card = user.debet_card
-      bank_transaction = {
-        ...bank_transaction,
-        billing_country: billing_country,
-      }
-      updateTransactionData(user.id, bank_transaction)
-      debet_card = {
-        ...debet_card,
-        billing_country: billing_country,
-      }
-      updateCardData(user.id, debet_card)
-    } else if(user && user.bank_transaction && user.bank_transaction.billing_country) {
-      let {billing_country} = user.bank_transaction
-      let bank_transaction = user.bank_transaction
-      let debet_card = user.debet_card
-      bank_transaction = {
-        ...bank_transaction,
-        billing_country: billing_country,
-      }
-      updateTransactionData(user.id, bank_transaction)
-      debet_card = {
-        ...debet_card,
-        billing_country: billing_country,
-      }
-      updateCardData(user.id, debet_card)
-    }
   }
 
-  const handleChange = (name, value) => {
-    let bank_transaction = user.bank_transaction
-    let debet_card = user.debet_card
-    update_local_user({
-      ...user,
-      bank_transaction: {
-        ...bank_transaction,
-        [name]: value,
-      },
-      debet_card: {
-        ...debet_card,
-        [name]: value,
-      }
-    })
-  }
+  // const handleChange = (name, value) => {
+  //   let bank_transaction = user.bank_transaction
+  //   let debet_card = user.debet_card
+  //   update_local_user({
+  //     ...user,
+  //     bank_transaction: {
+  //       ...bank_transaction,
+  //       [name]: value,
+  //     },
+  //     debet_card: {
+  //       ...debet_card,
+  //       [name]: value,
+  //     }
+  //   })
+  // }
 
   const Card = ({title, subtitle, list, id, available}) => (
     <div className={`card-body ${active === id ? 'active' : ''}`}>
@@ -166,19 +137,7 @@ const Props = ({update_local_user, user, status, updateCardData, updateTransacti
             <div className="team-subtitle">
               Метод выплаты
             </div>
-            <SingleWrapper label='Страна платежного адреса' comment='' name={'billing_country'}>
-              <SelectInput
-                action={handleChange}
-                name='billing_country'
-                label='Страна платежного адреса'
-                val={user && user.bank_transaction && user.bank_transaction.billing_country}
-                options={countries}
-                // error={error}
-              />
-            </SingleWrapper>
-            {/*<SingleWrapper margin={0} label={'Страна платежного адреса'}>*/}
-            {/*  <SelectInput/>*/}
-            {/*</SingleWrapper>*/}
+
 
             <div className="cards-wrapper">
               {data.map((item, index) => <Card key={index} id={item.id} list={item.list} subtitle={item.subtitle}

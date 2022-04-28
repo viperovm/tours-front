@@ -12,43 +12,59 @@ import {
   resetInnData,
   clear_errors,
 } from "../../../redux/actions/authActions";
+import {getCountries} from "../../../redux/actions/toursActions";
 import {isNotEmptyObject} from "../../../functions";
+import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
 
-const Transaction = ({user, getBikData, resetBikData, update_local_user, getInnData, resetInnData, error, clear_errors,}) => {
+const Transaction = ({
+                       user,
+                       getBikData,
+                       resetBikData,
+                       update_local_user,
+                       getInnData,
+                       resetInnData,
+                       error,
+                       clear_errors,
+                       getCountries,
+                       countries,
+                     }) => {
 
   const [transaction, setTransaction] = useState(null)
   const [spinner, setSpinner] = useState(false)
+  const [innSpinner, setInnSpinner] = useState(false)
   const [clear, setClear] = useState(false)
+  const [innClear, setInnClear] = useState(false)
 
   useEffect(() => {
     return () => clear_errors()
   }, [])
 
   useEffect(() => {
-    if(isNotEmptyObject(user) && isNotEmptyObject(user.bank_transaction)) {
+    if (isNotEmptyObject(user) && isNotEmptyObject(user.bank_transaction)) {
       setTransaction(user.bank_transaction)
       setSpinner(false)
+      setInnSpinner(false)
     }
-  }, [user, transaction])
+  }, [user, spinner, innSpinner])
 
   const handleBikDataGet = (name, value) => {
     setSpinner(true)
-    if(value.length === 9) {
+    if (value.length === 9) {
       setClear(false)
       getBikData({[name]: value}, 'transaction')
-    } else if(value.length !== 9) {
+    } else if (value.length !== 9) {
       setClear(true)
       resetBikData('transaction')
     }
   }
 
   const handleInnDataGet = (name, value) => {
-    // setSpinner(true)
-    if(value.length >= 10 && value.length <= 12) {
-      setClear(false)
+    setInnSpinner(true)
+    if (value.length === 10 || value.length === 12) {
+      setInnClear(false)
       getInnData({[name]: value})
-    } else if(value.length < 10 && value.length > 12) {
-      setClear(true)
+    } else if (value.length !== 10 || value.length !== 12) {
+      setInnClear(true)
       resetInnData()
     }
   }
@@ -64,10 +80,18 @@ const Transaction = ({user, getBikData, resetBikData, update_local_user, getInnD
     })
   }
 
-  console.log(user)
-
   return (
     <>
+      <SingleWrapper label='Страна платежного адреса' comment='' name={'billing_country'} full={true} margin={0}>
+        <SelectInput
+          action={handleChange}
+          name='billing_country'
+          label='Страна платежного адреса'
+          val={user && user.bank_transaction && user.bank_transaction.billing_country}
+          options={countries}
+          error={error}
+        />
+      </SingleWrapper>
       <DoubleWrapper full={true} margin={0}>
         <Input
           label={'БИК Банка'}
@@ -126,7 +150,8 @@ const Transaction = ({user, getBikData, resetBikData, update_local_user, getInnD
       </DoubleWrapper>
       <DoubleWrapper full={true} margin={0}>
         <Input
-          clear={clear}
+          clear={innClear}
+          spinner={innSpinner}
           label={'Наименование получателя'}
           action={handleChange}
           name='recipient_name'
@@ -156,6 +181,7 @@ const Transaction = ({user, getBikData, resetBikData, update_local_user, getInnD
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  countries: state.tours.countries,
   status: state.auth.status,
   languages: state.tours.languages,
   bik_data: state.profile.bik_data,
@@ -163,4 +189,13 @@ const mapStateToProps = state => ({
   // error: state.auth.error,
 })
 
-export default connect(mapStateToProps, {updateCardData, getBikData, resetBikData, update_local_user, getInnData, resetInnData, clear_errors,})(Transaction)
+export default connect(mapStateToProps, {
+  updateCardData,
+  getBikData,
+  resetBikData,
+  update_local_user,
+  getInnData,
+  resetInnData,
+  clear_errors,
+  getCountries,
+})(Transaction)
