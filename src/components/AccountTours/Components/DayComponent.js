@@ -112,7 +112,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
       </SingleWrapper>
       <SingleWrapper
         label='Добавить фото'
-        comment='Вы можете добавить до 3 фото для каждого дня'
+        comment=''
       >
         {!loading && <MultipleFileInput
           tour={tour}
