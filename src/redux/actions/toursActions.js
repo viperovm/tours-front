@@ -1062,13 +1062,20 @@ export const getLegalDocs = () => async dispatch => {
 }
 
 export const getLegalDoc = (slug) => async dispatch => {
-  const config = {
+  const config = localStorage.getItem('access') ? {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `JWT ${localStorage.getItem('access')}`,
       Accept: 'application/json',
     },
   }
+  :
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }
 
   try {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/legals/${slug}/`, config)

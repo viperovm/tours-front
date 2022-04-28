@@ -6,10 +6,18 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 const Input = ({
-                 label, action, name, type = 'text', value, required, icon, error = {}, margin = '0', tour, spinner = false,
+                 label, action, name, type = 'text', value, required, icon, error = {}, margin = '0', tour, spinner = false, clear = false
                }) => {
   const [data, setData] = useState('')
   const [currentError, setCurrentError] = useState([])
+
+  useEffect(() => {
+    if(clear) {
+      console.log(111111)
+      console.log(clear)
+      setData('')
+    }
+  }, [clear])
 
   useEffect(() => {
     if (isNotEmptyObject(error) && error.detail) {

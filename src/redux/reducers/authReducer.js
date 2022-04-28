@@ -1,5 +1,5 @@
 import * as t from '../types'
-import {DELETE_AVATAR_SUCCESS, EMAIL_CONFIRM_REQUEST_FAIL} from "../types";
+import {DELETE_AVATAR_SUCCESS, EMAIL_CONFIRM_REQUEST_FAIL, GET_DATA_BY_INN_SUCCESS} from "../types";
 import {email_confirm_request} from "../actions/authActions";
 import {isNotEmptyObject} from "../../functions";
 
@@ -53,12 +53,152 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: payload,
       }
+
+    case t.GET_DATA_BY_BIK_SUCCESS:
+      const updateUserDataByBik = (user, data, source) => {
+        if(source === 'card'){
+          let debet_card = {
+            bank_bik: '',
+            bank_name: '',
+            bank_account: '',
+            bank_inn: '',
+            bank_kpp: '',
+          }
+          console.log({
+            ...debet_card,
+            ...data
+          })
+          return {
+            ...user,
+            debet_card: {
+              ...debet_card,
+              ...data
+            },
+          }
+        } else if(source === 'transaction') {
+
+          let {bank_transaction} = user
+          bank_transaction = {
+            ...bank_transaction,
+            bank_bik: '',
+            bank_name: '',
+            bank_account: '',
+            bank_inn: '',
+            bank_kpp: '',
+          }
+          console.log({
+            ...bank_transaction,
+            ...data
+          })
+          return {
+            ...user,
+            bank_transaction: {
+              ...bank_transaction,
+              ...data
+            },
+          }
+        }
+
+      }
+      return {
+        ...state,
+        user: updateUserDataByBik(state.user, payload.data, payload.source),
+      }
+
+      case t.GET_DATA_BY_INN_SUCCESS:
+      const updateUserDataByInn = (user, data) => {
+        let {bank_transaction} = user
+        bank_transaction = {
+          ...bank_transaction,
+          recipient_name: '',
+          recipient_inn: '',
+          recipient_kpp: '',
+          recipient_ogrn: '',
+          recipient_status: '',
+          recipient_registration_date: '',
+        }
+        return {
+          ...user,
+          bank_transaction: {
+            ...bank_transaction,
+            ...data
+          },
+        }
+      }
+      return {
+        ...state,
+        user: updateUserDataByInn(state.user, payload),
+      }
+
+    case t.RESET_INN_DATA:
+      let resetInnData = (user) => {
+        let {bank_transaction} = user
+        return {
+          ...user,
+          bank_transaction: {
+            ...bank_transaction,
+            recipient_name: '',
+            recipient_inn: '',
+            recipient_kpp: '',
+            recipient_ogrn: '',
+            recipient_status: '',
+            recipient_registration_date: '',
+          },
+        }
+    }
+
+      return {
+        ...state,
+        user: resetInnData(state.user),
+      }
+
+    case t.RESET_BIK_DATA:
+      let resetData = (user, source) => {
+        if(source === 'card') {
+          let {debet_card} = user
+          return {
+            ...user,
+            debet_card: {
+              ...debet_card,
+              bank_bik: '',
+              bank_name: '',
+              bank_account: '',
+              bank_inn: '',
+              bank_kpp: '',
+            },
+          }
+        } else if(source === 'transaction') {
+          let {bank_transaction} = user
+          return {
+            ...user,
+            bank_transaction: {
+              ...bank_transaction,
+              bank_bik: '',
+              bank_name: '',
+              bank_account: '',
+              bank_inn: '',
+              bank_kpp: '',
+            },
+          }
+        }
+    }
+
+      return {
+        ...state,
+        user: resetData(state.user, payload),
+      }
     case t.USER_UPDATE_SUCCESS:
       return {
         ...state,
         user: payload.data,
         status: payload.status,
         reg_status: payload.reg_status,
+      }
+
+    case t.UPDATE_LOCAL_USER:
+      return {
+        ...state,
+        user: payload,
       }
     case t.SIGNUP_SUCCESS:
       return {

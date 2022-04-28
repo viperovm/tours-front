@@ -1,20 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
-import ProfileInputWrapper from "../../../components/AccountProfile/Wrappers/ProfileInputWrapper";
-import Input from "../../../components/AccountTours/FormFields/Input";
 import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
-import TextArea from "../../../components/AccountTours/FormFields/TextArea";
 import Button from "../../../components/AccountTours/Components/Button";
 import Account from "../../../layouts/account/account";
 import { connect } from 'react-redux'
-import {setPage, update_user} from "../../../redux/actions/authActions";
+import {setPage, update_user, updateCardData, updateTransactionData} from "../../../redux/actions/authActions";
 import {getLanguages} from "../../../redux/actions/toursActions";
-import TeamList from "../../../components/AccountTours/Components/TeamList";
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
-import FileInput from "../../../components/AccountTours/FormFields/FileInput";
-import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
-import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxInput";
-import {getBankData, resetBankData} from "../../../redux/actions/profileActions";
+import DebetCard from "./DebetCard";
+import Transaction from "./Transaction";
 
 const data = [
   {
@@ -59,71 +52,21 @@ const data = [
   },
 ]
 
-const Props = ({user, status, bankData, getBankData, resetBankData}) => {
+const Props = ({user, status, updateCardData, updateTransactionData}) => {
 
-  const [localUser, setLocalUser] = useState({})
   const [active, setActive] = useState(1)
-  const [spinner, setSpinner] = useState(false)
 
   useEffect(() => {
     setPage('profile')
     getLanguages()
   }, [])
 
-  useEffect(() => {
-    if(user) {
-      setLocalUser(user)
-    }
-  }, [user])
-
-  useEffect(() => {
-    if(spinner) {
-      let timer = setTimeout(() => setSpinner(false), 1000)
-      if(bankData) {
-        setLocalUser({...localUser, ...bankData})
-        setSpinner(false)
-        clearTimeout(timer)
-      } else {
-        setLocalUser({
-          ...localUser,
-          bank_name: '',
-          bank_account: '',
-          bank_inn: '',
-          bank_kpp: '',
-        })
-      }
-    }
-
-  }, [bankData, spinner])
-
-  console.log('bankData: ', bankData)
-  console.log('localUser: ', localUser)
-
-
-  const handleChange = (name, value) => {
-    setLocalUser({
-      ...localUser,
-      [name]: value,
-    })
-  }
-
-  const handleBankChange = (name, value) => {
-    setSpinner(true)
-    if(value.length === 9) {
-      getBankData({[name]: value})
-    } else {
-      resetBankData()
-    }
-    setLocalUser({
-      ...localUser,
-      [name]: value,
-    })
-  }
-
   const handleSubmit = () => {
-    update_user({
-      ...localUser,
-    })
+    if(active === 1) {
+    updateCardData(user.id, user.debet_card)
+    } else if(active === 2) {
+    updateTransactionData(user.id, user.bank_transaction)
+    }
   }
 
   const Card = ({title, subtitle, list, id, available}) => (
@@ -158,17 +101,6 @@ const Props = ({user, status, bankData, getBankData, resetBankData}) => {
                 Комиссия работы с сервисом, для вас составляет всего:
               </div>
             </div>
-            {/*<div className='tours-list-add-button-wrapper'>*/}
-            {/*  <div className='tours-list-add-button-text'>*/}
-            {/*    <p>*/}
-            {/*    Когда вы получаете платеж за бронирование, мы называем его выплатой. Наша безопасная система платежей может выплачивать средства разными способами в зависимости от настроек ниже.*/}
-            {/*    </p>*/}
-            {/*    <p>*/}
-            {/*    Для получения оплат нужно обязательно выбрать метод, как вы хотите получать средства на счет. YouTravel.me обычно производит выплаты через 24 часа после оплаты клиентов. Срок зачисления средств зависит от способа выплаты.*/}
-            {/*    </p>*/}
-
-            {/*  </div>*/}
-            {/*</div>*/}
             <div className="team-subtitle">
               Метод выплаты
             </div>
@@ -177,190 +109,18 @@ const Props = ({user, status, bankData, getBankData, resetBankData}) => {
             </SingleWrapper>
 
             <div className="cards-wrapper">
-              {data.map(item => <Card id={item.id} list={item.list} subtitle={item.subtitle} title={item.title} available={item.available}/>)}
+              {data.map((item, index) => <Card key={index} id={item.id} list={item.list} subtitle={item.subtitle} title={item.title} available={item.available}/>)}
             </div>
 
             {active === 1 && (
-              <>
-                <DoubleWrapper full={true} margin={0}>
-                  <Input
-                    label={'Корр. Счет'}
-                    action={handleChange}
-                    name='bank_account'
-                    value={localUser.bank_account}
-                  />
-                  <Input
-                    label={'ИНН Банка'}
-                    action={handleChange}
-                    name='bank_inn'
-                    value={localUser.bank_inn}
-                  />
-                </DoubleWrapper>
-                <DoubleWrapper full={true} margin={0}>
-                  <Input
-                    label={'КПП Банка'}
-                    action={handleChange}
-                    name='bank_kpp'
-                    value={localUser.bank_kpp}
-                  />
-                  <Input
-                    label={'Получатель (ФИО)'}
-                    action={handleChange}
-                    name='bank_recipient_full_name'
-                    value={localUser.bank_recipient_full_name}
-                  />
-                </DoubleWrapper>
-                <SingleWrapper full={true} margin={0} label={'Основание платежа'}>
-                  <Input
-                    label={'Основание платежа'}
-                    action={handleChange}
-                    name='bank_payment_reason'
-                    value={localUser.bank_payment_reason}
-                  />
-                </SingleWrapper>
-              </>
+              <DebetCard/>
             )}
 
             {active === 2 && (
-              <>
-                <DoubleWrapper full={true} margin={0}>
-                  <Input
-                    label={'БИК Банка'}
-                    action={handleBankChange}
-                    name='bank_bik'
-                    value={localUser.bank_bik}
-                  />
-                  <Input
-                    spinner={spinner}
-                    label={'Банк-получатель'}
-                    action={handleChange}
-                    name='bank_name'
-                    value={localUser.bank_name}
-                  />
-                </DoubleWrapper>
-                <DoubleWrapper full={true} margin={0}>
-                  <Input
-                    spinner={spinner}
-                    label={'Корр. Счет'}
-                    action={handleChange}
-                    name='bank_account'
-                    value={localUser.bank_account}
-                  />
-                  <Input
-                    spinner={spinner}
-                    label={'ИНН Банка'}
-                    action={handleChange}
-                    name='bank_inn'
-                    value={localUser.bank_inn}
-                  />
-                </DoubleWrapper>
-                <DoubleWrapper full={true} margin={0}>
-                  <Input
-                    spinner={spinner}
-                    label={'КПП Банка'}
-                    action={handleChange}
-                    name='bank_kpp'
-                    value={localUser.bank_kpp}
-                  />
-                  <Input
-                    label={'ИНН Получателя'}
-                    action={handleChange}
-                    name='bank_recipient_inn'
-                    value={localUser.bank_recipient_inn}
-                  />
-                </DoubleWrapper>
-                <DoubleWrapper full={true} margin={0}>
-                  <Input
-                    label={'Наименование получателя'}
-                    action={handleChange}
-                    name='bank_recipient_name'
-                    value={localUser.bank_recipient_name}
-                  />
-                  <Input
-                    label={'Р/С Получателя'}
-                    action={handleChange}
-                    name='bank_recipient_account'
-                    value={localUser.bank_recipient_account}
-                  />
-                </DoubleWrapper>
-                <SingleWrapper full={true} margin={0} label={'Основание платежа'}>
-                  <Input
-                    label={'Основание платежа'}
-                    action={handleChange}
-                    name='bank_payment_reason'
-                    value={localUser.bank_payment_reason}
-                  />
-                </SingleWrapper>
-              </>
+              <Transaction/>
             )}
 
-
-            {/*<div className="team-subtitle">*/}
-            {/*  Реквизиты карты*/}
-            {/*</div>*/}
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'Страна платежного адреса'}/>*/}
-            {/*  <Input label={'Номер карты'}/>*/}
-            {/*</DoubleWrapper>*/}
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'Срок действия'}/>*/}
-            {/*  <Input label={'Владелец карты'}/>*/}
-            {/*</DoubleWrapper>*/}
-
-            {/*<div className="props-text">*/}
-            {/*  Для того, чтобы мы смогли вам перечислить деньги на счет, Вам необходимо указать: паспортные данные и ИНН получателя (данные необходимы для выполнения требований законодательства в сфере противодействия легализации (отмывания) доходов, полученных преступным путем, и финансирования терроризма. Данные используются в указанных целях и НЕ передаются в иные организации)*/}
-            {/*</div>*/}
-
-            {/*<div className="props-text-bold">*/}
-            {/*  Статус проверки СМЭВ: Проверка не производилась*/}
-            {/*</div>*/}
-
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'Имя'}/>*/}
-            {/*  <Input label={'Фамилия'}/>*/}
-            {/*</DoubleWrapper>*/}
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'Отчество'}/>*/}
-            {/*  <Input label={'Номер телефона'}/>*/}
-            {/*</DoubleWrapper>*/}
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'Серия паспорта'}/>*/}
-            {/*  <Input label={'Номер паспорта'}/>*/}
-            {/*</DoubleWrapper>*/}
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'Паспорт/Кем выдан'}/>*/}
-            {/*  <Input label={'Паспорт/Код подразделения'}/>*/}
-            {/*</DoubleWrapper>*/}
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'Паспорт/Дата выдачи'}/>*/}
-            {/*  <Input label={'Паспорт/Место рождения'}/>*/}
-            {/*</DoubleWrapper>*/}
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'Дата рождения'}/>*/}
-            {/*  <Input label={'ИНН'}/>*/}
-            {/*</DoubleWrapper>*/}
-
-            {/*<div className="team-subtitle">*/}
-            {/*  Реквизиты для выставления счета*/}
-            {/*</div>*/}
-
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'Наименование организации'}/>*/}
-            {/*  <Input label={'ИНН'}/>*/}
-            {/*</DoubleWrapper>*/}
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'КПП'}/>*/}
-            {/*  <Input label={'БИК '}/>*/}
-            {/*</DoubleWrapper>*/}
-            {/*<DoubleWrapper full={true} margin={0}>*/}
-            {/*  <Input label={'Наименование банка '}/>*/}
-            {/*  <Input label={'Расчетный счет'}/>*/}
-            {/*</DoubleWrapper>*/}
-            {/*<SingleWrapper full={true} margin={0} label={'Кор. Счет'}>*/}
-            {/*  <Input label={'Кор. Счет'}/>*/}
-            {/*</SingleWrapper>*/}
-
-            <Button text={'Готово'} width={'50%'}/>
+            <Button text={'Сохранить'} width={'50%'} action={handleSubmit}/>
           </main>
         )}
       </>
@@ -372,7 +132,9 @@ const mapStateToProps = state => ({
   user: state.auth.user,
   status: state.auth.status,
   languages: state.tours.languages,
-  bankData: state.profile.bank_data,
+  bankCardData: state.profile.bank_card_data,
+  bankTransactionData: state.profile.bank_transaction_data,
+  recipient_inn_data: state.profile.recipient_inn_data,
 })
 
-export default connect(mapStateToProps, { setPage, update_user, getLanguages, getBankData, resetBankData })(Props)
+export default connect(mapStateToProps, { setPage, update_user, getLanguages, updateCardData, updateTransactionData,})(Props)

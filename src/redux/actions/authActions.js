@@ -1,6 +1,11 @@
 import * as t from '../types'
 import axios from 'axios'
-import {UPDATE_TOUR_WALLPAPER_FAIL, UPDATE_TOUR_WALLPAPER_SUCCESS} from "../types";
+import {
+  GET_DATA_BY_BIK_FAIL,
+  GET_DATA_BY_BIK_SUCCESS, RESET_BIK_DATA, UPDATE_CARD_DATA_FAIL, UPDATE_CARD_DATA_SUCCESS,
+  UPDATE_TOUR_WALLPAPER_FAIL,
+  UPDATE_TOUR_WALLPAPER_SUCCESS
+} from "../types";
 
 export const load_user = () => async dispatch => {
   if (localStorage.getItem('access')) {
@@ -127,6 +132,21 @@ export const update_user = data => async dispatch => {
     })
   }
 }
+
+export const update_local_user = data => async dispatch => {
+  dispatch({
+    type: t.UPDATE_LOCAL_USER,
+    payload: data,
+  })
+}
+
+
+
+
+
+
+
+
 
 export const signUp = (status, data) => async dispatch => {
   const config = {
@@ -408,6 +428,147 @@ export const clear_errors = () => dispatch => {
     type: t.CLEAR_ERRORS,
   })
 }
+
+
+export const getBikData = (data, source) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/get_bank/`,
+      body,
+      config
+    )
+
+    let payload = {data: res.data, source: source}
+
+    dispatch({
+      type: t.GET_DATA_BY_BIK_SUCCESS,
+      payload: payload,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_DATA_BY_BIK_FAIL,
+      payload: err
+    })
+  }
+}
+
+export const resetBikData = (source) => async dispatch => {
+  console.log(3)
+  dispatch({
+    type: t.RESET_BIK_DATA,
+    payload: source,
+  })
+}
+
+export const updateCardData = (id, data) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.patch(
+      `${process.env.REACT_APP_API_URL}/api/experts/${id}/debet_card/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: t.UPDATE_CARD_DATA_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.UPDATE_CARD_DATA_FAIL,
+      payload: err
+    })
+  }
+}
+
+export const updateTransactionData = (id, data) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.patch(
+      `${process.env.REACT_APP_API_URL}/api/experts/${id}/bank_transaction/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: t.UPDATE_TRANSACTION_DATA_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.UPDATE_TRANSACTION_DATA_FAIL,
+      payload: err
+    })
+  }
+}
+
+export const getInnData = (data, source) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/get_recipient/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: t.GET_DATA_BY_INN_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.GET_DATA_BY_INN_FAIL,
+      payload: err
+    })
+  }
+}
+
+export const resetInnData = (source) => async dispatch => {
+  console.log(3)
+  dispatch({
+    type: t.RESET_INN_DATA,
+    payload: source,
+  })
+}
+
+
 
 
 

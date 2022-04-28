@@ -36,8 +36,8 @@ const Footer = ({getLegalDocs, docs = []}) => {
             <Link to={'/'} className='paragraph_content_underline'>
               © 2020 . Traveler.market
             </Link>
-            {docs && docs.map(item => (
-              <Link to={`/legal-documents/${item.docs_slug}`} className='paragraph_content_underline'>
+            {docs && docs.map((item, index) => (
+              <Link key={index} to={`/legal-documents/${item.docs_slug}`} className='paragraph_content_underline'>
                 {item.docs_name}
               </Link>
             ))}

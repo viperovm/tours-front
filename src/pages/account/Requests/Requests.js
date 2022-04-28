@@ -275,8 +275,8 @@ const Requests = ({ user, status, setPage, error, innData, getUserInn, resetUser
                   <Input
                     label={'Отчество'}
                     action={handleChange}
-                    name='middle_name'
-                    value={localUser.middle_name}
+                    name='patronymic'
+                    value={localUser.patronymic}
                   />
                 </DoubleWrapper>
                 <DoubleWrapper full={true} margin={0}>
