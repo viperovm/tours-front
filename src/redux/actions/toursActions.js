@@ -11,7 +11,7 @@ import {
   UPDATE_TOUR_FAIL,
   GET_REGIONS_SUCCESS,
   GET_REGIONS_FAIL,
-  GET_START_COUNTRIES_SUCCESS,
+  GET_COUNTRIES_SUCCESS,
   GET_FINISH_COUNTRIES_SUCCESS,
   GET_COUNTRIES_FAIL,
   GET_START_RUSSIAN_REGIONS_SUCCESS,
@@ -775,21 +775,15 @@ export const getCountries = (region_id, option) => async dispatch => {
 
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/countries/?region=${region_id}`,
+      `${process.env.REACT_APP_API_URL}/api/countries/`,
+      // `${process.env.REACT_APP_API_URL}/api/countries/?region=${region_id}`,
       config
     )
+    dispatch({
+      type: GET_COUNTRIES_SUCCESS,
+      payload: res.data,
+    })
 
-    if (option === 'start') {
-      dispatch({
-        type: GET_START_COUNTRIES_SUCCESS,
-        payload: res.data,
-      })
-    } else if (option === 'finish') {
-      dispatch({
-        type: GET_FINISH_COUNTRIES_SUCCESS,
-        payload: res.data,
-      })
-    }
   } catch (err) {
     dispatch({
       type: GET_COUNTRIES_FAIL,

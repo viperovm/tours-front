@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
 import Button from "../../../components/AccountTours/Components/Button";
 import Account from "../../../layouts/account/account";
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {setPage, update_user, updateCardData, updateTransactionData} from "../../../redux/actions/authActions";
-import {getLanguages} from "../../../redux/actions/toursActions";
+import {getCountries} from "../../../redux/actions/toursActions";
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
 import DebetCard from "./DebetCard";
 import Transaction from "./Transaction";
@@ -52,21 +52,30 @@ const data = [
   },
 ]
 
-const Props = ({user, status, updateCardData, updateTransactionData}) => {
+const Props = ({user, status, updateCardData, updateTransactionData, getCountries, countries}) => {
 
   const [active, setActive] = useState(1)
 
   useEffect(() => {
     setPage('profile')
-    getLanguages()
+    getCountries()
   }, [])
 
   const handleSubmit = () => {
-    if(active === 1) {
-    updateCardData(user.id, user.debet_card)
-    } else if(active === 2) {
-    updateTransactionData(user.id, user.bank_transaction)
+    if (active === 1) {
+      updateCardData(user.id, user.debet_card)
+    } else if (active === 2) {
+      updateTransactionData(user.id, user.bank_transaction)
     }
+  }
+
+  const handleInput = (name, value) => {
+    let {bank_transaction} = user
+    bank_transaction = {
+      ...bank_transaction,
+      [name]: value,
+    }
+    updateTransactionData(user.id, bank_transaction)
   }
 
   const Card = ({title, subtitle, list, id, available}) => (
@@ -84,7 +93,9 @@ const Props = ({user, status, updateCardData, updateTransactionData}) => {
           </ul>
         </div>
       </div>
-      <Button text={`${active === id ? 'Выбрано' : 'Выбрать'}`} width={'100%'} color={`${active === id ? 'button-success' : 'button-primary'}`} active={available} action={() => setActive(id)}/>
+      <Button text={`${active === id ? 'Выбрано' : 'Выбрать'}`} width={'100%'}
+              color={`${active === id ? 'button-success' : 'button-primary'}`} active={available}
+              action={() => setActive(id)}/>
     </div>
   )
 
@@ -98,18 +109,29 @@ const Props = ({user, status, updateCardData, updateTransactionData}) => {
             </div>
             <div className='tours-list-add-button-wrapper'>
               <div className='tours-list-add-button-text'>
-                Комиссия работы с сервисом, для вас составляет всего:
+                Комиссия работы с сервисом, для вас составляет всего: {user.commission}%
               </div>
             </div>
             <div className="team-subtitle">
               Метод выплаты
             </div>
-            <SingleWrapper margin={0} label={'Страна платежного адреса'}>
-              <SelectInput/>
+            <SingleWrapper label='Страна платежного адреса' comment='' name={'billing_country'}>
+              <SelectInput
+                action={handleInput}
+                name='billing_country'
+                label='Страна платежного адреса'
+                val={user && user.bank_transaction && user.bank_transaction.billing_country}
+                options={countries}
+                // error={error}
+              />
             </SingleWrapper>
+            {/*<SingleWrapper margin={0} label={'Страна платежного адреса'}>*/}
+            {/*  <SelectInput/>*/}
+            {/*</SingleWrapper>*/}
 
             <div className="cards-wrapper">
-              {data.map((item, index) => <Card key={index} id={item.id} list={item.list} subtitle={item.subtitle} title={item.title} available={item.available}/>)}
+              {data.map((item, index) => <Card key={index} id={item.id} list={item.list} subtitle={item.subtitle}
+                                               title={item.title} available={item.available}/>)}
             </div>
 
             {active === 1 && (
@@ -131,10 +153,16 @@ const Props = ({user, status, updateCardData, updateTransactionData}) => {
 const mapStateToProps = state => ({
   user: state.auth.user,
   status: state.auth.status,
-  languages: state.tours.languages,
+  countries: state.tours.countries,
   bankCardData: state.profile.bank_card_data,
   bankTransactionData: state.profile.bank_transaction_data,
   recipient_inn_data: state.profile.recipient_inn_data,
 })
 
-export default connect(mapStateToProps, { setPage, update_user, getLanguages, updateCardData, updateTransactionData,})(Props)
+export default connect(mapStateToProps, {
+  setPage,
+  update_user,
+  updateCardData,
+  updateTransactionData,
+  getCountries,
+})(Props)

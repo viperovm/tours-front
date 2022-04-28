@@ -11,7 +11,7 @@ import {
   UPDATE_TOUR_FAIL,
   GET_REGIONS_SUCCESS,
   GET_REGIONS_FAIL,
-  GET_START_COUNTRIES_SUCCESS,
+  GET_COUNTRIES_SUCCESS,
   GET_FINISH_COUNTRIES_SUCCESS,
   GET_COUNTRIES_FAIL,
   GET_START_RUSSIAN_REGIONS_SUCCESS,
@@ -102,7 +102,7 @@ const initialState = {
   tour_preview: {},
   tour_types: [],
   regions: [],
-  start_countries: [],
+  countries: [],
   start_russian_regions: [],
   start_cities: [],
   finish_countries: [],
@@ -629,10 +629,10 @@ const toursReducer = (state = initialState, action) => {
         regions: payload,
       }
 
-    case GET_START_COUNTRIES_SUCCESS:
+    case GET_COUNTRIES_SUCCESS:
       return {
         ...state,
-        start_countries: payload,
+        countries: payload,
       }
     case GET_START_RUSSIAN_REGIONS_SUCCESS:
       return {
