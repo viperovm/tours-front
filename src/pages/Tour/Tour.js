@@ -163,8 +163,19 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
                       text={tour_preview && tour_preview.air_tickets}
                     />
                   }
-                  {tour_preview.expert && <TourLeader
-                    leader={tour_preview.expert}/>}
+
+                  {tour_preview.tour_addetional_services &&
+                    <>
+                      <h3>Дополнительные услуги</h3>
+                      <div style={{marginTop: '20px'}}>
+                        {tour_preview && tour_preview.tour_addetional_services && tour_preview.tour_addetional_services.map((item, index) => (
+                          <div style={{marginBottom: '10px'}}>
+                            {`${item.extra_text} ${item.extra_service_price ? '-' + item.extra_service_price : ''}`}
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  }
 
                   {(tour_preview.guest_requirements || tour_preview.take_with || tour_preview.key_features || tour_preview.new_to_see) && <TourImportantToKnow
                     guest_requirements={tour_preview.guest_requirements}
@@ -172,6 +183,9 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
                     key_features={tour_preview.key_features}
                     new_to_see={tour_preview.new_to_see}
                   />}
+
+                  {tour_preview.team_member && <TourLeader
+                    leader={tour_preview.team_member}/>}
 
                 </div>
 

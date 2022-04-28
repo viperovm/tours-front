@@ -6,7 +6,7 @@ const TourLeader = ({leader}) => {
 
   return (
     <>
-      <h3>Тревел-эксперт</h3>
+      <h3>Гид</h3>
       <div className={styles.tour_leader_container}>
         <div className={styles.tour_leader_header}>
           <div className={styles.tour_leader_avatar} style={{backgroundImage: 'url(' + leader.tmb_avatar + ')'}}/>
@@ -22,33 +22,33 @@ const TourLeader = ({leader}) => {
           <div className={styles.tour_leader_ratings}>
             <div className={styles.tour_leader_ratings_row}>
               <div className={styles.tour_leader_ratings_name}>
-                Рейтинг:
+                {/*Рейтинг:*/}
               </div>
               <div className={styles.tour_leader_ratings_value}>
-                <img src={star} alt="star"/><span>
-                {leader && leader.rating ? leader.rating : '0.0'}
-              </span>
+              {/*  <img src={star} alt="star"/><span>*/}
+              {/*  {leader && leader.rating ? leader.rating : '0.0'}*/}
+              {/*</span>*/}
               </div>
             </div>
             <div className={styles.tour_leader_ratings_row}>
               <div className={styles.tour_leader_ratings_name}>
-                Отзывы:
+                {/*Отзывы:*/}
               </div>
               <div className={styles.tour_leader_ratings_value}>
-                {leader && leader.reviews_count ? leader.reviews_count : 0}
+                {/*{leader && leader.reviews_count ? leader.reviews_count : 0}*/}
               </div>
             </div>
             <div className={styles.tour_leader_ratings_row}>
               <div className={styles.tour_leader_ratings_name}>
-                Активных туров:
+                {/*Активных туров:*/}
               </div>
               <div className={styles.tour_leader_ratings_value}>
-                {leader && leader.tours_count ? leader.tours_count : 0}
+                {/*{leader && leader.tours_count ? leader.tours_count : 0}*/}
               </div>
             </div>
           </div>
           <button className={styles.tour_leader_button}>
-            Написать эксперту
+            Написать автору тура
           </button>
 
         </div>

@@ -14,6 +14,7 @@ import {
 import { connect } from 'react-redux'
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import MultipleFileInput from "../FormFields/MultipleFileInput";
 
 const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayImage, error }) => {
   const [data, setData] = useState({})
@@ -111,7 +112,7 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
         label='Добавить фото'
         comment='Вы можете добавить до 3 фото для каждого дня'
       >
-        {!loading && <ObjectFileInput
+        {!loading && <MultipleFileInput
           required={day && !day.image}
           action={handleImageInput}
           name='day_photo'

@@ -129,14 +129,6 @@ const Prices = ({
           />
         </DoubleWrapper>
 
-        <CheckboxInput
-          action={handleInput}
-          name='postpay_on_start_day'
-          label='Пост оплата в день старта'
-          comment=''
-          value={tour && tour.postpay_on_start_day}
-        />
-
         <DoubleWrapper ratio='2-3' tour={tour}>
           <Input
             action={handleInput}
