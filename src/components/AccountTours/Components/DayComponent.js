@@ -29,6 +29,10 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
     }
   }, [previews])
 
+  useEffect(() => {
+    setLoading(true)
+    setLoading(false)
+  }, [tour])
 
   useEffect(() => {
     if (day && day.image && Array.isArray(day.image) && day.image.length > 0) {
@@ -38,10 +42,8 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
   }, [day])
 
   useEffect(() => {
-    if (day && day.image) {
-      setLoading(false)
-    }
-  }, [day])
+    setLoading(false)
+  }, [loading])
 
   const handleInput = (name, value) => {
     updateDay(id, name, value)
@@ -113,14 +115,17 @@ const Day = ({ id, day, action, tour, addDay, updateDay, setDayImage, deleteDayI
         comment='Вы можете добавить до 3 фото для каждого дня'
       >
         {!loading && <MultipleFileInput
+          tour={tour}
           required={day && !day.image}
-          action={handleImageInput}
+          action={() => setLoading(true)}
           name='day_photo'
           type='file'
           max={3}
-          value={previews}
-          delete_action={handleImageDelete}
+          value={tour && tour.tour_days && tour.tour_days[day.id-1] && tour.tour_days[day.id-1].image}
+          // delete_action={handleImageDelete}
           error={error}
+          section={'days'}
+          day_id={id}
         />}
         {loading && (
           <CircularProgress/>

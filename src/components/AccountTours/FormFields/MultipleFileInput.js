@@ -3,9 +3,12 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import menu from '../../../assets/img/trash.svg'
 import {
+  deleteDayImage,
   deletePropertyImage,
   deleteTourImage,
-  deleteTourWallpaper, setPropertyImage,
+  deleteTourWallpaper,
+  setDayImage,
+  setPropertyImage,
   setTourImages,
 } from "../../../redux/actions/toursActions";
 import {delete_avatar} from "../../../redux/actions/authActions";
@@ -15,10 +18,26 @@ import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 import {imageUploader} from "../../../functions";
 
 const MultipleFileInput = ({
-                           tour, action, name, value=[], max, required, position, deleteTourImage, setTourImages,
-                           deleteTourWallpaper,
-                           delete_avatar, deletePropertyImage, delete_action, error, section, setPropertyImage
-                         }) => {
+                             tour,
+                             action,
+                             name,
+                             value = [],
+                             max,
+                             required,
+                             position,
+                             deleteTourImage,
+                             setTourImages,
+                             deleteTourWallpaper,
+                             delete_avatar,
+                             deletePropertyImage,
+                             delete_action,
+                             error,
+                             section,
+                             setPropertyImage,
+                             deleteDayImage,
+                             day_id,
+                             setDayImage,
+                           }) => {
   const [data, setData] = useState([])
   const [active, setActive] = useState(true)
   const [bubbleActive, setBubbleActive] = useState(null)
@@ -36,13 +55,13 @@ const MultipleFileInput = ({
   }, [])
 
   useEffect(() => {
-    if(deleted) {
+    if (deleted) {
       setDeleted(false)
     }
   }, [deleted])
 
   useEffect(() => {
-    if(added && value && value.length > 0) {
+    if (added && value && value.length > 0) {
       setAdded(false)
     }
   }, [added, value])
@@ -52,11 +71,11 @@ const MultipleFileInput = ({
 
 
   useEffect(() => {
-    if(error && isNotEmptyObject(error) && error.detail) {
+    if (error && isNotEmptyObject(error) && error.detail) {
       let arr = []
       arr.push(error.detail)
       setCurrentError(arr)
-    } else if(error[name]) {
+    } else if (error[name]) {
       setCurrentError(error[name])
     }
   }, [error, name])
@@ -82,20 +101,26 @@ const MultipleFileInput = ({
 
   const handleDelete = () => {
     // setLoading(true)
-    if(section === 'gallery') {
+    if (section === 'gallery') {
       deleteTourImage(item, tour.id)
     } else if (section === 'accommodation') {
       deletePropertyImage(item, tour.id)
+    } else if (section === 'days') {
+      deleteDayImage(day_id, item.id)
+      action()
     }
     setActivePopUp(false)
     setDeleted(true)
   }
 
   const handleSetImages = (data) => {
-    if(section === 'gallery') {
+    if (section === 'gallery') {
       setTourImages(data)
     } else if (section === 'accommodation') {
       setPropertyImage(data)
+    } else if (section === 'days') {
+      setDayImage(data, day_id)
+      action()
     }
   }
 
@@ -308,4 +333,6 @@ export default connect(null, {
   deletePropertyImage,
   setTourImages,
   setPropertyImage,
+  deleteDayImage,
+  setDayImage,
 })(MultipleFileInput)

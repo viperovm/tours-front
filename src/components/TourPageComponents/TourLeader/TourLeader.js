@@ -9,7 +9,7 @@ const TourLeader = ({leader}) => {
       <h3>Гид</h3>
       <div className={styles.tour_leader_container}>
         <div className={styles.tour_leader_header}>
-          <div className={styles.tour_leader_avatar} style={{backgroundImage: 'url(' + leader.tmb_avatar + ')'}}/>
+          <div className={styles.tour_leader_avatar} style={{backgroundImage: 'url(' + leader.avatar + ')'}}/>
           <div className={styles.tour_leader_about}>
             <div className={styles.tour_leader_name}>
               {leader && leader.first_name} {leader && leader.last_name}

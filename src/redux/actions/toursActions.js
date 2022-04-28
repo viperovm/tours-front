@@ -523,33 +523,38 @@ export const updateExtraService = (id, name, data) => async dispatch => {
 }
 
 export const setDayImage = (image, id, tour_id) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-    },
-  }
-  let form_data = new FormData()
-  form_data.append('image', image, image.name)
-  try {
-    const res = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/tours/${tour_id}/dayimages/`,
-      form_data,
-      config
-    )
-
-    let data = { id: id, image: res.data }
-
-    dispatch({
-      type: SET_TOUR_DAY_IMAGE_SUCCESS,
-      payload: data,
-    })
-    // dispatch(getTour(id))
-  } catch (err) {
-    dispatch({
-      type: SET_TOUR_DAY_IMAGE_FAIL,
-    })
-  }
+  let data = { id: id, image: image }
+  dispatch({
+    type: SET_TOUR_DAY_IMAGE_SUCCESS,
+    payload: data,
+  })
+  // const config = {
+  //   headers: {
+  //     'Content-Type': 'multipart/form-data',
+  //     Authorization: `JWT ${localStorage.getItem('access')}`,
+  //   },
+  // }
+  // let form_data = new FormData()
+  // form_data.append('image', image, image.name)
+  // try {
+  //   const res = await axios.post(
+  //     `${process.env.REACT_APP_API_URL}/api/tours/${tour_id}/dayimages/`,
+  //     form_data,
+  //     config
+  //   )
+  //
+  //   let data = { id: id, image: res.data }
+  //
+  //   dispatch({
+  //     type: SET_TOUR_DAY_IMAGE_SUCCESS,
+  //     payload: data,
+  //   })
+  //   // dispatch(getTour(id))
+  // } catch (err) {
+  //   dispatch({
+  //     type: SET_TOUR_DAY_IMAGE_FAIL,
+  //   })
+  // }
 }
 
 export const deleteDayImage = (day_id, image_id) => async dispatch => {

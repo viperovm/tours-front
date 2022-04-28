@@ -170,7 +170,7 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
                       <div style={{marginTop: '20px'}}>
                         {tour_preview && tour_preview.tour_addetional_services && tour_preview.tour_addetional_services.map((item, index) => (
                           <div style={{marginBottom: '10px'}}>
-                            {`${item.extra_text} ${item.extra_service_price ? '-' + item.extra_service_price : ''}`}
+                            {`${item.extra_text} ${item.extra_service_price ? ' - ' + item.extra_service_price : ''}`}
                           </div>
                         ))}
                       </div>
