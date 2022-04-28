@@ -90,6 +90,7 @@ import {
   GET_LEGAL_DOCS_FAIL,
   GET_LEGAL_DOC_SUCCESS,
   GET_LEGAL_DOC_FAIL,
+  REMOVE_EXTRA_SERVICE_SUCCESS,
 } from '../types'
 import axios from 'axios'
 import {isNotEmptyObject} from "../../functions";
@@ -519,6 +520,13 @@ export const updateExtraService = (id, name, data) => async dispatch => {
   dispatch({
     type: UPDATE_EXTRA_SERVICE_SUCCESS,
     payload: day,
+  })
+}
+
+export const removeExtraService = id => dispatch => {
+  dispatch({
+    type: REMOVE_EXTRA_SERVICE_SUCCESS,
+    payload: id,
   })
 }
 

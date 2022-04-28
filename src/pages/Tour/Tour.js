@@ -236,7 +236,7 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
                       {tour_preview && tour_preview.daily_price && <div className={styles.price_row_daily_price}>
                         {'в день'}
                         {' '}
-                        {tour_preview && tour_preview.daily_price && tour_preview.daily_price.toLocaleString('ru')}
+                        {tour_preview && tour_preview.daily_price && (tour_preview.daily_price * places).toLocaleString('ru')}
                         {' '}
                         <span className='rub-sign'>₽</span>
                       </div>}
@@ -310,7 +310,7 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
                     <div className={styles.inputs_row_text}>
                       {tour_preview && tour_preview.book_price && <div className={styles.inputs_row_text_heading}>
                         Для бронирования тура
-                        достаточно {tour_preview && tour_preview.book_price && tour_preview.book_price.toLocaleString('ru')}
+                        достаточно {tour_preview && tour_preview.book_price && (tour_preview.book_price * places).toLocaleString('ru')}
                         <span className='rub-sign'>₽</span>
                       </div>}
                       <div className={styles.inputs_row_text_text}>

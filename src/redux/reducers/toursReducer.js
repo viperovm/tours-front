@@ -87,6 +87,7 @@ import {
   GET_LEGAL_DOCS_SUCCESS,
   GET_LEGAL_DOCS_FAIL,
   GET_LEGAL_DOC_SUCCESS,
+  REMOVE_EXTRA_SERVICE_SUCCESS,
 } from '../types'
 
 const initialState = {
@@ -249,10 +250,15 @@ const toursReducer = (state = initialState, action) => {
   }
 
   const removeActivity = (tour, id) => {
-    return {
+    let result = {
       ...tour,
-      plan: tour.plan.filter(item => item.id !== id)
+      plan: tour.plan.filter((item, index) => index !== id),
     }
+    return result
+    // return {
+    //   ...tour,
+    //   plan: tour.plan.filter(item => item.id !== id)
+    // }
   }
 
   const setActivityImage = (tour, data) => {
@@ -337,6 +343,14 @@ const toursReducer = (state = initialState, action) => {
           return item
         }
       }),
+    }
+    return result
+  }
+
+  const deleteExtraService = (tour, service) => {
+    let result = {
+      ...tour,
+      tour_addetional_services: tour.tour_addetional_services.filter((item, index) => index !== service),
     }
     return result
   }
@@ -565,6 +579,11 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         current_tour: updateExtraService(state.current_tour, payload),
+      }
+    case REMOVE_EXTRA_SERVICE_SUCCESS:
+      return {
+        ...state,
+        current_tour: deleteExtraService(state.current_tour, payload),
       }
     case ADD_DAY_SUCCESS:
       return {

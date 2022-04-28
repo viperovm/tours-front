@@ -229,7 +229,7 @@ ul, ol {
 }
 
 .buttons_block_find_tour {
-  width: 199px;
+  min-width: 199px;
   height: 40px;
   background: #2aa2d6;
   background-image: url(./assets/img/traveler.svg);

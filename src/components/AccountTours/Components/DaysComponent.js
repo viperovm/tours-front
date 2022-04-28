@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
-import Button from './Button'
 
 import CircularProgress from '@mui/material/CircularProgress'
 
@@ -8,11 +7,9 @@ import { connect } from 'react-redux'
 import {
   updateTour,
   addDay,
-  setSecondaryNav,
   removeDay,
 } from '../../../redux/actions/toursActions'
 
-import TrippleWrapper from '../Wrappers/TrippleWrapper'
 import DayComponent from './DayComponent'
 
 import Tabs from '@mui/material/Tabs'

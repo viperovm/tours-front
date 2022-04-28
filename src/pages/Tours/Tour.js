@@ -3,6 +3,7 @@ import styles from './Tours.module.css';
 import heart from './heart.svg'
 import star from './star.svg'
 import {useHistory} from "react-router-dom";
+import dateFormat, { masks } from 'dateformat'
 
 const Tour = ({tour}) => {
 
@@ -45,7 +46,7 @@ const Tour = ({tour}) => {
               </div>
             </div>
             <div className={styles.tour_price_section}>
-              <div className={styles.tour_duration}>{`${tour.duration} дн. (с ${tour.start_date})`}</div>
+              <div className={styles.tour_duration}>{`${tour.duration} дн. (с ${dateFormat(new Date(tour.start_date), 'dd.mm.yyyy')}))`}</div>
               <div className={styles.tour_price}>
                 {tour.discount && <span className={styles.tour_discounted_price} style={{marginRight: '5px'}}>{tour && tour.price ? tour.price.toLocaleString('ru') : ''}<span className='rub-sign'>{tour.currency.sign}</span></span>}
                 {tour && tour.discount ? tour.discount.toLocaleString('ru') : tour.price.toLocaleString('ru')}

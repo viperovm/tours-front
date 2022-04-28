@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import Button from './Button'
 
 import CircularProgress from '@mui/material/CircularProgress'
 
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {
   updateTour,
   addExtraService,
-  setSecondaryNav,
+  setSecondaryNav, removeExtraService,
 } from '../../../redux/actions/toursActions'
 
 import ExtraServiceComponent from './ExtraServiceComponent'
@@ -17,7 +17,7 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
-function TabPanel({ children, value, index }) {
+function TabPanel({children, value, index}) {
   return (
     <div
       role='tabpanel'
@@ -26,7 +26,7 @@ function TabPanel({ children, value, index }) {
       aria-labelledby={`simple-tab-${index}`}
     >
       {value === index && (
-        <Box sx={{ pt: 3 }}>
+        <Box sx={{pt: 3}}>
           <Typography component={'span'}>{children}</Typography>
         </Box>
       )}
@@ -41,7 +41,7 @@ function a11yProps(index) {
   }
 }
 
-const ExtraServicesComponent = ({ tour, addExtraService }) => {
+const ExtraServicesComponent = ({tour, addExtraService, removeExtraService}) => {
   const [value, setValue] = useState(0)
 
   const [dayData, setDayData] = useState([])
@@ -50,7 +50,7 @@ const ExtraServicesComponent = ({ tour, addExtraService }) => {
 
   useEffect(() => {
     if (tour && tour.tour_addetional_services == null) {
-      addExtraService({ id: 1, extra_text: '', extra_service_price: ''})
+      addExtraService({id: 1, extra_text: '', extra_service_price: ''})
       setLoading(true)
     } else if (tour && tour.tour_addetional_services && tour.tour_addetional_services.length > 0) {
       setLoading(false)
@@ -70,7 +70,16 @@ const ExtraServicesComponent = ({ tour, addExtraService }) => {
   }
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
+    if (event.target.tagName === 'DIV') {
+      if (value === (days.length - 1)) {
+        removeExtraService(newValue)
+        setValue(value - 1)
+      } else {
+        removeExtraService(newValue)
+      }
+    } else {
+      setValue(newValue)
+    }
   }
 
   useEffect(() => {
@@ -82,15 +91,21 @@ const ExtraServicesComponent = ({ tour, addExtraService }) => {
   const handleDayAdd = () => {
     setLoading(true)
     let id = days[days.length - 1] + 1
-    addExtraService({ id: id, extra_text: '', extra_service_price: '' })
-    setValue(id-1)
+    addExtraService({id: id, extra_text: '', extra_service_price: ''})
+    setValue(id - 1)
+  }
+
+  const CloseTabButton = () => {
+    return (
+      <div className={'close-tab-button'}>×</div>
+    )
   }
 
   return (
     <>
       {!loading && dayData.length > 0 && (
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{width: '100%'}}>
+          <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
             <Tabs
               value={value}
               onChange={handleChange}
@@ -99,21 +114,26 @@ const ExtraServicesComponent = ({ tour, addExtraService }) => {
               scrollButtons='auto'
             >
               {days.map((item, index) => (
-                <Tab key={index} label={`Услуга ${item}`} {...a11yProps(index)} />
+                <Tab
+                  key={index}
+                  label={<span className={'tab-title-wrapper'}>{`Услуга ${item}`}<CloseTabButton/></span>}
+                  // label={`Услуга ${item}`}
+                  {...a11yProps(index)}
+                />
               ))}
             </Tabs>
           </Box>
           {dayData.map((item, index) => (
             <TabPanel key={index} value={value} index={index}>
-              <ExtraServiceComponent id={index + 1} action={handleDayInput} day={item} />
+              <ExtraServiceComponent id={index + 1} action={handleDayInput} day={item}/>
             </TabPanel>
           ))}
         </Box>
       )}
       {loading && (
         <div className='fake-file-input loader-spinner'>
-          <Box sx={{ display: 'flex' }}>
-            <CircularProgress />
+          <Box sx={{display: 'flex'}}>
+            <CircularProgress/>
           </Box>
         </div>
       )}
@@ -136,4 +156,5 @@ export default connect(mapStateToProps, {
   updateTour,
   addExtraService,
   setSecondaryNav,
+  removeExtraService,
 })(ExtraServicesComponent)
