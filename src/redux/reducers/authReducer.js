@@ -19,6 +19,7 @@ const initialState = {
   email_confirm: null,
   error: {},
   inn_data: null,
+  update_verification_status: '',
 }
 
 const authReducer = (state = initialState, action) => {
@@ -62,6 +63,27 @@ const authReducer = (state = initialState, action) => {
         ...state,
         update_status: payload,
         error: {},
+      }
+
+    case t.UPDATE_LEGAL_VERIFICATION_DATA_SUCCESS:
+    case t.UPDATE_INDIVIDUAL_VERIFICATION_DATA_SUCCESS:
+      return {
+        ...state,
+        update_verification_status: payload,
+        error: {},
+      }
+
+    case t.CLEAR_VERIFICATION_STATUS:
+      return {
+        ...state,
+        update_verification_status: '',
+      }
+
+    case t.UPDATE_LEGAL_VERIFICATION_DATA_FAIL:
+    case t.UPDATE_INDIVIDUAL_VERIFICATION_DATA_FAIL:
+      return {
+        ...state,
+        error: payload,
       }
 
     case t.CLEAR_UPDATE_STATUS:

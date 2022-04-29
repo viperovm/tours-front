@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Account from '../../../layouts/account/account'
 
 import { connect } from 'react-redux'
-import {setPage, update_user, clear_errors, update_avatar} from '../../../redux/actions/authActions'
+import {setPage, update_user, clear_errors, update_avatar, update_local_user} from '../../../redux/actions/authActions'
 import {getLanguages} from '../../../redux/actions/toursActions'
 import {Link} from "react-router-dom";
 import Input from "../../../components/AccountTours/FormFields/Input";
@@ -17,7 +17,7 @@ import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapp
 import FileInput from "../../../components/AccountTours/FormFields/FileInput";
 import AvatarInput from "../../../components/AccountTours/FormFields/AvatarInput";
 
-const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getLanguages, languages, clear_errors, update_avatar }) => {
+const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getLanguages, languages, clear_errors, update_avatar, update_local_user }) => {
   useEffect(() => {
     setPage('profile')
     getLanguages()
@@ -27,17 +27,9 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
     }
   }, [])
 
-  const [profile, setProfile] = useState({})
   const [submitted, setSubmitted] = useState(false)
   const [activePopUp, setActivePopUp] = useState(false)
   const [action, setAction] = useState(false)
-  const [avatar, setAvatar] = useState('')
-
-  useEffect(() => {
-    if (user && user.avatar) {
-      setAvatar(user.avatar)
-    }
-  }, [user])
 
   useEffect(() => {
     if(submitted && reg_status >= 200 && reg_status < 300) {
@@ -45,23 +37,9 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
     }
   }, [submitted, reg_status])
 
-  useEffect(() => {
-    if(user) {
-      setProfile({
-        ...profile,
-        country: user.country,
-        city: user.city,
-        languages: user.languages,
-        visited_countries: user.visited_countries,
-        about: user.about,
-      })
-    }
-  }, [user])
-
-
   const handleChange = (name, value) => {
-    setProfile({
-      ...profile,
+    update_local_user({
+      ...user,
       [name]: value,
     })
   }
@@ -75,7 +53,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
   const handleSubmit = () => {
     setSubmitted(true)
     update_user({
-      ...profile,
+      ...user,
     })
   }
 
@@ -106,7 +84,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
                   max={1}
                   action={handleImageChange}
                   name='avatar'
-                  value={avatar}
+                  value={user && user.avatar}
                   type='file'
                 />
                 <div className="user-profile-aside-text">
@@ -120,20 +98,20 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
                     label={'Имя'}
                     action={handleChange}
                     name='first_name'
-                    value={profile.first_name}
+                    value={user && user.first_name}
                   />
                   <Input
                     label={'Фамилия'}
                     action={handleChange}
                     name='last_name'
-                    value={profile.last_name}
+                    value={user && user.last_name}
                   />
                 </DoubleWrapper>
                 {/*<SingleWrapper label='Страна' width={'100%'} margin={'0'}>*/}
                 {/*  <Input*/}
                 {/*    name='country'*/}
                 {/*    label='Укажите страну в которой вы живете'*/}
-                {/*    value={profile.country}*/}
+                {/*    value={user && user.country}*/}
                 {/*    action={handleChange}*/}
                 {/*  />*/}
                 {/*</SingleWrapper>*/}
@@ -141,7 +119,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
                 {/*  <Input*/}
                 {/*    name='city'*/}
                 {/*    label='Укажите город в котором вы живете'*/}
-                {/*    value={profile.city}*/}
+                {/*    value={user && user.city}*/}
                 {/*    action={handleChange}*/}
                 {/*  />*/}
                 {/*</SingleWrapper>*/}
@@ -151,7 +129,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
                     label='Языки, которыми вы владеете'
                     action={handleChange}
                     options={languages}
-                    val={profile.languages}
+                    val={user && user.languages}
                     multiple={true}
                   />
                 </SingleWrapper>
@@ -159,7 +137,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
                 {/*  <Input*/}
                 {/*    name='visited_countries'*/}
                 {/*    label='Укажите колличечство стран, в которых вы были'*/}
-                {/*    value={profile.visited_countries}*/}
+                {/*    value={user && user.visited_countries}*/}
                 {/*    action={handleChange}*/}
                 {/*  />*/}
                 {/*</SingleWrapper>*/}
@@ -168,7 +146,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
                     name='about'
                     label='Расскажите о себе'
                     rows='7'
-                    value={profile.about}
+                    value={user && user.about}
                     action={handleChange}
                   />
                 </SingleWrapper>
@@ -195,4 +173,4 @@ const mapStateToProps = state => ({
   reg_status: state.auth.reg_status
 })
 
-export default connect(mapStateToProps, { setPage, update_user, getLanguages, clear_errors, update_avatar })(MyProfile)
+export default connect(mapStateToProps, { setPage, update_user, getLanguages, clear_errors, update_avatar, update_local_user })(MyProfile)

@@ -490,6 +490,73 @@ export const updateCardData = (id, data) => async dispatch => {
   }
 }
 
+export const updateLegalVerificationData = (id, data) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.patch(
+      `${process.env.REACT_APP_API_URL}/api/experts/${id}/legal_verification/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: t.UPDATE_LEGAL_VERIFICATION_DATA_SUCCESS,
+      payload: res.status,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.UPDATE_LEGAL_VERIFICATION_DATA_FAIL,
+      payload: err.response.data
+    })
+  }
+}
+
+export const updateIndividualVerificationData = (id, data) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.patch(
+      `${process.env.REACT_APP_API_URL}/api/experts/${id}/individual_verification/`,
+      body,
+      config
+    )
+
+    dispatch({
+      type: t.UPDATE_INDIVIDUAL_VERIFICATION_DATA_SUCCESS,
+      payload: res.status,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.UPDATE_INDIVIDUAL_VERIFICATION_DATA_FAIL,
+      payload: err.response.data,
+    })
+  }
+}
+
+export const clear_verification_status = () => dispatch => {
+
+  dispatch({
+    type: t.CLEAR_VERIFICATION_STATUS,
+  })
+}
+
 export const updateTransactionData = (id, data) => async dispatch => {
   const config = {
     headers: {
