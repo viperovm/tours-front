@@ -14,10 +14,11 @@ import FormControl from '@mui/material/FormControl';
 import {getUserInn, resetUserInn} from "../../../redux/actions/profileActions";
 import {
   update_local_user, setPage, getRecipientInnData, resetRecipientInnData, updateLegalVerificationData,
-  updateIndividualVerificationData, clear_verification_status, update_user, load_user, clear_errors,
+  updateIndividualVerificationData, clear_verification_status, update_user, load_user, clear_errors, upload_docs,
 } from "../../../redux/actions/authActions";
 import TextArea from "../../../components/AccountTours/FormFields/TextArea";
 import {getCountries} from "../../../redux/actions/toursActions";
+import ObjectFileInput from "../../../components/AccountTours/FormFields/ObjectFileInput";
 
 const BpIcon = styled('span')(({theme}) => ({
   borderRadius: '50%',
@@ -80,6 +81,8 @@ const Legal = ({
                  countries,
                  resetRecipientInnData,
                  clear_errors,
+                 upload_docs,
+                 docs,
                }) => {
 
   const {legal_verification} = user
@@ -154,6 +157,10 @@ const Legal = ({
 
   }, [inn_data, spinner])
 
+  const handleDocChange = (file) => {
+    upload_docs(file)
+  }
+
   const handleChange = (name, value) => {
     setLegalVerification({
       ...legalVerification,
@@ -221,15 +228,16 @@ const Legal = ({
           value={legal_verification && legal_verification.recipient_real_address}
         />
       </SingleWrapper>
-      {/*<SingleWrapper label='Сканы уставных документов (ИНН, ОГРН)' width={'100%'} margin={'0'}>*/}
-      {/*  <ObjectFileInput*/}
-      {/*    error={error}*/}
-      {/*    label={'Сканы уставных документов (ИНН, ОГРН)'}*/}
-      {/*    action={handleChange}*/}
-      {/*    name='user_docs'*/}
-      {/*    value={legal_verification && legal_verification.user_docs}*/}
-      {/*  />*/}
-      {/*</SingleWrapper>*/}
+      <SingleWrapper label='Сканы уставных документов (ИНН, ОГРН)' width={'100%'} margin={'0'}>
+        <ObjectFileInput
+          accept_all={true}
+          error={error}
+          label={'Сканы уставных документов (ИНН, ОГРН)'}
+          action={handleDocChange}
+          name='user_docs'
+          value={user && user.docs}
+        />
+      </SingleWrapper>
 
 
       <SingleWrapper margin={0} label={'Резидентом какой страны вы являетесь?'} width={'100%'}>
@@ -473,6 +481,7 @@ const Legal = ({
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  docs: state.auth.docs,
   inn_data: state.auth.inn_data,
   update_verification_status: state.auth.update_verification_status,
   status: state.auth.status,
@@ -494,4 +503,5 @@ export default connect(mapStateToProps, {
   update_user,
   load_user,
   clear_errors,
+  upload_docs,
 })(Legal)

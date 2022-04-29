@@ -3434,6 +3434,7 @@ input[type='file'] {
 }
 
 .fake-file-input.file-input {
+  position: relative;
   background: #f6f7f9;
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -3475,6 +3476,15 @@ input[type='file'] {
   width: 60px;
   height: 60px;
   background-image: url('./assets/img/photo-camera 1.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  /* margin-bottom: 15px; */
+}
+
+.fake-file-input .doc-image {
+  width: 60px;
+  height: 60px;
+  background-image: url('./assets/img/doc2.svg');
   background-repeat: no-repeat;
   background-position: center;
   /* margin-bottom: 15px; */

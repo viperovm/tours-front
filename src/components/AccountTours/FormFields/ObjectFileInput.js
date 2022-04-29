@@ -11,7 +11,7 @@ import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 const ObjectFileInput = ({
                            tour, action, name, value=[], max, required, position, deleteTourImage,
                            deleteTourWallpaper,
-                           delete_avatar, deletePropertyImage, delete_action, error
+                           delete_avatar, deletePropertyImage, delete_action, error, accept_all = false,
                          }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
@@ -135,7 +135,7 @@ const ObjectFileInput = ({
           type='file'
           onChange={onFilechange}
           ref={inputFileRef}
-          accept="image/png, image/jpeg, image/jpg"
+          accept={accept_all ? '*' : "image/png, image/jpeg, image/jpg"}
           // accept='image/*'
         />
         <div className='fake-file-input-wrapper'>
@@ -164,6 +164,69 @@ const ObjectFileInput = ({
               }
             </ul>
           </div>}
+          {name === 'user_docs' &&
+            value.length > 0 && value.map((item, index) => (
+            <Fragment
+              key={index}
+            >
+              <a
+                key={index}
+                className={`fake-file-input file-input`}
+                href={item.file}
+                target="_blank"
+                download
+              >
+                <div
+                  className='tour-menu-dots'
+                  style={{
+                    padding: '5px',
+                    position: 'absolute',
+                    top: 15,
+                    right: 15,
+                    cursor: 'pointer',
+                  }}
+                  onMouseOver={() => setBubbleActive(index)}
+                  onMouseOut={() => setBubbleActive(null)}
+                  onClick={() => handleSetItem(item)}
+                >
+                  <img src={menu} alt='menu'/>
+                </div>
+
+                {index === bubbleActive && (
+                  <>
+                    <div
+                      className='tour-menu'
+                      // ref={myRef}
+                      style={{
+                        position: 'absolute',
+                        top: 20,
+                        right: 40,
+                        border: '1px solid rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
+                        borderRadius: 8,
+                        backgroundColor: '#fff',
+                      }}
+                    >
+                      <div
+                        className='tour-item-top'
+                        style={{
+                          padding: 10,
+                          lineHeight: '15px',
+                          textAlign: 'right',
+                        }}
+                      >
+                        Удалить
+                      </div>
+                    </div>
+                  </>
+                )}
+                <div className='doc-image'/>
+                <div className='fake-file-input-text'>Нажмите, чтобы скачать</div>
+              </a>
+
+            </Fragment>
+          )
+            )}
           {name === 'day_photo' && value.length > 0 && value.map((item, index) => (
             <Fragment key={index}>
               <div
@@ -221,7 +284,7 @@ const ObjectFileInput = ({
               </div>
             </Fragment>
           ))}
-          {name !== 'day_photo' && value.length > 0 && value.map((item, index) => (
+          {name !== 'user_docs' && name !== 'day_photo' && value.length > 0 && value.map((item, index) => (
             <Fragment key={index}>
               <div
                 key={index}

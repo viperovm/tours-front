@@ -668,6 +668,64 @@ export const resetRecipientInnData = (source) => async dispatch => {
   })
 }
 
+export const upload_docs = (image) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+
+  let form_data = new FormData()
+
+  form_data.append('file', image, image.name)
+
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/scans/`,
+      form_data,
+      config
+    )
+
+    console.log(res.data)
+
+    dispatch({
+      type: t.UPDATE_DOCS_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    console.error(err)
+    dispatch({
+      type: t.UPDATE_DOCS_FAIL,
+    })
+  }
+}
+
+export const delete_docs = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+
+  try {
+    const res = await axios.delete(
+      `${process.env.REACT_APP_API_URL}/api/experts/avatar/`,
+      config
+    )
+
+    dispatch({
+      type: t.DELETE_AVATAR_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.DELETE_AVATAR_FAIL,
+    })
+  }
+}
+
 
 
 

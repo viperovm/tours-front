@@ -51,6 +51,32 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: payload,
       }
+
+    case t.UPDATE_DOCS_SUCCESS:
+      const updateDocs = (user, doc) => {
+        console.log(user)
+        if(user.docs) {
+          let {docs} = user
+          docs.push(doc)
+          return {
+            ...user,
+            docs: docs,
+          }
+        } else {
+          console.log(2)
+          let u = {
+            ...user,
+            docs: [doc],
+          }
+          console.log(u)
+          return u
+        }
+
+      }
+      return {
+        ...state,
+        user: updateDocs(state.user, payload),
+      }
     case t.DELETE_AVATAR_SUCCESS:
       return {
         ...state,
