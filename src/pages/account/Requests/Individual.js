@@ -14,7 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import {getUserInn, resetUserInn} from "../../../redux/actions/profileActions";
 import {
   update_local_user, setPage, getRecipientInnData, resetRecipientInnData, updateLegalVerificationData,
-  updateIndividualVerificationData, clear_verification_status, update_user, load_user,
+  updateIndividualVerificationData, clear_verification_status, update_user, load_user, clear_errors,
 } from "../../../redux/actions/authActions";
 import TextArea from "../../../components/AccountTours/FormFields/TextArea";
 import {getCountries} from "../../../redux/actions/toursActions";
@@ -76,6 +76,7 @@ const Individual = ({
                       error,
                       update_local_user,
                       countries,
+                      clear_errors,
                     }) => {
 
   const {individual_verification} = user
@@ -88,6 +89,19 @@ const Individual = ({
 
   console.log(individualVerification)
   console.log(user.individual_verification)
+
+  useEffect(() => {
+    const scrollTo = (el) => {
+      let anchor = document.getElementById(el)
+      anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+    }
+    if (error) {
+      let field_key = Object.keys(error)[0]
+      scrollTo(field_key)
+      return console.error(error)
+    }
+    return () => clear_errors()
+  }, [error])
 
   useEffect(() => {
     update_local_user({
@@ -434,4 +448,5 @@ export default connect(mapStateToProps, {
   clear_verification_status,
   update_user,
   load_user,
+  clear_errors,
 })(Individual)

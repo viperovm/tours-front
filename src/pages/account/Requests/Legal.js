@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react'
 
-import {Redirect} from 'react-router-dom'
-
 import {connect} from 'react-redux'
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
 import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
@@ -16,16 +14,10 @@ import FormControl from '@mui/material/FormControl';
 import {getUserInn, resetUserInn} from "../../../redux/actions/profileActions";
 import {
   update_local_user, setPage, getRecipientInnData, resetRecipientInnData, updateLegalVerificationData,
-  updateIndividualVerificationData, clear_verification_status, update_user, load_user,
+  updateIndividualVerificationData, clear_verification_status, update_user, load_user, clear_errors,
 } from "../../../redux/actions/authActions";
 import TextArea from "../../../components/AccountTours/FormFields/TextArea";
 import {getCountries} from "../../../redux/actions/toursActions";
-
-const data = [{
-  id: 1, available: true, title: 'Физическое лицо', subtitle: '', list: [],
-}, {
-  id: 2, available: true, title: 'Юридическое лицо (ИП, ООО)', subtitle: '', list: [],
-},]
 
 const BpIcon = styled('span')(({theme}) => ({
   borderRadius: '50%',
@@ -80,18 +72,15 @@ function BpRadio(props) {
 
 
 const Legal = ({
-                    user,
-                    status,
-                    setPage,
-                    error,
-                    inn_data,
-                    update_local_user,
-                    getCountries,
-                    getRecipientInnData,
-                    countries,
-                    resetRecipientInnData,
-                    load_user,
-                  }) => {
+                 user,
+                 error,
+                 inn_data,
+                 update_local_user,
+                 getRecipientInnData,
+                 countries,
+                 resetRecipientInnData,
+                 clear_errors,
+               }) => {
 
   const {legal_verification} = user
 
@@ -104,9 +93,21 @@ const Legal = ({
     recipient_name: bank_transaction.recipient_name,
     recipient_ogrn: bank_transaction.recipient_ogrn,
     recipient_legal_address: bank_transaction.recipient_legal_address,
-    // recipient_real_address: bank_transaction.recipient_real_address,
     license: 'yes',
   })
+
+  useEffect(() => {
+    const scrollTo = (el) => {
+      let anchor = document.getElementById(el)
+      anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+    }
+    if (error) {
+      let field_key = Object.keys(error)[0]
+      scrollTo(field_key)
+      return console.error(error)
+    }
+    return () => clear_errors()
+  }, [error])
 
   useEffect(() => {
     update_local_user({
@@ -119,7 +120,7 @@ const Legal = ({
   }, [legalVerification])
 
   useEffect(() => {
-    if(inn_data) {
+    if (inn_data) {
       setLegalVerification({
         ...legalVerification,
         ...inn_data,
@@ -480,6 +481,17 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-  setPage, getUserInn, resetUserInn, update_local_user, getCountries, getRecipientInnData, resetRecipientInnData, updateLegalVerificationData,
-  updateIndividualVerificationData, clear_verification_status, update_user, load_user,
+  setPage,
+  getUserInn,
+  resetUserInn,
+  update_local_user,
+  getCountries,
+  getRecipientInnData,
+  resetRecipientInnData,
+  updateLegalVerificationData,
+  updateIndividualVerificationData,
+  clear_verification_status,
+  update_user,
+  load_user,
+  clear_errors,
 })(Legal)
