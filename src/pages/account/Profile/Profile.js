@@ -4,7 +4,7 @@ import Account from '../../../layouts/account/account'
 import { connect } from 'react-redux'
 import {setPage, update_user, clear_errors, update_avatar, update_local_user} from '../../../redux/actions/authActions'
 import {getLanguages} from '../../../redux/actions/toursActions'
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import Input from "../../../components/AccountTours/FormFields/Input";
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
 import ProfileInputWrapper from "../../../components/AccountProfile/Wrappers/ProfileInputWrapper";
@@ -31,6 +31,8 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
   const [activePopUp, setActivePopUp] = useState(false)
   const [action, setAction] = useState(false)
 
+  const history = useHistory()
+
   useEffect(() => {
     if(submitted && reg_status >= 200 && reg_status < 300) {
       setActivePopUp(true)
@@ -42,6 +44,10 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
       ...user,
       [name]: value,
     })
+  }
+
+  const handleRedirect = () => {
+    history.push('/account/requests')
   }
 
   const handleImageChange = (image) => {
@@ -72,7 +78,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
                 Проверенным экспертам туристы доверяют на 75% больше чем остальным. Получите статус бесплатно!
               </div>
               <div className='tours-list-add-button-button blue'>
-                <div>
+                <div onClick={handleRedirect} style={{cursor: 'pointer'}}>
                   Получить статус
                 </div>
               </div>
