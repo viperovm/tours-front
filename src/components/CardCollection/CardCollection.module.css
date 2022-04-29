@@ -119,6 +119,10 @@
 	border-radius: 50%;
 	background: #FFF;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-right: 5px;
 }
 
 .card_personal_arrow_left svg {
@@ -129,7 +133,7 @@
 .card_personal_arrow_right {
 	position: absolute;
 	z-index: 1;
-	top: 124px;
+	top: 121px;
 	right: -24px;
 
 	width: 48px;
@@ -140,6 +144,10 @@
 	border-radius: 50%;
 	background: #FFF;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-left: 5px;
 }
 
 .card_personal_arrow_right svg {

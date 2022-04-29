@@ -4,8 +4,6 @@ import Tour from "./Tour";
 
 const ToursSet = ({tours = [], action}) => {
 
-  console.log(tours)
-
   return (
     <>
       <section>

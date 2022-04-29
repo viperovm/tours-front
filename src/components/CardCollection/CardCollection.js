@@ -54,10 +54,10 @@ const CardCollection = ({name_block, children }) => {
             <div className={styles.card_collection}>
               {children}
               <div className={styles.card_personal_arrow_left}>
-                {ArrowIconLeft}
+                <img src={ArrowIconLeft} alt="arrow"/>
               </div>
               <div className={styles.card_personal_arrow_right}>
-                {ArrowIconRight}
+                <img src={ArrowIconRight} alt="arrow"/>
               </div>
               <CardTourLarge />
               <CardTour />
@@ -81,8 +81,8 @@ const CardCollection = ({name_block, children }) => {
           return <div
                     className={styles.card_collection}
                 >
-                    <div className={styles.card_tour_arrow_left}>{ArrowIconLeft}</div>
-                    <div className={styles.card_tour_arrow_right}>{ArrowIconRight}</div>  
+                    <div className={styles.card_tour_arrow_left}><img src={ArrowIconLeft} alt="arrow"/></div>
+                    <div className={styles.card_tour_arrow_right}><img src={ArrowIconRight} alt="arrow"/></div>
                     {children}
                     <CardTour block_style='card_tour_border'><Rating /></CardTour>
                     <CardTour block_style='card_tour_border'><Rating /></CardTour>
@@ -93,8 +93,8 @@ const CardCollection = ({name_block, children }) => {
                       className={styles.card_collection_experts}
                   >
                     <div className={styles.card_collection_experts_block}> 
-                          <div className={styles.card_expert_arrow_left}>{ArrowIconLeft}</div>
-                          <div className={styles.card_expert_arrow_right}>{ArrowIconRight}</div>  
+                          <div className={styles.card_expert_arrow_left}><img src={ArrowIconLeft} alt="arrow"/></div>
+                          <div className={styles.card_expert_arrow_right}><img src={ArrowIconRight} alt="arrow"/></div>
                           {children}
                           <div className={styles.card_collection_expert_card_hidden_expert_left}></div>
                           <CardExpert className={styles.card_collection_expert_card_hidden} />
@@ -110,8 +110,8 @@ const CardCollection = ({name_block, children }) => {
           return <div
                     className={styles.card_collection}
                 >
-                    <div className={styles.card_tour_arrow_left}>{ArrowIconLeft}</div>
-                    <div className={styles.card_tour_arrow_right}>{ArrowIconRight}</div>  
+                    <div className={styles.card_tour_arrow_left}><img src={ArrowIconLeft} alt="arrow"/></div>
+                    <div className={styles.card_tour_arrow_right}><img src={ArrowIconRight} alt="arrow"/></div>
                     {children}
                     <CardTour block_style='card_tour_border'>
                       <Sale />

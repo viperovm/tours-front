@@ -10,6 +10,17 @@ const Tour = ({tour}) => {
   const history = useHistory()
 
   const handleRedirect = () => {
+    let recent = JSON.parse(localStorage.getItem('recent'))
+    if(recent) {
+      let arr = recent.filter(item => item.id !== tour.id)
+      arr.splice(0, 0, tour);
+      if(arr.length > 10){
+        arr.length = 10
+      }
+      localStorage.setItem('recent', JSON.stringify(arr))
+    } else {
+      localStorage.setItem('recent', JSON.stringify([tour]))
+    }
     history.push(`tours/${tour.id}`)
   }
 

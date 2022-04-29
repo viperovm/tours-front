@@ -4479,4 +4479,74 @@ li.select-list:hover {
   margin-bottom: 10px;
 }
 
+.alice-carousel {
+  padding-left: 13px;
+  /*margin-left: -30px!important;*/
+  /*margin-right: -30px!important;*/
+  /*width: 1140px!important;*/
+}
+
+.alice-carousel__stage-item {
+  /*width: 375px!important;*/
+}
+
+.alice-carousel__next-btn,
+.alice-carousel__prev-btn {
+  position: absolute;
+  top: 130px;
+}
+
+/*.alice-carousel__next-btn-wrapper,*/
+/*.alice-carousel__prev-btn-wrapper {*/
+/*  position: absolute;*/
+/*  top: 130px;*/
+/*}*/
+
+.alice-carousel__next-btn {
+  right: -520px;
+}
+
+.alice-carousel__next-btn-item {
+
+}
+
+.alice-carousel__next-btn-item span {
+
+}
+
+.alice-carousel__next-btn-item span::after,
+.alice-carousel__prev-btn-item span::after {
+  box-sizing: border-box;
+  height: 40px;
+  width: 40px;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.alice-carousel__next-btn-item span::after {
+  content: url("assets/img/arrow-right.svg")!important;
+  padding-left: 5px;
+}
+
+.alice-carousel__prev-btn {
+  left: -520px;
+}
+
+.alice-carousel__prev-btn-item {
+
+}
+
+.alice-carousel__prev-btn-item span {
+
+}
+
+.alice-carousel__prev-btn-item span::after {
+  content: url("assets/img/arrow-left.svg")!important;
+  padding-right: 5px;
+}
+
 

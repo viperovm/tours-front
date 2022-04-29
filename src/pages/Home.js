@@ -19,9 +19,11 @@ import BlockFeedback from '../components/BlockFeedback/BlockFeedback'
 import BlockMoodTours from '../components/BlockMoodTours/BlockMoodTours'
 import BlockFindTour from '../components/BlockFindTour/BlockFindTour'
 import SliderBlock from "../components/SliderBlock/SliderBlock";
+import BlockRecent from "../components/BlockRecent";
 
 
  const Home = () => {
+   let recent = JSON.parse(localStorage.getItem('recent'))
   return (
     <>
       <MetaTags>
@@ -31,7 +33,8 @@ import SliderBlock from "../components/SliderBlock/SliderBlock";
       </MetaTags>
       <MainLayout>
         <BlockPresentation block_style='presentation_block' />
-        <BlockViewed />
+        {recent && <BlockRecent/>}
+        {/*<BlockViewed />*/}
         <BlockPopularCountry />
         <BlockRecomendation />
           <SliderBlock/>
