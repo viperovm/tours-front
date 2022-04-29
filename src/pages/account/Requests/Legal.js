@@ -104,7 +104,7 @@ const Legal = ({
     recipient_name: bank_transaction.recipient_name,
     recipient_ogrn: bank_transaction.recipient_ogrn,
     recipient_legal_address: bank_transaction.recipient_legal_address,
-    recipient_real_address: bank_transaction.recipient_real_address,
+    // recipient_real_address: bank_transaction.recipient_real_address,
     license: 'yes',
   })
 
@@ -237,7 +237,7 @@ const Legal = ({
           label={'Резидентом какой страны вы являетесь?'}
           action={handleChange}
           name='residency'
-          value={legal_verification && legal_verification.residency}
+          val={legal_verification && legal_verification.residency}
           options={countries}
         />
       </SingleWrapper>
@@ -364,7 +364,7 @@ const Legal = ({
           label={'В какие страны вы планируете организовывать туры?'}
           action={handleChange}
           name='tours_countries'
-          value={legal_verification && legal_verification.tours_countries}
+          val={legal_verification && legal_verification.tours_countries}
           options={countries}
           multiple={true}
         />

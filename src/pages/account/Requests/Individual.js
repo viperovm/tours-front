@@ -182,7 +182,7 @@ const Individual = ({
           label={'Резидентом какой страны вы являетесь?'}
           action={handleChange}
           name='residency'
-          value={individual_verification && individual_verification.residency}
+          val={individual_verification && individual_verification.residency}
           options={countries}
         />
       </SingleWrapper>
@@ -310,7 +310,7 @@ const Individual = ({
           label={'В какие страны вы планируете организовывать туры?'}
           action={handleChange}
           name='tours_countries'
-          value={individual_verification && individual_verification.tours_countries}
+          val={individual_verification && individual_verification.tours_countries}
           options={countries}
           multiple={true}
         />
