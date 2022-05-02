@@ -54,28 +54,46 @@ const authReducer = (state = initialState, action) => {
 
     case t.UPDATE_DOCS_SUCCESS:
       const updateDocs = (user, doc) => {
-        console.log(user)
-        if(user.docs) {
-          let {docs} = user
-          docs.push(doc)
-          return {
+        let u = {}
+        if(user.legal_verification) {
+          let {legal_verification} = user
+          u = {
             ...user,
-            docs: docs,
+            legal_verification: {
+              ...legal_verification,
+              scans: doc,
+            }
           }
         } else {
-          console.log(2)
-          let u = {
-            ...user,
-            docs: [doc],
+            u = {
+              ...user,
+              legal_verification: {
+                scans: doc,
+              }
+            }
           }
-          console.log(u)
           return u
         }
 
-      }
       return {
         ...state,
         user: updateDocs(state.user, payload),
+      }
+    case t.DELETE_DOCS_SUCCESS:
+      const deleteDocs = (user, id) => {
+        const docs = user.legal_verification.scans.filter(item => item.id !== id)
+        return {
+          ...user,
+          legal_verification: {
+            ...user.legal_verification,
+            scans: docs
+          }
+        }
+        }
+
+      return {
+        ...state,
+        user: deleteDocs(state.user, payload),
       }
     case t.DELETE_AVATAR_SUCCESS:
       return {

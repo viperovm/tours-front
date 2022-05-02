@@ -4561,4 +4561,17 @@ li.select-list:hover {
   padding-right: 5px;
 }
 
+.phone-form {
+  margin-bottom: 30px;
+}
 
+.phone-form input {
+  height: 50px;
+  width: 30px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.phone-form input:not(:last-child) {
+  margin-right: 10px;
+}

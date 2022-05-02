@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import menu from '../../../assets/img/trash.svg'
 import {deletePropertyImage, deleteTourImage, deleteTourWallpaper,} from "../../../redux/actions/toursActions";
-import {delete_avatar} from "../../../redux/actions/authActions";
+import {delete_avatar, delete_docs} from "../../../redux/actions/authActions";
 import {connect} from "react-redux";
 import PopUp from "../../PopUp/PopUp";
 import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
@@ -11,7 +11,7 @@ import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 const ObjectFileInput = ({
                            tour, action, name, value=[], max, required, position, deleteTourImage,
                            deleteTourWallpaper,
-                           delete_avatar, deletePropertyImage, delete_action, error, accept_all = false,
+                           delete_avatar, deletePropertyImage, delete_action, error, accept_all = false, delete_docs,
                          }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
@@ -100,6 +100,9 @@ const ObjectFileInput = ({
     if (position === 'accommodation') {
       deletePropertyImage(item, tour.id)
     }
+    if (name === 'user_docs') {
+      delete_docs(item.id)
+    }
     setActivePopUp(false)
   }
 
@@ -169,13 +172,19 @@ const ObjectFileInput = ({
             <Fragment
               key={index}
             >
-              <a
+
+              <div
                 key={index}
                 className={`fake-file-input file-input`}
-                href={item.file}
-                target="_blank"
-                download
               >
+                <a
+                  key={index}
+                  href={item.file}
+                  target="_blank"
+                  download
+                  style={{height: '100%', width: '100%', position: 'absolute'}}
+                >
+                </a>
                 <div
                   className='tour-menu-dots'
                   style={{
@@ -222,7 +231,7 @@ const ObjectFileInput = ({
                 )}
                 <div className='doc-image'/>
                 <div className='fake-file-input-text'>Нажмите, чтобы скачать</div>
-              </a>
+              </div>
 
             </Fragment>
           )
@@ -366,4 +375,5 @@ export default connect(null, {
   deleteTourWallpaper,
   delete_avatar,
   deletePropertyImage,
+  delete_docs,
 })(ObjectFileInput)

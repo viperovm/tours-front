@@ -701,27 +701,28 @@ export const upload_docs = (image) => async dispatch => {
   }
 }
 
-export const delete_docs = () => async dispatch => {
+export const delete_docs = (id) => async dispatch => {
   const config = {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      'Content-Type': 'application/json',
       Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
     },
   }
 
   try {
-    const res = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/api/experts/avatar/`,
+    await axios.delete(
+      `${process.env.REACT_APP_API_URL}/api/scans/${id}/`,
       config
     )
 
     dispatch({
-      type: t.DELETE_AVATAR_SUCCESS,
-      payload: res.data,
+      type: t.DELETE_DOCS_SUCCESS,
+      payload: id,
     })
   } catch (err) {
     dispatch({
-      type: t.DELETE_AVATAR_FAIL,
+      type: t.DELETE_DOCS_FAIL,
     })
   }
 }

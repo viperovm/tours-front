@@ -98,7 +98,8 @@ const Requests = ({
                     update_verification_status,
                     clear_verification_status,
                     load_user,
-                    clear_errors
+                    clear_errors,
+                    update_user,
                   }) => {
 
   if(!user) {
@@ -152,6 +153,7 @@ const Requests = ({
     if (active === 1) {
       updateIndividualVerificationData(user.id, user.individual_verification)
     } else if (active === 2) {
+      update_user(user)
       updateLegalVerificationData(user.id, user.legal_verification)
     }
   }

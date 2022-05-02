@@ -228,14 +228,14 @@ const Legal = ({
           value={legal_verification && legal_verification.recipient_real_address}
         />
       </SingleWrapper>
-      <SingleWrapper label='Сканы уставных документов (ИНН, ОГРН)' width={'100%'} margin={'0'}>
+      <SingleWrapper label='Сканы уставных документов (ИНН, ОГРН)' width={'70%'} margin={'0'}>
         <ObjectFileInput
           accept_all={true}
           error={error}
           label={'Сканы уставных документов (ИНН, ОГРН)'}
           action={handleDocChange}
           name='user_docs'
-          value={user && user.docs}
+          value={legal_verification && legal_verification.scans}
         />
       </SingleWrapper>
 

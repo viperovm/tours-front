@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import Account from '../../../layouts/account/account'
 
 import {connect} from 'react-redux'
@@ -17,6 +17,7 @@ import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxI
 import cross from '../../../assets/img/x.svg'
 import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
 import PopUp from "../../../components/PopUp/PopUp";
+import styles from "../../../components/PopUp/PopUp.module.css";
 
 const Settings = ({
                     reg_status, user, status, setPage, update_user, getLanguages, languages, update_avatar, email_confirm_request,
@@ -38,6 +39,7 @@ const Settings = ({
   const [requestSuccess, setRequestSuccess] = useState(true)
   const [submitted, setSubmitted] = useState(false)
   const [activePopUp, setActivePopUp] = useState(false)
+  const [activePhonePopUp, setActivePhonePopUp] = useState(false)
 
 
   useEffect(() => {
@@ -100,10 +102,74 @@ const Settings = ({
     setSubmitted(false)
   }
 
+  const handlePhonePopUp = () => {
+    setActivePhonePopUp(false)
+    setSubmitted(false)
+  }
+
+  const PhoneForm = ({action}) => {
+    const numOfFields = 4;
+    const [val, setValue] = React.useState('');
+
+    const useSSNFields = () => {
+
+      return {
+        handleChange: e => {
+          const { maxLength, value, name } = e.target;
+          const [fieldName, fieldIndex] = name.split("-");
+
+          // Check if they hit the max character length
+          if (value.length >= maxLength) {
+            // Check if it's not the last input field
+            if (parseInt(fieldIndex, 10) < numOfFields) {
+              // Get the next input field
+              const nextSibling = document.querySelector(
+                `input[name=ssn-${parseInt(fieldIndex, 10) + 1}]`
+              );
+
+              // If found, focus the next field
+              if (nextSibling !== null) {
+                nextSibling.focus();
+              }
+            }
+          }
+
+          setValue(val+value);
+        }
+      };
+    };
+
+    const handlePhoneSubmit = () => {
+      console.log(val)
+    }
+
+    const { handleChange } = useSSNFields();
+
+    return (
+      <>
+        <div className={styles.popup_text}>Вам позвонит наш робот. Не отвечайте на звонок, а введите последние четыре цифры входящего номера.</div>
+        <form onSubmit={handleSubmit}>
+          <div className={'phone-form'}>
+            <input name="ssn-1" maxLength={1} onChange={handleChange} autoFocus type="text"/>
+            <input name="ssn-2" maxLength={1} onChange={handleChange} type="text"/>
+            <input name="ssn-3" maxLength={1} onChange={handleChange} type="text"/>
+            <input name="ssn-4" maxLength={1} onChange={handleChange} type="text"/>
+          </div>
+        </form>
+        <Button text={'Подтвердить'} action={() => {
+          handlePhoneSubmit()
+          action()
+        }} color={'button-primary'} width={'100%'} margin={'0'}/>
+      </>
+    )
+  }
+
   return (<Account title='Настройки' menu_item='settings'>
     <>
       {activePopUp && <PopUp status={'ok'} title={'Успешно обновлено'}
                              text={''} button={'Ок'} action={handlePopUp}/>}
+      {activePhonePopUp && <PopUp status={null} title={'Верификация номера'}
+                             text={<PhoneForm action={handlePhonePopUp}/>} button={null}/>}
       {requestActive && (
         <div className={`modal-request-confirm`}>
           {request_status && (<div className="modal-request-body">
@@ -164,7 +230,7 @@ const Settings = ({
             </div>
 
           ) : (<div className="verified-note">
-            Телефон не подтвержден! <span>Подвердить?</span>
+            Телефон не подтвержден! <span onClick={() => setActivePhonePopUp(true)} style={{cursor: 'pointer'}}>Подвердить?</span>
           </div>)}
           {profile.email_confirmed ? (<div className="verified-note">
             <span className="confirmed-green">Email подтвержден</span>
