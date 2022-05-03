@@ -183,8 +183,9 @@ const Legal = ({
     <>
       <DoubleWrapper full={true} margin={0}>
         <Input
+          disabled={true}
           error={error}
-          label={'ИНН'}
+          label={'ИНН (Заполняется в реквизитах)'}
           action={handleInnChange}
           name='recipient_inn'
           value={legal_verification && legal_verification.recipient_inn}

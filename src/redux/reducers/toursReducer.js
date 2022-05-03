@@ -100,7 +100,7 @@ const initialState = {
   all_tours: [],
   cities: [],
   current_tour: {},
-  tour_preview: {},
+  tour_preview: null,
   tour_types: [],
   regions: [],
   countries: [],

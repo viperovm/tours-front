@@ -211,7 +211,7 @@ ul, ol {
 }
 
 .header_logo_block_main_icon {
-  /* width: 70px; */
+  margin-right: 10px;
 }
 
 .header_logo_block_second_icon img:nth-last-child(2) {
@@ -229,7 +229,7 @@ ul, ol {
 }
 
 .buttons_block_find_tour {
-  min-width: 199px;
+  min-width: 210px;
   height: 40px;
   background: #2aa2d6;
   background-image: url(./assets/img/traveler.svg);

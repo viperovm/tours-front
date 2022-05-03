@@ -59,6 +59,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
   useEffect(() => {
     if (isNotEmptyObject(tour)) {
       getTourReview(tour.id)
+      return () => getTourReview(tour.id, 'reset')
     }
   }, [tour])
 
@@ -103,7 +104,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
   return (
     <>
       <TourPreviewLayout secondary_item='' secondary_name='Общее' preview={true}>
-        {isNotEmptyObject(tour_preview) && (
+        {tour_preview && (
           <>
             {tour_preview.wallpaper && <Wallpaper image={tour_preview.wallpaper}/>}
             <div className="wrapper">
@@ -357,7 +358,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
             </div>
           </>
         )}
-        {!isNotEmptyObject(tour_preview) && (
+        {!tour_preview && (
           <Box sx={{display: 'flex'}}>
             <CircularProgress/>
           </Box>

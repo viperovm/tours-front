@@ -6,7 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 const Input = ({
-                 label, action, name, type = 'text', value, required, icon, error = {}, margin = '0', tour, spinner = false, clear = false
+                 disabled = false, label, action, name, type = 'text', value, required, icon, error = {}, margin = '0', tour, spinner = false, clear = false
                }) => {
   const [data, setData] = useState('')
   const [currentError, setCurrentError] = useState([])
@@ -83,6 +83,7 @@ const Input = ({
               value={data}
               type={type}
               onChange={handleData}
+              disabled={disabled}
             />
           </div>}
 

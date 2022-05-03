@@ -727,6 +727,73 @@ export const delete_docs = (id) => async dispatch => {
   }
 }
 
+export const phone_confirm_request = id => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = ''
+
+  try {
+    let res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/experts/${id}/send_confirmation_call/`,
+      body,
+      config
+    )
+
+
+    dispatch({
+      type: t.PHONE_CONFIRM_REQUEST_SUCCESS,
+      payload: res.status
+    })
+  } catch (err) {
+    dispatch({
+      type: t.PHONE_CONFIRM_REQUEST_FAIL,
+      payload: 'error'
+    })
+  }
+}
+
+export const phone_confirm = (id, data) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  console.log(data)
+  console.log(body)
+
+  try {
+    let res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/experts/${id}/check_confirmation_code/`,
+      body,
+      config
+    )
+
+    console.log(res.status)
+
+    dispatch({
+      type: t.PHONE_CONFIRM_SUCCESS,
+      payload: res.status
+    })
+  } catch (err) {
+    dispatch({
+      type: t.PHONE_CONFIRM_FAIL,
+      payload: 'error'
+    })
+  }
+}
+
+
 
 
 

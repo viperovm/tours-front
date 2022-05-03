@@ -1,6 +1,6 @@
 import * as t from '../types'
 import {DELETE_AVATAR_SUCCESS, EMAIL_CONFIRM_REQUEST_FAIL, GET_DATA_BY_INN_SUCCESS} from "../types";
-import {email_confirm_request} from "../actions/authActions";
+import {confirm_request} from "../actions/authActions";
 import {isNotEmptyObject} from "../../functions";
 
 const initialState = {
@@ -15,8 +15,8 @@ const initialState = {
   status: '',
   page: '',
   avatar: '',
-  email_confirm_request: null,
-  email_confirm: null,
+  confirm_request: null,
+  confirm: null,
   error: {},
   inn_data: null,
   update_verification_status: '',
@@ -336,21 +336,25 @@ const authReducer = (state = initialState, action) => {
       }
     case t.EMAIL_CONFIRM_REQUEST_SUCCESS:
     case t.EMAIL_CONFIRM_REQUEST_FAIL:
+    case t.PHONE_CONFIRM_REQUEST_SUCCESS:
+    case t.PHONE_CONFIRM_REQUEST_FAIL:
       return {
         ...state,
-        email_confirm_request: payload,
+        confirm_request: payload,
       }
     case t.EMAIL_CONFIRM_SUCCESS:
     case t.EMAIL_CONFIRM_FAIL:
+    case t.PHONE_CONFIRM_SUCCESS:
+    case t.PHONE_CONFIRM_FAIL:
       return {
         ...state,
-        email_confirm: payload,
+        confirm: payload,
       }
     case t.CLEAR_CONFIRM:
       return {
         ...state,
-        email_confirm_request: null,
-        email_confirm: null,
+        confirm_request: null,
+        confirm: null,
       }
 
     case t.AUTHENTICATED_FAIL:

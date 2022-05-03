@@ -72,7 +72,7 @@ const EmailActivate = ({match, email_confirm, status}) => {
 }
 
 const mapStateToProps = state => ({
-  status: state.auth.email_confirm,
+  status: state.auth.confirm,
 })
 
 export default connect(mapStateToProps, {email_confirm})(EmailActivate)

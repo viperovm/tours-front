@@ -2,7 +2,17 @@ import React, {useEffect, useRef, useState} from 'react'
 import Account from '../../../layouts/account/account'
 
 import {connect} from 'react-redux'
-import {setPage, update_user, clear_errors, update_avatar, delete_avatar, email_confirm_request, clear_confirm_status} from '../../../redux/actions/authActions'
+import {
+  setPage,
+  update_user,
+  clear_errors,
+  update_avatar,
+  delete_avatar,
+  email_confirm_request,
+  phone_confirm_request,
+  phone_confirm,
+  clear_confirm_status
+} from '../../../redux/actions/authActions'
 import {getLanguages} from '../../../redux/actions/toursActions'
 import {Link} from "react-router-dom";
 import Input from "../../../components/AccountTours/FormFields/Input";
@@ -20,8 +30,22 @@ import PopUp from "../../../components/PopUp/PopUp";
 import styles from "../../../components/PopUp/PopUp.module.css";
 
 const Settings = ({
-                    reg_status, user, status, setPage, update_user, getLanguages, languages, update_avatar, email_confirm_request,
-                    delete_avatar, request_status, clear_confirm_status, clear_errors,
+                    reg_status,
+                    user,
+                    status,
+                    setPage,
+                    update_user,
+                    getLanguages,
+                    languages,
+                    update_avatar,
+                    email_confirm_request,
+                    delete_avatar,
+                    request_status,
+                    clear_confirm_status,
+                    clear_errors,
+                    phone_confirm_request,
+                    phone_confirm,
+                    confirm
                   }) => {
   useEffect(() => {
     setPage('profile')
@@ -31,6 +55,8 @@ const Settings = ({
       setActivePopUp(false)
     }
   }, [])
+
+  console.log('confirm: ', confirm)
 
   const [profile, setProfile] = useState({})
   const [action, setAction] = useState(false)
@@ -43,13 +69,13 @@ const Settings = ({
 
 
   useEffect(() => {
-    if(submitted && reg_status >= 200 && reg_status < 300) {
+    if (submitted && reg_status >= 200 && reg_status < 300) {
       setActivePopUp(true)
     }
   }, [submitted, reg_status])
 
   useEffect(() => {
-    if(request_status !== 'error' && request_status >= 200 && request_status < 300) {
+    if (request_status !== 'error' && request_status >= 200 && request_status < 300) {
       setRequestSuccess(true)
     } else {
       setRequestSuccess(false)
@@ -115,7 +141,7 @@ const Settings = ({
 
       return {
         handleChange: e => {
-          const { maxLength, value, name } = e.target;
+          const {maxLength, value, name} = e.target;
           const [fieldName, fieldIndex] = name.split("-");
 
           // Check if they hit the max character length
@@ -134,20 +160,23 @@ const Settings = ({
             }
           }
 
-          setValue(val+value);
+          setValue(val + value);
         }
       };
     };
 
-    const handlePhoneSubmit = () => {
-      console.log(val)
-    }
+    const {handleChange} = useSSNFields();
 
-    const { handleChange } = useSSNFields();
+    const handlePhoneSubmit = () => {
+      phone_confirm(user.id, {code: val})
+      action()
+    }
 
     return (
       <>
-        <div className={styles.popup_text}>Вам позвонит наш робот. Не отвечайте на звонок, а введите последние четыре цифры входящего номера.</div>
+        <div className={styles.popup_text}>Вам позвонит наш робот. Не отвечайте на звонок, а введите последние четыре
+          цифры входящего номера.
+        </div>
         <form onSubmit={handleSubmit}>
           <div className={'phone-form'}>
             <input name="ssn-1" maxLength={1} onChange={handleChange} autoFocus type="text"/>
@@ -156,10 +185,7 @@ const Settings = ({
             <input name="ssn-4" maxLength={1} onChange={handleChange} type="text"/>
           </div>
         </form>
-        <Button text={'Подтвердить'} action={() => {
-          handlePhoneSubmit()
-          action()
-        }} color={'button-primary'} width={'100%'} margin={'0'}/>
+        <Button text={'Подтвердить'} action={handlePhoneSubmit} color={'button-primary'} width={'100%'} margin={'0'}/>
       </>
     )
   }
@@ -169,7 +195,7 @@ const Settings = ({
       {activePopUp && <PopUp status={'ok'} title={'Успешно обновлено'}
                              text={''} button={'Ок'} action={handlePopUp}/>}
       {activePhonePopUp && <PopUp status={null} title={'Верификация номера'}
-                             text={<PhoneForm action={handlePhonePopUp}/>} button={null}/>}
+                                  text={<PhoneForm action={handlePhonePopUp}/>} button={null}/>}
       {requestActive && (
         <div className={`modal-request-confirm`}>
           {request_status && (<div className="modal-request-body">
@@ -193,7 +219,7 @@ const Settings = ({
               </div>
             )}
           </div>)}
-      </div>
+        </div>
       )}
       {status === 'experts' && (<main>
         <div className='global-h2-heading'>
@@ -225,12 +251,16 @@ const Settings = ({
           />
         </DoubleWrapper>
         <DoubleWrapper full={true} undertext={true}>
-          {profile.phone_confirmed ? (<div className="verified-note">
+          {(profile.phone_confirmed || (confirm >= 200 && confirm < 300)) ? (<div className="verified-note">
               <span className="confirmed-green">Телефон подтвержден и скрыт от других пользователей</span>
             </div>
 
           ) : (<div className="verified-note">
-            Телефон не подтвержден! <span onClick={() => setActivePhonePopUp(true)} style={{cursor: 'pointer'}}>Подвердить?</span>
+            Телефон не подтвержден! <span onClick={() => {
+            phone_confirm_request(user.id)
+            setActivePhonePopUp(true)
+          }}
+                                          style={{cursor: 'pointer'}}>Подвердить?</span>
           </div>)}
           {profile.email_confirmed ? (<div className="verified-note">
             <span className="confirmed-green">Email подтвержден</span>
@@ -319,12 +349,13 @@ const Settings = ({
 const mapStateToProps = state => ({
   user: state.auth.user,
   status: state.auth.status,
-  request_status: state.auth.email_confirm_request,
+  confirm: state.auth.confirm,
+  request_status: state.auth.confirm_request,
   languages: state.tours.languages,
   reg_status: state.auth.reg_status
 })
 
 export default connect(mapStateToProps, {
   setPage, update_user, getLanguages, update_avatar, email_confirm_request,
-  delete_avatar, clear_confirm_status, clear_errors
+  delete_avatar, clear_confirm_status, clear_errors, phone_confirm_request, phone_confirm,
 })(Settings)

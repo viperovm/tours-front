@@ -307,7 +307,7 @@ export const getTour = id => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${id}`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${id}/`, config)
 
     dispatch({
       type: GET_TOUR_SUCCESS,
@@ -321,28 +321,44 @@ export const getTour = id => async dispatch => {
   }
 }
 
-export const getTourReview = id => async dispatch => {
-  const config = {
+export const getTourReview = (id, data) => async dispatch => {
+  const config = localStorage.getItem('access') ? {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `JWT ${localStorage.getItem('access')}`,
       Accept: 'application/json',
     },
   }
+  :
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }
 
-  try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${id}/preview/`, config)
+    if(data !== 'reset') {
+      try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${id}/preview/`, config)
 
-    dispatch({
-      type: GET_TOUR_PREVIEW_SUCCESS,
-      payload: res.data,
-    })
-    // dispatch(set_tour(res.data))
-  } catch (err) {
-    dispatch({
-      type: GET_TOUR_PREVIEW_FAIL,
-    })
-  }
+        dispatch({
+          type: GET_TOUR_PREVIEW_SUCCESS,
+          payload: res.data,
+        })
+        // dispatch(set_tour(res.data))
+      } catch (err) {
+        dispatch({
+          type: GET_TOUR_PREVIEW_FAIL,
+        })
+      }
+    } else {
+      dispatch({
+        type: GET_TOUR_PREVIEW_SUCCESS,
+        payload: null,
+      })
+    }
+
+
 }
 
 export const deleteTour = id => async dispatch => {

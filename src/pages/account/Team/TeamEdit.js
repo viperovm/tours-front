@@ -160,7 +160,10 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
               {profile.email_confirmed ? (<div className="verified-note">
                 <span className="confirmed-green">Email подтвержден</span>
               </div>) : (<div className="verified-note">
-                Email не подтвержден! <span onClick={handleEmailConfirm} style={{cursor: 'pointer'}}>Подвердить?</span>
+                Email не подтвержден! <span
+                // onClick={handleEmailConfirm}
+                style={{cursor: 'pointer'}}
+              > Подвердить?</span>
               </div>)}
             </DoubleWrapper>
             <SingleWrapper full={true} margin={0} label={'Расскажите о гиде*'}>

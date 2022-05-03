@@ -33,13 +33,11 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
 
   useEffect(() => {
     getTourReview(match.params.id)
+    return () => getTourReview(match.params.id, 'reset')
   }, [])
 
   const {pathname} = location
   const page = pathname[0] === '/' ? pathname.substring(1) : pathname
-
-  console.log(match.params.id)
-  console.log(tour_preview)
 
   const [places, setPlaces] = useState(1)
 
@@ -100,7 +98,7 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
         <meta name='description' content='' />
       </MetaTags>
       <MainLayout page={page}>
-        {isNotEmptyObject(tour_preview) && (
+        {tour_preview && (
           <>
             {tour_preview.wallpaper && <Wallpaper image={tour_preview.wallpaper}/>}
             <div className="wrapper">
@@ -169,9 +167,7 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
                       <h3>Дополнительные услуги</h3>
                       <div style={{marginTop: '20px'}}>
                         {tour_preview && tour_preview.tour_addetional_services && tour_preview.tour_addetional_services.map((item, index) => (
-                          <div style={{marginBottom: '10px'}}>
-                            {`${item.extra_text} ${item.extra_service_price ? ' - ' + item.extra_service_price : ''}`}
-                          </div>
+                          <div key={index} style={{marginBottom: '10px'}} dangerouslySetInnerHTML={{__html: `${item.extra_text} ${item.extra_service_price ? ' - ' + item.extra_service_price + tour_preview.currency.sign : ''}`}}/>
                         ))}
                       </div>
                     </>
@@ -349,7 +345,7 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
             </div>
           </>
         )}
-        {!isNotEmptyObject(tour_preview) && (
+        {!tour_preview && (
           <Box sx={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', height: '300px'}}>
             <CircularProgress/>
           </Box>
