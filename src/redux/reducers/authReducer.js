@@ -20,6 +20,7 @@ const initialState = {
   error: {},
   inn_data: null,
   update_verification_status: '',
+  phone_error: null,
 }
 
 const authReducer = (state = initialState, action) => {
@@ -337,11 +338,19 @@ const authReducer = (state = initialState, action) => {
     case t.EMAIL_CONFIRM_SUCCESS:
     case t.EMAIL_CONFIRM_FAIL:
     case t.PHONE_CONFIRM_SUCCESS:
-    case t.PHONE_CONFIRM_FAIL:
       return {
         ...state,
         confirm: payload,
+        phone_error: null,
       }
+
+    case t.PHONE_CONFIRM_FAIL:
+      return {
+        ...state,
+        confirm: payload.status,
+        phone_error: payload.data,
+      }
+
     case t.CLEAR_CONFIRM:
       return {
         ...state,

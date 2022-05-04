@@ -780,7 +780,7 @@ export const phone_confirm = (id, data) => async dispatch => {
   } catch (err) {
     dispatch({
       type: t.PHONE_CONFIRM_FAIL,
-      payload: 'error'
+      payload: {data: err.response.data, status: err.response.status},
     })
   }
 }

@@ -28,6 +28,7 @@ import cross from '../../../assets/img/x.svg'
 import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
 import PopUp from "../../../components/PopUp/PopUp";
 import styles from "../../../components/PopUp/PopUp.module.css";
+import {isNotEmptyObject} from "../../../functions";
 
 const Settings = ({
                     reg_status,
@@ -45,7 +46,8 @@ const Settings = ({
                     clear_errors,
                     phone_confirm_request,
                     phone_confirm,
-                    confirm
+                    confirm,
+                    phone_error,
                   }) => {
   useEffect(() => {
     setPage('profile')
@@ -131,7 +133,14 @@ const Settings = ({
     setSubmitted(false)
   }
 
-  const PhoneForm = ({action}) => {
+  useEffect(() => {
+    if(confirm >= 200 && confirm < 300) {
+      handlePhonePopUp()
+    }
+  }, [confirm])
+
+
+  const PhoneForm = () => {
     const numOfFields = 4;
     const [val, setValue] = React.useState('');
 
@@ -167,8 +176,8 @@ const Settings = ({
 
     const handlePhoneSubmit = () => {
       phone_confirm(user.id, {code: val})
-      action()
     }
+
 
     return (
       <>
@@ -181,9 +190,20 @@ const Settings = ({
             <input name="ssn-2" maxLength={1} onChange={handleChange} type="text"/>
             <input name="ssn-3" maxLength={1} onChange={handleChange} type="text"/>
             <input name="ssn-4" maxLength={1} onChange={handleChange} type="text"/>
+            {confirm >= 300 && phone_error && isNotEmptyObject(phone_error) && phone_error.code.map((item, index) => (
+                <div key={index} className="phone-error">
+                  {item}
+                </div>
+              )
+            )
+            }
           </div>
+
         </form>
-        <Button text={'Подтвердить'} action={handlePhoneSubmit} color={'button-primary'} width={'100%'} margin={'0'}/>
+        <div className="phone-confirm-buttons">
+          <Button text={'Подтвердить'} action={handlePhoneSubmit} color={'button-primary'} width={'100%'} margin={'0'}/>
+          <Button text={'Отменить'} action={() => setActivePhonePopUp(false)} color={'button-danger'} width={'100%'} margin={'0'}/>
+        </div>
       </>
     )
   }
@@ -193,7 +213,7 @@ const Settings = ({
       {activePopUp && <PopUp status={'ok'} title={'Успешно обновлено'}
                              text={''} button={'Ок'} action={handlePopUp}/>}
       {activePhonePopUp && <PopUp status={null} title={'Верификация номера'}
-                                  text={<PhoneForm action={handlePhonePopUp}/>} button={null}/>}
+                                  text={<PhoneForm/>} button={null}/>}
       {requestActive && (
         <div className={`modal-request-confirm`}>
           {request_status && (<div className="modal-request-body">
@@ -258,12 +278,12 @@ const Settings = ({
             phone_confirm_request(user.id)
             setActivePhonePopUp(true)
           }}
-                                          style={{cursor: 'pointer'}}>Подвердить?</span>
+                                          style={{cursor: 'pointer'}}>Подтвердить?</span>
           </div>)}
           {profile.email_confirmed ? (<div className="verified-note">
             <span className="confirmed-green">Email подтвержден</span>
           </div>) : (<div className="verified-note">
-            Email не подтвержден! <span onClick={handleEmailConfirm} style={{cursor: 'pointer'}}>Подвердить?</span>
+            Email не подтвержден! <span onClick={handleEmailConfirm} style={{cursor: 'pointer'}}>Подтвердить?</span>
           </div>)}
         </DoubleWrapper>
 
@@ -348,6 +368,7 @@ const mapStateToProps = state => ({
   user: state.auth.user,
   status: state.auth.status,
   confirm: state.auth.confirm,
+  phone_error: state.auth.phone_error,
   request_status: state.auth.confirm_request,
   languages: state.tours.languages,
   reg_status: state.auth.reg_status

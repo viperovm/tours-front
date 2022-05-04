@@ -4576,3 +4576,19 @@ li.select-list:hover {
 .phone-form input:not(:last-child) {
   margin-right: 10px;
 }
+
+.phone-error {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #DF7070;
+  margin: 30px 0;
+}
+
+.phone-confirm-buttons {
+  display: flex;
+}
+
+.phone-confirm-buttons button:first-child {
+  margin-right: 30px!important;
+}

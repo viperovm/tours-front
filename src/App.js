@@ -1,11 +1,11 @@
-import React, { Suspense, lazy } from "react";
+import React, {useEffect, Suspense, lazy, useState} from "react";
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
+  Switch, useHistory, Redirect
 } from 'react-router-dom'
 
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 import store from './store'
 
 import './index.css'
@@ -46,6 +46,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 const App = () => {
+
   return (
     <Provider store={store}>
       <Router>
