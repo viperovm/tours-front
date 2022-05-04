@@ -149,23 +149,23 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
                 value={profile.email}
               />
             </DoubleWrapper>
-            <DoubleWrapper full={true} undertext={true}>
-              {profile.phone_confirmed ? (<div className="verified-note">
-                  <span className="confirmed-green">Телефон подтвержден и скрыт от других пользователей</span>
-                </div>
+            {/*<DoubleWrapper full={true} undertext={true}>*/}
+            {/*  {profile.phone_confirmed ? (<div className="verified-note">*/}
+            {/*      <span className="confirmed-green">Телефон подтвержден и скрыт от других пользователей</span>*/}
+            {/*    </div>*/}
 
-              ) : (<div className="verified-note">
-                Телефон не подтвержден! <span>Подвердить?</span>
-              </div>)}
-              {profile.email_confirmed ? (<div className="verified-note">
-                <span className="confirmed-green">Email подтвержден</span>
-              </div>) : (<div className="verified-note">
-                Email не подтвержден! <span
-                // onClick={handleEmailConfirm}
-                style={{cursor: 'pointer'}}
-              > Подвердить?</span>
-              </div>)}
-            </DoubleWrapper>
+            {/*  ) : (<div className="verified-note">*/}
+            {/*    Телефон не подтвержден! <span>Подвердить?</span>*/}
+            {/*  </div>)}*/}
+            {/*  {profile.email_confirmed ? (<div className="verified-note">*/}
+            {/*    <span className="confirmed-green">Email подтвержден</span>*/}
+            {/*  </div>) : (<div className="verified-note">*/}
+            {/*    Email не подтвержден! <span*/}
+            {/*    // onClick={handleEmailConfirm}*/}
+            {/*    style={{cursor: 'pointer'}}*/}
+            {/*  > Подвердить?</span>*/}
+            {/*  </div>)}*/}
+            {/*</DoubleWrapper>*/}
             <SingleWrapper full={true} margin={0} label={'Расскажите о гиде*'}>
               <TextArea
                 name='about'
