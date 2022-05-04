@@ -92,8 +92,6 @@ const ToursFormLayout = ({
       },
     }
 
-    console.log(localStorage.getItem('access'))
-
     // const config = APPLICATION_CONFIG
 
     let new_tour = tourTrimmed(tour)

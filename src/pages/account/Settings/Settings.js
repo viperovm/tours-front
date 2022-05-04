@@ -56,8 +56,6 @@ const Settings = ({
     }
   }, [])
 
-  console.log('confirm: ', confirm)
-
   const [profile, setProfile] = useState({})
   const [action, setAction] = useState(false)
 

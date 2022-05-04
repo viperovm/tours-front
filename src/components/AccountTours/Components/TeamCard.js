@@ -43,8 +43,7 @@ const TeamCard = ({
   }
 
   const handleMemberEdit = () => {
-    getTeamMember(member.id)
-    history.push('/account/team/edit')
+    history.push(`/account/team/${member.id}/edit`)
   }
 
   const handleMenu = () => {
@@ -71,62 +70,61 @@ const TeamCard = ({
             onClick={handleMemberEdit}
             className='team-image'
             style={{ backgroundImage: 'url(' + member.avatar + ')' }}
-
+          />
+          <div
+            className='tour-menu-dots'
+            style={{
+              padding: '5px',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              cursor: 'pointer',
+            }}
+            onClick={handleMenu}
+          >
+            <img src={menu} alt='menu' />
+          </div>
+          <div
+            className='tour-menu'
+            ref={myRef}
+            style={{
+              position: 'absolute',
+              top: 20,
+              right: 25,
+              border: '1px solid rgba(0, 0, 0, 0.1)',
+              boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
+              borderRadius: 8,
+              backgroundColor: '#fff',
+              display: active ? 'block' : 'none',
+            }}
           >
             <div
-              className='tour-menu-dots'
+              className='tour-item-top'
               style={{
-                padding: '5px',
-                position: 'absolute',
-                top: 0,
-                right: 0,
+                padding: 10,
+                borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+                lineHeight: '15px',
+                textAlign: 'right',
                 cursor: 'pointer',
               }}
-              onClick={handleMenu}
+              onClick={handleMemberEdit}
             >
-              <img src={menu} alt='menu' />
+              Изменить
             </div>
             <div
-              className='tour-menu'
-              ref={myRef}
+              className='tour-item-bottom'
               style={{
-                position: 'absolute',
-                top: 20,
-                right: 25,
-                border: '1px solid rgba(0, 0, 0, 0.1)',
-                boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.05)',
-                borderRadius: 8,
-                backgroundColor: '#fff',
-                display: active ? 'block' : 'none',
+                padding: 10,
+                lineHeight: '15px',
+                textAlign: 'right',
+                cursor: 'pointer',
               }}
+              onClick={() => setActivePopUp(true)}
             >
-              <div
-                className='tour-item-top'
-                style={{
-                  padding: 10,
-                  borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-                  lineHeight: '15px',
-                  textAlign: 'right',
-                  cursor: 'pointer',
-                }}
-                onClick={handleMemberEdit}
-              >
-                Изменить
-              </div>
-              <div
-                className='tour-item-bottom'
-                style={{
-                  padding: 10,
-                  lineHeight: '15px',
-                  textAlign: 'right',
-                  cursor: 'pointer',
-                }}
-                onClick={() => setActivePopUp(true)}
-              >
-                Удалить
-              </div>
+              Удалить
             </div>
-        </div>
+          </div>
+
         </div>
         <div className='team-data'>
           <div

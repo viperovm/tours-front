@@ -6,15 +6,18 @@ import { connect } from 'react-redux'
 import {setPage, update_user} from "../../../redux/actions/authActions";
 import {getLanguages} from "../../../redux/actions/toursActions";
 import TeamList from "../../../components/AccountTours/Components/TeamList";
-import {addTeamMember} from "../../../redux/actions/profileActions";
+import {addTeamMember, clearTeamMember} from "../../../redux/actions/profileActions";
+import axios from "axios";
+import {ADD_TEAM_MEMBER_FAIL, ADD_TEAM_MEMBER_SUCCESS} from "../../../redux/types";
 
-const Team = ({user, status, addTeamMember, members}) => {
+const Team = ({user, status, addTeamMember, members, member, clearTeamMember}) => {
 
   const history = useHistory()
 
   useEffect(() => {
     setPage('team')
     getLanguages()
+    clearTeamMember()
   }, [])
 
   const [profile, setProfile] = useState({})
@@ -41,8 +44,26 @@ const Team = ({user, status, addTeamMember, members}) => {
   }
 
   const handleAddButton = async () => {
-    await addTeamMember()
-    history.push('/account/team/edit')
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
+
+    const data = {}
+
+    const body = JSON.stringify(data)
+
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/teammembers/`, body, config)
+      history.push(`/account/team/${res.data.id}/edit`)
+
+    } catch (err) {
+     console.error(err)
+    }
+
   }
 
   const handleSubmit = () => {
@@ -84,6 +105,7 @@ const mapStateToProps = state => ({
   user: state.auth.user,
   status: state.auth.status,
   languages: state.tours.languages,
+  member: state.profile.member,
 })
 
-export default connect(mapStateToProps, { addTeamMember })(Team)
+export default connect(mapStateToProps, { addTeamMember, clearTeamMember })(Team)

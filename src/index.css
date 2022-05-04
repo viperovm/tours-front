@@ -4161,6 +4161,7 @@ input[type='file'] {
 .team-card {
   /* min-width: 31%; */
   width: calc(33.33% - 14px);
+  position: relative;
   /*height: 360px;*/
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;

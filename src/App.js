@@ -69,7 +69,7 @@ const App = () => {
             <Route exact path='/account/props' component={Props} />
             <Route exact path='/account/requests' component={Requests} />
             <Route exact path='/account/team' component={Team} />
-            <Route exact path='/account/team/edit' component={TeamEdit} />
+            <Route exact path='/account/team/:id/edit' component={TeamEdit} />
             <Route exact path='/account/tours/list' component={MyTours} />
 
             <Route exact path='/account/tours/:id/edit/main' component={Main} />

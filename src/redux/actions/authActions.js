@@ -661,7 +661,6 @@ export const getRecipientInnData = (data, source) => async dispatch => {
 }
 
 export const resetRecipientInnData = (source) => async dispatch => {
-  console.log(3)
   dispatch({
     type: t.RESET_RECIPIENT_INN_DATA,
     payload: source,
@@ -686,8 +685,6 @@ export const upload_docs = (image) => async dispatch => {
       form_data,
       config
     )
-
-    console.log(res.data)
 
     dispatch({
       type: t.UPDATE_DOCS_SUCCESS,
@@ -769,17 +766,12 @@ export const phone_confirm = (id, data) => async dispatch => {
 
   const body = JSON.stringify(data)
 
-  console.log(data)
-  console.log(body)
-
   try {
     let res = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/experts/${id}/check_confirmation_code/`,
       body,
       config
     )
-
-    console.log(res.status)
 
     dispatch({
       type: t.PHONE_CONFIRM_SUCCESS,

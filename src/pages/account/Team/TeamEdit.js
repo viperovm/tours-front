@@ -18,26 +18,34 @@ import CircularProgress from '@mui/material/CircularProgress'
 import {isNotEmptyObject} from "../../../functions";
 import {clear_confirm_status, email_confirm_request} from "../../../redux/actions/authActions";
 
-const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMember, addTeamMemberAvatar, getTeamMember, email_confirm_request, clear_confirm_status}) => {
+const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMember, addTeamMemberAvatar, getTeamMember, email_confirm_request, clear_confirm_status, match}) => {
 
   const history = useHistory()
+  const member_id = match.params.id
+
+  useEffect(() => {
+    getTeamMember(member_id)
+  }, [])
+
 
   useEffect(() => {
     getLanguages()
   }, [])
 
 
-  const storage = localStorage.getItem('team_member_id')
+  // const storage = localStorage.getItem('team_member_id')
 
-  useEffect(() => {
-    if(isNotEmptyObject(member) && (!storage || storage === 'undefined')) {
-      localStorage.setItem('team_member_id', member.id)
-    } else if(storage && storage !== 'undefined' && !isNotEmptyObject(member)) {
-      getTeamMember(localStorage.getItem('team_member_id'))
-    } else {
-      // history.push('/account/team')
-    }
-  }, [member])
+  // useEffect(() => {
+  //   if(isNotEmptyObject(member) && (!storage || storage === 'undefined')) {
+  //     localStorage.setItem('team_member_id', member.id)
+  //   } else if(storage && storage !== 'undefined' && !isNotEmptyObject(member)) {
+  //     getTeamMember(localStorage.getItem('team_member_id'))
+  //   } else {
+  //     // history.push('/account/team')
+  //   }
+  // }, [member])
+
+
 
 
   const [profile, setProfile] = useState({})
@@ -80,7 +88,6 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
     updateTeamMember({
       ...profile,
     }, member.id)
-    localStorage.removeItem('team_member_id')
     history.push('/account/team')
   }
 
@@ -89,11 +96,11 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
     clear_confirm_status()
   }
 
-  const handleEmailConfirm = () => {
-    setRequestActive(true)
-    email_confirm_request()
-    setTimeout(() => handleModalClose(), 3000)
-  }
+  // const handleEmailConfirm = () => {
+  //   setRequestActive(true)
+  //   email_confirm_request()
+  //   setTimeout(() => handleModalClose(), 3000)
+  // }
 
   return (
     <Account subtitle='Моя команда' title='Добавить члена команды' menu_item='team'>

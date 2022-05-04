@@ -23,7 +23,6 @@ const SubmitButton = ({
   //     action('ok')
   //     setSubmitted(false)
   //   } else if (submitted && res_status >= 400 && res_status < 500) {
-  //     console.log('0001')
   //     action('error')
   //     // setSubmitted(false)
   //   } else if (submitted && res_status >= 500 && res_status < 600) {

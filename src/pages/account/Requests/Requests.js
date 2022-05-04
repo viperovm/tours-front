@@ -147,8 +147,6 @@ const Requests = ({
   }
 }, [update_verification_status])
 
-  // console.log(user.legal_verification)
-
   const handleSubmit = () => {
     if (active === 1) {
       updateIndividualVerificationData(user.id, user.individual_verification)

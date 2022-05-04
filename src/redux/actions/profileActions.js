@@ -21,6 +21,7 @@ import {
   GET_RECIPIENT_INN_FAIL,
   UPDATE_CARD_DATA_SUCCESS,
   UPDATE_CARD_DATA_FAIL,
+  CLEAR_TEAM_MEMBER_SUCCESS,
 } from '../types'
 
 import axios from 'axios'
@@ -199,6 +200,12 @@ export const deleteTeamMemberAvatar = (id) => async dispatch => {
       payload: res
     })
   }
+}
+
+export const clearTeamMember = data => dispatch => {
+  dispatch({
+    type: CLEAR_TEAM_MEMBER_SUCCESS,
+  })
 }
 
 export const getUserInn = (data) => async dispatch => {

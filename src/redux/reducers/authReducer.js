@@ -171,10 +171,6 @@ const authReducer = (state = initialState, action) => {
             bank_inn: '',
             bank_kpp: '',
           }
-          console.log({
-            ...debet_card,
-            ...data
-          })
           return {
             ...user,
             debet_card: {
@@ -193,10 +189,6 @@ const authReducer = (state = initialState, action) => {
             bank_inn: '',
             bank_kpp: '',
           }
-          console.log({
-            ...bank_transaction,
-            ...data
-          })
           return {
             ...user,
             bank_transaction: {

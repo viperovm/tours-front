@@ -17,6 +17,7 @@ import {
   GET_DATA_BY_BIK_SUCCESS,
   GET_DATA_BY_BIK_FAIL,
   RESET_BIK_DATA,
+  CLEAR_TEAM_MEMBER_SUCCESS,
 } from '../types'
 
 const initialState = {
@@ -54,9 +55,10 @@ const profileReducer = (state = initialState, action) => {
     case GET_TEAM_MEMBER_FAIL:
     case ADD_TEAM_MEMBER_FAIL:
     case UPDATE_TEAM_MEMBER_FAIL:
+    case CLEAR_TEAM_MEMBER_SUCCESS:
       return {
         ...state,
-        member: {},
+        member: null,
       }
 
     case GET_USER_INN_SUCCESS:

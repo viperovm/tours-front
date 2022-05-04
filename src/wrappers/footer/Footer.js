@@ -19,8 +19,6 @@ const Footer = ({getLegalDocs, docs = []}) => {
     getLegalDocs()
   }, [])
 
-  console.log(docs)
-
     return (
       <footer className='footer'>
         <div className='wrapper_footer'>
