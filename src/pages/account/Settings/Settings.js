@@ -29,6 +29,8 @@ import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapp
 import PopUp from "../../../components/PopUp/PopUp";
 import styles from "../../../components/PopUp/PopUp.module.css";
 import {isNotEmptyObject} from "../../../functions";
+import axios from "axios";
+import * as t from "../../../redux/types";
 
 const Settings = ({
                     reg_status,
@@ -66,6 +68,7 @@ const Settings = ({
   const [submitted, setSubmitted] = useState(false)
   const [activePopUp, setActivePopUp] = useState(false)
   const [activePhonePopUp, setActivePhonePopUp] = useState(false)
+  const [phoneRequestError, setPhoneRequestError] = useState(null)
 
 
   useEffect(() => {
@@ -85,12 +88,6 @@ const Settings = ({
   const handleModalClose = () => {
     setRequestActive(false)
     clear_confirm_status()
-  }
-
-  const handleEmailConfirm = () => {
-    setRequestActive(true)
-    email_confirm_request()
-    setTimeout(() => handleModalClose(), 3000)
   }
 
   useEffect(() => {
@@ -138,6 +135,36 @@ const Settings = ({
       handlePhonePopUp()
     }
   }, [confirm])
+
+
+  const handleEmailConfirm = () => {
+    setRequestActive(true)
+    email_confirm_request()
+    setTimeout(() => handleModalClose(), 3000)
+  }
+
+  const handlePhoneConfirm = async() => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
+
+    const body = JSON.stringify({phone: profile.phone})
+
+    try {
+      await axios.patch(
+        `${process.env.REACT_APP_API_URL}/api/experts/${user.id}/send_confirmation_call/`,
+        body,
+        config
+      )
+      setActivePhonePopUp(true)
+    } catch (err) {
+      setPhoneRequestError(err.response.data)
+    }
+  }
 
 
   const PhoneForm = () => {
@@ -260,6 +287,7 @@ const Settings = ({
             action={handleChange}
             name='phone'
             value={profile.phone}
+            error={phoneRequestError}
           />
           <Input
             label={'Email'}
@@ -274,10 +302,7 @@ const Settings = ({
             </div>
 
           ) : (<div className="verified-note">
-            Телефон не подтвержден! <span onClick={() => {
-            phone_confirm_request(user.id)
-            setActivePhonePopUp(true)
-          }}
+            Телефон не подтвержден! <span onClick={handlePhoneConfirm}
                                           style={{cursor: 'pointer'}}>Подтвердить?</span>
           </div>)}
           {profile.email_confirmed ? (<div className="verified-note">
