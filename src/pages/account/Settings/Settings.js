@@ -11,7 +11,7 @@ import {
   email_confirm_request,
   phone_confirm_request,
   phone_confirm,
-  clear_confirm_status
+  clear_confirm_status,
 } from '../../../redux/actions/authActions'
 import {getLanguages} from '../../../redux/actions/toursActions'
 import {Link} from "react-router-dom";
@@ -50,6 +50,7 @@ const Settings = ({
                     phone_confirm,
                     confirm,
                     phone_error,
+                    error,
                   }) => {
   useEffect(() => {
     setPage('profile')
@@ -61,6 +62,7 @@ const Settings = ({
   }, [])
 
   const [profile, setProfile] = useState({})
+  const [phoneConfirmed, setPhoneConfirmed] = useState(null)
   const [action, setAction] = useState(false)
 
   const [requestActive, setRequestActive] = useState(false)
@@ -68,7 +70,30 @@ const Settings = ({
   const [submitted, setSubmitted] = useState(false)
   const [activePopUp, setActivePopUp] = useState(false)
   const [activePhonePopUp, setActivePhonePopUp] = useState(false)
+  const [phoneChanged, setPhoneChanged] = useState(false)
   const [phoneRequestError, setPhoneRequestError] = useState(null)
+  const [err, setErr] = useState(null)
+
+  useEffect(() => {
+    const scrollTo = (el) => {
+      let anchor = document.getElementById(el)
+      anchor && anchor.scrollIntoView({block: "center", behavior: "smooth"})
+    }
+    if (error) {
+      scrollTo(Object.keys(error)[0])
+    }
+    // return () => clearErrors()
+  }, [error])
+
+  useEffect(() => {
+    if(phoneRequestError) {
+      setErr(phoneRequestError)
+    } else if(error) {
+      setErr(error)
+    } else {
+      setErr(null)
+    }
+  }, [phoneRequestError, error])
 
 
   useEffect(() => {
@@ -104,10 +129,29 @@ const Settings = ({
         phone_confirmed: user.phone_confirmed,
         email_confirmed: user.email_confirmed,
       })
+      setPhoneConfirmed(user.phone_confirmed)
     }
   }, [user])
 
+  // console.log(phoneChanged)
+  // console.log(profile.phone)
+  // console.log(profile.old_phone)
+  //
+  // useEffect(() => {
+  //   if(phoneConfirmed && phoneChanged && profile.phone != profile.old_phone) {
+  //     setPhoneConfirmed(false)
+  //     setPhoneChanged(false)
+  //   } else {
+  //     setPhoneConfirmed(user && user.phone_confirmed)
+  //     setPhoneChanged(false)
+  //   }
+  //
+  // }, [phoneConfirmed, phoneChanged, profile])
+
   const handleChange = (name, value) => {
+    // if(name === 'phone') {
+    //   setPhoneChanged(true)
+    // }
     setProfile({
       ...profile, [name]: value,
     })
@@ -287,17 +331,18 @@ const Settings = ({
             action={handleChange}
             name='phone'
             value={profile.phone}
-            error={phoneRequestError}
+            error={err}
           />
           <Input
             label={'Email'}
             action={handleChange}
             name='email'
             value={profile.email}
+            error={error}
           />
         </DoubleWrapper>
         <DoubleWrapper full={true} undertext={true}>
-          {(profile.phone_confirmed || (confirm >= 200 && confirm < 300)) ? (<div className="verified-note">
+          {(phoneConfirmed || (confirm >= 200 && confirm < 300)) ? (<div className="verified-note">
               <span className="confirmed-green">Телефон подтвержден и скрыт от других пользователей</span>
             </div>
 
@@ -325,6 +370,7 @@ const Settings = ({
             action={handleChange}
             name='video'
             value={profile.video}
+            error={error}
           />
         </SingleWrapper>
 
@@ -340,6 +386,7 @@ const Settings = ({
             action={handleChange}
             options={languages}
             val={profile.notification_languages}
+            error={error}
           />
         </SingleWrapper>
         <Button
@@ -369,6 +416,7 @@ const Settings = ({
             action={handleChange}
             name='password'
             value={profile.password}
+            error={error}
           />
           <Input
             type='password'
@@ -376,6 +424,7 @@ const Settings = ({
             action={handleChange}
             name='re_password'
             value={profile.re_password}
+            error={error}
           />
         </DoubleWrapper>
 
@@ -391,6 +440,7 @@ const Settings = ({
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  error: state.auth.error,
   status: state.auth.status,
   confirm: state.auth.confirm,
   phone_error: state.auth.phone_error,

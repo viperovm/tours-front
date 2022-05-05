@@ -295,6 +295,12 @@ const authReducer = (state = initialState, action) => {
         reg_status: payload.reg_status,
       }
 
+    case t.USER_UPDATE_FAIL:
+      return {
+        ...state,
+        error: payload,
+      }
+
     case t.UPDATE_LOCAL_USER:
       return {
         ...state,

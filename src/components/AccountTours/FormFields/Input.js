@@ -6,24 +6,39 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 const Input = ({
-                 disabled = false, label, action, name, type = 'text', value, required, icon, error = {}, margin = '0', tour, spinner = false, clear = false
+                 disabled = false,
+                 label,
+                 action,
+                 name,
+                 type = 'text',
+                 value,
+                 required,
+                 icon,
+                 error = null,
+                 margin = '0',
+                 tour,
+                 spinner = false,
+                 clear = false,
+                 blur_action,
                }) => {
   const [data, setData] = useState('')
   const [currentError, setCurrentError] = useState([])
 
   useEffect(() => {
-    if(clear) {
+    if (clear) {
       setData('')
     }
   }, [clear])
 
   useEffect(() => {
-    if (error && isNotEmptyObject(error) && error.detail) {
+    if (error && error.detail) {
       let arr = []
       arr.push(error.detail)
       setCurrentError(arr)
-    } else if (error && isNotEmptyObject(error) && name === 're_password') {
+    } else if (error && name === 're_password') {
       setCurrentError(error['password'])
+    } else if (error && name === 'phone') {
+      setCurrentError(error['phone'])
     } else if (error && error[name]) {
       setCurrentError(error[name])
     }
@@ -56,6 +71,7 @@ const Input = ({
           type={type}
           onChange={handleData}
           max="2999-12-31"
+          onBlur={blur_action}
         />}
         {type !== 'date' && <>
 
@@ -77,7 +93,7 @@ const Input = ({
           {!icon && !spinner && <div>
             <input
               required={required}
-              className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
+              className={`custom-input-style ${currentError && currentError.length > 0 ? 'error' : 'ok'}`}
               placeholder={label}
               name={name}
               value={data}

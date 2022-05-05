@@ -124,6 +124,7 @@ export const update_user = data => async dispatch => {
     } catch (err) {
       dispatch({
         type: t.USER_UPDATE_FAIL,
+        payload: err.response.data,
       })
     }
   } else {
