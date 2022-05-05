@@ -283,7 +283,7 @@ const Settings = ({
 
         <DoubleWrapper full={true}>
           <Input
-            label={'Номер телефона'}
+            label={'Номер телефона (в международном формате)'}
             action={handleChange}
             name='phone'
             value={profile.phone}
