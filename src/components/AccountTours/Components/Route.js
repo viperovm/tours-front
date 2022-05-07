@@ -12,6 +12,7 @@ import {
 } from '../../../redux/actions/toursActions'
 import CitySelectInput from "../FormFields/CitySelectInput";
 import ToursFormLayout from "../../../layouts/account/ToursFormLayout";
+import MapSection from "./MapSection";
 
 const TourRoute = ({
                      tour,
@@ -107,6 +108,10 @@ const TourRoute = ({
             options={cities}
             error={error}
           />
+        </SingleWrapper>
+
+        <SingleWrapper label='Маршрут на карте' comment='' width={'100%'}>
+          <MapSection/>
         </SingleWrapper>
 
         <DaysComponent/>

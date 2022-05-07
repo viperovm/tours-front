@@ -134,6 +134,7 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
                   {((tour_preview.plan && tour_preview.plan.length > 0) || tour_preview.media_link) && <TourReview text={tour_preview.description} activities={tour_preview.plan} video={tour_preview && tour_preview.media_link ? tour_preview.media_link : ''}/>}
                   {tour_preview.tour_images && tour_preview.tour_images.length > 0 && <TourGallery gallery={tour_preview.tour_images}/>}
                   {tour_preview.start_date && tour_preview.start_city && <TourRoute
+                    map={tour_preview && tour_preview.map}
                     start_date={tour_preview && tour_preview.start_date}
                     start_city={tour_preview && tour_preview.start_city}
                     start_time={tour_preview && tour_preview.start_time}
