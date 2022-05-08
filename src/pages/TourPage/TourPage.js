@@ -37,7 +37,7 @@ import star from '../../components/TourPageComponents/TourLeader/star.svg'
 import AirTickets from "../../components/TourPageComponents/TourRoute/AirTickets";
 import TourImportantToKnow from "../../components/TourPageComponents/TourImportantToKnow";
 
-const TourPage = ({tour, getTourReview, tour_preview}) => {
+const TourPage = ({tour, getTourReview, tour_preview, match}) => {
 
   const stickyRef = useStickyBox({offsetTop: 30, offsetBottom: 30})
 
@@ -55,13 +55,18 @@ const TourPage = ({tour, getTourReview, tour_preview}) => {
     }
   }
 
-
   useEffect(() => {
-    if (isNotEmptyObject(tour)) {
-      getTourReview(tour.id)
-      return () => getTourReview(tour.id, 'reset')
-    }
-  }, [tour])
+    getTourReview(match.params.id)
+    return () => getTourReview(match.params.id, 'reset')
+  }, [])
+
+
+  // useEffect(() => {
+  //   if (isNotEmptyObject(tour)) {
+  //     getTourReview(tour.id)
+  //     return () => getTourReview(tour.id, 'reset')
+  //   }
+  // }, [tour])
 
   const PriceComment = () => {
     const [showMore, setShowMore] = useState(false)
