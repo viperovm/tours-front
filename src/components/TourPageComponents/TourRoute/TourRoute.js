@@ -1,21 +1,30 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styles from './TourRoute.module.css';
 
 import dateFormat, { masks } from 'dateformat'
-import {Map, Placemark, Polyline, ZoomControl} from "react-yandex-maps";
+import {Map, Placemark, Polyline, ZoomControl, SearchControl} from "react-yandex-maps";
 
-const TourRoute = ({start_date, start_city, start_time, finish_date, finish_city, finish_time, map}) => {
+const TourRoute = ({start_date, start_city, start_time, finish_date, finish_city, finish_time, map = null}) => {
+
+  const [yaMap, setYaMap] = useState(null)
+
+  useEffect(() => {
+    if(yaMap) {
+      yaMap.behaviors.disable('scrollZoom')
+    }
+  }, [yaMap])
 
   return (
     <>
       <div className={styles.tour_route_container}>
         <h3>Маршрут</h3>
-        <div className={styles.tour_route_map}>
+        {map && <div className={styles.tour_route_map}>
           <Map
             width={728}
             height={398}
             className={styles.tour_route_map_map}
-            state={{ center: map.center, zoom: map.zoom, }}
+            state={{center: map && map.center, zoom: map && map.zoom, }}
+            instanceRef={r => setYaMap(r)}
             // onClick={handleMapClick} className={'map-section-map'}
             // instanceRef={map => setMap(map)}
             // onBoundsChange={onBoundsChange}
@@ -25,8 +34,9 @@ const TourRoute = ({start_date, start_city, start_time, finish_date, finish_city
                 <Placemark
                   key={index}
                   geometry={item}
-                  properties={{iconContent: index+1}}
+                  properties={{iconContent: index + 1}}
                   options={{draggable: false}}
+                  ref={`mark${index+1}`}
                   // onGeometryChange={(e) => handlePlaceMarkDrag(e, index)}
                 />
               </>
@@ -43,9 +53,9 @@ const TourRoute = ({start_date, start_city, start_time, finish_date, finish_city
                 strokeWidth: 5
               }}
             />
-            <ZoomControl options={{ float: 'right' }} />
+            <ZoomControl options={{float: 'right'}}/>
           </Map>
-        </div>
+        </div>}
         <div className={styles.tour_route_data_container}>
           <div className={styles.tour_route_data}>
             <div className={styles.tour_route_data_title}>Старт:</div>

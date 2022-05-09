@@ -6,7 +6,7 @@ import {
   updateTour,
 } from '../../../redux/actions/toursActions'
 
-import {Map, Polyline, Placemark, ZoomControl} from 'react-yandex-maps';
+import {Map, Polyline, Placemark, ZoomControl, SearchControl} from 'react-yandex-maps';
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
@@ -27,6 +27,12 @@ const MapSection = ({tour, updateTour, }) => {
       setZoom(tour.map.zoom)
     }
   }, [tour])
+
+  // useEffect(() => {
+  //   if(map) {
+  //     map.behaviors.disable('scrollZoom')
+  //   }
+  // }, [map])
 
   useEffect(() => {
     updateTour({
@@ -88,7 +94,7 @@ const MapSection = ({tour, updateTour, }) => {
     <>
       <div className={'map-section'}>
         <Map
-          state={{ center: center, zoom: zoom, controls: [],}}
+          state={{ center: center, zoom: zoom, controls: [], }}
           onClick={handleMapClick} className={'map-section-map'}
           instanceRef={map => setMap(map)}
           onBoundsChange={onBoundsChange}
@@ -117,6 +123,7 @@ const MapSection = ({tour, updateTour, }) => {
             }}
           />}
           <ZoomControl options={{ float: 'right' }} />
+          <SearchControl options={{ float: 'right', provider: 'yandex#search' }} />
         </Map>
         <div className="map-section-dots">
           {!loading && coords.map((item, i) => (

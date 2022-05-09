@@ -30,7 +30,7 @@ const TourDays = ({days=[]}) => {
           </div>
         </div>
         {days.map((item, index) => (
-          <TourDay day={item} index={index} is_opened={active}/>
+          <TourDay  key={index} day={item} index={index} is_opened={active}/>
         ))}
       </div>}
 
