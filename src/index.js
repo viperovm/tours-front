@@ -8,7 +8,7 @@ import { createBrowserHistory } from 'history';
 
 const customHistory = createBrowserHistory();
 
-import registerServiceWorker from './public/registerServiceWorker';
+// import registerServiceWorker from '../public/registerServiceWorker';
 
 ReactDOM.render(
   <Router history={customHistory}>
@@ -16,4 +16,4 @@ ReactDOM.render(
   </Router>,
   document.getElementById('root'));
 
-registerServiceWorker();
+// registerServiceWorker();
