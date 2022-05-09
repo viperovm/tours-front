@@ -78,7 +78,7 @@ const Input = ({
           {icon && !spinner && <div className={`with-icon`}>
             <input
               required={required}
-              className={`custom-input-style ${currentError.length > 0 ? 'error' : 'ok'}`}
+              className={`custom-input-style ${currentError && currentError.length > 0 ? 'error' : 'ok'}`}
               placeholder={label}
               name={name}
               value={data}

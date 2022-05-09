@@ -54,7 +54,7 @@ const TourImportantToKnow = ({
           </div>
         </div>
         {data.map((item, index) => (
-          <FaqElement title={item.title} text={item.text} is_opened={active}/>
+          <FaqElement key={index} title={item.title} text={item.text} is_opened={active}/>
         ))}
       </div>}
     </>
