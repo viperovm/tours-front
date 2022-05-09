@@ -20,8 +20,6 @@ const Tours = ({location, all_tours, getAllTours}) => {
   const {pathname} = location
   const page = pathname[0] === '/' ? pathname.substring(1) : pathname
 
-  console.log(page)
-
   const left_part = (<div className={styles.sort_button}>Сначала популярные</div>)
 
   return (
