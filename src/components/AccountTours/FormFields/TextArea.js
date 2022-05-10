@@ -8,13 +8,13 @@ const TextArea = ({
   const [currentError, setCurrentError] = useState([])
 
   useEffect(() => {
-    if(isNotEmptyObject(error) && error.detail) {
+    if(error && error.detail) {
       let arr = []
       arr.push(error.detail)
       setCurrentError(arr)
-    } else if(isNotEmptyObject(error) && name === 're_password') {
+    } else if(error && name === 're_password') {
       setCurrentError(error['password'])
-    } else if(error[name]) {
+    } else if(error && error[name]) {
       setCurrentError(error[name])
     }
   }, [error, name])

@@ -87,17 +87,24 @@ const Legal = ({
 
   const {legal_verification} = user
 
-  const {bank_transaction} = user
   const [active, setActive] = useState(1)
   const [spinner, setSpinner] = useState(false)
   const [clear, setClear] = useState(false)
-  const [legalVerification, setLegalVerification] = useState({
-    recipient_inn: bank_transaction.recipient_inn,
-    recipient_name: bank_transaction.recipient_name,
-    recipient_ogrn: bank_transaction.recipient_ogrn,
-    recipient_legal_address: bank_transaction.recipient_legal_address,
-    license: 'yes',
-  })
+  // const [legalVerification, setLegalVerification] = useState(null)
+
+  // useEffect(() => {
+  //   if(user && user.bank_transaction) {
+  //     setLegalVerification({
+  //       ...legalVerification,
+  //       recipient_inn: user.bank_transaction.recipient_inn,
+  //       recipient_name: user.bank_transaction.recipient_name,
+  //       recipient_ogrn: user.bank_transaction.recipient_ogrn,
+  //       recipient_legal_address: user.bank_transaction.recipient_legal_address,
+  //       license: 'yes',
+  //     })
+  //   }
+  // }, [user])
+
 
   useEffect(() => {
     const scrollTo = (el) => {
@@ -112,24 +119,36 @@ const Legal = ({
     return () => clear_errors()
   }, [error])
 
-  useEffect(() => {
-    update_local_user({
-      ...user,
-      legal_verification: {
-        ...user.legal_verification,
-        ...legalVerification,
-      }
-    })
-  }, [legalVerification])
+  // useEffect(() => {
+  //   update_local_user({
+  //     ...user,
+  //     legal_verification: {
+  //       ...user.legal_verification,
+  //       ...legalVerification,
+  //     }
+  //   })
+  // }, [legalVerification])
 
-  useEffect(() => {
-    if (inn_data) {
-      setLegalVerification({
-        ...legalVerification,
-        ...inn_data,
-      })
-    }
-  }, [inn_data])
+  // useEffect(() => {
+  //   if (inn_data) {
+  //     setLegalVerification({
+  //       ...legalVerification,
+  //       ...inn_data,
+  //     })
+  //   }
+  // }, [inn_data])
+
+  // useEffect(() => {
+  //   if (inn_data) {
+  //     update_local_user({
+  //       ...user,
+  //       legal_verification: {
+  //         ...user.legal_verification,
+  //         ...inn_data,
+  //       }
+  //     })
+  //   }
+  // }, [inn_data])
 
   useEffect(() => {
     if (spinner) {
@@ -161,10 +180,20 @@ const Legal = ({
     upload_docs(file)
   }
 
+  // const handleChange = (name, value) => {
+  //   setLegalVerification({
+  //     ...legalVerification,
+  //     [name]: value,
+  //   })
+  // }
+
   const handleChange = (name, value) => {
-    setLegalVerification({
-      ...legalVerification,
-      [name]: value,
+    update_local_user({
+      ...user,
+      legal_verification: {
+        ...user.legal_verification,
+        [name]: value,
+      }
     })
   }
 

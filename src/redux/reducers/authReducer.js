@@ -17,7 +17,7 @@ const initialState = {
   avatar: '',
   confirm_request: null,
   confirm: null,
-  error: {},
+  error: null,
   inn_data: null,
   update_verification_status: '',
   phone_error: null,
@@ -107,7 +107,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         update_status: payload,
-        error: {},
+        error: null,
       }
 
     case t.UPDATE_LEGAL_VERIFICATION_DATA_SUCCESS:
@@ -115,7 +115,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         update_verification_status: payload,
-        error: {},
+        error: null,
       }
 
     case t.CLEAR_VERIFICATION_STATUS:
@@ -373,7 +373,7 @@ const authReducer = (state = initialState, action) => {
     case t.CLEAR_ERRORS:
       return {
         ...state,
-        error: {},
+        error: null,
         reg_status: null,
       }
     default:

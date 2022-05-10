@@ -48,7 +48,7 @@ export const load_user = () => async dispatch => {
     } catch (err) {
       dispatch({
         type: t.USER_LOADED_FAIL,
-        payload: err.response.data
+        payload: err && err.response && err.response.data
       })
     }
   } else {

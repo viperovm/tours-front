@@ -87,8 +87,6 @@ const Individual = ({
     license: 'yes',
   })
 
-  console.log(individualVerification)
-  console.log(user.individual_verification)
 
   useEffect(() => {
     const scrollTo = (el) => {
@@ -98,7 +96,7 @@ const Individual = ({
     if (error) {
       let field_key = Object.keys(error)[0]
       scrollTo(field_key)
-      return console.error(error)
+      // return console.error(error)
     }
     return () => clear_errors()
   }, [error])
@@ -120,7 +118,6 @@ const Individual = ({
     })
   }
 
-  console.log(individualVerification)
 
   return (
     <>

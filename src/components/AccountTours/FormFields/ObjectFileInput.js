@@ -158,16 +158,16 @@ const ObjectFileInput = ({
               </Box>
             </div>
           )}
-          {currentError.length > 0 && <div className="errors-list">
+          {currentError && Array.isArray(currentError) && currentError.length > 0 && <div className="errors-list">
             {/*{currentError}*/}
             <ul>
-              {Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
+              {currentError && Array.isArray(currentError) && currentError.length > 0 && currentError.map((item, index) => (
                 <li key={index}>{item}</li>
               ))
               }
             </ul>
           </div>}
-          {name === 'user_docs' &&
+          {name === 'user_docs' && value &&
             value.length > 0 && value.map((item, index) => (
             <Fragment
               key={index}
