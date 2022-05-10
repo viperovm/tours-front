@@ -100,7 +100,7 @@ const CitySelectInput = ({action, name, label, val, options, multiple, margin, b
       },
     }
     try {
-      const res = await axios.get(`https://travel.market/api/cities/?search=${search}`, config)
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/cities/?search=${search}`, config)
       setResults(res.data)
       setIsSearching(false);
     } catch (err) {
