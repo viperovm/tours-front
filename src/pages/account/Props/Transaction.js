@@ -82,16 +82,16 @@ const Transaction = ({
 
   return (
     <>
-      <SingleWrapper label='Страна платежного адреса' comment='' name={'billing_country'} full={true} margin={0}>
-        <SelectInput
-          action={handleChange}
-          name='billing_country'
-          label='Страна платежного адреса'
-          val={user && user.bank_transaction && user.bank_transaction.billing_country}
-          options={countries}
-          error={error}
-        />
-      </SingleWrapper>
+      {/*<SingleWrapper label='Страна платежного адреса' comment='' name={'billing_country'} full={true} margin={0}>*/}
+      {/*  <SelectInput*/}
+      {/*    action={handleChange}*/}
+      {/*    name='billing_country'*/}
+      {/*    label='Страна платежного адреса'*/}
+      {/*    val={user && user.bank_transaction && user.bank_transaction.billing_country}*/}
+      {/*    options={countries}*/}
+      {/*    error={error}*/}
+      {/*  />*/}
+      {/*</SingleWrapper>*/}
       <DoubleWrapper full={true} margin={0}>
         <Input
           label={'БИК Банка'}

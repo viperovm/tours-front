@@ -9,6 +9,7 @@ import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapp
 import DebetCard from "./DebetCard";
 import Transaction from "./Transaction";
 import PopUp from "../../../components/PopUp/PopUp";
+import {isNotEmptyObject} from "../../../functions";
 
 const data = [
   {
@@ -57,6 +58,16 @@ const Props = ({update_local_user, user, status, updateCardData, updateTransacti
 
   const [active, setActive] = useState(1)
   const [activePopUp, setActivePopUp] = useState(false)
+
+  useEffect(() => {
+    if(user && user.debet_card && isNotEmptyObject(user.debet_card)){
+      setActive(1)
+    } else if(user && user.bank_transaction && isNotEmptyObject(user.bank_transaction)){
+      setActive(2)
+    } else {
+      setActive(1)
+    }
+  }, [])
 
   useEffect(() => {
     setPage('profile')

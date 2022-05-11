@@ -55,16 +55,16 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
 
   return (
     <>
-      <SingleWrapper label='Страна платежного адреса' comment='' name={'billing_country'} full={true} margin={0}>
-        <SelectInput
-          action={handleChange}
-          name='billing_country'
-          label='Страна платежного адреса'
-          val={user && user.debet_card && user.debet_card.billing_country}
-          options={countries}
-          error={error}
-        />
-      </SingleWrapper>
+      {/*<SingleWrapper label='Страна платежного адреса' comment='' name={'billing_country'} full={true} margin={0}>*/}
+      {/*  <SelectInput*/}
+      {/*    action={handleChange}*/}
+      {/*    name='billing_country'*/}
+      {/*    label='Страна платежного адреса'*/}
+      {/*    val={user && user.debet_card && user.debet_card.billing_country}*/}
+      {/*    options={countries}*/}
+      {/*    error={error}*/}
+      {/*  />*/}
+      {/*</SingleWrapper>*/}
       <DoubleWrapper full={true} margin={0}>
         <Input
           label={'БИК Банка'}

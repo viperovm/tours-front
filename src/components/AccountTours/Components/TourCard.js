@@ -82,14 +82,19 @@ const TourCard = ({
   return (
     <>
       <div className='tour-card'>
+        <div className='tour-image'>
+
         <div
           className='tour-image'
+          onClick={handleTourEdit}
           style={{
             backgroundImage: 'url(' + tour.tmb_wallpaper + ')',
-            // cursor: 'pointer'
+            cursor: 'pointer'
         }}
           // onClick={handleTourEdit}
         >
+
+        </div>
           <div
             className='tour-menu-dots'
             style={{
@@ -167,42 +172,40 @@ const TourCard = ({
             {label}
           </div>
         </div>
-        <div className='tour-data'>
+        <div
+          className='tour-header'
+          onClick={handleTourEdit}
+          style={{ cursor: 'pointer' }}
+        >
+          <div className='tour-region'>{tour && tour.start_country && tour.start_country.name}</div>
           <div
-            className='tour-header'
+            className='tour-name'
             onClick={handleTourEdit}
-            style={{ cursor: 'pointer' }}
+            // style={{ cursor: 'pointer' }}
           >
-            <div className='tour-region'>{tour && tour.start_country && tour.start_country.name}</div>
-            <div
-              className='tour-name'
-              onClick={handleTourEdit}
-              // style={{ cursor: 'pointer' }}
-            >
-              {tour.name && (tour.name.length <= 23 ? tour.name : tour.name.substring(0, 23) + '...')}
-            </div>
+            {tour.name && (tour.name.length <= 23 ? tour.name : tour.name.substring(0, 23) + '...')}
           </div>
-          <div className='tour-footer'>
-            <div className='tour-footer-left'>
-              <div className='tour-footer-dates'>
-                {tour.duration} дн. (с{' '}
-                {dateFormat(new Date(tour.start_date), 'dd.mm.yyyy')})
-              </div>
-              <div className='tour-footer-price'>{tour.price} <span className='rub-sign'>₽</span></div>
+        </div>
+        <div className='tour-footer'>
+          <div className='tour-footer-left'>
+            <div className='tour-footer-dates'>
+              {tour.duration} дн. (с{' '}
+              {dateFormat(new Date(tour.start_date), 'dd.mm.yyyy')})
             </div>
-            <div className='tour-footer-right'>
-              <div className='tour-footer-sold'>
-                <div className='tour-footer-value'>
-                  {tour.sold ? tour.sold : '0'}
-                </div>{' '}
-                <img src={cart} alt='shopping-cart' />
-              </div>
-              <div className='tour-footer-watched'>
-                <div className='tour-footer-value'>
-                  {tour.watched ? tour.watched : '0'}
-                </div>{' '}
-                <img src={view} alt='view' />
-              </div>
+            <div className='tour-footer-price'>{tour.price} <span className='rub-sign'>₽</span></div>
+          </div>
+          <div className='tour-footer-right'>
+            <div className='tour-footer-sold'>
+              <div className='tour-footer-value'>
+                {tour.sold ? tour.sold : '0'}
+              </div>{' '}
+              <img src={cart} alt='shopping-cart' />
+            </div>
+            <div className='tour-footer-watched'>
+              <div className='tour-footer-value'>
+                {tour.watched ? tour.watched : '0'}
+              </div>{' '}
+              <img src={view} alt='view' />
             </div>
           </div>
         </div>
