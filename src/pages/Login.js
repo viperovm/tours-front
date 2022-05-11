@@ -33,6 +33,7 @@ const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors
   const handleAction = e => {
     e.preventDefault()
     clear_errors()
+    localStorage.setItem('oldTimeStamp', new Date().getTime().toString())
     login(data)
     // setData({})
   }

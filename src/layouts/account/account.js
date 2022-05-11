@@ -19,6 +19,8 @@ const Account = ({
                    openSecondaryMenu,
                  }) => {
 
+  console.log(isAuthenticated)
+
   if (!isAuthenticated) {
     return <Redirect to='/login'/>
   }
@@ -28,6 +30,7 @@ const Account = ({
   }
 
   const [avatarLetter, setAvatarLetter] = useState('')
+
   useEffect(() => {
     load_user()
   }, [])

@@ -10,6 +10,7 @@ const MainLayout = ({ isAuthenticated, children, page }) => {
 
   useEffect(() => {
 
+    // const timeout = 30
     const timeout = 3600
 
     const deleteUser = () => {
