@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {connect} from "react-redux";
 
-const MainLayout = ({ isAuthenticated, children, page }) => {
+const MainLayout = ({ isAuthenticated, children, page, background = 'transparent' }) => {
 
   const history = useHistory()
 
@@ -46,7 +46,7 @@ const MainLayout = ({ isAuthenticated, children, page }) => {
   return (
     <>
       <Header page={page}/>
-      <main>{children}</main>
+      <main style={{backgroundColor: background, zIndex: '0'}}>{children}</main>
       <Footer/>
     </>
   )

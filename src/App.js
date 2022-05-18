@@ -20,6 +20,9 @@ const Register = lazy(() => import('./pages/Register'))
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
 const Dashboard = lazy(() => import('./pages/account/Dashboard'))
 const Tours = lazy(() => import('./pages/Tours'))
+const Reviews = lazy(() => import('./pages/Reviews'))
+const Blog = lazy(() => import('./pages/Blog'))
+const SingleBlog = lazy(() => import('./pages/Blog/SingleBlog'))
 const Tour = lazy(() => import('./pages/Tour'))
 const MyTours = lazy(() => import('./pages/account/Tours/MyTours'))
 const Chat = lazy(() => import('./pages/account/Chat'))
@@ -57,10 +60,13 @@ const App = () => {
             <CircularProgress/>
           </Box>
         }>
-          <YMaps>
+          <YMaps query={{ apikey: '7276fdc3-5ca1-4286-bdd3-76d17cce9e38' }}>
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/tours' component={Tours} />
+              <Route exact path='/reviews' component={Reviews} />
+              <Route exact path='/blog' component={Blog} />
+              <Route exact path='/blog/:id' component={SingleBlog} />
               <Route exact path='/tours/:id' component={Tour} />
               <Route path='/login' component={Login} />
               <Route path='/register' component={Register} />

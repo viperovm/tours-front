@@ -2,15 +2,14 @@ import React from 'react';
 import styles from './Tours.module.css';
 import Tour from "./Tour";
 import Title from "./Title";
+import Section from "../../components/Section";
 
 const SearchSection = () => {
   return (
     <>
-      <section className={styles.search_section}>
-        <div className='wrapper'>
-          <Title title={'Подобрать тур'} sub_title={'Мы подберем только лучшее'} color={'white'} border_color={'white'}/>
-        </div>
-      </section>
+      <Section background={'#2AA2D6'} padding={'40px 0 0 0'}>
+        <Title title={'Подобрать тур'} sub_title={'Мы подберем только лучшее'} color={'white'} border_color={'white'}/>
+      </Section>
     </>
   );
 };

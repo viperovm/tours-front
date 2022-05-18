@@ -10,8 +10,45 @@ import ToursSet from "./ToursSet";
 import SearchSection from "./SearchSection";
 import TextSection from "./TextSection";
 import {getAllTours} from "../../redux/actions/toursActions";
+import Section from "../../components/Section";
 
 const Tours = ({location, all_tours, getAllTours}) => {
+
+  const buttons = [
+    {
+      name: 'Тип тура',
+    },
+    {
+      name: 'Язык группы',
+    },
+    {
+      name: 'Цена',
+    },
+    {
+      name: 'Туры с кешбеком',
+    },
+    {
+      name: 'Средний возраст группы',
+    },
+    {
+      name: 'Длительность (дни)',
+    },
+    {
+      name: 'Осталось мест',
+    },
+    {
+      name: 'Проживание',
+    },
+    {
+      name: 'Активность',
+    },
+    {
+      name: 'Рейтинг',
+    },
+    {
+      name: 'Гарантированные даты',
+    },
+  ]
 
   useEffect(() => {
     getAllTours()
@@ -29,19 +66,35 @@ const Tours = ({location, all_tours, getAllTours}) => {
         <meta name='description' content='' />
       </MetaTags>
       <MainLayout page={page}>
-        <section>
-          <div className='wrapper'>
-            <div className='breadcrumbs breadcrumbs_margin'>
-              <span><Link to='/'>Главная</Link></span> - <span>Путешествия</span>
-            </div>
+
+        <Section>
+          <div className='breadcrumbs breadcrumbs_margin'>
+            <span><Link to='/'>Главная</Link></span> - <span>Путешествия</span>
           </div>
-        </section>
-        <ButtonsSet/>
-        <Title title={'Путешествия'} sub_title={`Найдено ${all_tours && all_tours.length} тур`} border_color={'blue'} left={left_part}/>
-        <ToursSet tours={all_tours}/>
+          <ButtonsSet data={buttons}/>
+        </Section>
+
+        {/*<section>*/}
+        {/*  <div className='wrapper'>*/}
+        {/*    <div className='breadcrumbs breadcrumbs_margin'>*/}
+        {/*      <span><Link to='/'>Главная</Link></span> - <span>Путешествия</span>*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*  <ButtonsSet data={buttons}/>*/}
+        {/*</section>*/}
+
+        <Section padding={'0 0 10px 0'}>
+          <Title title={'Путешествия'} border_color={'blue'} left={left_part} travels_count={all_tours && all_tours.length}/>
+          <ToursSet tours={all_tours}/>
+        </Section>
+
         <SearchSection/>
-        <Title title={'Traveler.market'} sub_title={'Немного о нас и наших услугах'} border_color={'orange'}/>
-        <TextSection/>
+
+        <Section padding={'40px 0'}>
+          <Title title={'Traveler.market'} sub_title={'Немного о нас и наших услугах'} border_color={'orange'}/>
+          <TextSection/>
+        </Section>
+
       </MainLayout>
     </>
   )

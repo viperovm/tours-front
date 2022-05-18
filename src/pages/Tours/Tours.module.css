@@ -20,6 +20,7 @@
     display: flex;
     justify-content: space-between;
     align-items: end;
+    padding-bottom: 40px;
 }
 
 .title_set {
@@ -106,7 +107,7 @@
     margin-bottom: 20px;
 }
 
-.text_section_text p {
+.text_section_text p:not(:last-child) {
     margin-bottom: 20px;
 }
 
@@ -293,6 +294,19 @@
     line-height: 15px;
     text-decoration-line: line-through;
     color: rgba(0, 0, 0, 0.5);
+}
+
+.title_button {
+    width: 255px;
+    height: 48px;
+    background: #EF8F21;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    border: none;
 }
 
 

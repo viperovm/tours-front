@@ -83,6 +83,7 @@ select:-webkit-autofill:focus {
 .main {
   grid-area: main;
   display: grid;
+  z-index: 0;
 }
 
 .footer {
@@ -111,7 +112,7 @@ select:-webkit-autofill:focus {
 
 section {
   width: 100%;
-  margin-bottom: 30px;
+  /*margin-bottom: 30px;*/
 }
 
 .background-grey {
