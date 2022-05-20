@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import styles from './TourLeader.module.css';
 import star from './star.svg'
 
-const TourLeader = ({leader}) => {
+const TourLeader = ({leader, action}) => {
 
   return (
     <>
@@ -47,7 +47,10 @@ const TourLeader = ({leader}) => {
               </div>
             </div>
           </div>
-          <button className={styles.tour_leader_button}>
+          <button
+            className={styles.tour_leader_button}
+            onClick={action}
+          >
             Написать автору тура
           </button>
 

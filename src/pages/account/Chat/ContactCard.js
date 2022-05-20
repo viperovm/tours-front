@@ -6,11 +6,15 @@ const ContactCard = ({room, action, active = false, first = false, }) => {
 
   const {
     id,
-    user_avatar,
-    user_name,
     last_message,
-    last_message_date,
   } = room
+
+  const {
+    avatar,
+    first_name,
+    last_name,
+    last_message_date,
+  } = room.room_members[0]
 
   const handleClick = () => {
     action(id)
@@ -20,9 +24,9 @@ const ContactCard = ({room, action, active = false, first = false, }) => {
     <>
       <div className={`${styles.chat_contact_card} ${active ? styles.active : ''} ${first ? styles.first : ''}`} onClick={handleClick}>
         <div className={styles.chat_contact_wrapper}>
-          <div className={styles.chat_contact_avatar} style={{backgroundImage: `url(${user_avatar})`}}/>
+          <div className={styles.chat_contact_avatar} style={{backgroundImage: `url(${avatar})`}}/>
           <div className={styles.chat_contact_data}>
-            <div className={styles.chat_contact_name}>{user_name}</div>
+            <div className={styles.chat_contact_name}>{first_name + ' ' + last_name[0]}</div>
             <div className={styles.chat_contact_last_message}>{last_message}</div>
           </div>
         </div>

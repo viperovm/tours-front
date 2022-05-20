@@ -116,3 +116,4 @@ export const getData = (tour, direction, section) => {
     }
   }
 }
+

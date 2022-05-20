@@ -26,7 +26,7 @@ import TourLeader from "../../components/TourPageComponents/TourLeader/TourLeade
 import ToursEditLayout from "../../layouts/account/ToursEditLayout";
 import TourTypes from "../../components/TourPageComponents/TourTypes/TourTypes";
 import TourPreviewLayout from "../../layouts/account/TourPreviewLayout";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import ok from '../../assets/img/ok2.svg'
 import heart from '../../assets/img/heart.svg'
 import stopwatch from '../../assets/img/stopwatch.svg'
@@ -36,12 +36,21 @@ import chevron_down from '../../assets/img/chevron_down.svg'
 import star from '../../components/TourPageComponents/TourLeader/star.svg'
 import AirTickets from "../../components/TourPageComponents/TourRoute/AirTickets";
 import TourImportantToKnow from "../../components/TourPageComponents/TourImportantToKnow";
+import {add_chat_user} from "../../redux/actions/chatActions";
 
-const TourPage = ({tour, getTourReview, tour_preview, match}) => {
+const TourPage = ({tour, getTourReview, tour_preview, match, add_chat_user}) => {
 
   const stickyRef = useStickyBox({offsetTop: 30, offsetBottom: 30})
 
   const [places, setPlaces] = useState(1)
+
+  const history = useHistory()
+
+  const handleExpertChat = () => {
+    console.log(tour_preview.expert.id)
+    add_chat_user(tour_preview.expert.id)
+    history.push('/account/chat')
+  }
 
   const handleAdd = () => {
     if (places < tour.vacants_number) {
@@ -200,7 +209,10 @@ const TourPage = ({tour, getTourReview, tour_preview, match}) => {
                   />}
 
                   {tour_preview.team_member && <TourLeader
-                    leader={tour_preview.team_member}/>}
+                    leader={tour_preview.team_member}
+                    action={handleExpertChat}
+                  />
+                  }
 
                 </div>
 
@@ -354,7 +366,7 @@ const TourPage = ({tour, getTourReview, tour_preview, match}) => {
                       </div>
                     </div>}
 
-                    <div className={styles.footer_row_button}>
+                    <div className={styles.footer_row_button} onClick={handleExpertChat}>
                       Написать автору тура
                     </div>
 
@@ -379,4 +391,4 @@ const mapStateToProps = state => ({
   tour_preview: state.tours.tour_preview,
 })
 
-export default connect(mapStateToProps, {getTourReview})(TourPage)
+export default connect(mapStateToProps, {getTourReview, add_chat_user})(TourPage)

@@ -55,11 +55,13 @@
     "react-sticky-box": "^1.0.1",
     "react-svg-color": "^2.3.0",
     "react-transition-group": "^4.4.1",
+    "react-use-websocket": "^3.0.0",
     "react-yandex-maps": "^4.6.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "websocket": "^1.0.34"
   },
   "scripts": {
     "start": "react-scripts --max_old_space_size=4096 start",

@@ -84,6 +84,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-y: scroll;
 }
 
 .chat_messages_messages {
@@ -109,6 +110,8 @@
     height: 40px;
     border-radius: 50%;
     margin: 0 0 0 20px;
+    background-position: center;
+    background-size: cover;
 }
 
 .is_mine .user_avatar {

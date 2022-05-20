@@ -22,19 +22,28 @@ import TourIncluded from "../../components/TourPageComponents/TourIncluded/TourI
 import AirTickets from "../../components/TourPageComponents/TourRoute/AirTickets";
 import TourLeader from "../../components/TourPageComponents/TourLeader/TourLeader";
 import TourImportantToKnow from "../../components/TourPageComponents/TourImportantToKnow";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import ok from "../../assets/img/ok2.svg";
 import heart from "../../assets/img/heart.svg";
 import stopwatch from "../../assets/img/stopwatch.svg";
 import group from "../../assets/img/users_group.svg";
 import star from "../../components/TourPageComponents/TourLeader/star.svg";
+import {add_chat_room} from "../../redux/actions/chatActions";
 
-const Tour = ({location, match, getTourReview, tour_preview}) => {
+const Tour = ({location, match, getTourReview, tour_preview, add_chat_room}) => {
 
   useEffect(() => {
     getTourReview(match.params.id)
     return () => getTourReview(match.params.id, 'reset')
   }, [])
+
+  const history = useHistory()
+
+  const handleExpertChat = () => {
+    console.log(tour_preview.expert.id)
+    add_chat_room(tour_preview.expert.id)
+    history.push('/account/chat')
+  }
 
   const {pathname} = location
   const page = pathname[0] === '/' ? pathname.substring(1) : pathname
@@ -182,7 +191,10 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
                   />}
 
                   {tour_preview.team_member && <TourLeader
-                    leader={tour_preview.team_member}/>}
+                    leader={tour_preview.team_member}
+                    action={handleExpertChat}
+                  />
+                  }
 
                 </div>
 
@@ -336,7 +348,7 @@ const Tour = ({location, match, getTourReview, tour_preview}) => {
                       </div>
                     </div>}
 
-                    <div className={styles.footer_row_button}>
+                    <div className={styles.footer_row_button} onClick={handleExpertChat}>
                       Написать автору тура
                     </div>
 
@@ -360,6 +372,6 @@ const mapStateToProps = state => ({
   tour_preview: state.tours.tour_preview
 })
 
-const mapDispatchToProps = {getTourReview}
+const mapDispatchToProps = {getTourReview, add_chat_room}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tour)
