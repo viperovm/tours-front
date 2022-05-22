@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './Chat.module.css';
 import read from './images/read.svg'
 import read_not from './images/read_not.svg'
@@ -29,11 +29,9 @@ const Message = ({
         <div className={styles.user_avatar} style={{backgroundImage: `url(${author?.avatar})`}}/>
         <div className={styles.message_body}>
           <div className={styles.message_header}>
-            <div className={styles.message_author_name}>{isMine ? 'Вы' : author?.name}</div>
-            {/*<div className={styles.message_date_time}>{date}</div>*/}
-            {/*<div className={styles.message_status}><img src={*/}
-            {/*  is_read ? read : read_not*/}
-            {/*} alt=""/></div>*/}
+            <div className={styles.message_author_name}>{isMine ? 'Вы' : author?.first_name + ' ' + author?.last_name}</div>
+            <div className={styles.message_date_time}>{data.created_at}</div>
+            <div className={styles.message_status}><img src={ data.is_read ? read : read_not} alt=""/></div>
           </div>
           <div className={styles.message_text}>{data.message}</div>
         </div>

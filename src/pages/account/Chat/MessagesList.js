@@ -5,10 +5,19 @@ import {connect} from "react-redux";
 
 const MessagesList = ({current_messages, user}) => {
 
-  const scrollRef = useRef();
+  const scrollRef = useRef(null);
+
+  // useEffect(() => {
+  //   scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [current_messages]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (scrollRef) {
+      scrollRef.current.addEventListener('DOMNodeInserted', event => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+      });
+    }
   }, [current_messages]);
 
 
