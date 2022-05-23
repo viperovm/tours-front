@@ -11,18 +11,23 @@ import MessagesList from "./MessagesList";
 
 const Messages = ({current_room, set_current_messages, clear_current_messages,}) => {
 
+  const client = new W3CWebSocket(`wss://traveler.market/ws/chat/${current_room}/?token=${localStorage.getItem('access')}`);
+
   useEffect(() => {
     return () => {
       clear_current_messages()
+      client.close()
     }
   })
 
   console.log(current_room)
 
-  const client = new W3CWebSocket(`wss://traveler.market/ws/chat/${current_room}/?token=${localStorage.getItem('access')}`);
-
   client.onopen = () => {
     console.log('WebSocket Client Connected');
+  };
+
+  client.onclose = () => {
+    console.log('WebSocket Client Disconnected');
   };
 
   client.onerror = function (e) {
