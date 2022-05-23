@@ -20,7 +20,6 @@ const MessagesList = ({current_messages, user}) => {
     }
   }, [current_messages]);
 
-
   return (
     <>
       <div ref={scrollRef} className={styles.chat_messages_messages}>

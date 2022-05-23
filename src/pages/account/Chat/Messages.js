@@ -10,15 +10,22 @@ import {
   set_current_messages,
   clear_current_messages,
   set_all_messages_read,
+  set_all_messages_unread,
 } from "../../../redux/actions/chatActions";
 import MessagesList from "./MessagesList";
 
-const Messages = ({current_room, set_current_messages, clear_current_messages, set_all_messages_read,}) => {
+const Messages = ({
+                    current_room,
+                    set_current_messages,
+                    clear_current_messages,
+                    set_all_messages_read,
+                    set_all_messages_unread,
+                  }) => {
 
   const client = current_room ?
     new W3CWebSocket(`wss://traveler.market/ws/chat/${current_room}/?token=${localStorage.getItem('access')}`)
-  :
-      null
+    :
+    null
   ;
 
   useEffect(() => {
@@ -29,7 +36,7 @@ const Messages = ({current_room, set_current_messages, clear_current_messages, s
   })
 
   useEffect(() => {
-    if(client) {
+    if (client) {
       client.onopen = () => {
         console.log('WebSocket Client Connected');
       };
@@ -45,10 +52,12 @@ const Messages = ({current_room, set_current_messages, clear_current_messages, s
 
       client.onmessage = (e) => {
         const dataFromServer = JSON.parse(e.data);
-        console.log('got reply!');
-        if (dataFromServer){
-          if (dataFromServer.command){
+        // console.log('got reply!');
+        if (dataFromServer) {
+          if (dataFromServer?.command === 'set_read') {
             set_all_messages_read()
+          } else if (dataFromServer?.command === 'set_unread') {
+            set_all_messages_unread()
           } else {
             set_current_messages(dataFromServer)
           }
@@ -57,8 +66,7 @@ const Messages = ({current_room, set_current_messages, clear_current_messages, s
     }
   }, [client])
 
-  console.log(current_room)
-
+  // console.log(current_room)
 
 
   const handleSend = (message) => {
@@ -93,6 +101,11 @@ const mapStateToProps = state => ({
   current_room: state.chat.current_room,
 })
 
-const mapDispatchToProps = {set_current_messages, clear_current_messages, set_all_messages_read,}
+const mapDispatchToProps = {
+  set_current_messages,
+  clear_current_messages,
+  set_all_messages_read,
+  set_all_messages_unread,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)
