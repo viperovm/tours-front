@@ -21,7 +21,7 @@ const Tour = ({tour}) => {
     } else {
       localStorage.setItem('recent', JSON.stringify([tour]))
     }
-    history.push(`tours/${tour.id}`)
+    history.push(`/tours/${tour.id}`)
   }
 
   return (

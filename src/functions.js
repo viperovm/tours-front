@@ -1,6 +1,7 @@
 import Moment from 'moment'
 import axios from "axios";
 import {SET_TOUR_IMAGE_FAIL, SET_TOUR_IMAGE_SUCCESS} from "./redux/types";
+import dateFormat from "dateformat";
 
 export const isNotEmptyObject = obj => {
   for (let i in obj) {
@@ -116,4 +117,46 @@ export const getData = (tour, direction, section) => {
     }
   }
 }
+
+export const truncateText = (text, value) => {
+  if(text.length >= value) {
+    return `${text.substring(0,value)}...`
+  } else {
+    return text
+  }
+}
+
+export const properDate = (date) => {
+  if(date){
+    return dateFormat(new Date(date), 'dd.mm.yyyy')
+  } else {
+    return ''
+  }
+}
+
+export const properNumber = (number) => {
+  if(number){
+    return number?.toLocaleString('ru')
+  } else {
+    return ''
+  }
+}
+
+export const decodeEntities = (() => {
+  const element = document.createElement('div');
+
+  function decodeHTMLEntities (str) {
+    if(str && typeof str === 'string') {
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+      element.innerHTML = str;
+      str = element.textContent;
+      element.textContent = '';
+    }
+
+    return str;
+  }
+
+  return decodeHTMLEntities;
+})();
 

@@ -8,34 +8,33 @@ const MessageForm = ({action}) => {
 
   const textareaElement = textareaRef.current;
 
-  useEffect(() => {
-    const listener = (event) => {
-      if ((event.code === "Enter" || event.code === "NumpadEnter") && event.metaKey) {
-        event.preventDefault();
-        action(message)
-        setMessage('')
-      }
-    };
-    if (textareaElement) {
-      document.addEventListener("keydown", listener);
-    }
-    return () => {
-      if (textareaElement) {
-        document.removeEventListener("keydown", listener);
-      }
-    };
-  }, [textareaElement]);
+  const handleSend = (e) => {
+    e.preventDefault();
+    action(message)
+    setMessage('')
+  }
+
+  // useEffect(() => {
+  //   const listener = (event) => {
+  //     if ((event.code === "Enter" || event.code === "NumpadEnter") && event.metaKey) {
+  //       console.log(message)
+  //       handleSend(event)
+  //     }
+  //   };
+  //   if (textareaElement) {
+  //     document.addEventListener("keydown", listener);
+  //   }
+  //   return () => {
+  //     if (textareaElement) {
+  //       document.removeEventListener("keydown", listener);
+  //     }
+  //   };
+  // }, [textareaElement]);
 
   const [message, setMessage] = useState('')
 
   const handleMessageEdit = (e) => {
     setMessage(e.target.value)
-  }
-
-  const handleSend = (e) => {
-    e.preventDefault();
-    action(message)
-    setMessage('')
   }
 
   return (

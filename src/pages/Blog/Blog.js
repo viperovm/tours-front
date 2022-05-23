@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styles from './Blog.module.css'
 import {connect} from 'react-redux'
 import MetaTags from "react-meta-tags";
@@ -26,6 +26,7 @@ import img5 from "./images/img5.png";
 import img6 from "./images/img6.png";
 import img7 from "./images/img7.png";
 import BlogCard from "./BlogCard";
+import {get_all_articles, get_single_article} from "../../redux/actions/blogActions";
 
 const buttons = [
   {
@@ -127,6 +128,8 @@ const blogs = [
 
 const Blog = ({
                 location,
+                articles,
+                get_all_articles,
                 // all_tours,
                 // getAllTours
               }) => {
@@ -134,11 +137,15 @@ const Blog = ({
   const {pathname} = location
   const page = pathname[0] === '/' ? pathname.substring(1) : pathname
 
+  useEffect(() => {
+    get_all_articles()
+  }, [])
+
   return (
     <>
       <MetaTags>
         <title>Traveler Market - Маркетплейс авторских туров</title>
-        <meta name='description' content='' />
+        <meta name='description' content=''/>
       </MetaTags>
 
       <MainLayout page={page}>
@@ -151,9 +158,10 @@ const Blog = ({
         </Section>
 
         <Section background={'#F6F7F9'} padding={'40px 0'}>
-          <Title title={'Блог о путешествиях '} sub_title={'Все самое интересное о путешествиях'} border_color={'blue'}/>
+          <Title title={'Блог о путешествиях '} sub_title={'Все самое интересное о путешествиях'}
+                 border_color={'blue'}/>
           <div className={styles.blog_cards_wrapper}>
-            {blogs && blogs.map((item, i) => <BlogCard key={i} data={item} big={i === 0 || i === 6} index={i}/>)}
+            {articles?.map((item, i) => <BlogCard key={i} data={item} big={i === 0 || i === 6} index={i}/>)}
           </div>
         </Section>
 
@@ -170,8 +178,10 @@ const Blog = ({
   )
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  articles: state.blog.articles
+})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {get_all_articles,}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Blog)

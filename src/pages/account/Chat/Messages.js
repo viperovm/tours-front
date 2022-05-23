@@ -17,7 +17,6 @@ const Messages = ({current_room, set_current_messages,}) => {
 
   client.onopen = () => {
     console.log('WebSocket Client Connected');
-
   };
 
   client.onerror = function (e) {
