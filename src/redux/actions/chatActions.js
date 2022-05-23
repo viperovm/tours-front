@@ -86,6 +86,12 @@ export const set_current_room = id => async dispatch => {
   })
 }
 
+export const clear_current_room = () => async dispatch => {
+  dispatch({
+    type: t.CLEAR_CURRENT_ROOM,
+  })
+}
+
 export const set_current_messages = data => async dispatch => {
   dispatch({
     type: t.SET_CURRENT_MESSAGES,

@@ -130,8 +130,6 @@ const Blog = ({
                 location,
                 articles,
                 get_all_articles,
-                // all_tours,
-                // getAllTours
               }) => {
 
   const {pathname} = location

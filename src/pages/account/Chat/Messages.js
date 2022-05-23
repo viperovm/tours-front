@@ -9,41 +9,49 @@ import MessageForm from "./MessageForm";
 import {set_current_messages, clear_current_messages,} from "../../../redux/actions/chatActions";
 import MessagesList from "./MessagesList";
 
-const Messages = ({current_room, set_current_messages, clear_current_messages,}) => {
+const Messages = ({current_room, set_current_messages, clear_current_messages, }) => {
 
-  const client = new W3CWebSocket(`wss://traveler.market/ws/chat/${current_room}/?token=${localStorage.getItem('access')}`);
+  const client = current_room ?
+    new W3CWebSocket(`wss://traveler.market/ws/chat/${current_room}/?token=${localStorage.getItem('access')}`)
+  :
+      null
+  ;
 
   useEffect(() => {
     return () => {
       clear_current_messages()
-      client.close()
+      client?.close()
     }
   })
 
+  useEffect(() => {
+    if(client) {
+      client.onopen = () => {
+        console.log('WebSocket Client Connected');
+      };
+
+      client.onclose = () => {
+        console.log('WebSocket Client Disconnected');
+      };
+
+      client.onerror = (e) => {
+        console.error(e);
+        console.log('Connection Error');
+      };
+
+      client.onmessage = (e) => {
+        const dataFromServer = JSON.parse(e.data);
+        console.log('got reply! ', dataFromServer.type);
+        if (dataFromServer){
+          set_current_messages(dataFromServer)
+        }
+      };
+    }
+  }, [client])
+
   console.log(current_room)
 
-  client.onopen = () => {
-    console.log('WebSocket Client Connected');
-  };
 
-  client.onclose = () => {
-    console.log('WebSocket Client Disconnected');
-  };
-
-  client.onerror = function (e) {
-    console.error(e);
-    console.log('Connection Error');
-  };
-
-  client.onmessage = (e) => {
-    const dataFromServer = JSON.parse(e.data);
-    console.log('got reply! ', dataFromServer.type);
-    if (dataFromServer){
-      if (!('old_messages' in dataFromServer)){
-        set_current_messages(dataFromServer)
-      }
-    }
-  };
 
   const handleSend = (message) => {
     client.send(JSON.stringify({
@@ -77,6 +85,6 @@ const mapStateToProps = state => ({
   current_room: state.chat.current_room,
 })
 
-const mapDispatchToProps = {set_current_messages, clear_current_messages}
+const mapDispatchToProps = {set_current_messages, clear_current_messages, }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

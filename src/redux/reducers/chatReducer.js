@@ -45,6 +45,11 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         current_room: payload,
       }
+    case t.CLEAR_CURRENT_ROOM:
+      return {
+        ...state,
+        current_room: null,
+      }
     case t.SET_CURRENT_MESSAGES:
       return {
         ...state,
