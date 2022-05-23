@@ -9,13 +9,16 @@ import MessageForm from "./MessageForm";
 import {set_current_messages, clear_current_messages,} from "../../../redux/actions/chatActions";
 import MessagesList from "./MessagesList";
 
-const Messages = ({current_room, set_current_messages, clear_current_messages, }) => {
+const Messages = ({current_room, set_current_messages, clear_current_messages,}) => {
 
   const client = current_room ?
     new W3CWebSocket(`wss://traveler.market/ws/chat/${current_room}/?token=${localStorage.getItem('access')}`)
   :
       null
   ;
+
+  console.log(current_room)
+  console.log(client)
 
   useEffect(() => {
     return () => {
@@ -85,6 +88,6 @@ const mapStateToProps = state => ({
   current_room: state.chat.current_room,
 })
 
-const mapDispatchToProps = {set_current_messages, clear_current_messages, }
+const mapDispatchToProps = {set_current_messages, clear_current_messages}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

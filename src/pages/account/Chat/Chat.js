@@ -5,7 +5,6 @@ import Account from "../../../layouts/account/account";
 import {clear_current_room, delete_chat_user, get_chat_rooms} from "../../../redux/actions/chatActions";
 import Messages from "./Messages";
 import ContactsList from "./ContactsList";
-import MessagesArea from "./MessagesArea";
 
 const Chat = ({get_chat_rooms, delete_chat_user, clear_current_room}) => {
 
@@ -27,7 +26,7 @@ const Chat = ({get_chat_rooms, delete_chat_user, clear_current_room}) => {
 
         <div className={styles.chat_wrapper}>
           <ContactsList/>
-          <MessagesArea/>
+          <Messages/>
         </div>
 
       </Account>
