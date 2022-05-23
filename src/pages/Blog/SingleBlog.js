@@ -8,11 +8,11 @@ import Title from "../Tours/Title";
 import BlogCard from "./BlogCard";
 import SearchSection from "../Tours/SearchSection";
 import TextSection from "../Tours/TextSection";
-import fb from './images/Socials/fb.svg'
+import whatsapp from './images/Socials/whatsapp.svg'
 import telegram from './images/Socials/telegram.svg'
 import twitter from './images/Socials/twitter.svg'
 import vk from './images/Socials/vk.svg'
-import whatsapp from './images/Socials/whatsapp.svg'
+import fb from './images/Socials/fb.svg'
 import {get_all_articles, get_single_article,} from "../../redux/actions/blogActions";
 import {connect} from "react-redux";
 import {properDate} from "../../functions";
@@ -33,7 +33,7 @@ const SingleBlog = ({
     window.scrollTo({ top: 0, behavior: 'smooth' })
     if(!article) {
       get_all_articles()
-      get_single_article(match.params.id)
+      get_single_article(match.params.slug)
     }
   }, [article])
 
@@ -50,30 +50,30 @@ const SingleBlog = ({
 
         <Section>
           <div className='breadcrumbs breadcrumbs_margin'>
-            <span><Link to='/'>Главная</Link></span> - <span>Блог</span>
+            <span><Link to='/'>Главная</Link> - <Link to='/article'>Статьи</Link></span> - <span>{article?.title}</span>
           </div>
         </Section>
 
         <Section>
           <div className={styles.blog_page_wrapper}>
             <section className={styles.blog_main_section}>
-              <div className={styles.main_section_header}>
-                <div className={styles.main_section_header_author}>
-                  {/*<div className={styles.main_section_header_author_avatar} style={{backgroundImage: `url(${avatar4})`}}/>*/}
-                  {/*<div className={styles.main_section_header_author_data}>*/}
-                  {/*  <div className={styles.main_section_header_author_name}>Кристина</div>*/}
-                  {/*  <div className={styles.main_section_header_author_rating}><img src={star} alt="star"/> 4.7 <span>(89)</span></div>*/}
-                  {/*</div>*/}
-                </div>
-                <div className={styles.main_section_header_social_networks}>
-                  <div>Поделиться:</div>
-                  <div className={styles.fb}><img src={fb} alt=""/></div>
-                  <div className={styles.vk}><img src={vk} alt=""/></div>
-                  <div className={styles.telegram}><img src={telegram} alt=""/></div>
-                  <div className={styles.twitter}><img src={twitter} alt=""/></div>
-                  <div className={styles.whatsapp}><img src={whatsapp} alt=""/></div>
-                </div>
-              </div>
+              {/*<div className={styles.main_section_header}>*/}
+              {/*  <div className={styles.main_section_header_author}>*/}
+              {/*    /!*<div className={styles.main_section_header_author_avatar} style={{backgroundImage: `url(${avatar4})`}}/>*!/*/}
+              {/*    /!*<div className={styles.main_section_header_author_data}>*!/*/}
+              {/*    /!*  <div className={styles.main_section_header_author_name}>Кристина</div>*!/*/}
+              {/*    /!*  <div className={styles.main_section_header_author_rating}><img src={star} alt="star"/> 4.7 <span>(89)</span></div>*!/*/}
+              {/*    /!*</div>*!/*/}
+              {/*  </div>*/}
+              {/*  <div className={styles.main_section_header_social_networks}>*/}
+              {/*    <div>Поделиться:</div>*/}
+              {/*    <div className={styles.fb}><img src={fb} alt=""/></div>*/}
+              {/*    <div className={styles.vk}><img src={vk} alt=""/></div>*/}
+              {/*    <div className={styles.telegram}><img src={telegram} alt=""/></div>*/}
+              {/*    <div className={styles.twitter}><img src={twitter} alt=""/></div>*/}
+              {/*    <div className={styles.whatsapp}><img src={whatsapp} alt=""/></div>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
               <div className={styles.main_section_title}>{article?.title}</div>
               <div className={styles.main_section_date}>{properDate(article?.date)}</div>
               <div className={styles.main_section_content} dangerouslySetInnerHTML={{__html: article?.text}}/>

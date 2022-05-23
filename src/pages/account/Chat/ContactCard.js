@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Chat.module.css';
 import wallpaper from "../../Blog/images/wallpaper.png";
+import {truncateText} from "../../../functions";
 
 const ContactCard = ({room, action, active = false, first = false, }) => {
 
@@ -27,7 +28,7 @@ const ContactCard = ({room, action, active = false, first = false, }) => {
           <div className={styles.chat_contact_avatar} style={{backgroundImage: `url(${avatar})`}}/>
           <div className={styles.chat_contact_data}>
             <div className={styles.chat_contact_name}>{first_name + ' ' + last_name[0]}</div>
-            <div className={styles.chat_contact_last_message}>{last_message}</div>
+            <div className={styles.chat_contact_last_message}>{truncateText(room?.last_message, 20)}</div>
           </div>
         </div>
         <div className={styles.chat_contact_last_message_date}>{last_message_date}</div>

@@ -99,8 +99,8 @@ const App = () => {
               <Route exact path='/' component={Home} />
               <Route exact path='/tours' component={Tours} />
               <Route exact path='/reviews' component={Reviews} />
-              <Route exact path='/blog' component={Blog} />
-              <Route exact path='/blog/:id' component={SingleBlog} />
+              <Route exact path='/article' component={Blog} />
+              <Route exact path='/article/:slug' component={SingleBlog} />
               <Route exact path='/tours/:id' component={Tour} />
               <Route path='/login' component={Login} />
               <Route path='/register' component={Register} />

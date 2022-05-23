@@ -31,6 +31,7 @@ const BlogCard = ({data, big = false, index, clear_single_article}) => {
     title,
     tmb_image,
     text,
+    slug,
     user_avatar,
     user_name,
     user_rating,
@@ -41,7 +42,7 @@ const BlogCard = ({data, big = false, index, clear_single_article}) => {
 
   const handleRedirect = () => {
     clear_single_article()
-    history.push(`/blog/${id}`)
+    history.push(`/article/${slug}`)
   }
 
 

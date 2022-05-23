@@ -119,7 +119,7 @@ export const getData = (tour, direction, section) => {
 }
 
 export const truncateText = (text, value) => {
-  if(text.length >= value) {
+  if(text && text.length >= value) {
     return `${text.substring(0,value)}...`
   } else {
     return text
