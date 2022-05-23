@@ -117,4 +117,24 @@ export const clear_current_messages = () => async dispatch => {
   })
 }
 
+export const set_users_online = data => async dispatch => {
+  dispatch({
+    type: t.SET_USERS_ONLINE,
+    payload: data,
+  })
+}
+
+export const set_users_offline = data => async dispatch => {
+  dispatch({
+    type: t.SET_USERS_OFFLINE,
+    payload: data,
+  })
+}
+
+export const clear_all_notifications = () => async dispatch => {
+  dispatch({
+    type: t.CLEAR_ALL_NOTIFICATIONS,
+  })
+}
+
 

@@ -1,14 +1,67 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback, useMemo} from 'react'
 import Logo from '../../components/logo/Logo'
 import {Link} from 'react-router-dom'
 import { load_user } from '../../redux/actions/authActions'
 
 import { connect } from 'react-redux'
 import UserSmallAvatar from '../../components/UserSmallAvatar/UserSmallAvatar'
+import {w3cwebsocket as W3CWebSocket} from "websocket";
+import {set_users_offline, set_users_online} from "../../redux/actions/chatActions";
 
-const Header = ({ isAuthenticated, load_user, user, page }) => {
+const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_users_offline,  }) => {
   const [isOpened, setIsOpened] = useState(false)
   const [active, setActive] = useState('')
+
+  // const client = isAuthenticated ?
+  //   new W3CWebSocket(`wss://traveler.market/ws/notification/?token=${localStorage.getItem('access')}`)
+  //   :
+  //   null
+  // ;
+
+  let client = null
+
+  client = useMemo(() => {
+    if(isAuthenticated) {
+      return new W3CWebSocket(`wss://traveler.market/ws/notification/?token=${localStorage.getItem('access')}`)
+    } else if(!isAuthenticated && client){
+      client.close()
+      return null
+    }  else {
+      return null
+    }
+  }, [isAuthenticated, client])
+
+  console.log(client)
+
+  useEffect(() => {
+    if (client) {
+      client.onopen = () => {
+        console.log('WebSocket Client Connected');
+      };
+
+      client.onclose = () => {
+        console.log('WebSocket Client Disconnected');
+      };
+
+      client.onerror = (e) => {
+        console.error(e);
+        console.log('Connection Error');
+      };
+
+      client.onmessage = (e) => {
+        const dataFromServer = JSON.parse(e.data);
+        // console.log('got reply!');
+        if (dataFromServer) {
+          if(dataFromServer.is_online) {
+            set_users_online(dataFromServer.is_online)
+          } else if(dataFromServer.is_offline) {
+            set_users_offline(dataFromServer.is_offline)
+          }
+          console.log(dataFromServer)
+        }
+      };
+    }
+  }, [client])
 
   useEffect(() => {
     if(isAuthenticated){
@@ -84,4 +137,4 @@ const mapStateToProps = state => ({
   user: state.auth.user,
 })
 
-export default connect(mapStateToProps, { load_user })(Header)
+export default connect(mapStateToProps, { load_user, set_users_online, set_users_offline })(Header)

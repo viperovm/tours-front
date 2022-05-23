@@ -1,11 +1,12 @@
 import * as t from '../types'
-import {SET_ALL_MESSAGES_UNREAD} from "../types";
+import {SET_ALL_MESSAGES_UNREAD, SET_USERS_OFFLINE} from "../types";
 
 const initialState = {
   chat_user: null,
   chat_rooms: [],
   current_room: null,
   current_messages: [],
+  users_online: [],
   all_messages_read: false,
 }
 
@@ -71,6 +72,31 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         current_messages: [],
+      }
+    case t.SET_USERS_ONLINE:
+      const setUserOnline = (users, user) => {
+        if(users.includes(user)) {
+          return users
+        } else {
+          return [...users, user]
+        }
+    }
+      return {
+        ...state,
+        users_online: setUserOnline(state.users_online, payload),
+      }
+    case t.SET_USERS_OFFLINE:
+      const setUserOffline = (users, user) => {
+        return users?.filter(item => item !== user)
+      }
+      return {
+        ...state,
+        users_online: setUserOffline(state.users_online, payload),
+      }
+    case t.CLEAR_ALL_NOTIFICATIONS:
+      return {
+        ...state,
+        users_online: [],
       }
     default:
       return state
