@@ -82,11 +82,13 @@ const SingleBlog = ({
   const {pathname} = location
   const page = pathname[0] === '/' ? pathname.substring(1) : pathname
 
-  console.log(pathname)
-
   useEffect(() => {
-    get_all_articles()
-    get_single_article(match.params.id)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if(!article)
+    {
+      get_all_articles()
+      get_single_article(match.params.id)
+    }
   }, [article])
 
   return (
