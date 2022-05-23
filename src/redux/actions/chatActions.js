@@ -1,7 +1,7 @@
 import * as t from '../types'
 import axios from 'axios'
 import {
-  GET_DATA_BY_BIK_FAIL,
+  GET_DATA_BY_BIK_FAIL, SET_ALL_MESSAGES_UNREAD,
 } from "../types";
 
 export const add_chat_user = data => async dispatch => {
@@ -96,6 +96,18 @@ export const set_current_messages = data => async dispatch => {
   dispatch({
     type: t.SET_CURRENT_MESSAGES,
     payload: data,
+  })
+}
+
+export const set_all_messages_read = () => async dispatch => {
+  dispatch({
+    type: t.SET_ALL_MESSAGES_READ,
+  })
+}
+
+export const set_all_messages_unread = () => async dispatch => {
+  dispatch({
+    type: t.SET_ALL_MESSAGES_UNREAD,
   })
 }
 

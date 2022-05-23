@@ -2,14 +2,25 @@ import React from 'react';
 import styles from './Chat.module.css';
 import ContactCard from "./ContactCard";
 import {connect} from "react-redux";
-import {set_current_room} from "../../../redux/actions/chatActions";
+import {
+  set_current_room,
+  delete_chat_user,
+  clear_current_room,
+  set_all_messages_unread,
+} from "../../../redux/actions/chatActions";
 
 const ContactsList = ({
                         chat_rooms,
                         current_room,
                         set_current_room,
+                        delete_chat_user,
+                        clear_current_room,
+                        set_all_messages_unread,
                       }) => {
   const handleCurrentRoom = (id) => {
+    delete_chat_user()
+    clear_current_room()
+    set_all_messages_unread()
     set_current_room(id)
   }
   return (
@@ -26,4 +37,9 @@ const mapStateToProps = state => ({
   current_room: state.chat.current_room,
 })
 
-export default connect(mapStateToProps, {set_current_room})(ContactsList);
+export default connect(mapStateToProps, {
+  set_current_room,
+  delete_chat_user,
+  clear_current_room,
+  set_all_messages_unread,
+})(ContactsList);

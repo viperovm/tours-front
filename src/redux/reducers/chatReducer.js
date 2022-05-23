@@ -1,10 +1,12 @@
 import * as t from '../types'
+import {SET_ALL_MESSAGES_UNREAD} from "../types";
 
 const initialState = {
   chat_user: null,
   chat_rooms: [],
   current_room: null,
   current_messages: [],
+  all_messages_read: false,
 }
 
 const chatReducer = (state = initialState, action) => {
@@ -49,6 +51,16 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         current_room: null,
+      }
+    case t.SET_ALL_MESSAGES_READ:
+      return {
+        ...state,
+        all_messages_read: true,
+      }
+    case t.SET_ALL_MESSAGES_UNREAD:
+      return {
+        ...state,
+        all_messages_read: false,
       }
     case t.SET_CURRENT_MESSAGES:
       return {

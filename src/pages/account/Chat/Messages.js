@@ -6,19 +6,20 @@ import avatar4 from "./images/avatar4.png";
 import {w3cwebsocket as W3CWebSocket} from "websocket";
 import send from "./images/send.svg";
 import MessageForm from "./MessageForm";
-import {set_current_messages, clear_current_messages,} from "../../../redux/actions/chatActions";
+import {
+  set_current_messages,
+  clear_current_messages,
+  set_all_messages_read,
+} from "../../../redux/actions/chatActions";
 import MessagesList from "./MessagesList";
 
-const Messages = ({current_room, set_current_messages, clear_current_messages,}) => {
+const Messages = ({current_room, set_current_messages, clear_current_messages, set_all_messages_read,}) => {
 
   const client = current_room ?
     new W3CWebSocket(`wss://traveler.market/ws/chat/${current_room}/?token=${localStorage.getItem('access')}`)
   :
       null
   ;
-
-  console.log(current_room)
-  console.log(client)
 
   useEffect(() => {
     return () => {
@@ -44,9 +45,13 @@ const Messages = ({current_room, set_current_messages, clear_current_messages,})
 
       client.onmessage = (e) => {
         const dataFromServer = JSON.parse(e.data);
-        console.log('got reply! ', dataFromServer.type);
+        console.log('got reply!');
         if (dataFromServer){
-          set_current_messages(dataFromServer)
+          if (dataFromServer.command){
+            set_all_messages_read()
+          } else {
+            set_current_messages(dataFromServer)
+          }
         }
       };
     }
@@ -88,6 +93,6 @@ const mapStateToProps = state => ({
   current_room: state.chat.current_room,
 })
 
-const mapDispatchToProps = {set_current_messages, clear_current_messages}
+const mapDispatchToProps = {set_current_messages, clear_current_messages, set_all_messages_read,}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)
