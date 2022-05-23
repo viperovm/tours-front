@@ -93,4 +93,10 @@ export const set_current_messages = data => async dispatch => {
   })
 }
 
+export const clear_current_messages = () => async dispatch => {
+  dispatch({
+    type: t.CLEAR_CURRENT_MESSAGES,
+  })
+}
+
 

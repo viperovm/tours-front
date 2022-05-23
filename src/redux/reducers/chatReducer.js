@@ -50,6 +50,11 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         current_messages: [...state.current_messages, payload],
       }
+    case t.CLEAR_CURRENT_MESSAGES:
+      return {
+        ...state,
+        current_messages: [],
+      }
     default:
       return state
   }
