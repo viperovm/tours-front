@@ -47,7 +47,6 @@ const TourPage = ({tour, getTourReview, tour_preview, match, add_chat_user}) => 
   const history = useHistory()
 
   const handleExpertChat = () => {
-    console.log(tour_preview.expert.id)
     add_chat_user(tour_preview.expert.id)
     history.push('/account/chat')
   }

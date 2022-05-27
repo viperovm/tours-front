@@ -35,8 +35,6 @@ const TicketsList = ({
     set_current_ticket_status(ticket.status)
   }
 
-  console.log(running_ticket)
-
   return (
     <>
       <div className={styles.chat_contacts}>

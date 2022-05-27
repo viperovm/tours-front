@@ -25,9 +25,6 @@ const Messages = ({
                     clear_current_ticket,
 }) => {
 
-  console.log(current_ticket)
-  console.log(current_status)
-
   const [newTicket, setNewTicket] = useState(false)
 
   const client = current_ticket ?
@@ -76,6 +73,7 @@ const Messages = ({
 
   const handleSend = (message) => {
     if(newTicket){
+      setNewTicket(false)
       set_new_ticket({
         text: message
       })
@@ -96,11 +94,11 @@ const Messages = ({
 
   const handleTicketButton = () => {
     if(current_status && current_status !== 3){
+      setNewTicket(false)
       close_ticket(current_ticket)
       clear_current_ticket_status()
       clear_current_ticket()
       clear_current_support_messages()
-      setNewTicket(false)
     } else {
       setNewTicket((newTicket) => !newTicket)
     }
