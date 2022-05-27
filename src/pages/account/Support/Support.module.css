@@ -22,7 +22,8 @@
 }
 
 .chat_contact_card.archive_handler {
-    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
