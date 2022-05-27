@@ -1,11 +1,13 @@
 import React from 'react';
 import styles from './Support.module.css';
 import {connect} from 'react-redux';
+import {close_ticket} from "../../../redux/actions/supportActions";
 
-const TicketButton = ({active_ticket = false, action}) => {
+const TicketButton = ({active_ticket = false, action, close_ticket}) => {
 
   const handleClick = () => {
-    action(!active_ticket)
+    action()
+    // action(!active_ticket)
   }
 
   return (
@@ -18,7 +20,7 @@ const TicketButton = ({active_ticket = false, action}) => {
 };
 
 const mapStateToProps = state => ({})
-const mapDispatchToProps = {}
+const mapDispatchToProps = {close_ticket}
 
 export default connect(
   mapStateToProps,

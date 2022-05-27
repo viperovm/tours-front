@@ -85,6 +85,36 @@ export const set_new_ticket = (data) => async dispatch => {
   }
 }
 
+export const close_ticket = (id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = null
+
+  try {
+    const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/support_tickets/${id}/close_ticket/`,
+      body,
+      config)
+
+    dispatch({
+      type: t.CLOSE_TICKET_SUCCESS,
+      payload: res.data,
+    })
+
+  } catch (err) {
+    console.error(err)
+    dispatch({
+      type: t.SET_NEW_TICKET_FAIL,
+      payload: err.response.data,
+    })
+  }
+}
+
 export const set_current_support_messages = data => async dispatch => {
   dispatch({
     type: t.SET_CURRENT_SUPPORT_MESSAGES,

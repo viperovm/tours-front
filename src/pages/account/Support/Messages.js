@@ -3,7 +3,7 @@ import styles from './Support.module.css';
 import {connect} from 'react-redux';
 import {w3cwebsocket as W3CWebSocket} from "websocket";
 import {
-  clear_current_support_messages,
+  clear_current_support_messages, clear_current_ticket, clear_current_ticket_status, close_ticket,
   set_all_support_messages_read,
   set_all_support_messages_unread,
   set_current_support_messages, set_new_ticket
@@ -20,6 +20,9 @@ const Messages = ({
                     set_all_support_messages_unread,
                     current_status,
                     set_new_ticket,
+                    close_ticket,
+                    clear_current_ticket_status,
+                    clear_current_ticket,
 }) => {
 
   console.log(current_ticket)
@@ -83,14 +86,34 @@ const Messages = ({
     }
   }
 
+  useEffect(() => {
+    if(newTicket) {
+      clear_current_ticket_status()
+      clear_current_ticket()
+      clear_current_support_messages()
+    }
+  }, [newTicket])
+
+  const handleTicketButton = () => {
+    if(current_status && current_status !== 3){
+      close_ticket(current_ticket)
+      clear_current_ticket_status()
+      clear_current_ticket()
+      clear_current_support_messages()
+      setNewTicket(false)
+    } else {
+      setNewTicket((newTicket) => !newTicket)
+    }
+  }
+
   return (
     <>
       <div className={styles.chat_messages}>
-        {current_status !== 3 && <TicketButton active_ticket={current_ticket?.status !== 3}
-                       action={() => setNewTicket((newTicket) => !newTicket)}/>}
+        <TicketButton active_ticket={current_status && current_status !== 3}
+                       action={handleTicketButton}/>
         <MessagesField/>
         <div className={styles.send_button}>
-          {(current_status !== 3 || newTicket) && <MessagesForm action={handleSend} new_ticket={newTicket}/>}
+          {((current_status && current_status !== 3) || newTicket) && <MessagesForm action={handleSend} new_ticket={newTicket}/>}
         </div>
       </div>
     </>
@@ -107,6 +130,9 @@ const mapDispatchToProps = {
   set_all_support_messages_read,
   set_all_support_messages_unread,
   set_new_ticket,
+  close_ticket,
+  clear_current_ticket_status,
+  clear_current_ticket,
 }
 
 export default connect(

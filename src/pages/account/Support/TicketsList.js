@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Support.module.css';
 import {connect} from 'react-redux';
 import TicketCard from "./TicketCard";
@@ -20,6 +20,13 @@ const TicketsList = ({
 }) => {
 
   const [archiveActive, setArchiveActive] = useState(false)
+
+  useEffect(() => {
+    if(running_ticket) {
+      set_current_ticket(running_ticket.id)
+      set_current_ticket_status(running_ticket.status)
+    }
+  }, [running_ticket])
 
   const handleCurrentTicket = (ticket) => {
     clear_current_ticket()
