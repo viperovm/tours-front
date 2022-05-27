@@ -12,6 +12,9 @@ const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_
   const [isOpened, setIsOpened] = useState(false)
   const [active, setActive] = useState('')
 
+  console.log(active)
+  console.log(page)
+
   // const client = isAuthenticated ?
   //   new W3CWebSocket(`wss://traveler.market/ws/notification/?token=${localStorage.getItem('access')}`)
   //   :

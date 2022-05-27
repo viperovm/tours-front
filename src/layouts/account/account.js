@@ -19,13 +19,12 @@ const Account = ({
                    openSecondaryMenu,
                  }) => {
 
-  console.log(isAuthenticated)
 
   if (!isAuthenticated) {
     return <Redirect to='/login'/>
   }
 
-  if(tour.secondary){
+  if (tour.secondary) {
     openSecondaryMenu(false)
   }
 
@@ -36,20 +35,20 @@ const Account = ({
   }, [])
 
   return (
-    <MainLayout>
-      <>
-        <MetaTags>
-          <title>{title}</title>
-          <meta name='description' content=''/>
-          <link rel='icon' href='/favicon.ico'/>
-        </MetaTags>
-
+    <>
+      <MetaTags>
+        <title>{title}</title>
+        <meta name='description' content=''/>
+        <link rel='icon' href='/favicon.ico'/>
+      </MetaTags>
+      <MainLayout page={menu_item}>
         <section>
           <div className='wrapper'>
             <div className='breadcrumbs breadcrumbs_margin'>
               <span><Link to='/'>Главная</Link></span> - <span><Link
               to='/account'>Личный кабинет</Link></span>{subtitle && ' - '}{subtitle && <span><Link
-              to={`/account/${menu_item}`}>{subtitle}</Link></span>}{title && ' - '}<span style={{textDecoration: 'none', pointerEvents: 'none'}}>{title}</span>
+              to={`/account/${menu_item}`}>{subtitle}</Link></span>}{title && ' - '}<span
+              style={{textDecoration: 'none', pointerEvents: 'none'}}>{title}</span>
             </div>
           </div>
         </section>
@@ -62,8 +61,8 @@ const Account = ({
             </div>
           </div>
         </section>
-      </>
-    </MainLayout>
+      </MainLayout>
+    </>
   )
 }
 

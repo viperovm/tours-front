@@ -26,7 +26,7 @@ const ContactsList = ({
   return (
     <>
       <div className={styles.chat_contacts}>
-        {!type && chat_rooms?.map((i, n) => <ContactCard key={n} room={i} action={handleCurrentRoom}
+        {chat_rooms?.map((i, n) => <ContactCard key={n} room={i} action={handleCurrentRoom}
                                                 active={current_room === i.id} first={n === 0}/>)}
       </div>
     </>

@@ -73,15 +73,6 @@ const Messages = ({
     client.send(JSON.stringify({
       message: message
     }));
-    // set_current_messages({
-    //   author:
-    //     {
-    //       id: user.id,
-    //       avatar: user.avatar
-    //     },
-    //   message: message,
-    //   time_date: Date.now(),
-    // })
   }
 
   return (
