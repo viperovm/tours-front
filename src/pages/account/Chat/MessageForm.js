@@ -6,43 +6,35 @@ import TextareaAutosize from 'react-textarea-autosize';
 const MessageForm = ({action}) => {
 
   const textareaRef = useRef()
-
-  const textareaElement = textareaRef.current;
-
-  const handleSend = (e) => {
-    e.preventDefault();
-    action(message)
-    setMessage('')
-  }
-
-  // useEffect(() => {
-  //   const listener = (event) => {
-  //     if ((event.code === "Enter" || event.code === "NumpadEnter") && event.metaKey) {
-  //       console.log(message)
-  //       handleSend(event)
-  //     }
-  //   };
-  //   if (textareaElement) {
-  //     document.addEventListener("keydown", listener);
-  //   }
-  //   return () => {
-  //     if (textareaElement) {
-  //       document.removeEventListener("keydown", listener);
-  //     }
-  //   };
-  // }, [textareaElement]);
+  const formRef = useRef()
 
   const [message, setMessage] = useState('')
+
+  const handleSend = (e) => {
+    if(message) {
+      e.preventDefault();
+      action(message)
+      setMessage('')
+    } else {
+      e.preventDefault();
+    }
+  }
 
   const handleMessageEdit = (e) => {
     setMessage(e.target.value)
   }
 
+  const onEnterPress = (e) => {
+    if(e.keyCode === 13 && e.shiftKey === false) {
+      handleSend(e)
+    }
+  }
+
   return (
     <>
-      <form onSubmit={handleSend}>
+      <form ref={formRef} onSubmit={handleSend}>
         {/*<div ref={ref} className={styles.editable_area} contentEditable="true" onChange={(e) => console.log(e.target)}/>*/}
-        <TextareaAutosize ref={textareaRef}  placeholder='Текст сообщения' onChange={handleMessageEdit} value={message} maxRows={3}/>
+        <TextareaAutosize ref={textareaRef}  placeholder='Текст сообщения' onChange={handleMessageEdit} onKeyDown={onEnterPress} value={message} maxRows={3}/>
         {/*<textarea ref={textareaRef} placeholder='Текст сообщения' onChange={handleMessageEdit} value={message}/>*/}
         <button type='submit'><img src={send} alt=""/></button>
       </form>

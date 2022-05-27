@@ -50,8 +50,10 @@ const TicketsList = ({
             <img src={chevron} alt=""/>
           </div>
         </div>
-        {archiveActive && archive_tickets?.map((i, n) => <TicketCard key={n} ticket={i} action={handleCurrentTicket} is_running={running_ticket?.id === i.id}
-                                                active={current_ticket === i.id} first={n === 0}/>)}
+        <div className={styles.archive_tickets}>
+          {archiveActive && archive_tickets?.map((i, n) => <TicketCard key={n} ticket={i} action={handleCurrentTicket} is_running={running_ticket?.id === i.id}
+                                                                       active={current_ticket === i.id} first={n === 0}/>)}
+        </div>
       </div>
     </>
   );

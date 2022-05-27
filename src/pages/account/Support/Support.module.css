@@ -9,16 +9,21 @@
 .chat_contacts {
     min-width: 255px;
     border-right: 1px solid #EBEBEB;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat_contact_card {
     width: 100%;
     height: 80px;
     background-color: transparent;
-    border-bottom: 1px solid #EBEBEB;
     padding: 20px;
     position: relative;
     cursor: pointer;
+}
+
+.chat_contact_card:not(:last-child) {
+    border-bottom: 1px solid #EBEBEB;
 }
 
 .chat_contact_card.archive_handler {
@@ -39,6 +44,12 @@
 
 .chevron_rotated {
     transform: rotate(180deg);
+}
+
+.archive_tickets {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .chat_contact_card.first {

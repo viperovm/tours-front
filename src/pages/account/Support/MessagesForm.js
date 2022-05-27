@@ -7,11 +7,16 @@ import send from "../Chat/images/send.svg";
 const MessagesForm = ({action}) => {
 
   const textareaRef = useRef()
+  const formRef = useRef()
 
   const handleSend = (e) => {
-    e.preventDefault();
-    action(message)
-    setMessage('')
+    if(message) {
+      e.preventDefault();
+      action(message)
+      setMessage('')
+    } else {
+      e.preventDefault();
+    }
   }
 
   const [message, setMessage] = useState('')
@@ -20,11 +25,17 @@ const MessagesForm = ({action}) => {
     setMessage(e.target.value)
   }
 
+  const onEnterPress = (e) => {
+    if(e.keyCode === 13 && e.shiftKey === false) {
+      handleSend(e)
+    }
+  }
+
   return (
     <>
-      <form onSubmit={handleSend}>
+      <form ref={formRef} onSubmit={handleSend}>
         {/*<div ref={ref} className={styles.editable_area} contentEditable="true" onChange={(e) => console.log(e.target)}/>*/}
-        <TextareaAutosize ref={textareaRef}  placeholder='Текст сообщения' onChange={handleMessageEdit} value={message} maxRows={3}/>
+        <TextareaAutosize ref={textareaRef}  placeholder='Текст сообщения' onChange={handleMessageEdit} onKeyDown={onEnterPress} value={message} maxRows={3}/>
         {/*<textarea ref={textareaRef} placeholder='Текст сообщения' onChange={handleMessageEdit} value={message}/>*/}
         <button type='submit'><img src={send} alt=""/></button>
       </form>
