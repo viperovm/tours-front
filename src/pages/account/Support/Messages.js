@@ -86,7 +86,8 @@ const Messages = ({
   return (
     <>
       <div className={styles.chat_messages}>
-        <TicketButton active_ticket={current_ticket?.status !== 3} action={() => setNewTicket((newTicket) => !newTicket)}/>
+        {current_status !== 3 && <TicketButton active_ticket={current_ticket?.status !== 3}
+                       action={() => setNewTicket((newTicket) => !newTicket)}/>}
         <MessagesField/>
         <div className={styles.send_button}>
           {(current_status !== 3 || newTicket) && <MessagesForm action={handleSend} new_ticket={newTicket}/>}
