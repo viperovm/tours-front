@@ -31,7 +31,7 @@ const Message = ({
             <div className={styles.message_date_time}>{data.created_at}</div>
             {isMine && <IsRead is_read={data.is_read}/>}
           </div>
-          <div className={styles.message_text} dangerouslySetInnerHTML={{__html: data.message}}/>
+          <div className={styles.message_text} dangerouslySetInnerHTML={{__html: data.message.replace(/\n/g, "<br />")}}/>
         </div>
       </div>
     </>

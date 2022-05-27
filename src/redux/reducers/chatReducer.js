@@ -1,10 +1,13 @@
 import * as t from '../types'
-import {SET_ALL_MESSAGES_UNREAD, SET_USERS_OFFLINE} from "../types";
 
 const initialState = {
   chat_user: null,
   chat_rooms: [],
   current_room: null,
+  all_tickets: [],
+  archive_tickets: [],
+  running_ticket: null,
+  current_ticket: null,
   current_messages: [],
   users_online: [],
   all_messages_read: false,
@@ -52,6 +55,39 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         current_room: null,
+      }
+    case t.SET_CURRENT_TICKET:
+      return {
+        ...state,
+        current_ticket: payload,
+      }
+    case t.CLEAR_CURRENT_TICKET:
+      return {
+        ...state,
+        current_ticket: null,
+      }
+    case t.GET_ALL_TICKETS_SUCCESS:
+      return {
+        ...state,
+        all_tickets: payload,
+        running_ticket: payload.filter(item => item.status !== 3),
+        archive_tickets: payload.filter(item => item.status === 3)
+      }
+    case t.GET_ALL_TICKETS_FAIL:
+      return {
+        ...state,
+        all_tickets: [],
+      }
+    case t.SET_NEW_TICKET_SUCCESS:
+      return {
+        ...state,
+        running_ticket: payload,
+        all_tickets: [payload, ...state.all_tickets],
+      }
+    case t.SET_NEW_TICKET_FAIL:
+      return {
+        ...state,
+        running_ticket: null,
       }
     case t.SET_ALL_MESSAGES_READ:
       return {

@@ -26,6 +26,7 @@ const SingleBlog = lazy(() => import('./pages/Blog/SingleBlog'))
 const Tour = lazy(() => import('./pages/Tour'))
 const MyTours = lazy(() => import('./pages/account/Tours/MyTours'))
 const Chat = lazy(() => import('./pages/account/Chat'))
+const Support = lazy(() => import('./pages/account/Chat/Support'))
 const Profile = lazy(() => import('./pages/account/Profile/Profile'))
 const Orders = lazy(() => import('./pages/account/Orders'))
 const Settings = lazy(() => import('./pages/account/Settings/Settings'))
@@ -107,6 +108,7 @@ const App = () => {
               <Route path='/legal-documents/:slug' component={PrivacyPolicy} />
               <Route exact path='/account' component={Dashboard} />
               <Route exact path='/account/chat' component={Chat} />
+              <Route exact path='/support' component={Support} />
               <Route exact path='/account/profile' component={Profile} />
               <Route exact path='/account/orders' component={Orders} />
               <Route exact path='/account/settings' component={Settings} />

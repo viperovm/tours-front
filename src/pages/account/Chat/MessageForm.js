@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './Chat.module.css';
 import send from "./images/send.svg";
+import TextareaAutosize from 'react-textarea-autosize';
 
 const MessageForm = ({action}) => {
 
@@ -41,7 +42,8 @@ const MessageForm = ({action}) => {
     <>
       <form onSubmit={handleSend}>
         {/*<div ref={ref} className={styles.editable_area} contentEditable="true" onChange={(e) => console.log(e.target)}/>*/}
-        <textarea ref={textareaRef} placeholder='Текст сообщения' onChange={handleMessageEdit} value={message}/>
+        <TextareaAutosize ref={textareaRef}  placeholder='Текст сообщения' onChange={handleMessageEdit} value={message} maxRows={3}/>
+        {/*<textarea ref={textareaRef} placeholder='Текст сообщения' onChange={handleMessageEdit} value={message}/>*/}
         <button type='submit'><img src={send} alt=""/></button>
       </form>
     </>

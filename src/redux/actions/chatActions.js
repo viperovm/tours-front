@@ -1,8 +1,6 @@
 import * as t from '../types'
 import axios from 'axios'
-import {
-  GET_DATA_BY_BIK_FAIL, SET_ALL_MESSAGES_UNREAD,
-} from "../types";
+
 
 export const add_chat_user = data => async dispatch => {
   dispatch({
@@ -136,5 +134,76 @@ export const clear_all_notifications = () => async dispatch => {
     type: t.CLEAR_ALL_NOTIFICATIONS,
   })
 }
+
+export const set_current_ticket = id => async dispatch => {
+  dispatch({
+    type: t.SET_CURRENT_TICKET,
+    payload: id,
+  })
+}
+
+export const clear_current_ticket = () => async dispatch => {
+  dispatch({
+    type: t.CLEAR_CURRENT_TICKET,
+  })
+}
+
+export const get_all_tickets = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/support_tickets/
+`, config)
+
+    dispatch({
+      type: t.GET_ALL_TICKETS_SUCCESS,
+      payload: res.data,
+    })
+
+  } catch (err) {
+    console.error(err)
+    dispatch({
+      type: t.GET_ALL_TICKETS_FAIL,
+      payload: err.response.data,
+    })
+  }
+}
+
+export const set_new_ticket = (data) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/support_tickets/`,
+      body,
+      config)
+
+    dispatch({
+      type: t.SET_NEW_TICKET_SUCCESS,
+      payload: res.data,
+    })
+
+  } catch (err) {
+    console.error(err)
+    dispatch({
+      type: t.SET_NEW_TICKET_FAIL,
+      payload: err.response.data,
+    })
+  }
+}
+
 
 

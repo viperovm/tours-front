@@ -58,6 +58,11 @@
     box-sizing: border-box;
 }
 
+.active .active_user::before {
+    background-color: #ffffff;
+    border: 1px solid #2AA2D6;
+}
+
 .chat_contact_data {
     color: #000000;
 }
@@ -244,4 +249,21 @@
     padding-bottom: 15px;
     cursor: pointer;
 }
+
+.tickets_button {
+    height: 50px;
+    background-color: #ffffff;
+    width: 100%;
+    border-radius: 0 8px 0 0;
+    border-bottom: 1px solid #EBEBEB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tickets_button {
+
+}
+
 
