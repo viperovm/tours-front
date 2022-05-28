@@ -24,6 +24,7 @@ const Reviews = lazy(() => import('./pages/Reviews'))
 const Blog = lazy(() => import('./pages/Blog'))
 const SingleBlog = lazy(() => import('./pages/Blog/SingleBlog'))
 const Tour = lazy(() => import('./pages/Tour'))
+const TourModerationPage = lazy(() => import('./pages/TourModerationPage'))
 const MyTours = lazy(() => import('./pages/account/Tours/MyTours'))
 const Chat = lazy(() => import('./pages/account/Chat'))
 const Support = lazy(() => import('./pages/account/Support'))
@@ -128,6 +129,7 @@ const App = () => {
               <Route exact path='/account/tours/:id/edit/important' component={Important} />
 
               <Route exact path='/account/tours/:id/edit/preview' component={TourPage} />
+              <Route exact path='/moderation/:id' component={TourModerationPage} />
               <Route exact path='/activate/:uid/:token' component={EmailActivate} />
               <Route path='*' component={Page404} />
             </Switch>

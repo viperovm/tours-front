@@ -42,3 +42,16 @@
     color: #000000;
     margin-bottom: 20px;
 }
+
+.pop_up_input {
+    margin-bottom: 20px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #EBEBEB;
+    padding: 20px;
+}
+
+.pop_up_input:focus {
+    border: 1px solid #EBEBEB!important;
+    outline: none;
+}

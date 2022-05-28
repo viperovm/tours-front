@@ -2615,6 +2615,14 @@ li.li-border-none:last-child {
   border-bottom: 1px solid #ebebeb;
 }
 
+.control-buttons.bottom {
+  padding-top: 20px;
+  margin-top: 30px;
+  border-bottom: none;
+  border-top: 1px solid #ebebeb;
+  margin-bottom: 30px;
+}
+
 .control-buttons-set a {
   font-size: 12px;
   line-height: 15px;
@@ -2654,6 +2662,13 @@ li.li-border-none:last-child {
 .control-buttons-set button.button-green {
   text-transform: uppercase;
   background: #84bb59;
+  border: none;
+  color: #fff;
+}
+
+.control-buttons-set button.button-red {
+  text-transform: uppercase;
+  background: #DF7070;
   border: none;
   color: #fff;
 }
