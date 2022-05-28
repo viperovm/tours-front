@@ -38,7 +38,14 @@ import AirTickets from "../../components/TourPageComponents/TourRoute/AirTickets
 import TourImportantToKnow from "../../components/TourPageComponents/TourImportantToKnow";
 import {add_chat_user} from "../../redux/actions/chatActions";
 
-const TourPage = ({tour, getTourReview, tour_preview, match, add_chat_user}) => {
+const TourPage = ({
+                    tour,
+                    getTourReview,
+                    tour_preview,
+                    match,
+                    add_chat_user,
+                    isAuthenticated,
+}) => {
 
   const stickyRef = useStickyBox({offsetTop: 30, offsetBottom: 30})
 
@@ -46,10 +53,10 @@ const TourPage = ({tour, getTourReview, tour_preview, match, add_chat_user}) => 
 
   const history = useHistory()
 
-  const handleExpertChat = () => {
-    add_chat_user(tour_preview.expert.id)
-    history.push('/account/chat')
-  }
+  // const handleExpertChat = () => {
+  //   add_chat_user(tour_preview.expert.id)
+  //   history.push(isAuthenticated ? '/account/chat' : '/login/chat')
+  // }
 
   const handleAdd = () => {
     if (places < tour.vacants_number) {
@@ -209,7 +216,7 @@ const TourPage = ({tour, getTourReview, tour_preview, match, add_chat_user}) => 
 
                   {tour_preview.team_member && <TourLeader
                     leader={tour_preview.team_member}
-                    action={handleExpertChat}
+                    // action={handleExpertChat}
                   />
                   }
 
@@ -365,7 +372,10 @@ const TourPage = ({tour, getTourReview, tour_preview, match, add_chat_user}) => 
                       </div>
                     </div>}
 
-                    <div className={styles.footer_row_button} onClick={handleExpertChat}>
+                    <div
+                      className={styles.footer_row_button}
+                      // onClick={handleExpertChat}
+                    >
                       Написать автору тура
                     </div>
 

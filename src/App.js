@@ -103,12 +103,12 @@ const App = () => {
               <Route exact path='/article' component={Blog} />
               <Route exact path='/article/:slug' component={SingleBlog} />
               <Route exact path='/tours/:id' component={Tour} />
-              <Route path='/login' component={Login} />
+              <Route path='/login/:redirect?' component={Login} />
               <Route path='/register' component={Register} />
               <Route path='/legal-documents/:slug' component={PrivacyPolicy} />
               <Route exact path='/account' component={Dashboard} />
               <Route exact path='/account/chat' component={Chat} />
-              <Route exact path='/support' component={Support} />
+              <Route exact path='/account/support' component={Support} />
               <Route exact path='/account/profile' component={Profile} />
               <Route exact path='/account/orders' component={Orders} />
               <Route exact path='/account/settings' component={Settings} />

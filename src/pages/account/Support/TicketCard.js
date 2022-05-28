@@ -32,7 +32,7 @@ const TicketCard = ({
       <div className={`${styles.chat_contact_card} ${active ? styles.active : ''} ${!is_running ? styles.is_not_running : ''} ${first ? styles.first : ''}`} onClick={handleClick}>
         <div className={styles.chat_contact_wrapper}>
           <div className={styles.chat_contact_data}>
-            <div className={styles.chat_contact_name}>{`Сотрудник #${staff}`}</div>
+            <div className={styles.chat_contact_name}>{`Заявка №${id}`}</div>
             <div className={styles.chat_contact_last_message}>{truncateText(last_message, 20)}</div>
           </div>
         </div>

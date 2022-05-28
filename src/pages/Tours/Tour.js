@@ -65,7 +65,6 @@ const Tour = ({tour}) => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </>

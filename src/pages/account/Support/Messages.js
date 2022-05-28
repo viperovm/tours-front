@@ -5,7 +5,7 @@ import {w3cwebsocket as W3CWebSocket} from "websocket";
 import {
   clear_current_support_messages, clear_current_ticket, clear_current_ticket_status, close_ticket,
   set_all_support_messages_read,
-  set_all_support_messages_unread,
+  set_all_support_messages_unread, set_archive_ticket,
   set_current_support_messages, set_new_ticket
 } from "../../../redux/actions/supportActions";
 import MessagesForm from "./MessagesForm";
@@ -23,6 +23,7 @@ const Messages = ({
                     close_ticket,
                     clear_current_ticket_status,
                     clear_current_ticket,
+                    set_archive_ticket,
 }) => {
 
   const [newTicket, setNewTicket] = useState(false)
@@ -59,7 +60,13 @@ const Messages = ({
         const dataFromServer = JSON.parse(e.data);
         // console.log('got reply!');
         if (dataFromServer) {
-          if (dataFromServer?.command === 'set_read') {
+          if (dataFromServer?.command === 'close_ticket') {
+            client?.close()
+            set_archive_ticket()
+            clear_current_ticket_status()
+            clear_current_ticket()
+            clear_current_support_messages()
+          } else if (dataFromServer?.command === 'set_read') {
             set_all_support_messages_read()
           } else if (dataFromServer?.command === 'set_unread') {
             set_all_support_messages_unread()
@@ -131,6 +138,7 @@ const mapDispatchToProps = {
   close_ticket,
   clear_current_ticket_status,
   clear_current_ticket,
+  set_archive_ticket,
 }
 
 export default connect(

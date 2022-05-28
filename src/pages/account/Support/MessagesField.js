@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import styles from './Support.module.css';
 import {connect} from 'react-redux';
-import Message from "../Chat/Message";
+import Message from "./Message";
 
 const MessagesForm = ({user, current_support_messages, }) => {
 

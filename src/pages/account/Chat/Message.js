@@ -17,9 +17,7 @@ const Message = ({
     if(author?.id === user_id) {
       setIsMine(true)
     }
-  })
-
-  const date = new Date(data.time_date)
+  }, [author])
 
   return (
     <>

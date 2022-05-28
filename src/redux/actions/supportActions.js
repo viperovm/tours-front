@@ -85,6 +85,12 @@ export const set_new_ticket = (data) => async dispatch => {
   }
 }
 
+export const set_archive_ticket = () => async dispatch => {
+  dispatch({
+    type: t.SET_ARCHIVE_TICKET,
+  })
+}
+
 export const close_ticket = (id) => async dispatch => {
   const config = {
     headers: {
@@ -105,6 +111,7 @@ export const close_ticket = (id) => async dispatch => {
       type: t.CLOSE_TICKET_SUCCESS,
       payload: res.data,
     })
+    dispatch(set_archive_ticket())
 
   } catch (err) {
     console.error(err)

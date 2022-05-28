@@ -30,7 +30,13 @@ import group from "../../assets/img/users_group.svg";
 import star from "../../components/TourPageComponents/TourLeader/star.svg";
 import {add_chat_room} from "../../redux/actions/chatActions";
 
-const Tour = ({location, match, getTourReview, tour_preview, add_chat_room}) => {
+const Tour = ({
+                location, match,
+                getTourReview,
+                tour_preview,
+                add_chat_room,
+                isAuthenticated
+}) => {
 
   useEffect(() => {
     getTourReview(match.params.id)
@@ -40,9 +46,8 @@ const Tour = ({location, match, getTourReview, tour_preview, add_chat_room}) => 
   const history = useHistory()
 
   const handleExpertChat = () => {
-    console.log(tour_preview.expert.id)
     add_chat_room(tour_preview.expert.id)
-    history.push('/account/chat')
+    history.push(isAuthenticated ? '/account/chat' : '/login/chat')
   }
 
   const {pathname} = location
@@ -369,7 +374,8 @@ const Tour = ({location, match, getTourReview, tour_preview, add_chat_room}) => 
 }
 
 const mapStateToProps = state => ({
-  tour_preview: state.tours.tour_preview
+  tour_preview: state.tours.tour_preview,
+  isAuthenticated: state.auth.isAuthenticated,
 })
 
 const mapDispatchToProps = {getTourReview, add_chat_room}

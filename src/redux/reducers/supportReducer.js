@@ -40,7 +40,7 @@ const supportReducer = (state = initialState, action) => {
         running_ticket: payload.filter(item => item.status !== 3)[0],
         archive_tickets: payload.filter(item => item.status === 3)
       }
-    case t.CLOSE_TICKET_SUCCESS:
+    case t.SET_ARCHIVE_TICKET:
       const updateTickets = () => {
         let r_t = state.running_ticket
         let a_t = state.archive_tickets

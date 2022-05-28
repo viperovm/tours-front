@@ -8,7 +8,10 @@ import PopUp from "../components/PopUp/PopUp";
 
 
 const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors,
-                 reg_status }) => {
+                 reg_status, match }) => {
+
+  console.log(match.params.redirect)
+  const {redirect} = match.params
 
 
   const [data, setData] = useState({})
@@ -16,7 +19,7 @@ const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors
 
   if (isAuthenticated) {
     // setData({})
-    return <Redirect to="/account" />
+    return <Redirect to={redirect ? '/account/' + redirect : '/account'} />
   }
 
   const handleCheckbox = () => {

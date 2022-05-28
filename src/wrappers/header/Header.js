@@ -98,7 +98,7 @@ const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_
             <div className='buttons_block'>
               <div className='buttons_block_find_tour'>Подберите мне тур</div>
               <Link to='/tours' className={`buttons_block_travel ${active === 'tours' ? 'active' : ''}`} onClick={() => setActive('tours')}>Путешествия</Link>
-              <Link to='/support' className={`buttons_block_travel ${active === 'support' ? 'active' : ''}`} onClick={() => setActive('support')}>Поддержка</Link>
+              <Link to={isAuthenticated ? '/account/support' : '/login/support'} className={`buttons_block_travel ${active === 'support' ? 'active' : ''}`} onClick={() => setActive('support')}>Поддержка</Link>
               {/*<div className={`buttons_block_travel ${active === 'support' ? 'active' : ''}`} onClick={() => setActive('поддержка')}>Поддержка</div>*/}
               <div className='buttons_block_country'>
                 <img src='./img/Flag.svg' alt='' />
