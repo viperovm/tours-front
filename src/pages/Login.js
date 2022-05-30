@@ -60,7 +60,7 @@ const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors
               <div className='login_block_left'>
                 <div className='info_block_text_login'>
                   <div className='info_block_text_left'>Войти на сайт</div>
-                  <div className='info_block_text_right'>Забыли пароль?</div>
+                  <Link to={'/recover'} className='info_block_text_right'>Забыли пароль?</Link>
                 </div>
                 <div className='auth_form'>
                   <form onSubmit={handleAction}>

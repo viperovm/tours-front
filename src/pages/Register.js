@@ -98,6 +98,17 @@ const Register = ({ signUp, error, reg_status, clear_errors }) => {
                     <Input
                       required={true}
                       action={handleData}
+                      name='name'
+                      label='Представьтесь'
+                      icon={'user'}
+                      type='text'
+                      value={data.name}
+                      margin={'0 0 25px 0'}
+                      error={error}
+                    />
+                    <Input
+                      required={true}
+                      action={handleData}
                       name='email'
                       label='Адрес эл. почты'
                       icon={'email'}

@@ -1107,6 +1107,18 @@ a.paragraph_content_underline {
   margin-bottom: 35px;
 }
 
+.login_page_block.recover {
+  min-height: 580px;
+}
+
+.login_page_text_block {
+  margin-top: 30px;
+}
+
+.login_page_text_block p:not(:last-child){
+  margin-bottom: 20px;
+}
+
 .login_block_left {
   padding: 30px;
   width: 50%;
@@ -1127,6 +1139,16 @@ a.paragraph_content_underline {
   border-radius: 0px 8px 8px 0px;
   background-repeat: no-repeat;
   color: #ffffff;
+}
+
+.recover .login_block_right {
+  width: 50%;
+  background: url(./assets/img/recovery.jpg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .login_block_right p {

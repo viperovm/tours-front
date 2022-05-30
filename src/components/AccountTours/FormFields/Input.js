@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import email from '../../../assets/img/message.svg'
 import password from '../../../assets/img/padlock5.svg'
+import user from '../../../assets/img/user.svg'
 import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
@@ -86,7 +87,7 @@ const Input = ({
               onChange={handleData}
             />
             <div className='with-icon-image'>
-              <img src={icon === 'email' ? email : password} alt="icon"/>
+              <img src={icon === 'email' ? email : icon === 'user' ? user : password} alt="icon"/>
             </div>
 
           </div>}

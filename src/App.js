@@ -16,6 +16,7 @@ const Home = lazy(() => import("./pages/Home"));
 
 // import Home from './pages/Home'
 const Login = lazy(() => import('./pages/Login'))
+const Recover = lazy(() => import('./pages/PasswordRecovery'))
 const Register = lazy(() => import('./pages/Register'))
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
 const Dashboard = lazy(() => import('./pages/account/Dashboard'))
@@ -105,6 +106,7 @@ const App = () => {
               <Route exact path='/article/:slug' component={SingleBlog} />
               <Route exact path='/tours/:id' component={Tour} />
               <Route path='/login/:redirect?' component={Login} />
+              <Route path='/recover' component={Recover} />
               <Route path='/register' component={Register} />
               <Route path='/legal-documents/:slug' component={PrivacyPolicy} />
               <Route exact path='/account' component={Dashboard} />
