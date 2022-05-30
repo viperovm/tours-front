@@ -58,6 +58,7 @@ const ToursFormLayout = ({
   const [activePopUp, setActivePopUp] = useState(false)
   const [status, setStatus] = useState(false)
   const [direction, setDirection] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -129,13 +130,19 @@ const ToursFormLayout = ({
 
     try {
       await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${tour_id}/`, body, config)
-        .then(() => history.push(submit_url))
-        .then(() => clearCurrentTour())
+      history.push(submit_url)
+      clearCurrentTour()
+      // console.log(111)
 
     } catch (err) {
-
       const errStatus = err.response.status
       const errData = err.response.data
+      if(errData?.message) {
+        setErrorMessage(errData?.message)
+      }
+      if(errStatus === 403) {
+        setActivePopUp(true)
+      }
       tourToServerError(errData)
       errStatus >= 400 && errStatus < 500 ? setKey(Object.keys(errData)[0]) : setActivePopUp(true)
     }
@@ -155,8 +162,8 @@ const ToursFormLayout = ({
   return (
     <>
       <ToursEditLayout secondary_item={section_slug} secondary_name={section_name} tour_id={tour_id}>
-        {activePopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
-                               text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'}
+        {activePopUp && <PopUp status={'cancel'} title={errorMessage ? errorMessage : 'Упс... Что-то пошло не так'}
+                               text={'Попробуйте заново внести всю информацию и нажать "Продолжить"'}
                                button={'Ок'} action={() => {
           setActivePopUp(false)
         }}/>}

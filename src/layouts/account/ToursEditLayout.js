@@ -20,7 +20,7 @@ import {
 import Modal from "../../components/AccountTours/Components/Modal";
 import PopUp from "../../components/PopUp/PopUp";
 import {APPLICATION_CONFIG} from "../../data";
-import {tourTrimmed} from "../../functions";
+import {getData, tourTrimmed} from "../../functions";
 import axios from "axios";
 
 const ToursEditLayout = ({
@@ -50,6 +50,7 @@ const ToursEditLayout = ({
   const [activePopUp, setActivePopUp] = useState(false)
   const [onSavePopUp, setOnSavePopUp] = useState(false)
   const [onErrorPopUp, setOnErrorPopUp] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   if (!isAuthenticated) {
     return <Redirect to='/login'/>
@@ -96,9 +97,36 @@ const ToursEditLayout = ({
   }, [tour, loading])
 
   const handleModeration = async () => {
+
+    const config = APPLICATION_CONFIG
+
+    let new_tour = tourTrimmed(tour)
+
+    const data = getData(new_tour, 'submit', '')
+
+    const body = JSON.stringify(data)
+
+    try {
+      await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${tour_id}/`, body, config)
+        .then(() => history.push('/account/tours/list'))
+        .then(() => clearCurrentTour())
+
+    } catch (err) {
+      const errStatus = err.response.status
+      const errData = err.response.data
+      if(errData?.message) {
+        setErrorMessage(errData?.message)
+      }
+      if(errStatus === 403) {
+        setOnErrorPopUp(true)
+      }
+      tourToServerError(errData)
+      errStatus >= 400 && errStatus < 500 ? setKey(Object.keys(errData)[0]) : setOnErrorPopUp(true)
+    }
+
+
     await tourToServerUpdate({...tour, on_moderation: true, is_draft: false}, tour.id)
-      .then(() => history.push('/account/tours/list'))
-      .then(() => clearCurrentTour())
+
   }
 
   const handleSave = async () => {
@@ -164,8 +192,8 @@ const ToursEditLayout = ({
                                  action={() => setOnSavePopUp(false)}
                                  is_saved={true}
                                  second_action={handleRedirectToMenu}/>}
-          {onErrorPopUp && <PopUp status={'cancel'} title={'Упс... Что-то пошло не так'}
-                                 text={'Попробуйте заново внести всю информацию на странице и нажать "Продолжить"'}
+          {onErrorPopUp && <PopUp status={'cancel'} title={errorMessage ? errorMessage : 'Упс... Что-то пошло не так'}
+                                 text={'Попробуйте заново внести всю информацию и нажать "Продолжить"'}
                                  button={'Ок'} action={() => {
             setOnErrorPopUp(false)
           }}/>}
