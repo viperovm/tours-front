@@ -110,7 +110,7 @@ const App = () => {
               <Route exact path='/expert/:id' component={Leader} />
               <Route path='/login/:redirect?' component={Login} />
               <Route exact path='/reset' component={Reset} />
-              <Route exact path='/password/reset/confirm/:uid/:token' component={ResetConfirm} />
+              <Route exact path='/reset/confirm/:uid/:token' component={ResetConfirm} />
               <Route path='/register' component={Register} />
               <Route path='/legal-documents/:slug' component={PrivacyPolicy} />
               <Route exact path='/account' component={Dashboard} />
