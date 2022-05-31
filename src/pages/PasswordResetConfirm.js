@@ -11,11 +11,16 @@ import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import Input from "../components/AccountTours/FormFields/Input";
 import PopUp from "../components/PopUp/PopUp";
+import axios from "axios";
+import * as t from "../redux/types";
 
 
 const PasswordResetConfirm = ({ match, error, reset_password_confirm }) => {
 
+
+
   const [activePopUp, setActivePopUp] = useState(false)
+  const [handler, setHandler] = useState(false)
 
   const [formData, setFormData] = useState({
     new_password: '',
@@ -24,20 +29,44 @@ const PasswordResetConfirm = ({ match, error, reset_password_confirm }) => {
 
   const { new_password, re_new_password } = formData;
 
+  useEffect(() => {
+    let timeout = null
+    if(handler) {
+      timeout = setTimeout(() => {
+        if(activePopUp){
+          setActivePopUp(false)
+          history.push('/login')
+        }
+      }, 2000)
+    }
+    return () => clearTimeout(timeout)
+  }, [handler])
+
   const handleAction = async e => {
     e.preventDefault();
-
     const uid = match.params.uid;
     const token = match.params.token;
 
-    await reset_password_confirm(uid, token, new_password, re_new_password);
-    setActivePopUp(true)
-    setTimeout(() => {
-      if(activePopUp){
-        setActivePopUp(false)
-      }
-      return <Redirect to={'/login'}/>
-    }, 2000)
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+
+    const body = JSON.stringify({uid, token, new_password, re_new_password})
+
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/auth/users/reset_password_confirm/`,
+        body,
+        config
+      )
+      setActivePopUp(true)
+      setHandler(true)
+    } catch (err) {
+      console.error(err)
+    }
+
   };
 
   const handleData = (name, value) => {
