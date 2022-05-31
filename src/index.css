@@ -3237,6 +3237,18 @@ li.li-border-none:last-child {
   cursor: pointer;
 }
 
+.add-tour-button.button-orange {
+  background-color: #EF8F21;
+  cursor: pointer;
+}
+
+.add-tour-button.small {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: none;
+}
+
 .add-tour-button.button-disabled {
   background-color: rgba(0, 0, 0, 0.3);
   pointer-events: none;

@@ -16,7 +16,9 @@ const Home = lazy(() => import("./pages/Home"));
 
 // import Home from './pages/Home'
 const Login = lazy(() => import('./pages/Login'))
-const Recover = lazy(() => import('./pages/PasswordRecovery'))
+const Reset = lazy(() => import('./pages/PasswordReset'))
+const ResetConfirm = lazy(() => import('./pages/PasswordResetConfirm'))
+const Leader = lazy(() => import('./pages/Leader'))
 const Register = lazy(() => import('./pages/Register'))
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
 const Dashboard = lazy(() => import('./pages/account/Dashboard'))
@@ -105,8 +107,10 @@ const App = () => {
               <Route exact path='/article' component={Blog} />
               <Route exact path='/article/:slug' component={SingleBlog} />
               <Route exact path='/tours/:id' component={Tour} />
+              <Route exact path='/expert/:id' component={Leader} />
               <Route path='/login/:redirect?' component={Login} />
-              <Route path='/recover' component={Recover} />
+              <Route exact path='/reset' component={Reset} />
+              <Route exact path='/password/reset/confirm/:uid/:token' component={ResetConfirm} />
               <Route path='/register' component={Register} />
               <Route path='/legal-documents/:slug' component={PrivacyPolicy} />
               <Route exact path='/account' component={Dashboard} />

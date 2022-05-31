@@ -11,6 +11,7 @@ const Button = ({
                   type = 'button',
                   formAction,
                   name,
+                  small = false,
                 }) => {
   return (
     <button
@@ -18,6 +19,8 @@ const Button = ({
       onClick={action}
       className={`add-tour-button ${
         active ? color : 'button-disabled'
+      } ${
+        small ? 'small' : ''
       }`}
       style={{width: width ? width : 'auto', marginRight: width ? '30px' : '0', padding: padding, margin: margin}}
       type={type}
