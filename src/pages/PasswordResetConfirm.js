@@ -8,19 +8,23 @@ import {
   reset_password_confirm
 } from '../redux/actions/authActions'
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import {Link, Redirect, useHistory} from 'react-router-dom'
 import Input from "../components/AccountTours/FormFields/Input";
 import PopUp from "../components/PopUp/PopUp";
 import axios from "axios";
 import * as t from "../redux/types";
 
 
-const PasswordResetConfirm = ({ match, error, reset_password_confirm }) => {
+const PasswordResetConfirm = ({ match, reset_password_confirm }) => {
+
+  const history = useHistory()
 
 
 
   const [activePopUp, setActivePopUp] = useState(false)
   const [handler, setHandler] = useState(false)
+
+  const [error, setError] = useState()
 
   const [formData, setFormData] = useState({
     new_password: '',
@@ -64,7 +68,7 @@ const PasswordResetConfirm = ({ match, error, reset_password_confirm }) => {
       setActivePopUp(true)
       setHandler(true)
     } catch (err) {
-      console.error(err)
+      setError(err.response.data)
     }
 
   };
@@ -79,7 +83,7 @@ const PasswordResetConfirm = ({ match, error, reset_password_confirm }) => {
   return (
     <MainLayout>
       <>
-        {activePopUp && <PopUp status={'ok'} title={'Пароль успешно обновлен.'} text={'Сейчас вы будете перенаправлены на страницу входа}'}
+        {activePopUp && <PopUp status={'ok'} title={'Пароль успешно обновлен.'} text={'Сейчас вы будете перенаправлены на страницу входа.'}
                                button={'Ок'} action={() => setActivePopUp(false)}/>}
         <section>
           <div className='wrapper'>
