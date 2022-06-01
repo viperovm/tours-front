@@ -108,7 +108,11 @@ const chatReducer = (state = initialState, action) => {
     case t.SET_ALL_MESSAGES_READ:
       return {
         ...state,
-        all_messages_read: true,
+        current_messages: state.current_messages.map(item => {
+          item.is_read = true
+          return item
+        }),
+        // all_messages_read: true,
       }
     case t.SET_ALL_MESSAGES_UNREAD:
       return {
