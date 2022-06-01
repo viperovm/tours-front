@@ -40,7 +40,10 @@ const ContactCard = ({room, action, active = false, first = false, users_online,
         <div className={styles.chat_contact_wrapper}>
           <div className={`${styles.chat_contact_avatar}${users_online?.includes(user_id) ? ' ' + styles.active_user : ''}`} style={{backgroundImage: `url(${avatar})`}}/>
           <div className={styles.chat_contact_data}>
-            <div className={styles.chat_contact_name}>{first_name + ' ' + last_name[0]}</div>
+            <div className={styles.chat_contact_name}>
+              <div>{first_name}</div>
+              {last_name && <div>{last_name[0]}</div>}
+            </div>
             <div className={styles.chat_contact_last_message}>{truncateText(room?.last_message, 20)}</div>
           </div>
         </div>
