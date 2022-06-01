@@ -84,6 +84,20 @@ export const set_current_room = id => async dispatch => {
   })
 }
 
+export const update_chat_room = data => async dispatch => {
+  dispatch({
+    type: t.UPDATE_CHAT_ROOM,
+    payload: data,
+  })
+}
+
+export const update_chat_rooms = data => async dispatch => {
+  dispatch({
+    type: t.UPDATE_CHAT_ROOMS,
+    payload: data,
+  })
+}
+
 export const clear_current_room = () => async dispatch => {
   dispatch({
     type: t.CLEAR_CURRENT_ROOM,

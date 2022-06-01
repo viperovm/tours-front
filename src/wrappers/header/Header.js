@@ -6,9 +6,14 @@ import { load_user } from '../../redux/actions/authActions'
 import { connect } from 'react-redux'
 import UserSmallAvatar from '../../components/UserSmallAvatar/UserSmallAvatar'
 import {w3cwebsocket as W3CWebSocket} from "websocket";
-import {set_users_offline, set_users_online} from "../../redux/actions/chatActions";
+import {
+  set_users_offline,
+  set_users_online,
+  update_chat_room,
+  update_chat_rooms,
+} from "../../redux/actions/chatActions";
 
-const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_users_offline,  }) => {
+const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_users_offline, update_chat_rooms, update_chat_room }) => {
   const [isOpened, setIsOpened] = useState(false)
   const [active, setActive] = useState('')
 
@@ -54,6 +59,10 @@ const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_
             set_users_online(dataFromServer.is_online)
           } else if(dataFromServer.is_offline) {
             set_users_offline(dataFromServer.is_offline)
+          } else if(dataFromServer.new_chat) {
+            update_chat_rooms(dataFromServer.new_chat)
+          } else if(dataFromServer.new_message) {
+            update_chat_room(dataFromServer.new_message)
           }
         }
       };
@@ -135,4 +144,4 @@ const mapStateToProps = state => ({
   user: state.auth.user,
 })
 
-export default connect(mapStateToProps, { load_user, set_users_online, set_users_offline })(Header)
+export default connect(mapStateToProps, { load_user, set_users_online, set_users_offline, update_chat_rooms, update_chat_room })(Header)
