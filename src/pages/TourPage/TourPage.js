@@ -37,6 +37,7 @@ import star from '../../components/TourPageComponents/TourLeader/star.svg'
 import AirTickets from "../../components/TourPageComponents/TourRoute/AirTickets";
 import TourImportantToKnow from "../../components/TourPageComponents/TourImportantToKnow";
 import {add_chat_user} from "../../redux/actions/chatActions";
+import Expert from "../../components/Expert";
 
 const TourPage = ({
                     tour,
@@ -358,18 +359,26 @@ const TourPage = ({
                   <div className={styles.tour_sidebar_footer}>
 
                     {tour_preview.expert && <div className={styles.footer_row_leader}>
-                      <div className={styles.footer_row_leader_image}
-                           style={{backgroundImage: 'url(' + tour_preview.expert.tmb_avatar}}/>
-                      <div className={styles.footer_row_leader_leader}>
-                        <div className={styles.footer_row_leader_name}>
-                          <span>{tour_preview.expert.first_name}</span>, Автор туров
-                        </div>
-                        <div className={styles.footer_row_leader_rating}>
-                          <img src={star} alt="star"/>
-                          {tour_preview.expert.rating}
-                          <span> (201)</span>
-                        </div>
-                      </div>
+                      <Expert
+                        reviews={tour_preview.expert.tour_reviews_count}
+                        name={tour_preview.expert.first_name}
+                        rating={tour_preview.expert.rating}
+                        id={tour_preview.expert.id}
+                        avatar={tour_preview.expert.tmb_avatar}
+                        extra={', Автор туров'}
+                      />
+                      {/*<div className={styles.footer_row_leader_image}*/}
+                      {/*     style={{backgroundImage: 'url(' + tour_preview.expert.tmb_avatar}}/>*/}
+                      {/*<div className={styles.footer_row_leader_leader}>*/}
+                      {/*  <div className={styles.footer_row_leader_name}>*/}
+                      {/*    <span>{tour_preview.expert.first_name}</span>, Автор туров*/}
+                      {/*  </div>*/}
+                      {/*  <div className={styles.footer_row_leader_rating}>*/}
+                      {/*    <img src={star} alt="star"/>*/}
+                      {/*    {tour_preview.expert.rating}*/}
+                      {/*    <span> (201)</span>*/}
+                      {/*  </div>*/}
+                      {/*</div>*/}
                     </div>}
 
                     <div

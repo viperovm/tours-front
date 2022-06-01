@@ -26,6 +26,7 @@ import stopwatch from "../../assets/img/stopwatch.svg";
 import group from "../../assets/img/users_group.svg";
 import star from "../../components/TourPageComponents/TourLeader/star.svg";
 import {add_chat_room} from "../../redux/actions/chatActions";
+import Expert from "../../components/Expert";
 
 const TourBody = ({
                 tour_preview,
@@ -319,20 +320,27 @@ const TourBody = ({
                 </div>
 
                 <div className={styles.tour_sidebar_footer}>
-
                   {tour_preview.expert && <div className={styles.footer_row_leader}>
-                    <div className={styles.footer_row_leader_image}
-                         style={{backgroundImage: 'url(' + tour_preview.expert.tmb_avatar}}/>
-                    <div className={styles.footer_row_leader_leader}>
-                      <div className={styles.footer_row_leader_name}>
-                        <span>{tour_preview.expert.first_name}</span>, Автор туров
-                      </div>
-                      <div className={styles.footer_row_leader_rating}>
-                        <img src={star} alt="star"/>
-                        {tour_preview.expert.rating}
-                        <span> (201)</span>
-                      </div>
-                    </div>
+                    <Expert
+                      reviews={tour_preview.expert.tour_reviews_count}
+                      name={tour_preview.expert.first_name}
+                      rating={tour_preview.expert.rating}
+                      id={tour_preview.expert.id}
+                      avatar={tour_preview.expert.tmb_avatar}
+                      extra={', Автор туров'}
+                    />
+                    {/*<div className={styles.footer_row_leader_image}*/}
+                    {/*     style={{backgroundImage: 'url(' + tour_preview.expert.tmb_avatar}}/>*/}
+                    {/*<div className={styles.footer_row_leader_leader}>*/}
+                    {/*  <div className={styles.footer_row_leader_name}>*/}
+                    {/*    <span>{tour_preview.expert.first_name}</span>, Автор туров*/}
+                    {/*  </div>*/}
+                    {/*  <div className={styles.footer_row_leader_rating}>*/}
+                    {/*    <img src={star} alt="star"/>*/}
+                    {/*    {tour_preview.expert.rating}*/}
+                    {/*    <span> (201)</span>*/}
+                    {/*  </div>*/}
+                    {/*</div>*/}
                   </div>}
 
                   <div className={styles.footer_row_button} onClick={handleExpertChat}>

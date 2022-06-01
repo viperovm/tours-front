@@ -10,7 +10,7 @@ export const get_expert = id => async dispatch => {
   }
 
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/experts/${id}/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/experts/${id}/details/`, config)
 
     dispatch({
       type: t.GET_EXPERT_SUCCESS,
