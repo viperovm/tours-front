@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import Section from "../../components/Section";
 import Title from "../Tours/Title";
 import AliceCarousel from "react-alice-carousel";
+import 'react-alice-carousel/lib/alice-carousel.css';
 import TeamCard from "./TeamCard";
 
 const responsive = {

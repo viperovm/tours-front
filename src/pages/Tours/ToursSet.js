@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Tours.module.css';
 import Tour from "./Tour";
 import AliceCarousel from "react-alice-carousel";
+import 'react-alice-carousel/lib/alice-carousel.css';
 
 const responsive = {
   0: { items: 1 },
@@ -16,6 +17,10 @@ const ToursSet = ({tours = [], action}) => {
       <section>
         <div className='wrapper'>
           <div className={styles.tours_set_section}>
+
+            {/*<div className={styles.tours_wrapper}>*/}
+            {/*  {tours && tours.map((tour, index) => <Tour key={index} tour={tour}/>)}*/}
+            {/*</div>*/}
 
             {tours.length <= 3 && <>
               <div className={styles.tours_wrapper}>
