@@ -68,104 +68,103 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
       {activePopUp && <PopUp status={'ok'} title={'Успешно обновлено'}
                              text={''} button={'Ок'} action={() => setActivePopUp(false)}/>}
       <>
-        {status === 'experts' && (
-          <main>
-            <div className='global-h2-heading'>
-              <h2>Мой профиль</h2>
+        {/*{status === 'experts' && ()}*/}
+        <main>
+          <div className='global-h2-heading'>
+            <h2>Мой профиль</h2>
+          </div>
+          {status === 'experts' && <div className='tours-list-add-button-wrapper'>
+            <div className='tours-list-add-button-text'>
+              Проверенным экспертам туристы доверяют на 75% больше чем остальным. Получите статус бесплатно!
             </div>
-            <div className='tours-list-add-button-wrapper'>
-              <div className='tours-list-add-button-text'>
-                Проверенным экспертам туристы доверяют на 75% больше чем остальным. Получите статус бесплатно!
-              </div>
-              <div className='tours-list-add-button-button blue'>
-                <div onClick={handleRedirect} style={{cursor: 'pointer'}}>
-                  Получить статус
-                </div>
+            <div className='tours-list-add-button-button blue'>
+              <div onClick={handleRedirect} style={{cursor: 'pointer'}}>
+                Получить статус
               </div>
             </div>
-            <div className="profile-page-body">
-              <aside className="user-profile-aside">
-                {/*<div className="user-profile-avatar" style={{backgroundImage: 'url(' + user.avatar + ')'}}/>*/}
-                <AvatarInput
-                  max={1}
-                  action={handleImageChange}
-                  name='avatar'
-                  value={user && user.avatar}
-                  type='file'
+          </div>}
+          <div className="profile-page-body">
+            <aside className="user-profile-aside">
+              {/*<div className="user-profile-avatar" style={{backgroundImage: 'url(' + user.avatar + ')'}}/>*/}
+              <AvatarInput
+                max={1}
+                action={handleImageChange}
+                name='avatar'
+                value={user && user.avatar}
+                type='file'
+              />
+              {status === 'experts' && <div className="user-profile-aside-text">
+                Пожалуйста, не публикуйте названия компаний, контакты, бренды и ссылки.
+                Публикации с подобной информацией могут быть удалены в одностороннем порядке.
+              </div>}
+            </aside>
+            <div className="profile-page-content">
+              <DoubleWrapper full={true}>
+                <Input
+                  label={'Имя'}
+                  action={handleChange}
+                  name='first_name'
+                  value={user && user.first_name}
                 />
-                <div className="user-profile-aside-text">
-                  Пожалуйста, не публикуйте названия компаний, контакты, бренды и ссылки.
-                  Публикации с подобной информацией могут быть удалены в одностороннем порядке.
-                </div>
-              </aside>
-              <div className="profile-page-content">
-                <DoubleWrapper full={true}>
-                  <Input
-                    label={'Имя'}
-                    action={handleChange}
-                    name='first_name'
-                    value={user && user.first_name}
-                  />
-                  <Input
-                    label={'Фамилия'}
-                    action={handleChange}
-                    name='last_name'
-                    value={user && user.last_name}
-                  />
-                </DoubleWrapper>
-                {/*<SingleWrapper label='Страна' width={'100%'} margin={'0'}>*/}
-                {/*  <Input*/}
-                {/*    name='country'*/}
-                {/*    label='Укажите страну в которой вы живете'*/}
-                {/*    value={user && user.country}*/}
-                {/*    action={handleChange}*/}
-                {/*  />*/}
-                {/*</SingleWrapper>*/}
-                {/*<SingleWrapper label='Город' width={'100%'} margin={'0'}>*/}
-                {/*  <Input*/}
-                {/*    name='city'*/}
-                {/*    label='Укажите город в котором вы живете'*/}
-                {/*    value={user && user.city}*/}
-                {/*    action={handleChange}*/}
-                {/*  />*/}
-                {/*</SingleWrapper>*/}
-                <SingleWrapper label='Языки, которыми вы владеете' full={true} margin={'0'}>
-                  <SelectInput
-                    name='languages'
-                    label='Языки, которыми вы владеете'
-                    action={handleChange}
-                    options={languages}
-                    val={user && user.languages}
-                    multiple={true}
-                  />
-                </SingleWrapper>
-                {/*<SingleWrapper label='Где вы были?' width={'100%'} margin={'0'}>*/}
-                {/*  <Input*/}
-                {/*    name='visited_countries'*/}
-                {/*    label='Укажите колличечство стран, в которых вы были'*/}
-                {/*    value={user && user.visited_countries}*/}
-                {/*    action={handleChange}*/}
-                {/*  />*/}
-                {/*</SingleWrapper>*/}
-                <SingleWrapper label='Расскажите о себе (это всем интересно)' width={'100%'} margin={'0'}>
-                  <TextEditor
-                    name='about'
-                    label='Расскажите о себе'
-                    rows='7'
-                    value={user && user.about}
-                    action={handleChange}
-                  />
-                </SingleWrapper>
-                <Button
-                  text='Сохранить'
-                  action={handleSubmit}
+                <Input
+                  label={'Фамилия'}
+                  action={handleChange}
+                  name='last_name'
+                  value={user && user.last_name}
                 />
+              </DoubleWrapper>
+              {/*<SingleWrapper label='Страна' width={'100%'} margin={'0'}>*/}
+              {/*  <Input*/}
+              {/*    name='country'*/}
+              {/*    label='Укажите страну в которой вы живете'*/}
+              {/*    value={user && user.country}*/}
+              {/*    action={handleChange}*/}
+              {/*  />*/}
+              {/*</SingleWrapper>*/}
+              {/*<SingleWrapper label='Город' width={'100%'} margin={'0'}>*/}
+              {/*  <Input*/}
+              {/*    name='city'*/}
+              {/*    label='Укажите город в котором вы живете'*/}
+              {/*    value={user && user.city}*/}
+              {/*    action={handleChange}*/}
+              {/*  />*/}
+              {/*</SingleWrapper>*/}
+              <SingleWrapper label='Языки, которыми вы владеете' full={true} margin={'0'}>
+                <SelectInput
+                  name='languages'
+                  label='Языки, которыми вы владеете'
+                  action={handleChange}
+                  options={languages}
+                  val={user && user.languages}
+                  multiple={true}
+                />
+              </SingleWrapper>
+              {/*<SingleWrapper label='Где вы были?' width={'100%'} margin={'0'}>*/}
+              {/*  <Input*/}
+              {/*    name='visited_countries'*/}
+              {/*    label='Укажите колличечство стран, в которых вы были'*/}
+              {/*    value={user && user.visited_countries}*/}
+              {/*    action={handleChange}*/}
+              {/*  />*/}
+              {/*</SingleWrapper>*/}
+              <SingleWrapper label='Расскажите о себе (это всем интересно)' width={'100%'} margin={'0'}>
+                <TextEditor
+                  name='about'
+                  label='Расскажите о себе'
+                  rows='7'
+                  value={user && user.about}
+                  action={handleChange}
+                />
+              </SingleWrapper>
+              <Button
+                text='Сохранить'
+                action={handleSubmit}
+              />
 
-              </div>
             </div>
-          </main>
-        )}
-        {status === 'customers' && <div>Страница профиля клиента</div>}
+          </div>
+        </main>
+        {/*{status === 'customers' && <div>Страница профиля клиента</div>}*/}
       </>
     </Account>
   )
