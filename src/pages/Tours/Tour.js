@@ -4,6 +4,7 @@ import heart from './heart.svg'
 import star from './star.svg'
 import {useHistory} from "react-router-dom";
 import dateFormat, { masks } from 'dateformat'
+import Expert from "../../components/Expert";
 
 const Tour = ({tour}) => {
 
@@ -48,14 +49,20 @@ const Tour = ({tour}) => {
             <div className={styles.tour_name} onClick={handleRedirect}>{tour.name}</div>
           </div>
           <div className={styles.tour_data_section}>
-            <div className={styles.tour_leader_section}>
-              <div className={styles.leader_avatar} style={{backgroundImage: 'url(' + tour.expert.tmb_avatar + ')'}}/>
-              <div className={styles.tour_leader_name_section}>
-                <div className={styles.leader_name}>{tour.expert.first_name}</div>
-                <div className={styles.leader_rating}><img src={star} alt="star"/><span>{tour.expert.rating}</span>{' '}({tour.expert.reviews_count})</div>
 
-              </div>
+            <div>
+              {tour?.expert?.tmb_avatar && <Expert avatar={tour.expert.tmb_avatar} id={tour.expert.id} name={tour.expert.first_name}
+                                                   rating={tour.expert.rating} reviews={tour.expert.reviews_count}/>}
             </div>
+
+            {/*<div className={styles.tour_leader_section}>*/}
+            {/*  <div className={styles.leader_avatar} style={{backgroundImage: 'url(' + tour.expert.tmb_avatar + ')'}}/>*/}
+            {/*  <div className={styles.tour_leader_name_section}>*/}
+            {/*    <div className={styles.leader_name}>{tour.expert.first_name}</div>*/}
+            {/*    <div className={styles.leader_rating}><img src={star} alt="star"/><span>{tour.expert.rating}</span>{' '}({tour.expert.reviews_count})</div>*/}
+
+            {/*  </div>*/}
+            {/*</div>*/}
             <div className={styles.tour_price_section}>
               <div className={styles.tour_duration}>{`${tour.duration} дн. (с ${dateFormat(new Date(tour.start_date), 'dd.mm.yyyy')})`}</div>
               <div className={styles.tour_price}>

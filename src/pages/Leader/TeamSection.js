@@ -13,7 +13,7 @@ import mail from "./img/mail.svg";
 import Section from "../../components/Section";
 import Title from "../Tours/Title";
 
-const TeamSection = () => {
+const TeamSection = ({team}) => {
   return (
     <>
       <Section background={'#F6F7F9'} padding={'30px 0'}>

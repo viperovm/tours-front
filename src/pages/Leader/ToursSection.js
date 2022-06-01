@@ -5,15 +5,14 @@ import Title from "../Tours/Title";
 import ToursSet from "../Tours/ToursSet";
 import Section from "../../components/Section";
 
-const ToursSection = () => {
+const ToursSection = ({tours}) => {
 
-  const [tours, setTours] = useState([])
 
   return (
     <>
       <Section  padding={'30px 0'}>
         <Title title={'Туры эксперта '} sub_title={'Все туры эксперта актуальные на данный момент'} border_color={'orange'} />
-        <ToursSet tours={tours}/>
+        {tours && <ToursSet tours={tours}/>}
       </Section>
     </>
   );

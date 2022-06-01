@@ -1,10 +1,8 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styles from './Leader.module.css'
 import {connect} from 'react-redux'
 import MainLayout from "../../layouts/MainLayout";
 import LeaderSection from "./LeaderSection";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import TeamSection from "./TeamSection";
 import SearchSection from "../Tours/SearchSection";
 import Section from "../../components/Section";
@@ -12,14 +10,23 @@ import Title from "../Tours/Title";
 import TextSection from "../Tours/TextSection";
 import ToursSection from "./ToursSection";
 import ReviewsSection from "./ReviewsSection";
+import {get_expert} from "../../redux/actions/expertAction";
 
-const Leader = () => {
+const Leader = ({get_expert, match, expert}) => {
+
+  useEffect(() => {
+    const {id} = match.params
+    get_expert(id)
+  }, [match])
+
+  console.log(expert)
+
   return (
     <>
       <MainLayout>
-        <LeaderSection/>
-        <TeamSection/>
-        <ToursSection/>
+        {expert && <LeaderSection expert={expert}/>}
+        {expert?.team_members && <TeamSection team={expert?.team_members}/>}
+        {expert?.expert_tours && <ToursSection tours={expert?.expert_tours}/>}
         <ReviewsSection/>
 
 
@@ -34,8 +41,10 @@ const Leader = () => {
   )
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  expert : state.expert.expert
+})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {get_expert}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Leader)

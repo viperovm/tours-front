@@ -107,7 +107,7 @@ const App = () => {
               <Route exact path='/article' component={Blog} />
               <Route exact path='/article/:slug' component={SingleBlog} />
               <Route exact path='/tours/:id' component={Tour} />
-              <Route exact path='/expert/:id' component={Leader} />
+              <Route exact path='/experts/:id' component={Leader} />
               <Route path='/login/:redirect?' component={Login} />
               <Route exact path='/reset' component={Reset} />
               <Route exact path='/reset/confirm/:uid/:token' component={ResetConfirm} />
