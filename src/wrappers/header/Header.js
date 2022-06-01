@@ -17,12 +17,6 @@ const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_
   const [isOpened, setIsOpened] = useState(false)
   const [active, setActive] = useState('')
 
-  // const client = isAuthenticated ?
-  //   new W3CWebSocket(`wss://traveler.market/ws/notification/?token=${localStorage.getItem('access')}`)
-  //   :
-  //   null
-  // ;
-
   let client = null
 
   client = useMemo(() => {
@@ -30,8 +24,9 @@ const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_
       return new W3CWebSocket(`wss://traveler.market/ws/notification/?token=${localStorage.getItem('access')}`)
     } else if(!isAuthenticated && client){
       client.close()
-      return null
-    }  else {
+      // return null
+    } else {
+      client?.close()
       return null
     }
   }, [isAuthenticated, client])

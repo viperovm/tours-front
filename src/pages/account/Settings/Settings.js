@@ -310,15 +310,11 @@ const Settings = ({
           </div>)}
         </div>
       )}
-      {status === 'experts' && (<main>
+      {/*{status === 'experts' && ()}*/}
+      <main>
         <div className='global-h2-heading'>
           <h2>Настройки</h2>
         </div>
-        {/*<div className='tours-list-add-button-wrapper'>*/}
-        {/*  <div className='tours-list-add-button-text'>*/}
-        {/*    Комиссия работы с сервисом, для вас составляет всего:*/}
-        {/*  </div>*/}
-        {/*</div>*/}
         <div className="profile-settings-subheading">
           <h4>
             Личные данные
@@ -432,8 +428,8 @@ const Settings = ({
           text='Сохранить настройки'
           action={handleSubmit}
         />
-      </main>)}
-      {status === 'customers' && <div>Страница настроек клиента</div>}
+      </main>
+      {/*{status === 'customers' && <div>Страница настроек клиента</div>}*/}
     </>
   </Account>)
 }
