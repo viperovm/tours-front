@@ -116,6 +116,10 @@
     flex-wrap: wrap;
 }
 
+.tours_wrapper {
+    display: flex;
+}
+
 .tour_card {
     width: 350px;
     height:360px;
