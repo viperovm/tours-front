@@ -128,7 +128,7 @@ const TourPage = ({
         {tour_preview && (
           <>
             {tour_preview.wallpaper && <Wallpaper image={tour_preview.wallpaper}/>}
-            <div className="wrapper">
+            <div className="wrapper" style={{paddingBottom: '30px'}}>
               <div className={styles.preview_wrapper}>
                 <div className={styles.tour_body}>
                   {tour_preview.name &&
