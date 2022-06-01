@@ -16,7 +16,6 @@ const ToursSet = ({tours = [], action}) => {
       <section>
         <div className='wrapper'>
           <div className={styles.tours_set_section}>
-            {tours && tours.map((tour, index) => <Tour key={index} tour={tour}/>)}
 
             {tours.length <= 3 && <>
               <div className={styles.tours_wrapper}>
