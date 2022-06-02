@@ -62,14 +62,10 @@ const Props = ({update_local_user, user, status, updateCardData, updateTransacti
   const [empty, setEmpty] = useState(true)
 
   useEffect(() => {
-    if(user && user.debet_card && isNotEmptyObject(user.debet_card)){
-      setActive(1)
-    } else if(user && user.bank_transaction && isNotEmptyObject(user.bank_transaction)){
-      setActive(2)
-    } else {
-      setActive(1)
+    if(user?.preferred_payment_method){
+      setActive(user?.preferred_payment_method)
     }
-  }, [])
+  }, [user])
 
   useEffect(() => {
     setPage('profile')
