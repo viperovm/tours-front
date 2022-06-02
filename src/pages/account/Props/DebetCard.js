@@ -42,7 +42,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
     setSpinner(true)
     if (value.length === 9) {
       setClear(false)
-      getBikData({[name]: value}, 'card')
+      getBikData({[name]: value, payment_type: 'debet_card'}, 'card')
     } else if (value.length !== 9) {
       setClear(true)
       resetBikData('card')

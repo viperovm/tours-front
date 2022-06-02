@@ -62,7 +62,7 @@ const Transaction = ({
     setSpinner(true)
     if (value.length === 9) {
       setClear(false)
-      getBikData({[name]: value}, 'transaction')
+      getBikData({[name]: value, payment_type: 'transaction'}, 'transaction')
     } else if (value.length !== 9) {
       setClear(true)
       resetBikData('transaction')
