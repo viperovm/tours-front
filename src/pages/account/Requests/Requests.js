@@ -16,6 +16,8 @@ import {
 import {getCountries} from "../../../redux/actions/toursActions";
 import PopUp from "../../../components/PopUp/PopUp";
 import Verification from "./verification";
+import axios from "axios";
+import * as t from "../../../redux/types";
 
 // const data = [{
 //   id: 1, available: true, title: 'Физическое лицо', subtitle: '', list: [],
@@ -96,6 +98,8 @@ const Requests = ({
 
   // const [active, setActive] = useState(1)
   const [activePopUp, setActivePopUp] = useState(false)
+  const [activeErrorPopUp, setActiveErrorPopUp] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   // const Card = ({title, subtitle, list, id, available}) => (
   //   <div className={`card-body ${active === id ? 'active' : ''}`}>
@@ -135,8 +139,66 @@ const Requests = ({
   }
 }, [update_verification_status])
 
-  const handleSubmit = () => {
-    updateVerificationData(user.id, user.verifications)
+  const handleSubmit = async () => {
+
+    function parseJwt(token) {
+      var base64Url = token.split('.')[1]
+      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+      var jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+          })
+          .join('')
+      )
+
+      return JSON.parse(jsonPayload)
+    }
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
+
+    const body = JSON.stringify(user.verifications)
+
+    const current_user = parseJwt(localStorage.getItem('access')).user_status
+
+    try {
+      const res = await axios.patch(
+        `${process.env.REACT_APP_API_URL}/api/${current_user}/${user.id}/verification/`,
+        // `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/individual_verification/`,
+        body,
+        config
+      )
+      const result = 'ok'
+
+      updateVerificationData(result)
+    } catch (err) {
+      const errStatus = err.response.status
+      const errData = err.response.data
+      if(errData?.message) {
+        setErrorMessage(errData?.message)
+      }
+      if(errStatus === 403) {
+        setActiveErrorPopUp(true)
+      }
+      errStatus >= 400 && errStatus < 500 ? setKey(Object.keys(errData)[0]) : setActivePopUp(true)
+      const result = err.response.data
+      updateVerificationData(result)
+
+    }
+
+
+
+
+
+
+
     // if (active === 1) {
     //   updateVerificationData(user.id, user.individual_verification)
     // } else if (active === 2) {
@@ -157,6 +219,11 @@ const Requests = ({
                                button={'Ок'} action={() => {
           setActivePopUp(false)
           clear_verification_status()
+        }}/>}
+        {activeErrorPopUp && <PopUp status={'cancel'} title={errorMessage ? errorMessage : 'Упс... Что-то пошло не так'}
+                                    text={'Исправьте все ошибки и повторно отправьте запрос.'}
+                                    button={'Ок'} action={() => {
+          setActiveErrorPopUp(false)
         }}/>}
         {status === 'experts' && (<main>
             <div className='global-h2-heading'>

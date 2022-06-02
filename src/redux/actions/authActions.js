@@ -518,38 +518,51 @@ export const updateLegalVerificationData = (id, data) => async dispatch => {
   }
 }
 
-export const updateVerificationData = (id, data) => async dispatch => {
+export const updateVerificationData = (result) => async dispatch => {
 // export const updateIndividualVerificationData = (id, data) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-      Accept: 'application/json',
-    },
-  }
+//   const config = {
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `JWT ${localStorage.getItem('access')}`,
+//       Accept: 'application/json',
+//     },
+//   }
+//
+//   const body = JSON.stringify(data)
+//
+//   const current_user = parseJwt(localStorage.getItem('access')).user_status
+//
+//   try {
+//     const res = await axios.patch(
+//       `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/verification/`,
+//       // `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/individual_verification/`,
+//       body,
+//       config
+//     )
+//
+//     dispatch({
+//       type: t.UPDATE_INDIVIDUAL_VERIFICATION_DATA_SUCCESS,
+//       payload: res.status,
+//     })
+//   } catch (err) {
+//     dispatch({
+//       type: t.UPDATE_INDIVIDUAL_VERIFICATION_DATA_FAIL,
+//       payload: err.response.data,
+//     })
+//   }
 
-  const body = JSON.stringify(data)
-
-  const current_user = parseJwt(localStorage.getItem('access')).user_status
-
-  try {
-    const res = await axios.patch(
-      `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/verification/`,
-      // `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/individual_verification/`,
-      body,
-      config
-    )
-
+  if(result === 'ok') {
     dispatch({
       type: t.UPDATE_INDIVIDUAL_VERIFICATION_DATA_SUCCESS,
-      payload: res.status,
+      payload: 200,
     })
-  } catch (err) {
+  } else {
     dispatch({
       type: t.UPDATE_INDIVIDUAL_VERIFICATION_DATA_FAIL,
-      payload: err.response.data,
+      payload: result,
     })
   }
+
 }
 
 export const clear_verification_status = () => dispatch => {
