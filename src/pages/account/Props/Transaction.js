@@ -114,6 +114,68 @@ const Transaction = ({
 
       <DoubleWrapper full={true} margin={0}>
         <Input
+          label={'БИК Банка'}
+          action={handleBikDataGet}
+          name='transaction_bank_bik'
+          value={user?.bank_transaction?.transaction_bank_bik}
+          error={error}
+        />
+        <Input
+          clear={clear}
+          spinner={spinner}
+          label={'ИНН Банка'}
+          action={handleChange}
+          name='transaction_bank_inn'
+          value={user?.bank_transaction?.transaction_bank_inn}
+          error={error}
+        />
+      </DoubleWrapper>
+
+      <SingleWrapper label='Банк-получатель' width={'100%'} margin={'0'}>
+        <Input
+          clear={clear}
+          spinner={spinner}
+          label={'Банк-получатель'}
+          action={handleChange}
+          name='transaction_bank_name'
+          value={user?.bank_transaction?.transaction_bank_name}
+          error={error}
+        />
+      </SingleWrapper>
+
+      <DoubleWrapper full={true} margin={0}>
+        <Input
+          clear={clear}
+          spinner={spinner}
+          label={'КПП Банка'}
+          action={handleChange}
+          name='transaction_bank_kpp'
+          value={user?.bank_transaction?.transaction_bank_kpp}
+          error={error}
+        />
+        <Input
+          clear={clear}
+          spinner={spinner}
+          label={'Корр. Счет'}
+          action={handleChange}
+          name='transaction_bank_account'
+          value={user?.bank_transaction?.transaction_bank_account}
+          error={error}
+        />
+      </DoubleWrapper>
+
+      <SingleWrapper label='Основание платежа' width={'100%'} margin={'0'}>
+        <Input
+          label={'Основание платежа'}
+          action={handleChange}
+          name='transaction_payment_reason'
+          value={user?.bank_transaction?.transaction_payment_reason}
+          error={error}
+        />
+      </SingleWrapper>
+
+      <DoubleWrapper full={true} margin={0}>
+        <Input
           label={'ИНН Получателя'}
           action={handleInnDataGet}
           name='transaction_recipient_inn'
@@ -162,64 +224,6 @@ const Transaction = ({
           error={error}
         />
         <Input
-          label={'БИК Банка'}
-          action={handleBikDataGet}
-          name='transaction_bank_bik'
-          value={user?.bank_transaction?.transaction_bank_bik}
-          error={error}
-        />
-      </DoubleWrapper>
-      <DoubleWrapper full={true} margin={0}>
-        <Input
-          clear={clear}
-          spinner={spinner}
-          label={'ИНН Банка'}
-          action={handleChange}
-          name='transaction_bank_inn'
-          value={user?.bank_transaction?.transaction_bank_inn}
-          error={error}
-        />
-        <Input
-          clear={clear}
-          spinner={spinner}
-          label={'Банк-получатель'}
-          action={handleChange}
-          name='transaction_bank_name'
-          value={user?.bank_transaction?.transaction_bank_name}
-          error={error}
-        />
-      </DoubleWrapper>
-
-      <DoubleWrapper full={true} margin={0}>
-        <Input
-          clear={clear}
-          spinner={spinner}
-          label={'КПП Банка'}
-          action={handleChange}
-          name='transaction_bank_kpp'
-          value={user?.bank_transaction?.transaction_bank_kpp}
-          error={error}
-        />
-        <Input
-          label={'ИНН Получателя'}
-          action={handleInnDataGet}
-          name='transaction_recipient_inn'
-          value={user?.bank_transaction?.transaction_recipient_inn}
-          error={error}
-        />
-      </DoubleWrapper>
-
-      <DoubleWrapper full={true} margin={0}>
-        <Input
-          clear={clear}
-          spinner={spinner}
-          label={'Корр. Счет'}
-          action={handleChange}
-          name='transaction_bank_account'
-          value={user?.bank_transaction?.transaction_bank_account}
-          error={error}
-        />
-        <Input
           label={'Р/С Получателя'}
           action={handleChange}
           name='transaction_recipient_account'
@@ -227,15 +231,8 @@ const Transaction = ({
           error={error}
         />
       </DoubleWrapper>
-      <SingleWrapper full={true} margin={0} label={'Основание платежа'}>
-        <Input
-          label={'Основание платежа'}
-          action={handleChange}
-          name='transaction_payment_reason'
-          value={user?.bank_transaction?.transaction_payment_reason}
-          error={error}
-        />
-      </SingleWrapper>
+
+
       <SingleWrapper label='Сканы уставных документов (ИНН, ОГРН)' width={'70%'} margin={'0'}>
         <ObjectFileInput
           accept_all={true}
