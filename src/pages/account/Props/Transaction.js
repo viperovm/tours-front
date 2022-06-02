@@ -73,7 +73,7 @@ const Transaction = ({
     setInnSpinner(true)
     if (value.length === 10 || value.length === 12) {
       setInnClear(false)
-      getInnData({[name]: value})
+      getInnData({recipient_inn: value})
     } else if (value.length !== 10 || value.length !== 12) {
       setInnClear(true)
       resetInnData()
