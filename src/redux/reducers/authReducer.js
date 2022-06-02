@@ -56,19 +56,19 @@ const authReducer = (state = initialState, action) => {
     case t.UPDATE_DOCS_SUCCESS:
       const updateDocs = (user, doc) => {
         let u = {}
-        if(user.legal_verification) {
-          let {legal_verification} = user
+        if(user.bank_transaction) {
+          let {bank_transaction} = user
           u = {
             ...user,
-            legal_verification: {
-              ...legal_verification,
+            bank_transaction: {
+              ...bank_transaction,
               scans: doc,
             }
           }
         } else {
             u = {
               ...user,
-              legal_verification: {
+              bank_transaction: {
                 scans: doc,
               }
             }

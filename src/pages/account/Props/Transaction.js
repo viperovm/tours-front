@@ -239,8 +239,8 @@ const Transaction = ({
           error={error}
           label={'Сканы уставных документов (ИНН, ОГРН)'}
           action={handleDocChange}
-          name='transaction_user_docs'
-          value={user?.bank_transaction?.transaction_scans}
+          name='scans'
+          value={user?.bank_transaction?.scans}
         />
       </SingleWrapper>
     </>
