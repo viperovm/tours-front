@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react'
+import React, {useState, useEffect, useMemo} from 'react'
 import Logo from '../../components/logo/Logo'
 import {Link} from 'react-router-dom'
 import { load_user } from '../../redux/actions/authActions'
@@ -13,23 +13,23 @@ import {
   update_chat_rooms,
 } from "../../redux/actions/chatActions";
 
+let client
+
 const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_users_offline, update_chat_rooms, update_chat_room }) => {
   const [isOpened, setIsOpened] = useState(false)
   const [active, setActive] = useState('')
 
-  let client = null
-
-  client = useMemo(() => {
+  useMemo(() => {
     if(isAuthenticated) {
-      return new W3CWebSocket(`wss://traveler.market/ws/notification/?token=${localStorage.getItem('access')}`)
-    } else if(!isAuthenticated && client){
-      client.close()
-      // return null
-    } else {
-      client?.close()
-      return null
+      client =  new W3CWebSocket(`wss://traveler.market/ws/notification/?token=${localStorage.getItem('access')}`)
     }
-  }, [isAuthenticated, client])
+  }, [isAuthenticated])
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      client?.close()
+    }
+  }, [isAuthenticated])
 
   useEffect(() => {
     if (client) {

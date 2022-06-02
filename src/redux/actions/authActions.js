@@ -300,13 +300,30 @@ export const update_avatar = (image) => async dispatch => {
     },
   }
 
+  function parseJwt(token) {
+    var base64Url = token.split('.')[1]
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    var jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+        })
+        .join('')
+    )
+
+    return JSON.parse(jsonPayload)
+  }
+
+  const user = parseJwt(localStorage.getItem('access')).user_status
+
   let form_data = new FormData()
 
   form_data.append('avatar', image, image.name)
 
   try {
     const res = await axios.patch(
-      `${process.env.REACT_APP_API_URL}/api/experts/avatar/`,
+      `${process.env.REACT_APP_API_URL}/api/${user}/avatar/`,
       form_data,
       config
     )

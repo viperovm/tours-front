@@ -24,7 +24,13 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_i
 
   const handleNavigate = async (e, url) => {
     e.preventDefault()
-    const config = APPLICATION_CONFIG
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
 
     let new_tour = tourTrimmed(tour)
 

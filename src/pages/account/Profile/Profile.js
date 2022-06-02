@@ -129,7 +129,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
               {/*    action={handleChange}*/}
               {/*  />*/}
               {/*</SingleWrapper>*/}
-              <SingleWrapper label='Языки, которыми вы владеете' full={true} margin={'0'}>
+              {status === 'experts' && <SingleWrapper label='Языки, которыми вы владеете' full={true} margin={'0'}>
                 <SelectInput
                   name='languages'
                   label='Языки, которыми вы владеете'
@@ -138,7 +138,17 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
                   val={user && user.languages}
                   multiple={true}
                 />
-              </SingleWrapper>
+              </SingleWrapper>}
+
+              {status === 'customers' && <SingleWrapper label='Email' width={'100%'} margin={'0'}>
+                <Input
+                  label={'Email'}
+                  action={handleChange}
+                  name='email'
+                  value={user && user.email}
+                  error={error}
+                />
+              </SingleWrapper>}
               {/*<SingleWrapper label='Где вы были?' width={'100%'} margin={'0'}>*/}
               {/*  <Input*/}
               {/*    name='visited_countries'*/}
@@ -147,6 +157,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
               {/*    action={handleChange}*/}
               {/*  />*/}
               {/*</SingleWrapper>*/}
+
               <SingleWrapper label='Расскажите о себе (это всем интересно)' width={'100%'} margin={'0'}>
                 <TextEditor
                   name='about'
