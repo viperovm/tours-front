@@ -18,7 +18,7 @@ const PopUp = ({status, title, text, button, action, second_action, button2, is_
           <div className={styles.popup_title}>{title}</div>
           <div className={styles.popup_text}>{text}</div>
 
-          {with_field && <TextareaAutosize className={styles.pop_up_input} ref={textareaRef}  placeholder='Причины отклонения:' onChange={input_action} value={input_value} maxRows={3}/>}
+          {with_field && <TextareaAutosize className={styles.pop_up_input} ref={textareaRef}  placeholder='Причины отказа:' onChange={input_action} value={input_value} maxRows={3}/>}
           {/*{with_field && <input className={styles.pop_up_input} type="text" value={input_value} onChange={input_action}/>}*/}
 
           {button && <Button text={button} action={action} color={'button-primary'} width={'100%'} margin={'0'}/>}
