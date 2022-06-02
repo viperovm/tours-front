@@ -246,6 +246,11 @@ const ToursEditLayout = ({
                     </button>
                   </div>
                 </div>
+                <div className='control-buttons' style={{flexDirection: 'column'}}>
+                  <h2 style={{color: '#DF7070', marginBottom: '10px'}}>Отказ публикации тура!</h2>
+                  <h3 style={{marginBottom: '10px'}}>Причины:</h3>
+                  <p>{tour?.decline_reasons}</p>
+                </div>
                 {children}
               </main>
 
