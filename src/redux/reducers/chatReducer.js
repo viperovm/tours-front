@@ -35,13 +35,7 @@ const chatReducer = (state = initialState, action) => {
     case t.UPDATE_CHAT_ROOM:
       return {
         ...state,
-        chat_rooms: state.chat_rooms.map(item => {
-          if(item.id === payload.id){
-            return payload
-          } else {
-            return item
-          }
-        })
+        chat_rooms: [payload, ...state.chat_rooms.filter(item => item.id !== payload.id)]
       }
     case t.UPDATE_CHAT_ROOMS:
       return {
