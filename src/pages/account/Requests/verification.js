@@ -79,7 +79,7 @@ const Verification = ({
                       clear_errors,
                     }) => {
 
-  const {verification} = user
+  const {verifications} = user
 
   const [individualVerification, setIndividualVerification] = useState({
     last_name: user.last_name,
@@ -104,8 +104,8 @@ const Verification = ({
   useEffect(() => {
     update_local_user({
       ...user,
-      verification: {
-        ...user.verification,
+      verifications: {
+        ...user.verifications,
         ...individualVerification,
       }
     })
@@ -126,7 +126,7 @@ const Verification = ({
           label={'Фамилия'}
           action={handleChange}
           name='passport_last_name'
-          value={verification?.passport_last_name}
+          value={verifications?.passport_last_name}
         />
       </SingleWrapper>
       <DoubleWrapper full={true} margin={0}>
@@ -134,13 +134,13 @@ const Verification = ({
           label={'Имя'}
           action={handleChange}
           name='passport_first_name'
-          value={verification?.passport_first_name}
+          value={verifications?.passport_first_name}
         />
         <Input
           label={'Отчество'}
           action={handleChange}
           name='passport_patronymic'
-          value={verification?.passport_patronymic}
+          value={verifications?.passport_patronymic}
         />
       </DoubleWrapper>
       <DoubleWrapper full={true} margin={0}>
@@ -149,14 +149,14 @@ const Verification = ({
           label={'Серия паспорта'}
           action={handleChange}
           name='passport_series'
-          value={verification?.passport_series}
+          value={verifications?.passport_series}
         />
         <Input
           error={error}
           label={'Номер паспорта'}
           action={handleChange}
           name='passport_number'
-          value={verification?.passport_number}
+          value={verifications?.passport_number}
         />
       </DoubleWrapper>
       <SingleWrapper label='Кем выдан' width={'100%'} margin={'0'}>
@@ -165,7 +165,7 @@ const Verification = ({
           label={'Кем выдан'}
           action={handleChange}
           name='passport_issued_by'
-          value={verification?.passport_issued_by}
+          value={verifications?.passport_issued_by}
         />
       </SingleWrapper>
       <DoubleWrapper full={true} margin={0}>
@@ -174,14 +174,14 @@ const Verification = ({
           label={'Номер подразделения'}
           action={handleChange}
           name='passport_code_issued_by'
-          value={verification?.passport_code_issued_by}
+          value={verifications?.passport_code_issued_by}
         />
         <Input
           error={error}
           label={'Дата выдачи'}
           action={handleChange}
           name='passport_date'
-          value={verification?.passport_date}
+          value={verifications?.passport_date}
           type={'date'}
         />
       </DoubleWrapper>
@@ -193,7 +193,7 @@ const Verification = ({
           label={'Резидентом какой страны вы являетесь?'}
           action={handleChange}
           name='residency'
-          val={verification?.residency}
+          val={verifications?.residency}
           options={countries}
         />
       </SingleWrapper>
@@ -209,13 +209,13 @@ const Verification = ({
             onChange={(e) => handleChange(e.target.name, e.target.value)}
           >
             <FormControlLabel
-              checked={verification?.license === 'yes'}
+              checked={verifications?.license === 'yes'}
               value={'yes'}
               control={<BpRadio/>}
               label="Да"
             />
             <FormControlLabel
-              checked={verification?.license === 'no'}
+              checked={verifications?.license === 'no'}
               value={'no'}
               control={<BpRadio/>}
               label="Нет"
@@ -236,13 +236,13 @@ const Verification = ({
             onChange={(e) => handleChange(e.target.name, e.target.value)}
           >
             <FormControlLabel
-              checked={verification?.commercial_tours === 'yes'}
+              checked={verifications?.commercial_tours === 'yes'}
               value={'yes'}
               control={<BpRadio/>}
               label="Да"
             />
             <FormControlLabel
-              checked={verification?.commercial_tours === 'no'}
+              checked={verifications?.commercial_tours === 'no'}
               value={'no'}
               control={<BpRadio/>}
               label="Нет"
@@ -251,7 +251,7 @@ const Verification = ({
           </RadioGroup>
         </FormControl>
       </div>
-      {verification?.commercial_tours === 'yes' && (<>
+      {verifications?.commercial_tours === 'yes' && (<>
         <div className="team-subtitle">
           Сколько туров вы проводите в год?
         </div>
@@ -264,31 +264,31 @@ const Verification = ({
               onChange={(e) => handleChange(e.target.name, e.target.value)}
             >
               <FormControlLabel
-                checked={verification?.commercial_tours_yearly === 'до 5'}
+                checked={verifications?.commercial_tours_yearly === 'до 5'}
                 value="до 5"
                 control={<BpRadio/>}
                 label="до 5"
               />
               <FormControlLabel
-                checked={verification?.commercial_tours_yearly === '5-12'}
+                checked={verifications?.commercial_tours_yearly === '5-12'}
                 value="5-12"
                 control={<BpRadio/>}
                 label="5-12"
               />
               <FormControlLabel
-                checked={verification?.commercial_tours_yearly === '13-20'}
+                checked={verifications?.commercial_tours_yearly === '13-20'}
                 value="13-20"
                 control={<BpRadio/>}
                 label="13-20"
               />
               <FormControlLabel
-                checked={verification?.commercial_tours_yearly === '21-30'}
+                checked={verifications?.commercial_tours_yearly === '21-30'}
                 value="21-30"
                 control={<BpRadio/>}
                 label="21-30"
               />
               <FormControlLabel
-                checked={verification?.commercial_tours_yearly === '30+'}
+                checked={verifications?.commercial_tours_yearly === '30+'}
                 value="30+"
                 control={<BpRadio/>}
                 label="30+"
@@ -306,7 +306,7 @@ const Verification = ({
             action={handleChange}
             name='reviews_links'
             label=''
-            value={verification?.reviews_links}
+            value={verifications?.reviews_links}
             rows='7'
             error={error}
           />
@@ -321,7 +321,7 @@ const Verification = ({
           label={'В какие страны вы планируете организовывать туры?'}
           action={handleChange}
           name='tours_countries'
-          val={verification?.tours_countries}
+          val={verifications?.tours_countries}
           options={countries}
           multiple={true}
         />
@@ -335,7 +335,7 @@ const Verification = ({
           action={handleChange}
           name='tours_links'
           label=''
-          value={verification?.tours_links}
+          value={verifications?.tours_links}
           rows='7'
           error={error}
         />
@@ -352,13 +352,13 @@ const Verification = ({
             onChange={(e) => handleChange(e.target.name, e.target.value)}
           >
             <FormControlLabel
-              checked={verification?.conflicts === 'yes'}
+              checked={verifications?.conflicts === 'yes'}
               value={'yes'}
               control={<BpRadio/>}
               label="Да"
             />
             <FormControlLabel
-              checked={verification?.conflicts === 'no'}
+              checked={verifications?.conflicts === 'no'}
               value={'no'}
               control={<BpRadio/>}
               label="Нет"
@@ -367,7 +367,7 @@ const Verification = ({
           </RadioGroup>
         </FormControl>
       </div>
-      {verification?.conflicts === 'yes' &&
+      {verifications?.conflicts === 'yes' &&
         <SingleWrapper
           label='Опишите вкратце ситуацию'
           comment=''
@@ -377,7 +377,7 @@ const Verification = ({
             action={handleChange}
             name='conflicts_review'
             label=''
-            value={verification?.conflicts_review}
+            value={verifications?.conflicts_review}
             rows='7'
             error={error}
           />
@@ -394,13 +394,13 @@ const Verification = ({
             onChange={(e) => handleChange(e.target.name, e.target.value)}
           >
             <FormControlLabel
-              checked={verification?.legal_restrictions === 'yes'}
+              checked={verifications?.legal_restrictions === 'yes'}
               value={'yes'}
               control={<BpRadio/>}
               label="Да"
             />
             <FormControlLabel
-              checked={verification?.legal_restrictions === 'no'}
+              checked={verifications?.legal_restrictions === 'no'}
               value={'no'}
               control={<BpRadio/>}
               label="Нет"
@@ -409,7 +409,7 @@ const Verification = ({
           </RadioGroup>
         </FormControl>
       </div>
-      {verification?.legal_restrictions === 'yes' && <SingleWrapper
+      {verifications?.legal_restrictions === 'yes' && <SingleWrapper
         label='Опишите вкратце ситуацию'
         comment=''
         name='legal_restrictions_review'
@@ -418,7 +418,7 @@ const Verification = ({
           action={handleChange}
           name='legal_restrictions_review'
           label=''
-          value={verification?.legal_restrictions_review}
+          value={verifications?.legal_restrictions_review}
           rows='7'
           error={error}
         />
