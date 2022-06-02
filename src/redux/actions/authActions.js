@@ -7,6 +7,21 @@ import {
   UPDATE_TOUR_WALLPAPER_SUCCESS
 } from "../types";
 
+function parseJwt(token) {
+  var base64Url = token.split('.')[1]
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      })
+      .join('')
+  )
+
+  return JSON.parse(jsonPayload)
+}
+
 export const load_user = () => async dispatch => {
   if (localStorage.getItem('access')) {
     const config = {
@@ -17,28 +32,13 @@ export const load_user = () => async dispatch => {
       },
     }
 
-    function parseJwt(token) {
-      var base64Url = token.split('.')[1]
-      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-      var jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-          })
-          .join('')
-      )
-
-      return JSON.parse(jsonPayload)
-    }
-
-    const user = parseJwt(localStorage.getItem('access')).user_status
+    const current_user = parseJwt(localStorage.getItem('access')).user_status
 
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/${user}/me/`, config)
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/${current_user}/me/`, config)
       const data = {
         data: res.data,
-        status: user,
+        status: current_user,
       }
 
       dispatch({
@@ -68,23 +68,6 @@ export const update_user = data => async dispatch => {
       },
     }
 
-    function parseJwt(token) {
-      var base64Url = token.split('.')[1]
-      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-      var jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-          })
-          .join('')
-      )
-
-      return JSON.parse(jsonPayload)
-    }
-
-    const user = parseJwt(localStorage.getItem('access')).user_status
-
     if(data.old_email !== data.email) {
       data = {
         ...data,
@@ -109,8 +92,10 @@ export const update_user = data => async dispatch => {
 
     const body = JSON.stringify(data)
 
+    const current_user = parseJwt(localStorage.getItem('access')).user_status
+
     try {
-      const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/${user}/me/`, body, config)
+      const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/${current_user}/me/`, body, config)
       const data = {
         data: res.data,
         status: user,
@@ -300,30 +285,15 @@ export const update_avatar = (image) => async dispatch => {
     },
   }
 
-  function parseJwt(token) {
-    var base64Url = token.split('.')[1]
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-    var jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map(function (c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-        })
-        .join('')
-    )
-
-    return JSON.parse(jsonPayload)
-  }
-
-  const user = parseJwt(localStorage.getItem('access')).user_status
-
   let form_data = new FormData()
 
   form_data.append('avatar', image, image.name)
 
+  const current_user = parseJwt(localStorage.getItem('access')).user_status
+
   try {
     const res = await axios.patch(
-      `${process.env.REACT_APP_API_URL}/api/${user}/avatar/`,
+      `${process.env.REACT_APP_API_URL}/api/${current_user}/avatar/`,
       form_data,
       config
     )
@@ -347,9 +317,11 @@ export const delete_avatar = () => async dispatch => {
     },
   }
 
+  const current_user = parseJwt(localStorage.getItem('access')).user_status
+
   try {
     const res = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/api/experts/avatar/`,
+      `${process.env.REACT_APP_API_URL}/api/${current_user}/avatar/`,
       config
     )
 
@@ -375,9 +347,11 @@ export const email_confirm_request = () => async dispatch => {
 
   const body = ''
 
+  const current_user = parseJwt(localStorage.getItem('access')).user_status
+
     try {
       let res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/experts/send_confirmation_email/`,
+        `${process.env.REACT_APP_API_URL}/api/${current_user}/send_confirmation_email/`,
         body,
         config
       )
@@ -406,9 +380,11 @@ export const email_confirm = (data) => async dispatch => {
 
   const body = JSON.stringify(data)
 
+  const current_user = parseJwt(localStorage.getItem('access')).user_status
+
   try {
     let res = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/experts/confirm_email/`,
+      `${process.env.REACT_APP_API_URL}/api/${current_user}/confirm_email/`,
       body,
       config
     )
@@ -489,9 +465,11 @@ export const updateCardData = (id, data) => async dispatch => {
 
   const body = JSON.stringify(data)
 
+  const current_user = parseJwt(localStorage.getItem('access')).user_status
+
   try {
     const res = await axios.patch(
-      `${process.env.REACT_APP_API_URL}/api/experts/${id}/debet_card/`,
+      `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/debet_card/`,
       body,
       config
     )
@@ -519,9 +497,11 @@ export const updateLegalVerificationData = (id, data) => async dispatch => {
 
   const body = JSON.stringify(data)
 
+  const current_user = parseJwt(localStorage.getItem('access')).user_status
+
   try {
     const res = await axios.patch(
-      `${process.env.REACT_APP_API_URL}/api/experts/${id}/legal_verification/`,
+      `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/legal_verification/`,
       body,
       config
     )
@@ -549,9 +529,11 @@ export const updateIndividualVerificationData = (id, data) => async dispatch => 
 
   const body = JSON.stringify(data)
 
+  const current_user = parseJwt(localStorage.getItem('access')).user_status
+
   try {
     const res = await axios.patch(
-      `${process.env.REACT_APP_API_URL}/api/experts/${id}/individual_verification/`,
+      `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/individual_verification/`,
       body,
       config
     )
@@ -586,9 +568,11 @@ export const updateTransactionData = (id, data) => async dispatch => {
 
   const body = JSON.stringify(data)
 
+  const current_user = parseJwt(localStorage.getItem('access')).user_status
+
   try {
     const res = await axios.patch(
-      `${process.env.REACT_APP_API_URL}/api/experts/${id}/bank_transaction/`,
+      `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/bank_transaction/`,
       body,
       config
     )
@@ -753,9 +737,11 @@ export const phone_confirm_request = id => async dispatch => {
 
   const body = ''
 
+  const current_user = parseJwt(localStorage.getItem('access')).user_status
+
   try {
     let res = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/experts/${id}/send_confirmation_call/`,
+      `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/send_confirmation_call/`,
       body,
       config
     )
@@ -784,9 +770,11 @@ export const phone_confirm = (id, data) => async dispatch => {
 
   const body = JSON.stringify(data)
 
+  const current_user = parseJwt(localStorage.getItem('access')).user_status
+
   try {
     let res = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/experts/${id}/check_confirmation_code/`,
+      `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/check_confirmation_code/`,
       body,
       config
     )
