@@ -120,7 +120,13 @@ const ToursFormLayout = ({
   }
 
   const toModeration = async () => {
-    const config = APPLICATION_CONFIG
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
 
     let new_tour = tourTrimmed(tour)
 
