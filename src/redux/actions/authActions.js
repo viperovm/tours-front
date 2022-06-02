@@ -172,7 +172,7 @@ export const login = data => async dispatch => {
   } catch (err) {
     dispatch({
       type: t.LOGIN_FAIL,
-      payload: {data: err.response.data, status: err.response.status},
+      payload: {data: err?.response?.data, status: err?.response?.status},
     })
   }
 }

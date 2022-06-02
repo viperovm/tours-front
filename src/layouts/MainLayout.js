@@ -30,16 +30,19 @@ const MainLayout = ({ isAuthenticated, children, page, background = 'transparent
         localStorage.removeItem('oldTimeStamp')
       }
     }
+
     if(isAuthenticated){
-      outerIdle()
-      let timer = setTimeout(deleteUser, timeout * 1000)
-      const resetTimer = () => {
-        clearTimeout(timer)
-        timer = setTimeout(deleteUser, timeout * 1000)
+      if(!localStorage.getItem('remember_me')) {
+        outerIdle()
+        let timer = setTimeout(deleteUser, timeout * 1000)
+        const resetTimer = () => {
+          clearTimeout(timer)
+          timer = setTimeout(deleteUser, timeout * 1000)
+        }
+        window.addEventListener('mousemove', resetTimer)
+        window.addEventListener('keypress', resetTimer)
+        return () => clearTimeout(timer)
       }
-      window.addEventListener('mousemove', resetTimer)
-      window.addEventListener('keypress', resetTimer)
-      return () => clearTimeout(timer)
     }
   }, [isAuthenticated])
 

@@ -47,7 +47,7 @@ const MapSection = ({tour, updateTour, }) => {
   }, [coords, center, zoom])
 
   useEffect(() => {
-    if(loading && ind) {
+    if((loading && ind) || (loading && ind === 0)) {
       let arr = coords
       arr.splice(ind, 1)
       setCoords(arr)

@@ -99,7 +99,7 @@ const Register = ({ signUp, error, reg_status, clear_errors }) => {
                       required={true}
                       action={handleData}
                       name='name'
-                      label='Представьтесь'
+                      label='Представьтесь, пожалуйста'
                       icon={'user'}
                       type='text'
                       value={data.name}
@@ -143,11 +143,11 @@ const Register = ({ signUp, error, reg_status, clear_errors }) => {
 
                     <div className='social_links_block_info social_links_block_info_registration'>
                       Отправляя форму вы соглашаетесь с{' '}
-                      <Link to='/support/offer'>
+                      <Link to='/legal-documents/oferta-dlia-avtora-tura'>
                         условиями публичной оферты
                       </Link>{' '}
                       и выражаете свое согласие на обработку{' '}
-                      <Link to='/support/personal-data'>
+                      <Link to='/legal-documents/politika-konfidentsialnosti'>
                         персональных данных
                       </Link>
                       .

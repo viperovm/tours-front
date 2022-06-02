@@ -10,20 +10,24 @@ import PopUp from "../components/PopUp/PopUp";
 const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors,
                  reg_status, match }) => {
 
-  console.log(match.params.redirect)
   const {redirect} = match.params
 
 
   const [data, setData] = useState({})
-  const [check, setCheck] = useState(true)
+  // const [check, setCheck] = useState(null)
 
   if (isAuthenticated) {
     // setData({})
     return <Redirect to={redirect ? '/account/' + redirect : '/account'} />
   }
 
-  const handleCheckbox = () => {
-    setCheck(!check)
+  const handleCheckbox = (e) => {
+    // setCheck(!check)
+    if(e.target.checked) {
+      localStorage.setItem('remember_me', 'true')
+    } else {
+      localStorage.removeItem('remember_me')
+    }
   }
 
   const handleData = (name, value) => {
@@ -91,7 +95,7 @@ const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors
 
                     <input
                       type='checkbox'
-                      checked={check}
+                      // checked={check}
                       className='remember_checkbox'
                       name='remember_me'
                       onChange={handleCheckbox}
