@@ -34,6 +34,14 @@ const PasswordResetConfirm = ({ match, reset_password_confirm }) => {
   const { new_password, re_new_password } = formData;
 
   useEffect(() => {
+    if(error?.non_field_errors) {
+      setError((error) => {
+        re_new_password: error.non_field_errors
+      })
+    }
+  }, [error])
+
+  useEffect(() => {
     let timeout = null
     if(handler) {
       timeout = setTimeout(() => {

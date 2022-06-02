@@ -8,7 +8,7 @@ import PopUp from "../components/PopUp/PopUp";
 import {getTourReview} from "../redux/actions/toursActions";
 import axios from "axios";
 
-const TourModeration = ({ children, page, background = 'transparent', tour_id }) => {
+const TourModeration = ({ children, page, background = 'transparent', tour_id, tour }) => {
 
   const [decline, setDecline] = useState('')
   const [active, setActive] = useState(false)
@@ -88,6 +88,11 @@ const TourModeration = ({ children, page, background = 'transparent', tour_id })
               </button>
             </div>
           </div>
+          {tour?.decline_reasons && <div className='control-buttons' style={{flexDirection: 'column'}}>
+            <h2 style={{color: '#DF7070', marginBottom: '10px'}}>Отказ публикации тура!</h2>
+            <h3 style={{marginBottom: '10px'}}>Причины:</h3>
+            <p>{tour?.decline_reasons}</p>
+          </div>}
 
         </div>
         <main style={{backgroundColor: background, zIndex: '0'}}>
@@ -114,6 +119,10 @@ const TourModeration = ({ children, page, background = 'transparent', tour_id })
   )
 }
 
+const mapStateToProps = state => ({
+  tour: state.tours.tour_preview,
+})
+
 const mapDispatchToProps = {getTourReview,}
 
-export default connect(null, mapDispatchToProps)(TourModeration)
+export default connect(mapStateToProps, mapDispatchToProps)(TourModeration)
