@@ -6,19 +6,19 @@ import Button from "../AccountTours/Components/Button";
 import TextareaAutosize from "react-textarea-autosize";
 
 const PopUp = ({status, title, text, button, action, second_action, button2, is_saved, second_color = 'button-danger', with_field = false, input_action,
-                 input_value}) => {
+                 input_value, width, min_width,}) => {
 
   const textareaRef = useRef()
 
   return (
     <>
       <div className={styles.popup_wrapper}>
-        <div className={styles.popup_body}>
+        <div className={styles.popup_body} style={{minWidth:min_width}}>
           {status && <div className={styles.popup_icon}><img src={status === 'ok' ? ok : cancel} alt=""/></div>}
           <div className={styles.popup_title}>{title}</div>
           <div className={styles.popup_text}>{text}</div>
 
-          {with_field && <TextareaAutosize className={styles.pop_up_input} ref={textareaRef}  placeholder='Причины отказа:' onChange={input_action} value={input_value} maxRows={3}/>}
+          {with_field && <TextareaAutosize className={styles.pop_up_input} ref={textareaRef} placeholder='Причины отказа:' onChange={input_action} value={input_value} maxRows={5}/>}
           {/*{with_field && <input className={styles.pop_up_input} type="text" value={input_value} onChange={input_action}/>}*/}
 
           {button && <Button text={button} action={action} color={'button-primary'} width={'100%'} margin={'0'}/>}

@@ -25,7 +25,7 @@ const TourModeration = ({ children, page, background = 'transparent', tour_id, t
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Authorization: `JWT ${localStorage.getItem('admin_access')}`,
         Accept: 'application/json',
       },
     }
@@ -43,7 +43,7 @@ const TourModeration = ({ children, page, background = 'transparent', tour_id, t
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Authorization: `JWT ${localStorage.getItem('admin_access')}`,
         Accept: 'application/json',
       },
     }
@@ -71,6 +71,7 @@ const TourModeration = ({ children, page, background = 'transparent', tour_id, t
           input_action={handleDeclineInput}
           input_value={decline}
           second_action={() => setActive(false)}
+          min_width={'500px'}
           />}
         <div className='wrapper'>
           <div className='global-h2-heading' style={{marginTop: '50px'}}>

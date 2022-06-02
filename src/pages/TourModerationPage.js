@@ -9,7 +9,10 @@ const TourModerationPage = ({location, match, getTourReview, }) => {
   useEffect(() => {
     if(match) {
       getTourReview(match.params.id)
-      return () => getTourReview(match.params.id, 'reset')
+      return () => {
+        getTourReview(match.params.id, 'reset')
+        localStorage.removeItem('admin_access')
+      }
     }
   }, [match])
 
@@ -19,7 +22,7 @@ const TourModerationPage = ({location, match, getTourReview, }) => {
 
   const token = location.search.split('=')[1]
 
-  localStorage.setItem('access', token)
+  localStorage.setItem('admin_access', token)
 
 
   return (
