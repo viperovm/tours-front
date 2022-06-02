@@ -81,7 +81,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
           label={'БИК Банка'}
           action={handleDataGet}
           name='bank_bik'
-          value={user?.debet_card?.bank_bik}
+          value={user?.debet_card?.debet_card_bank_bik}
           error={error}
         />
         <Input
@@ -90,7 +90,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
           label={'Банк-получатель'}
           action={handleChange}
           name='bank_name'
-          value={user?.debet_card?.bank_name}
+          value={user?.debet_card?.debet_card_bank_name}
           error={error}
         />
       </DoubleWrapper>
@@ -101,7 +101,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
           label={'КПП Банка'}
           action={handleChange}
           name='bank_kpp'
-          value={user?.debet_card?.bank_kpp}
+          value={user?.debet_card?.debet_card_bank_kpp}
           error={error}
         />
 
@@ -111,7 +111,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
           label={'ИНН Банка'}
           action={handleChange}
           name='bank_inn'
-          value={user?.debet_card?.bank_inn}
+          value={user?.debet_card?.debet_card_bank_inn}
           error={error}
         />
       </DoubleWrapper>
@@ -122,7 +122,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
           label={'Корр. Счет'}
           action={handleChange}
           name='bank_account'
-          value={user?.debet_card?.bank_account}
+          value={user?.debet_card?.debet_card_bank_account}
           error={error}
         />
         <Input
@@ -131,7 +131,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
           label={'Рассчетный Счет'}
           action={handleChange}
           name='recipient_account'
-          value={user?.debet_card?.recipient_account}
+          value={user?.debet_card?.debet_card_recipient_account}
           error={error}
         />
       </DoubleWrapper>
@@ -140,14 +140,14 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
           label={'Получатель (ФИО)'}
           action={handleChange}
           name='recipient_full_name'
-          value={user?.debet_card?.recipient_full_name}
+          value={user?.debet_card?.debet_card_recipient_full_name}
           error={error}
         />
         <Input
           label={'Основание платежа'}
           action={handleChange}
           name='bank_payment_reason'
-          value={user?.debet_card?.bank_payment_reason}
+          value={user?.debet_card?.debet_card_payment_reason}
           error={error}
         />
       </DoubleWrapper>

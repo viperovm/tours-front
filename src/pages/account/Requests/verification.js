@@ -126,7 +126,7 @@ const Verification = ({
           label={'Фамилия'}
           action={handleChange}
           name='last_name'
-          value={verification?.last_name}
+          value={verification?.passport_last_name}
         />
       </SingleWrapper>
       <DoubleWrapper full={true} margin={0}>
@@ -134,13 +134,13 @@ const Verification = ({
           label={'Имя'}
           action={handleChange}
           name='first_name'
-          value={verification?.first_name}
+          value={verification?.passport_first_name}
         />
         <Input
           label={'Отчество'}
           action={handleChange}
           name='patronymic'
-          value={verification?.patronymic}
+          value={verification?.passport_patronymic}
         />
       </DoubleWrapper>
       <DoubleWrapper full={true} margin={0}>
