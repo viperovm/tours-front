@@ -4,36 +4,24 @@ import Account from '../../../layouts/account/account'
 import {Redirect} from 'react-router-dom'
 
 import {connect} from 'react-redux'
-import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
-import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
-import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapper";
-import Input from "../../../components/AccountTours/FormFields/Input";
 import Button from "../../../components/AccountTours/Components/Button";
-import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxInput";
 
 import {styled} from '@mui/material/styles';
 import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import ObjectFileInput from "../../../components/AccountTours/FormFields/ObjectFileInput";
 import {getUserInn, resetUserInn} from "../../../redux/actions/profileActions";
 import {
   update_local_user, setPage, getRecipientInnData, resetRecipientInnData, updateLegalVerificationData,
-  updateIndividualVerificationData, clear_verification_status, update_user, load_user, clear_errors,
+  updateVerificationData, clear_verification_status, update_user, load_user, clear_errors,
 } from "../../../redux/actions/authActions";
-import TextArea from "../../../components/AccountTours/FormFields/TextArea";
 import {getCountries} from "../../../redux/actions/toursActions";
 import PopUp from "../../../components/PopUp/PopUp";
-import Individual from "./Individual";
-import Legal from "./Legal";
+import Verification from "./verification";
 
-const data = [{
-  id: 1, available: true, title: 'Физическое лицо', subtitle: '', list: [],
-}, {
-  id: 2, available: true, title: 'Юридическое лицо (ИП, ООО)', subtitle: '', list: [],
-},]
+// const data = [{
+//   id: 1, available: true, title: 'Физическое лицо', subtitle: '', list: [],
+// }, {
+//   id: 2, available: true, title: 'Юридическое лицо (ИП, ООО)', subtitle: '', list: [],
+// },]
 
 const BpIcon = styled('span')(({theme}) => ({
   borderRadius: '50%',
@@ -93,7 +81,7 @@ const Requests = ({
                     setPage,
                     getCountries,
                     countries,
-                    updateIndividualVerificationData,
+                    updateVerificationData,
                     updateLegalVerificationData,
                     update_verification_status,
                     clear_verification_status,
@@ -106,31 +94,31 @@ const Requests = ({
     load_user()
   }
 
-  const [active, setActive] = useState(1)
+  // const [active, setActive] = useState(1)
   const [activePopUp, setActivePopUp] = useState(false)
 
-  const Card = ({title, subtitle, list, id, available}) => (
-    <div className={`card-body ${active === id ? 'active' : ''}`}>
-      <div className="card-data">
-        <div className="card-title">
-          {title}
-        </div>
-        <div className="card-subtitle">
-          {subtitle}
-        </div>
-        <div className="card-list">
-          <ul>
-            {list.map((item, index) => <li key={index}>{item}</li>)}
-          </ul>
-        </div>
-      </div>
-      <Button text={`${active === id ? 'Выбрано' : 'Выбрать'}`} width={'100%'}
-              color={`${active === id ? 'button-success' : 'button-primary'}`} active={available}
-              action={() => {
-                clear_errors()
-                setActive(id)
-              }}/>
-    </div>)
+  // const Card = ({title, subtitle, list, id, available}) => (
+  //   <div className={`card-body ${active === id ? 'active' : ''}`}>
+  //     <div className="card-data">
+  //       <div className="card-title">
+  //         {title}
+  //       </div>
+  //       <div className="card-subtitle">
+  //         {subtitle}
+  //       </div>
+  //       <div className="card-list">
+  //         <ul>
+  //           {list.map((item, index) => <li key={index}>{item}</li>)}
+  //         </ul>
+  //       </div>
+  //     </div>
+  //     <Button text={`${active === id ? 'Выбрано' : 'Выбрать'}`} width={'100%'}
+  //             color={`${active === id ? 'button-success' : 'button-primary'}`} active={available}
+  //             action={() => {
+  //               clear_errors()
+  //               setActive(id)
+  //             }}/>
+  //   </div>)
 
 
   if (status === 'customers') {
@@ -148,12 +136,13 @@ const Requests = ({
 }, [update_verification_status])
 
   const handleSubmit = () => {
-    if (active === 1) {
-      updateIndividualVerificationData(user.id, user.individual_verification)
-    } else if (active === 2) {
-      update_user(user)
-      updateLegalVerificationData(user.id, user.legal_verification)
-    }
+    updateVerificationData(user.id, user.verification)
+    // if (active === 1) {
+    //   updateVerificationData(user.id, user.individual_verification)
+    // } else if (active === 2) {
+    //   update_user(user)
+    //   updateLegalVerificationData(user.id, user.legal_verification)
+    // }
   }
 
   useEffect(() => {
@@ -175,26 +164,22 @@ const Requests = ({
             </div>
 
 
-            <div className="team-subtitle">
-              Вы оказываете услуги как:
-            </div>
+            {/*<div className="team-subtitle">*/}
+            {/*  Вы оказываете услуги как:*/}
+            {/*</div>*/}
 
-            <div className="cards-wrapper">
-              {data.map((item, index) => <Card key={index} id={item.id} list={item.list} subtitle={item.subtitle} title={item.title}
-                                      available={item.available}/>)}
-            </div>
+            {/*<div className="cards-wrapper">*/}
+            {/*  {data.map((item, index) => <Card key={index} id={item.id} list={item.list} subtitle={item.subtitle} title={item.title}*/}
+            {/*                          available={item.available}/>)}*/}
+            {/*</div>*/}
 
-            {active === 1 && (
-              <>
-                <Individual countries={countries}/>
-              </>
-            )}
+          <Verification countries={countries}/>
 
-            {active === 2 && (
-              <>
-                <Legal countries={countries}/>
-              </>
-            )}
+            {/*{active === 2 && (*/}
+            {/*  <>*/}
+            {/*    <Legal countries={countries}/>*/}
+            {/*  </>*/}
+            {/*)}*/}
 
             <Button text={'ОТПРАВИТЬ ЗАПРОС НА ПРОВЕРКУ'} action={handleSubmit}/>
           </main>)}
@@ -215,5 +200,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   setPage, getUserInn, resetUserInn, update_local_user, getCountries, getRecipientInnData, resetRecipientInnData, updateLegalVerificationData,
-  updateIndividualVerificationData, clear_verification_status, update_user, load_user, clear_errors,
+  updateVerificationData, clear_verification_status, update_user, load_user, clear_errors,
 })(Requests)

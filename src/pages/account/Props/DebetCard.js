@@ -14,7 +14,7 @@ import {getCountries} from "../../../redux/actions/toursActions";
 import {isNotEmptyObject} from "../../../functions";
 import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
 
-const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, clear_errors, getCountries, countries,}) => {
+const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, clear_errors, getCountries, countries, empty_action,}) => {
 
   const [debetCard, setDebetCard] = useState(null)
   const [spinner, setSpinner] = useState(false)
@@ -25,11 +25,18 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
   }, [])
 
   useEffect(() => {
+    if(debetCard && Object.values(debetCard).some(x => x !== null && x !== '')) {
+      empty_action(false)
+    } else {
+      empty_action(true)
+    }
+  }, [debetCard])
+
+  useEffect(() => {
     if (isNotEmptyObject(user) && isNotEmptyObject(user.debet_card)) {
-      setDebetCard(user.debet_card)
       setSpinner(false)
     }
-  }, [user, debetCard])
+  }, [user])
 
   const handleDataGet = (name, value) => {
     setSpinner(true)
@@ -43,6 +50,10 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
   }
 
   const handleChange = (name, value) => {
+    setDebetCard((debetCard) => ({
+      ...debetCard,
+      [name]: value,
+    }))
     let debet_card = user.debet_card
     update_local_user({
       ...user,
@@ -60,7 +71,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
       {/*    action={handleChange}*/}
       {/*    name='billing_country'*/}
       {/*    label='Страна платежного адреса'*/}
-      {/*    val={user && user.debet_card && user.debet_card.billing_country}*/}
+      {/*    val={user?.debet_card?.billing_country}*/}
       {/*    options={countries}*/}
       {/*    error={error}*/}
       {/*  />*/}
@@ -70,7 +81,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
           label={'БИК Банка'}
           action={handleDataGet}
           name='bank_bik'
-          value={user && user.debet_card && user.debet_card.bank_bik}
+          value={user?.debet_card?.bank_bik}
           error={error}
         />
         <Input
@@ -79,27 +90,7 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
           label={'Банк-получатель'}
           action={handleChange}
           name='bank_name'
-          value={user && user.debet_card && user.debet_card.bank_name}
-          error={error}
-        />
-      </DoubleWrapper>
-      <DoubleWrapper full={true} margin={0}>
-        <Input
-          clear={clear}
-          spinner={spinner}
-          label={'Корр. Счет'}
-          action={handleChange}
-          name='bank_account'
-          value={user && user.debet_card && user.debet_card.bank_account}
-          error={error}
-        />
-        <Input
-          clear={clear}
-          spinner={spinner}
-          label={'ИНН Банка'}
-          action={handleChange}
-          name='bank_inn'
-          value={user && user.debet_card && user.debet_card.bank_inn}
+          value={user?.debet_card?.bank_name}
           error={error}
         />
       </DoubleWrapper>
@@ -110,26 +101,56 @@ const DebetCard = ({user, getBikData, resetBikData, update_local_user, error, cl
           label={'КПП Банка'}
           action={handleChange}
           name='bank_kpp'
-          value={user && user.debet_card && user.debet_card.bank_kpp}
+          value={user?.debet_card?.bank_kpp}
           error={error}
         />
+
+        <Input
+          clear={clear}
+          spinner={spinner}
+          label={'ИНН Банка'}
+          action={handleChange}
+          name='bank_inn'
+          value={user?.debet_card?.bank_inn}
+          error={error}
+        />
+      </DoubleWrapper>
+      <DoubleWrapper full={true} margin={0}>
+        <Input
+          clear={clear}
+          spinner={spinner}
+          label={'Корр. Счет'}
+          action={handleChange}
+          name='bank_account'
+          value={user?.debet_card?.bank_account}
+          error={error}
+        />
+        <Input
+          clear={clear}
+          spinner={spinner}
+          label={'Рассчетный Счет'}
+          action={handleChange}
+          name='recipient_account'
+          value={user?.debet_card?.recipient_account}
+          error={error}
+        />
+      </DoubleWrapper>
+      <DoubleWrapper full={true} margin={0}>
         <Input
           label={'Получатель (ФИО)'}
           action={handleChange}
           name='recipient_full_name'
-          value={user && user.debet_card && user.debet_card.recipient_full_name}
+          value={user?.debet_card?.recipient_full_name}
           error={error}
         />
-      </DoubleWrapper>
-      <SingleWrapper full={true} margin={0} label={'Основание платежа'}>
         <Input
           label={'Основание платежа'}
           action={handleChange}
           name='bank_payment_reason'
-          value={user && user.debet_card && user.debet_card.bank_payment_reason}
+          value={user?.debet_card?.bank_payment_reason}
           error={error}
         />
-      </SingleWrapper>
+      </DoubleWrapper>
     </>
   );
 };

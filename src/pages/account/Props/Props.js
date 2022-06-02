@@ -58,6 +58,8 @@ const Props = ({update_local_user, user, status, updateCardData, updateTransacti
 
   const [active, setActive] = useState(1)
   const [activePopUp, setActivePopUp] = useState(false)
+  const [changeCardPopUp, setChangeCardPopUp] = useState(false)
+  const [empty, setEmpty] = useState(true)
 
   useEffect(() => {
     if(user && user.debet_card && isNotEmptyObject(user.debet_card)){
@@ -82,10 +84,19 @@ const Props = ({update_local_user, user, status, updateCardData, updateTransacti
   }, [update_status])
 
   const handleSubmit = () => {
+    setEmpty(true)
     if (active === 1) {
       updateCardData(user.id, user.debet_card)
     } else if (active === 2) {
       updateTransactionData(user.id, user.bank_transaction)
+    }
+  }
+
+  const handleCardChange = id => {
+    if(empty) {
+      setActive(id)
+    } else {
+      setChangeCardPopUp(true)
     }
   }
 
@@ -122,7 +133,7 @@ const Props = ({update_local_user, user, status, updateCardData, updateTransacti
       </div>
       <Button text={`${active === id ? 'Выбрано' : 'Выбрать'}`} width={'100%'}
               color={`${active === id ? 'button-success' : 'button-primary'}`} active={available}
-              action={() => setActive(id)}/>
+              action={() => handleCardChange(id)}/>
     </div>
   )
 
@@ -134,6 +145,11 @@ const Props = ({update_local_user, user, status, updateCardData, updateTransacti
                                button={'Ок'} action={() => {
           setActivePopUp(false)
           clear_update_status()
+        }}/>}
+        {changeCardPopUp && <PopUp status={'cancel'} title={'Внимание!'}
+                               text={'Сохраните, либо удалите все данные, прежде чем переходить в другой раздел!'}
+                               button={'Ок'} action={() => {
+          setChangeCardPopUp(false)
         }}/>}
         {status === 'experts' && (
           <main>
@@ -156,11 +172,11 @@ const Props = ({update_local_user, user, status, updateCardData, updateTransacti
             </div>
 
             {active === 1 && (
-              <DebetCard error={error}/>
+              <DebetCard error={error} empty_action={setEmpty}/>
             )}
 
             {active === 2 && (
-              <Transaction error={error}/>
+              <Transaction error={error} empty_action={setEmpty}/>
             )}
 
             <Button text={'Сохранить'} width={'50%'} action={handleSubmit}/>

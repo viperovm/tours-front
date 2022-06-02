@@ -518,7 +518,8 @@ export const updateLegalVerificationData = (id, data) => async dispatch => {
   }
 }
 
-export const updateIndividualVerificationData = (id, data) => async dispatch => {
+export const updateVerificationData = (id, data) => async dispatch => {
+// export const updateIndividualVerificationData = (id, data) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -533,7 +534,8 @@ export const updateIndividualVerificationData = (id, data) => async dispatch => 
 
   try {
     const res = await axios.patch(
-      `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/individual_verification/`,
+      `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/verification/`,
+      // `${process.env.REACT_APP_API_URL}/api/${current_user}/${id}/individual_verification/`,
       body,
       config
     )

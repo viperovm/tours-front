@@ -10,11 +10,12 @@ import {
   resetBikData,
   getInnData,
   resetInnData,
-  clear_errors,
+  clear_errors, upload_docs,
 } from "../../../redux/actions/authActions";
 import {getCountries} from "../../../redux/actions/toursActions";
 import {isNotEmptyObject} from "../../../functions";
 import SelectInput from "../../../components/AccountTours/FormFields/SelectInput";
+import ObjectFileInput from "../../../components/AccountTours/FormFields/ObjectFileInput";
 
 const Transaction = ({
                        user,
@@ -27,6 +28,8 @@ const Transaction = ({
                        clear_errors,
                        getCountries,
                        countries,
+                       upload_docs,
+                       empty_action,
                      }) => {
 
   const [transaction, setTransaction] = useState(null)
@@ -40,8 +43,16 @@ const Transaction = ({
   }, [])
 
   useEffect(() => {
+    if(transaction && Object.values(transaction).some(x => x !== null && x !== '')) {
+      empty_action(false)
+    } else {
+      empty_action(true)
+    }
+  }, [transaction])
+
+  useEffect(() => {
     if (isNotEmptyObject(user) && isNotEmptyObject(user.bank_transaction)) {
-      setTransaction(user.bank_transaction)
+      // setTransaction(user.bank_transaction)
       setSpinner(false)
       setInnSpinner(false)
     }
@@ -70,6 +81,10 @@ const Transaction = ({
   }
 
   const handleChange = (name, value) => {
+    setTransaction((transaction) => ({
+      ...transaction,
+      [name]: value,
+    }))
     let bank_transaction = user.bank_transaction
     update_local_user({
       ...user,
@@ -80,6 +95,10 @@ const Transaction = ({
     })
   }
 
+  const handleDocChange = (file) => {
+    upload_docs(file)
+  }
+
   return (
     <>
       {/*<SingleWrapper label='Страна платежного адреса' comment='' name={'billing_country'} full={true} margin={0}>*/}
@@ -87,17 +106,77 @@ const Transaction = ({
       {/*    action={handleChange}*/}
       {/*    name='billing_country'*/}
       {/*    label='Страна платежного адреса'*/}
-      {/*    val={user && user.bank_transaction && user.bank_transaction.billing_country}*/}
+      {/*    val={user?.bank_transaction?.billing_country}*/}
       {/*    options={countries}*/}
       {/*    error={error}*/}
       {/*  />*/}
       {/*</SingleWrapper>*/}
+
       <DoubleWrapper full={true} margin={0}>
+        <Input
+          label={'ИНН Получателя'}
+          action={handleInnDataGet}
+          name='recipient_inn'
+          value={user?.bank_transaction?.recipient_inn}
+          error={error}
+        />
+        <Input
+          error={error}
+          clear={clear}
+          spinner={spinner}
+          label={'Наименование Юр. лица'}
+          action={handleChange}
+          name='recipient_name'
+          value={user?.bank_transaction?.recipient_name}
+        />
+      </DoubleWrapper>
+
+      <SingleWrapper label='Юридический адрес' width={'100%'} margin={'0'}>
+        <Input
+          error={error}
+          label={'Юридический адрес'}
+          action={handleChange}
+          name='recipient_legal_address'
+          value={user?.bank_transaction?.recipient_legal_address}
+        />
+      </SingleWrapper>
+      <SingleWrapper label='Фактический адрес' width={'100%'} margin={'0'}>
+        <Input
+          error={error}
+          label={'Фактический адрес'}
+          action={handleChange}
+          name='recipient_real_address'
+          value={user?.bank_transaction?.recipient_real_address}
+        />
+      </SingleWrapper>
+
+
+      <DoubleWrapper full={true} margin={0}>
+        <Input
+          clear={clear}
+          spinner={spinner}
+          label={'ОГРН (ОГРНИП)'}
+          action={handleChange}
+          name='recipient_ogrn'
+          value={user?.bank_transaction?.recipient_ogrn}
+          error={error}
+        />
         <Input
           label={'БИК Банка'}
           action={handleBikDataGet}
           name='bank_bik'
-          value={user && user.bank_transaction && user.bank_transaction.bank_bik}
+          value={user?.bank_transaction?.bank_bik}
+          error={error}
+        />
+      </DoubleWrapper>
+      <DoubleWrapper full={true} margin={0}>
+        <Input
+          clear={clear}
+          spinner={spinner}
+          label={'ИНН Банка'}
+          action={handleChange}
+          name='bank_inn'
+          value={user?.bank_transaction?.bank_inn}
           error={error}
         />
         <Input
@@ -106,30 +185,11 @@ const Transaction = ({
           label={'Банк-получатель'}
           action={handleChange}
           name='bank_name'
-          value={user && user.bank_transaction && user.bank_transaction.bank_name}
+          value={user?.bank_transaction?.bank_name}
           error={error}
         />
       </DoubleWrapper>
-      <DoubleWrapper full={true} margin={0}>
-        <Input
-          clear={clear}
-          spinner={spinner}
-          label={'Корр. Счет'}
-          action={handleChange}
-          name='bank_account'
-          value={user && user.bank_transaction && user.bank_transaction.bank_account}
-          error={error}
-        />
-        <Input
-          clear={clear}
-          spinner={spinner}
-          label={'ИНН Банка'}
-          action={handleChange}
-          name='bank_inn'
-          value={user && user.bank_transaction && user.bank_transaction.bank_inn}
-          error={error}
-        />
-      </DoubleWrapper>
+
       <DoubleWrapper full={true} margin={0}>
         <Input
           clear={clear}
@@ -137,32 +197,33 @@ const Transaction = ({
           label={'КПП Банка'}
           action={handleChange}
           name='bank_kpp'
-          value={user && user.bank_transaction && user.bank_transaction.bank_kpp}
+          value={user?.bank_transaction?.bank_kpp}
           error={error}
         />
         <Input
           label={'ИНН Получателя'}
           action={handleInnDataGet}
           name='recipient_inn'
-          value={user && user.bank_transaction && user.bank_transaction.recipient_inn}
+          value={user?.bank_transaction?.recipient_inn}
           error={error}
         />
       </DoubleWrapper>
+
       <DoubleWrapper full={true} margin={0}>
         <Input
-          clear={innClear}
-          spinner={innSpinner}
-          label={'Наименование получателя'}
+          clear={clear}
+          spinner={spinner}
+          label={'Корр. Счет'}
           action={handleChange}
-          name='recipient_name'
-          value={user && user.bank_transaction && user.bank_transaction.recipient_name}
+          name='bank_account'
+          value={user?.bank_transaction?.bank_account}
           error={error}
         />
         <Input
           label={'Р/С Получателя'}
           action={handleChange}
           name='recipient_account'
-          value={user && user.bank_transaction && user.bank_transaction.recipient_account}
+          value={user?.bank_transaction?.recipient_account}
           error={error}
         />
       </DoubleWrapper>
@@ -171,8 +232,18 @@ const Transaction = ({
           label={'Основание платежа'}
           action={handleChange}
           name='bank_payment_reason'
-          value={user && user.bank_transaction && user.bank_transaction.bank_payment_reason}
+          value={user?.bank_transaction?.bank_payment_reason}
           error={error}
+        />
+      </SingleWrapper>
+      <SingleWrapper label='Сканы уставных документов (ИНН, ОГРН)' width={'70%'} margin={'0'}>
+        <ObjectFileInput
+          accept_all={true}
+          error={error}
+          label={'Сканы уставных документов (ИНН, ОГРН)'}
+          action={handleDocChange}
+          name='user_docs'
+          value={user?.bank_transaction?.scans}
         />
       </SingleWrapper>
     </>
@@ -198,4 +269,5 @@ export default connect(mapStateToProps, {
   resetInnData,
   clear_errors,
   getCountries,
+  upload_docs
 })(Transaction)
