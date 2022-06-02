@@ -24,7 +24,7 @@ const PasswordResetConfirm = ({ match, reset_password_confirm }) => {
   const [activePopUp, setActivePopUp] = useState(false)
   const [handler, setHandler] = useState(false)
 
-  const [error, setError] = useState()
+  const [error, setError] = useState({})
 
   const [formData, setFormData] = useState({
     new_password: '',
@@ -35,11 +35,14 @@ const PasswordResetConfirm = ({ match, reset_password_confirm }) => {
 
   useEffect(() => {
     if(error?.non_field_errors) {
-      setError((error) => {
-        re_new_password: error.non_field_errors
+      let new_error = error.non_field_errors
+      setError({
+        re_new_password: new_error
       })
     }
   }, [error])
+
+  console.log(error)
 
   useEffect(() => {
     let timeout = null
