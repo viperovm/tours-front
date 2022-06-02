@@ -116,7 +116,7 @@ const Transaction = ({
         <Input
           label={'ИНН Получателя'}
           action={handleInnDataGet}
-          name='recipient_inn'
+          name='transaction_recipient_inn'
           value={user?.bank_transaction?.transaction_recipient_inn}
           error={error}
         />
@@ -126,7 +126,7 @@ const Transaction = ({
           spinner={spinner}
           label={'Наименование Юр. лица'}
           action={handleChange}
-          name='recipient_name'
+          name='transaction_recipient_name'
           value={user?.bank_transaction?.transaction_recipient_name}
         />
       </DoubleWrapper>
@@ -136,7 +136,7 @@ const Transaction = ({
           error={error}
           label={'Юридический адрес'}
           action={handleChange}
-          name='recipient_legal_address'
+          name='transaction_recipient_legal_address'
           value={user?.bank_transaction?.transaction_recipient_legal_address}
         />
       </SingleWrapper>
@@ -145,7 +145,7 @@ const Transaction = ({
           error={error}
           label={'Фактический адрес'}
           action={handleChange}
-          name='recipient_real_address'
+          name='transaction_recipient_real_address'
           value={user?.bank_transaction?.transaction_recipient_real_address}
         />
       </SingleWrapper>
@@ -157,14 +157,14 @@ const Transaction = ({
           spinner={spinner}
           label={'ОГРН (ОГРНИП)'}
           action={handleChange}
-          name='recipient_ogrn'
+          name='transaction_recipient_ogrn'
           value={user?.bank_transaction?.transaction_recipient_ogrn}
           error={error}
         />
         <Input
           label={'БИК Банка'}
           action={handleBikDataGet}
-          name='bank_bik'
+          name='transaction_bank_bik'
           value={user?.bank_transaction?.transaction_bank_bik}
           error={error}
         />
@@ -175,7 +175,7 @@ const Transaction = ({
           spinner={spinner}
           label={'ИНН Банка'}
           action={handleChange}
-          name='bank_inn'
+          name='transaction_bank_inn'
           value={user?.bank_transaction?.transaction_bank_inn}
           error={error}
         />
@@ -184,7 +184,7 @@ const Transaction = ({
           spinner={spinner}
           label={'Банк-получатель'}
           action={handleChange}
-          name='bank_name'
+          name='transaction_bank_name'
           value={user?.bank_transaction?.transaction_bank_name}
           error={error}
         />
@@ -196,14 +196,14 @@ const Transaction = ({
           spinner={spinner}
           label={'КПП Банка'}
           action={handleChange}
-          name='bank_kpp'
+          name='transaction_bank_kpp'
           value={user?.bank_transaction?.transaction_bank_kpp}
           error={error}
         />
         <Input
           label={'ИНН Получателя'}
           action={handleInnDataGet}
-          name='recipient_inn'
+          name='transaction_recipient_inn'
           value={user?.bank_transaction?.transaction_recipient_inn}
           error={error}
         />
@@ -215,14 +215,14 @@ const Transaction = ({
           spinner={spinner}
           label={'Корр. Счет'}
           action={handleChange}
-          name='bank_account'
+          name='transaction_bank_account'
           value={user?.bank_transaction?.transaction_bank_account}
           error={error}
         />
         <Input
           label={'Р/С Получателя'}
           action={handleChange}
-          name='recipient_account'
+          name='transaction_recipient_account'
           value={user?.bank_transaction?.transaction_recipient_account}
           error={error}
         />
@@ -231,7 +231,7 @@ const Transaction = ({
         <Input
           label={'Основание платежа'}
           action={handleChange}
-          name='bank_payment_reason'
+          name='transaction_payment_reason'
           value={user?.bank_transaction?.transaction_payment_reason}
           error={error}
         />
@@ -242,7 +242,7 @@ const Transaction = ({
           error={error}
           label={'Сканы уставных документов (ИНН, ОГРН)'}
           action={handleDocChange}
-          name='user_docs'
+          name='transaction_user_docs'
           value={user?.bank_transaction?.transaction_scans}
         />
       </SingleWrapper>
