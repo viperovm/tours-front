@@ -100,7 +100,7 @@ const ObjectFileInput = ({
     if (position === 'accommodation') {
       deletePropertyImage(item, tour.id)
     }
-    if (name === 'user_docs') {
+    if (name === 'scans') {
       delete_docs(item.id)
     }
     setActivePopUp(false)
@@ -167,7 +167,7 @@ const ObjectFileInput = ({
               }
             </ul>
           </div>}
-          {name === 'user_docs' && value &&
+          {name === 'scans' && value &&
             value.length > 0 && value.map((item, index) => (
             <Fragment
               key={index}
@@ -293,7 +293,7 @@ const ObjectFileInput = ({
               </div>
             </Fragment>
           ))}
-          {name !== 'user_docs' && name !== 'day_photo' && value.length > 0 && value.map((item, index) => (
+          {name !== 'scans' && name !== 'day_photo' && value.length > 0 && value.map((item, index) => (
             <Fragment key={index}>
               <div
                 key={index}

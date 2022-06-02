@@ -55,21 +55,45 @@ const authReducer = (state = initialState, action) => {
 
     case t.UPDATE_DOCS_SUCCESS:
       const updateDocs = (user, doc) => {
+
+        let docs = []
+
+        if(user?.bank_transaction?.scans) {
+        }
         let u = {}
-        if(user.bank_transaction) {
+        if(user?.bank_transaction) {
           let {bank_transaction} = user
-          u = {
-            ...user,
-            bank_transaction: {
-              ...bank_transaction,
-              scans: doc,
+          if(bank_transaction.scans) {
+            let {scans} = bank_transaction
+            u = {
+              ...user,
+              bank_transaction: {
+                ...bank_transaction,
+                scans: [
+                  ...scans,
+                  doc
+                ],
+              }
+            }
+          } else {
+            u = {
+              ...user,
+              bank_transaction: {
+                ...bank_transaction,
+                scans: [
+                  doc
+                ],
+              }
             }
           }
+
         } else {
             u = {
               ...user,
               bank_transaction: {
-                scans: doc,
+                scans: [
+                  doc
+                ],
               }
             }
           }
@@ -82,11 +106,11 @@ const authReducer = (state = initialState, action) => {
       }
     case t.DELETE_DOCS_SUCCESS:
       const deleteDocs = (user, id) => {
-        const docs = user.legal_verification.scans.filter(item => item.id !== id)
+        const docs = user.bank_transaction.scans.filter(item => item.id !== id)
         return {
           ...user,
-          legal_verification: {
-            ...user.legal_verification,
+          bank_transaction: {
+            ...user.bank_transaction,
             scans: docs
           }
         }
