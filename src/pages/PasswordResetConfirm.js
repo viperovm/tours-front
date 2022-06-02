@@ -35,14 +35,12 @@ const PasswordResetConfirm = ({ match, reset_password_confirm }) => {
 
   useEffect(() => {
     if(error?.non_field_errors) {
-      let new_error = error.non_field_errors
       setError({
-        re_new_password: new_error
+        new_password: ['Пароли не совпадают.'],
+        re_new_password: ['Пароли не совпадают.']
       })
     }
   }, [error])
-
-  console.log(error)
 
   useEffect(() => {
     let timeout = null
