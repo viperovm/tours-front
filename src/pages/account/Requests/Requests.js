@@ -136,7 +136,7 @@ const Requests = ({
 }, [update_verification_status])
 
   const handleSubmit = () => {
-    updateVerificationData(user.id, user.verification)
+    updateVerificationData(user.id, user.verifications)
     // if (active === 1) {
     //   updateVerificationData(user.id, user.individual_verification)
     // } else if (active === 2) {
