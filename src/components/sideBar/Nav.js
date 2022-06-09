@@ -55,7 +55,7 @@ const Nav = ({ status, menu_item, secondary_item, tour_id }) => {
       title: 'История путешествий',
     },
     {
-      name: 'bookings',
+      name: 'orders',
       title: 'Мои брони',
     },
     {
@@ -90,7 +90,7 @@ const Nav = ({ status, menu_item, secondary_item, tour_id }) => {
               key={item.name}
               action={setName}
               name={item.name}
-              active={name}
+              active={menu_item}
               title={item.title}
               secondary_nav={item.secondary}
             />

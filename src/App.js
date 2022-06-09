@@ -22,6 +22,7 @@ const Leader = lazy(() => import('./pages/Leader'))
 const Register = lazy(() => import('./pages/Register'))
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
 const Dashboard = lazy(() => import('./pages/account/Dashboard'))
+const History = lazy(() => import('./pages/account/History'))
 const Tours = lazy(() => import('./pages/Tours'))
 const Reviews = lazy(() => import('./pages/Reviews'))
 const Blog = lazy(() => import('./pages/Blog'))
@@ -33,6 +34,7 @@ const Chat = lazy(() => import('./pages/account/Chat'))
 const Support = lazy(() => import('./pages/account/Support'))
 const Profile = lazy(() => import('./pages/account/Profile/Profile'))
 const Orders = lazy(() => import('./pages/account/Orders'))
+const Payment = lazy(() => import('./pages/account/Orders/OrderPayment'))
 const Settings = lazy(() => import('./pages/account/Settings/Settings'))
 const Props = lazy(() => import('./pages/account/Props/Props'))
 const Requests = lazy(() => import('./pages/account/Requests/Requests'))
@@ -118,9 +120,11 @@ const App = () => {
               <Route exact path='/account/support' component={Support} />
               <Route exact path='/account/profile' component={Profile} />
               <Route exact path='/account/orders' component={Orders} />
+              <Route exact path='/account/orders/:id/payment' component={Payment} />
               <Route exact path='/account/settings' component={Settings} />
               <Route exact path='/account/props' component={Props} />
               <Route exact path='/account/requests' component={Requests} />
+              <Route exact path='/account/history' component={History} />
               <Route exact path='/account/team' component={Team} />
               <Route exact path='/account/team/:id/edit' component={TeamEdit} />
               <Route exact path='/account/tours/list' component={MyTours} />
