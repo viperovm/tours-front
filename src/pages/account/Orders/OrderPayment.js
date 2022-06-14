@@ -73,6 +73,10 @@ const OrderPayment = ({
     })
   }
 
+  const handleSubmit = () => {
+    update_order(match.params.id, order)
+  }
+
   const handleAdd = () => {
     if (order?.travelers_number < order?.vacants_number) {
       update_local_order({
@@ -94,7 +98,6 @@ const OrderPayment = ({
   }
 
   const handleTravelers = (traveler) => {
-
     update_local_order({
       travelers: order?.travelers?.map(item => {
         if (item.index_number === traveler.index_number) {
@@ -104,6 +107,10 @@ const OrderPayment = ({
         }
       })
     })
+  }
+
+  const handleForm = (name, value) => {
+    update_local_order({[name]: value})
   }
 
   return (
@@ -232,6 +239,18 @@ const OrderPayment = ({
                       </div>
                     </div>
 
+                    <div className={styles.order_payment_section_main_upper_traveler_form}>
+                      <div className={styles.order_payment_section_main_upper_traveler_form_heading}>
+                        Контактная информация
+                      </div>
+                      <SingleWrapper margin_bottom={'0'} label={'E-mail'} full={true} width={'100%'} margin={'0'}>
+                        <Input value={order?.email} name={'email'} action={handleForm} type={'email'}/>
+                      </SingleWrapper>
+                      <SingleWrapper margin_bottom={'0'} label={'Телефон '} full={true} width={'100%'} margin={'0'}>
+                        <Input value={order?.phone} name={'phone'} action={handleForm}/>
+                      </SingleWrapper>
+                    </div>
+
                     {order?.travelers?.map(item => (
                       <>
                         <div key={item?.index_number} className={styles.order_payment_section_main_upper_traveler_form}>
@@ -271,12 +290,12 @@ const OrderPayment = ({
                     label={'Я подтвержаю согласие с условиями публичной оферты и выражаю свое согласие на обработку персональных данных.'}/>
                 </div>
 
-                <Button width={'100%'} text={'забронировать'} margin={'0 0 30px 0'}/>
+                <Button width={'100%'} text={'забронировать'} margin={'0 0 30px 0'} action={handleSubmit}/>
 
                 <div className={styles.order_payment_section_main_upper_traveler_notes}>
                   <div>Если передумаете, то в течение 24 часов после оплаты оформим 100% возврат</div>
-                  <div>Никаких скрытых платежей, оплата составит 8 750 ₽</div>
-                  <div> Остальная часть должна быть оплачена до 28 июня 2022 года</div>
+                  <div>Никаких скрытых платежей, оплата составит {properNumber(order?.book_price)}</div>
+                  <div> Остальная часть должна быть оплачена до {order?.postpay_final_date} года</div>
                 </div>
 
 
