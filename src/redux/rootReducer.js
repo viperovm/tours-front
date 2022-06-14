@@ -6,6 +6,7 @@ import chatReducer from './reducers/chatReducer'
 import supportReducer from './reducers/supportReducer'
 import blogReducer from './reducers/blogReducer'
 import expertReducer from './reducers/expertReducer'
+import orderReducer from './reducers/orderReducer'
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   support: supportReducer,
   blog: blogReducer,
   expert: expertReducer,
+  orders: orderReducer,
 })
 
 export default rootReducer

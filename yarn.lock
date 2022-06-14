@@ -8162,7 +8162,7 @@
     "uncontrollable" "^6.0.0"
     "warning" "^4.0.2"
 
-"react-calendar@^3.4.0":
+"react-calendar@^3.7.0":
   "integrity" "sha512-zkK95zWLWLC6w3O7p3SHx/FJXEyyD2UMd4jr3CrKD+G73N+G5vEwrXxYQCNivIPoFNBjqoyYYGlkHA+TBDPLCw=="
   "resolved" "https://registry.npmjs.org/react-calendar/-/react-calendar-3.7.0.tgz"
   "version" "3.7.0"

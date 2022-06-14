@@ -27,6 +27,8 @@ import group from "../../assets/img/users_group.svg";
 import star from "../../components/TourPageComponents/TourLeader/star.svg";
 import {add_chat_room} from "../../redux/actions/chatActions";
 import Expert from "../../components/Expert";
+import axios from "axios";
+import * as t from "../../redux/types";
 
 const TourBody = ({
                 tour_preview,
@@ -36,12 +38,31 @@ const TourBody = ({
 
   const history = useHistory()
 
+  const [places, setPlaces] = useState(1)
+
   const handleExpertChat = () => {
     add_chat_room(tour_preview.expert.id)
     history.push(isAuthenticated ? '/account/chat' : '/login/chat')
   }
 
-  const [places, setPlaces] = useState(1)
+  const handleBook = async () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
+    const body = JSON.stringify({travelers_number: places, tour: tour_preview.id})
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/orders/`, body, config)
+      if(res){
+        history.push(`/account/orders/${res.data.id}/payment`)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   const handleAdd = () => {
     if (places < tour_preview.vacants_number) {
@@ -300,7 +321,7 @@ const TourBody = ({
                       </div>
                     </div>
                   </div>
-                  <div className={styles.inputs_row_button}>
+                  <div className={styles.inputs_row_button} onClick={handleBook}>
                     {tour_preview.is_guaranteed ? 'Забронировать' : 'Хочу поехать'}
                   </div>
 

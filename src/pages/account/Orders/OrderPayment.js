@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Orders.module.css';
 import {connect} from 'react-redux';
 import MetaTags from "react-meta-tags";
@@ -15,25 +15,95 @@ import team from './img/team.svg'
 import wallet from './img/wallet.svg'
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
 import Input from "../../../components/AccountTours/FormFields/Input";
-import RadioInput from "../../../components/AccountTours/FormFields/RadioInput";
 import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxInput";
 import Button from "../../../components/AccountTours/Components/Button";
+import {getTourReview} from "../../../redux/actions/toursActions";
+import {proper_date, properNumber} from "../../../functions";
+import {clear_single_order, get_single_order, update_local_order, update_order} from "../../../redux/actions/orderActions";
+import OrderPaymentForm from "./OrderPaymentForm";
 
-const OrderPayment = ({match}) => {
+const OrderPayment = ({
+                        match,
+                        get_single_order,
+                        clear_single_order,
+                        update_local_order,
+                        update_order,
+                        order,
+                      }) => {
 
-  const [places, setPlaces] = useState(1)
-  const [vacantsNumber, setVacantsNumber] = useState(30)
+  useEffect(() => {
+    get_single_order(match.params.id)
+    return () => clear_single_order()
+  }, [])
+
+
+  // useEffect(() => {
+  //   if(order?.travelers_number){
+  //     setPlaces(order?.travelers_number)
+  //     let arr = []
+  //     for (let i = 1; i <= order?.travelers_number; i++) {
+  //       arr = [...arr, i]
+  //     }
+  //     setTravelersCount(arr)
+  //     setTravelers(arr.map(item => {
+  //       let traveler = {}
+  //       traveler.id = item
+  //       return traveler
+  //     }))
+  //   }
+  // }, [order])
+
+  // const [places, setPlaces] = useState(1)
+  // const [travelersCount, setTravelersCount] = useState([])
+  // const [travelers, setTravelers] = useState([])
+  // const [newTourDate, setNewTourDate] = useState({})
+
+  // useEffect(() => {
+  //   if(newTourDate) {
+  //     update_local_order({tour: newTourDate?.id})
+  //   }
+  // }, [newTourDate])
+
+  const handleDateChange = (name, value) => {
+    console.log(name)
+    console.log(value)
+    update_order(match.params.id, {
+      ...order,
+      tour: value.id,
+    })
+  }
 
   const handleAdd = () => {
-    if (places < vacantsNumber) {
-      setPlaces(places + 1)
+    if (order?.travelers_number < order?.vacants_number) {
+      update_local_order({
+        travelers_number: order?.travelers_number + 1,
+        travelers: [...order?.travelers, {index_number: order?.travelers_number + 1}]
+      })
     }
   }
 
   const handleSubtract = () => {
-    if (places > 1) {
-      setPlaces(places - 1)
+    if (order?.travelers_number > 1) {
+      let travelers_set = order?.travelers
+      travelers_set.pop()
+      update_local_order({
+        travelers_number: order?.travelers_number - 1,
+        travelers: travelers_set
+      })
     }
+  }
+
+  const handleTravelers = (traveler) => {
+
+    update_local_order({
+      travelers: order?.travelers?.map(item => {
+        if (item.index_number === traveler.index_number) {
+          return traveler
+        } else {
+          return item
+        }
+      })
+    })
   }
 
   return (
@@ -80,14 +150,14 @@ const OrderPayment = ({match}) => {
                       ДАТА ПУТЕШЕСТВИЯ
                     </div>
                     <div className={styles.order_payment_section_main_upper_dates}>
-                      <div>28 июня 2021 (Понедельник)</div>
-                      <div> 2 июля 2021 (Пятница)</div>
+                      <div>{order?.start_date}</div>
+                      <div>{order?.finish_date}</div>
                     </div>
                     <div className={styles.order_payment_section_main_upper_select_heading}>
                       Выбрать даты
                     </div>
                     <div className={styles.order_payment_section_main_upper_select}>
-                      <SelectInput/>
+                      <SelectInput options={order?.tour_dates} labelField={'tour_date'} action={handleDateChange} name={'tour_dates'}/>
                     </div>
                     <div className={styles.order_payment_section_main_upper_ok}>
                       <img src={ok} alt="ok"/>
@@ -101,7 +171,7 @@ const OrderPayment = ({match}) => {
                         <img src={team} alt="team"/>
                         <div className={styles.order_payment_section_main_upper_list_item_text}>
                           <div className={styles.order_payment_section_main_upper_list_item_text_heading}>
-                            1/20 мест осталось.
+                            {`${order?.vacants_number}/${order?.members_number} мест осталось.`}
                           </div>
                           <div className={styles.order_payment_section_main_upper_list_item_text_text}>
                             Ваше место будет забронировано в течение 30 минут после оплаты.
@@ -115,7 +185,7 @@ const OrderPayment = ({match}) => {
                             Только депозит
                           </div>
                           <div className={styles.order_payment_section_main_upper_list_item_text_text}>
-                            8 750 за 1 участника, как только бронирование подтверждено
+                            {`${properNumber(order?.book_price)} за 1 участника, как только бронирование подтверждено`}
                           </div>
                         </div>
                       </div>
@@ -155,60 +225,50 @@ const OrderPayment = ({match}) => {
                       <div className={styles.inputs_row_date_input_text}>
                         Мест:
                         {' '}
-                        {places}
+                        {order?.travelers_number}
                       </div>
                       <div className={styles.inputs_row_date_input_button} onClick={handleAdd}>
                         +
                       </div>
                     </div>
 
-                    <div className={styles.order_payment_section_main_upper_traveler_form}>
-                      <div className={styles.order_payment_section_main_upper_traveler_form_heading}>
-                        Основной путешественник
-                      </div>
-                      <SingleWrapper margin_bottom={'0'} label={'Фамилия'} full={true} width={'100%'} margin={'0'}>
-                        <Input/>
-                      </SingleWrapper>
-                      <SingleWrapper margin_bottom={'0'} label={'Имя'} full={true} width={'100%'} margin={'0'}>
-                        <Input/>
-                      </SingleWrapper>
-                      <SingleWrapper margin_bottom={'0'} label={'Отчество'} full={true} width={'100%'} margin={'0'}>
-                        <Input/>
-                      </SingleWrapper>
-                      <SingleWrapper margin_bottom={'0'} label={'E-mail'} full={true} width={'100%'} margin={'0'}>
-                        <Input/>
-                      </SingleWrapper>
-                      <SingleWrapper margin_bottom={'0'} label={'Телефон '} full={true} width={'100%'} margin={'0'}>
-                        <Input/>
-                      </SingleWrapper>
-                      <SingleWrapper margin_bottom={'0'} label={'Дата рождения'} full={true} width={'100%'} margin={'0'}>
-                        <Input/>
-                      </SingleWrapper>
-                    </div>
-                    <div className={styles.order_payment_section_main_upper_traveler_form}>
-                      <div className={styles.order_payment_section_main_upper_traveler_form_heading}>
-                        Путешественник №2
-                      </div>
-                      <SingleWrapper margin_bottom={'0'} label={'Фамилия'} full={true} width={'100%'} margin={'0'}>
-                        <Input/>
-                      </SingleWrapper>
-                      <SingleWrapper margin_bottom={'0'} label={'Имя'} full={true} width={'100%'} margin={'0'}>
-                        <Input/>
-                      </SingleWrapper>
-                      <SingleWrapper margin_bottom={'0'} label={'Отчество'} full={true} width={'100%'} margin={'0'}>
-                        <Input/>
-                      </SingleWrapper>
-                      <SingleWrapper margin_bottom={'0'} label={'Дата рождения'} full={true} width={'100%'} margin={'0'}>
-                        <Input/>
-                      </SingleWrapper>
-                    </div>
+                    {order?.travelers?.map(item => (
+                      <>
+                        <div key={item?.index_number} className={styles.order_payment_section_main_upper_traveler_form}>
+                          <div className={styles.order_payment_section_main_upper_traveler_form_heading}>
+                            {item?.index_number === 1 ? 'Основной путешественник' : 'Путешественник №' + item?.index_number}
+                          </div>
+                          <OrderPaymentForm data={item} action={handleTravelers}/>
+                        </div>
+                      </>
+                    ))}
+
+
+                    {/*<div className={styles.order_payment_section_main_upper_traveler_form}>*/}
+                    {/*  <div className={styles.order_payment_section_main_upper_traveler_form_heading}>*/}
+                    {/*    Путешественник №2*/}
+                    {/*  </div>*/}
+                    {/*  <SingleWrapper margin_bottom={'0'} label={'Фамилия'} full={true} width={'100%'} margin={'0'}>*/}
+                    {/*    <Input/>*/}
+                    {/*  </SingleWrapper>*/}
+                    {/*  <SingleWrapper margin_bottom={'0'} label={'Имя'} full={true} width={'100%'} margin={'0'}>*/}
+                    {/*    <Input/>*/}
+                    {/*  </SingleWrapper>*/}
+                    {/*  <SingleWrapper margin_bottom={'0'} label={'Отчество'} full={true} width={'100%'} margin={'0'}>*/}
+                    {/*    <Input/>*/}
+                    {/*  </SingleWrapper>*/}
+                    {/*  <SingleWrapper margin_bottom={'0'} label={'Дата рождения'} full={true} width={'100%'} margin={'0'}>*/}
+                    {/*    <Input/>*/}
+                    {/*  </SingleWrapper>*/}
+                    {/*</div>*/}
 
 
                   </div>
                 </div>
 
                 <div className={styles.order_payment_section_main_upper_traveler_checkbox}>
-                  <CheckboxInput label={'Я подтвержаю согласие с условиями публичной оферты и выражаю свое согласие на обработку персональных данных.'}/>
+                  <CheckboxInput
+                    label={'Я подтвержаю согласие с условиями публичной оферты и выражаю свое согласие на обработку персональных данных.'}/>
                 </div>
 
                 <Button width={'100%'} text={'забронировать'} margin={'0 0 30px 0'}/>
@@ -220,8 +280,6 @@ const OrderPayment = ({match}) => {
                 </div>
 
 
-
-
               </div>
               <div className={styles.order_payment_section_sidebar}>
                 <div className={styles.order_payment_section_sidebar_section}>
@@ -229,34 +287,34 @@ const OrderPayment = ({match}) => {
                     МОЕ ПУТЕШЕСТВИЕ
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_tour_name}>
-                    №28311 Весь Дагестан за 5 дней - Все включено!
+                    {`№${order?.id} ${order?.name}`}
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_tour_duration}>
-                    5 дней
+                    {`${order?.duration} дней`}
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_tour_start_finish}>
                     <div>
-                      Старт: 28 июня 2021 (Понедельник)
+                      {`Старт: ${order?.start_date}`}
                     </div>
                     <div>
-                      Финиш: 2 июля 2021 (Пятница)
+                      {`Финиш: ${order?.finish_date}`}
                     </div>
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_tour_travelers}>
                     <div>Количество участников:</div>
-                    <div>2</div>
+                    <div>{order?.travelers_number}</div>
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_tour_price}>
                     <div>Цена за одного</div>
-                    <div>35 000р.</div>
+                    <div>{properNumber(order?.price)}{order?.currency}</div>
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_tour_price}>
-                    <div>Комиссия сервиса </div>
+                    <div>Комиссия сервиса</div>
                     <div>0</div>
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_tour_total}>
                     <div>Итого:</div>
-                    <div>70 000р.</div>
+                    <div>{properNumber(order?.price * order?.travelers_number)}{order?.currency}</div>
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_tour_deposit}>
                     <div>
@@ -267,7 +325,7 @@ const OrderPayment = ({match}) => {
                         К оплате сейчас
                       </div>
                     </div>
-                    <div>15 000р.</div>
+                    <div>{properNumber(order?.book_price * order?.travelers_number)}{order?.currency}</div>
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_tour_deposit}>
                     <div>
@@ -275,10 +333,10 @@ const OrderPayment = ({match}) => {
                         Финальная оплата
                       </div>
                       <div>
-                        Оплата до 28 июня 2021 года
+                        {`Оплата до ${order?.postpay_on_start_day ? proper_date(order?.start_date) : order?.postpay_final_date}`}
                       </div>
                     </div>
-                    <div>55 000р.</div>
+                    <div>{properNumber((order?.postpay * order?.travelers_number))}{order?.currency}</div>
                   </div>
                 </div>
 
@@ -289,66 +347,36 @@ const OrderPayment = ({match}) => {
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_row}>
                     <div>Тревел-эксперт</div>
-                    <div>Снежанна</div>
+                    <div>{order?.expert?.full_name}</div>
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_row}>
-                    <div>Язык</div>
-                    <div>Русский</div>
+                    <div>Языки</div>
+                    <div>
+                      <ul>
+                        {order?.languages?.map((item, index) => <li key={index}>{item}</li>)}
+                      </ul>
+                    </div>
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_row}>
-                    <div>Уровень активности</div>
-                    <div>6/10 - Средний уровень</div>
+                    <div>Уровень сложности</div>
+                    <div>{`${order?.difficulty_level}/5 - ${order?.difficulty_level < 2 ? 'Легкий' : order?.difficulty_level > 4 ? 'Сложный' : 'Средний'} уровень`}</div>
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_row}>
                     <div>Уровень комфорта</div>
-                    <div>6/10 - Средний уровень</div>
+                    <div>{`${order?.comfort_level}/5 - ${order?.comfort_level < 2 ? 'Низкий' : order?.comfort_level > 4 ? 'Высокий' : 'Средний'} уровень`}</div>
                   </div>
                   <div className={styles.order_payment_section_sidebar_section_row}>
                     <div>Включено в заказ:</div>
                     <div>
                       <ul>
-                        <li>
-                          <img src={ok} alt="ok"/>
-                          <div>
-                            Встреча в день старта в Махачкале
-                          </div>
-                        </li>
-                        <li>
-                          <img src={ok} alt="ok"/>
-                          <div>
-                            Трансфер на джипах
-                          </div>
-                        </li>
-                        <li>
-                          <img src={ok} alt="ok"/>
-                          <div>
-                            Работа гида
-                          </div>
-                        </li>
-                        <li>
-                          <img src={ok} alt="ok"/>
-                          <div>
-                            Трехразовое питание+перекусы в течение дня, чай/кофе и бонусы от гида;) (голодными Вы точно не останетесь, обещаем!)
-                          </div>
-                        </li>
-                        <li>
-                          <img src={ok} alt="ok"/>
-                          <div>
-                            Проживание на протяжении всего тура
-                          </div>
-                        </li>
-                        <li>
-                          <img src={ok} alt="ok"/>
-                          <div>
-                            Экскурсии
-                          </div>
-                        </li>
-                        <li>
-                          <img src={ok} alt="ok"/>
-                          <div>
-                            Прогулка на катере
-                          </div>
-                        </li>
+                        {order?.tour_included_services?.map((item, index) => (
+                          <li key={index}>
+                            <img src={ok} alt="ok"/>
+                            <div>
+                              {item}
+                            </div>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -357,28 +385,17 @@ const OrderPayment = ({match}) => {
                     <div>Не включено в заказ:</div>
                     <div>
                       <ul>
-                        <li>
-                          <img src={cancel} alt="cancel"/>
-                          <div>
-                            Авиа/Жд билеты до Махачкалы и обратно
-                          </div>
-                        </li>
-                        <li>
-                          <img src={cancel} alt="cancel"/>
-                          <div>
-                            Личные расходы (сувениры, личные покупки)
-                          </div>
-                        </li>
-                        <li>
-                          <img src={cancel} alt="cancel"/>
-                          <div>
-                            Личные расходы (сувениры, личные покупки)
-                          </div>
-                        </li>
+                        {order?.tour_excluded_services.map((item, index) => (
+                          <li key={index}>
+                            <img src={cancel} alt="cancel"/>
+                            <div>
+                              {item}
+                            </div>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
-
 
 
                 </div>
@@ -391,8 +408,16 @@ const OrderPayment = ({match}) => {
   );
 };
 
-const mapStateToProps = state => ({})
-const mapDispatchToProps = {}
+const mapStateToProps = state => ({
+  tour: state.tours.current_tour,
+  order: state.orders.order,
+})
+const mapDispatchToProps = {
+  get_single_order,
+  clear_single_order,
+  update_local_order,
+  update_order,
+}
 
 export default connect(
   mapStateToProps,

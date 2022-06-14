@@ -38,14 +38,13 @@ import AirTickets from "../../components/TourPageComponents/TourRoute/AirTickets
 import TourImportantToKnow from "../../components/TourPageComponents/TourImportantToKnow";
 import {add_chat_user} from "../../redux/actions/chatActions";
 import Expert from "../../components/Expert";
+import axios from "axios";
 
 const TourPage = ({
                     tour,
                     getTourReview,
                     tour_preview,
                     match,
-                    add_chat_user,
-                    isAuthenticated,
 }) => {
 
   const stickyRef = useStickyBox({offsetTop: 30, offsetBottom: 30})
@@ -68,6 +67,25 @@ const TourPage = ({
   const handleSubtract = () => {
     if (places > 1) {
       setPlaces(places - 1)
+    }
+  }
+
+  const handleBook = async () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
+    const body = JSON.stringify({travelers_number: places, tour: tour_preview.id})
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/orders/`, body, config)
+      if(res){
+        history.push(`/account/orders/${res.data.id}/payment`)
+      }
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -337,7 +355,7 @@ const TourPage = ({
                         </div>
                       </div>
                     </div>
-                    <div className={styles.inputs_row_button}>
+                    <div className={styles.inputs_row_button} onClick={handleBook}>
                       {tour_preview.is_guaranteed ? 'Забронировать' : 'Хочу поехать'}
                     </div>
 
