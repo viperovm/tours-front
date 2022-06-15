@@ -21,8 +21,12 @@ const BlockPresentation = ({ block_style, children, className }) => {
     return (
       <div className={viewedBlock}>
         <div className={styles.wrapper}>
-          <Htag tag='h1'>traveler market - Маркетплейс авторских туров</Htag>
-          <SearchBar/>
+          <div className={styles.main_section}>
+            <div>
+              <Htag tag='h1'>traveler market - Маркетплейс авторских туров</Htag>
+            </div>
+            <SearchBar/>
+          </div>
         </div>
       </div>
     )

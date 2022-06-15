@@ -1,12 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './Orders.module.css';
 import {connect} from 'react-redux';
 import CustomerOrder from "./CustomerOrder";
+import {get_all_orders} from "../../../redux/actions/orderActions";
 
-const CustomerOrders = ({orders}) => {
+const CustomerOrders = ({
+                          get_all_orders,
+                          orders
+}) => {
+
+  useEffect(() => {
+    get_all_orders()
+  }, [])
+
   return (
     <>
-      <table>
+      <table className={styles.orders_table}>
         <thead>
         <tr>
           <th>ID заказа</th>
@@ -26,8 +35,12 @@ const CustomerOrders = ({orders}) => {
   );
 };
 
-const mapStateToProps = state => ({})
-const mapDispatchToProps = {}
+const mapStateToProps = state => ({
+  orders: state.orders.orders
+})
+const mapDispatchToProps = {
+  get_all_orders,
+}
 
 export default connect(
   mapStateToProps,

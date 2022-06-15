@@ -367,5 +367,70 @@ tr {
     margin-right: 10px;
 }
 
+.orders_table td {
+    padding: 30px 10px;
+}
+
+.orders_table th {
+    padding: 10px;
+}
+
+.table_id {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.table_actions div:first-child {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #2AA2D6;
+    margin-bottom: 10px;
+}
+
+.table_actions div:last-child {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.table_tour div:first-child {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.table_tour div:last-child {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.table_travelers {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.table_price {
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.table_status {
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+
 
 

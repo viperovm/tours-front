@@ -1,22 +1,30 @@
 import React from 'react';
 import styles from './Orders.module.css';
 import {connect} from 'react-redux';
+import {properNumber} from "../../../functions";
 
 const CustomerOrder = ({order}) => {
 
   const {
-    order_id,
-    tour,
-    traveler_name,
-    travelers_amount,
-    order_price,
-    order_status
+    id,
+    name,
+    start_date,
+    finish_date,
+    travelers,
+    travelers_number,
+    cost,
+    currency,
+    status,
   } = order
 
   return (
     <>
       <tr>
-        <td>{order_id}</td>
+        <td>
+          <div className={styles.table_id}>
+            {id}
+          </div>
+        </td>
         <td>
           <div className={styles.table_actions}>
             <div>
@@ -30,16 +38,28 @@ const CustomerOrder = ({order}) => {
         <td>
           <div className={styles.table_tour}>
             <div>
-              {tour.name}
+              {name}
             </div>
             <div>
-              {`${tour.start_date} - ${tour.finish_date}`}
+              {`${start_date} - ${finish_date}`}
             </div>
           </div>
         </td>
-        <td>{`${traveler_name}(${travelers_amount})`}</td>
-        <td>{order_price}</td>
-        <td>{order_status}</td>
+        <td>
+          <div className={styles.table_travelers}>
+            {`${travelers[0]?.last_name} (${travelers_number} чел.)`}
+          </div>
+        </td>
+        <td>
+          <div className={styles.table_price}>
+            {`${properNumber(cost)}${currency}`}
+          </div>
+        </td>
+        <td>
+          <div className={styles.table_status}>
+            {status}
+          </div>
+        </td>
       </tr>
     </>
   );

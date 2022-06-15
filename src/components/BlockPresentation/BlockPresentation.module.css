@@ -46,8 +46,16 @@
 .wrapper {
 	width: 1110px;
 	margin: 0 auto;
+	height: 100%;
 
 	/* padding: 25px 0 25px 0; */
+}
+
+.main_section {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 /* @media (min-width: 799px) and (max-width: 1130px) {

@@ -4,6 +4,7 @@
     display: flex;
     background: #FFFFFF;
     border-radius: 8px;
+    margin-bottom: 80px;
 }
 
 .search_bar_wrapper img {
