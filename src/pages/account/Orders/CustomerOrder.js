@@ -15,6 +15,7 @@ const CustomerOrder = ({order}) => {
     cost,
     currency,
     status,
+    actions,
   } = order
 
   return (
@@ -27,12 +28,9 @@ const CustomerOrder = ({order}) => {
         </td>
         <td>
           <div className={styles.table_actions}>
-            <div>
-              Оплатить
-            </div>
-            <div>
-              Отменить
-            </div>
+            {actions.map(item => <div style={{color: item.color}}>
+              {item.title}
+            </div>)}
           </div>
         </td>
         <td>

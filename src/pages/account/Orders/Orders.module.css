@@ -382,19 +382,21 @@ tr {
     color: #000000;
 }
 
-.table_actions div:first-child {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 17px;
-    color: #2AA2D6;
-    margin-bottom: 10px;
-}
-
-.table_actions div:last-child {
+.table_actions div {
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
     color: rgba(0, 0, 0, 0.75);
+}
+
+.table_actions div:first-child {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.table_actions div:not(:last-child) {
+    margin-bottom: 10px;
 }
 
 .table_tour div:first-child {

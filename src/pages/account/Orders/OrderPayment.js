@@ -73,8 +73,8 @@ const OrderPayment = ({
     })
   }
 
-  const handleSubmit = () => {
-    update_order(match.params.id, order)
+  const handleSubmit = (action) => {
+    update_order(match.params.id, order, action)
   }
 
   const handleAdd = () => {
@@ -290,7 +290,9 @@ const OrderPayment = ({
                     label={'Я подтвержаю согласие с условиями публичной оферты и выражаю свое согласие на обработку персональных данных.'}/>
                 </div>
 
-                <Button width={'100%'} text={'забронировать'} margin={'0 0 30px 0'} action={handleSubmit}/>
+                {order?.actions?.map(item => <Button color={item.color} width={'100%'} text={item.title} margin={'0 0 30px 0'} action={() => handleSubmit(item.action)}/>)}
+
+
 
                 <div className={styles.order_payment_section_main_upper_traveler_notes}>
                   <div>Если передумаете, то в течение 24 часов после оплаты оформим 100% возврат</div>
