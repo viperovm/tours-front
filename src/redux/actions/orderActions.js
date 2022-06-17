@@ -78,7 +78,8 @@ export const update_order = (id, data, action) => async dispatch => {
   const body = JSON.stringify(data)
 
   try {
-    const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/orders/${id}/${action ? action : ''}`, body, config)
+    const res = action ? await axios.post(`${process.env.REACT_APP_API_URL}/api/orders/${id}/${action ? action : ''}`, body, config) :
+    await axios.patch(`${process.env.REACT_APP_API_URL}/api/orders/${id}/`, body, config)
 
     dispatch({
       type: t.UPDATE_ORDER_SUCCESS,
