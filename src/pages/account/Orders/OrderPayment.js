@@ -3,7 +3,7 @@ import styles from './Orders.module.css';
 import {connect} from 'react-redux';
 import MetaTags from "react-meta-tags";
 import MainLayout from "../../../layouts/MainLayout";
-import {Link} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
 import SideBar from "../../../components/sideBar/SideBar";
 import Breadcrumbs from "../../../components/Breadcrumbs";
 import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
@@ -19,8 +19,17 @@ import CheckboxInput from "../../../components/AccountTours/FormFields/CheckboxI
 import Button from "../../../components/AccountTours/Components/Button";
 import {getTourReview} from "../../../redux/actions/toursActions";
 import {proper_date, properNumber} from "../../../functions";
-import {clear_single_order, get_single_order, update_local_order, update_order} from "../../../redux/actions/orderActions";
+import {
+  clear_errors,
+  clear_single_order,
+  get_single_order,
+  update_local_order,
+  update_order,
+  update_order_actions,
+} from "../../../redux/actions/orderActions";
 import OrderPaymentForm from "./OrderPaymentForm";
+import axios from "axios";
+import * as t from "../../../redux/types";
 
 const OrderPayment = ({
                         match,
@@ -28,13 +37,37 @@ const OrderPayment = ({
                         clear_single_order,
                         update_local_order,
                         update_order,
+                        update_order_actions,
+                        clear_errors,
                         order,
+                        error,
                       }) => {
+
+  const  history = useHistory()
+
+  const [fieldError, setFieldError] = useState({})
+  const [travelersError, setTravelersError] = useState([])
+
+  console.log(fieldError)
+  console.log(travelersError)
+  console.log(travelersError?.filter(error => error.index_number == 1)[0])
+
+  const getErrors = (errors) => {
+    let data = errors?.filter(error => error.index_number == 1)[0]
+    return data?.errors
+  }
 
   useEffect(() => {
     get_single_order(match.params.id)
     return () => clear_single_order()
   }, [])
+
+  useEffect(() => {
+    if(error) {
+      setFieldError({phone: error?.phone, email: error?.email})
+      setTravelersError(error?.travelers)
+    }
+  }, [error])
 
 
   // useEffect(() => {
@@ -65,16 +98,38 @@ const OrderPayment = ({
   // }, [newTourDate])
 
   const handleDateChange = (name, value) => {
-    console.log(name)
-    console.log(value)
     update_order(match.params.id, {
       ...order,
       tour: value.id,
     })
   }
 
-  const handleSubmit = (action) => {
-    update_order(match.params.id, order, action)
+  const handleSubmit = async (action) => {
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
+
+    const body = JSON.stringify(order)
+
+    try {
+      const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/orders/${match.params.id}/${action}`, body, config)
+
+      window.location.replace(res?.data?.redirect_url)
+
+      // return <Redirect to={res?.data?.redirect_url}/>
+
+
+      // update_order_actions('success', res)
+
+    } catch (err) {
+      update_order_actions('fail', err)
+    }
+
   }
 
   const handleAdd = () => {
@@ -244,10 +299,10 @@ const OrderPayment = ({
                         Контактная информация
                       </div>
                       <SingleWrapper margin_bottom={'0'} label={'E-mail'} full={true} width={'100%'} margin={'0'}>
-                        <Input value={order?.email} name={'email'} action={handleForm} type={'email'}/>
+                        <Input value={order?.email} name={'email'} action={handleForm} type={'email'} error={fieldError}/>
                       </SingleWrapper>
                       <SingleWrapper margin_bottom={'0'} label={'Телефон '} full={true} width={'100%'} margin={'0'}>
-                        <Input value={order?.phone} name={'phone'} action={handleForm}/>
+                        <Input value={order?.phone} name={'phone'} action={handleForm} error={fieldError}/>
                       </SingleWrapper>
                     </div>
 
@@ -257,7 +312,7 @@ const OrderPayment = ({
                           <div className={styles.order_payment_section_main_upper_traveler_form_heading}>
                             {item?.index_number === 1 ? 'Основной путешественник' : 'Путешественник №' + item?.index_number}
                           </div>
-                          <OrderPaymentForm data={item} action={handleTravelers}/>
+                          <OrderPaymentForm data={item} action={handleTravelers} error={getErrors(travelersError)}/>
                         </div>
                       </>
                     ))}
@@ -432,12 +487,15 @@ const OrderPayment = ({
 const mapStateToProps = state => ({
   tour: state.tours.current_tour,
   order: state.orders.order,
+  error: state.orders.error,
 })
 const mapDispatchToProps = {
   get_single_order,
   clear_single_order,
   update_local_order,
   update_order,
+  update_order_actions,
+  clear_errors,
 }
 
 export default connect(

@@ -4,6 +4,7 @@ import {UPDATE_LOCAL_ORDER} from "../types";
 const initialState = {
   orders: [],
   order: null,
+  error: {},
 }
 
 const orderReducer = (state = initialState, action) => {
@@ -34,8 +35,17 @@ const orderReducer = (state = initialState, action) => {
         ...state,
         orders: [],
       }
-    case t.GET_SINGLE_ORDER_FAIL:
     case t.UPDATE_ORDER_FAIL:
+      return {
+        ...state,
+        error: payload,
+      }
+    case t.CLEAR_ORDER_ERRORS:
+      return {
+        ...state,
+        error: {},
+      }
+    case t.GET_SINGLE_ORDER_FAIL:
     case t.CLEAR_SINGLE_ORDER:
       return {
         ...state,

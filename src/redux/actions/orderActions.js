@@ -78,8 +78,7 @@ export const update_order = (id, data, action) => async dispatch => {
   const body = JSON.stringify(data)
 
   try {
-    const res = action ? await axios.post(`${process.env.REACT_APP_API_URL}/api/orders/${id}/${action ? action : ''}`, body, config) :
-    await axios.patch(`${process.env.REACT_APP_API_URL}/api/orders/${id}/`, body, config)
+    const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/orders/${id}/${action ? action : ''}`, body, config)
 
     dispatch({
       type: t.UPDATE_ORDER_SUCCESS,
@@ -93,6 +92,26 @@ export const update_order = (id, data, action) => async dispatch => {
       payload: err.response.data,
     })
   }
+}
+
+export const update_order_actions = (status, res) => async dispatch => {
+  if(status === 'success') {
+    dispatch({
+      type: t.UPDATE_ORDER_SUCCESS,
+      payload: res.data,
+    })
+  } else {
+    dispatch({
+      type: t.UPDATE_ORDER_FAIL,
+      payload: res.response.data,
+    })
+  }
+}
+
+export const clear_errors = () => async dispatch => {
+  dispatch({
+    type: t.CLEAR_ORDER_ERRORS,
+  })
 }
 
 

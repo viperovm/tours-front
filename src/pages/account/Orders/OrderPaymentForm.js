@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import SingleWrapper from "../../../components/AccountTours/Wrappers/SingleWrapper";
 import Input from "../../../components/AccountTours/FormFields/Input";
 
-const OrderPaymentForm = ({action, data, }) => {
+const OrderPaymentForm = ({action, data, error, }) => {
 
   // const [traveler, setTraveler] = useState(data)
 
@@ -28,13 +28,13 @@ const OrderPaymentForm = ({action, data, }) => {
   return (
     <>
       <SingleWrapper margin_bottom={'0'} label={'Фамилия'} full={true} width={'100%'} margin={'0'}>
-        <Input value={data.last_name} name={'last_name'} action={handleForm}/>
+        <Input value={data.last_name} name={'last_name'} action={handleForm} error={error}/>
       </SingleWrapper>
       <SingleWrapper margin_bottom={'0'} label={'Имя'} full={true} width={'100%'} margin={'0'}>
-        <Input value={data.first_name} name={'first_name'} action={handleForm}/>
+        <Input value={data.first_name} name={'first_name'} action={handleForm} error={error}/>
       </SingleWrapper>
       <SingleWrapper margin_bottom={'0'} label={'Отчество'} full={true} width={'100%'} margin={'0'}>
-        <Input value={data.middle_name} name={'middle_name'} action={handleForm}/>
+        <Input value={data.middle_name} name={'middle_name'} action={handleForm} error={error}/>
       </SingleWrapper>
       {/*{is_first && <SingleWrapper margin_bottom={'0'} label={'E-mail'} full={true} width={'100%'} margin={'0'}>*/}
       {/*  <Input value={data.email} name={'email'} action={handleForm}/>*/}
@@ -43,7 +43,7 @@ const OrderPaymentForm = ({action, data, }) => {
       {/*  <Input value={data.phone} name={'phone'} action={handleForm}/>*/}
       {/*</SingleWrapper>}*/}
       <SingleWrapper margin_bottom={'0'} label={'Дата рождения'} full={true} width={'100%'} margin={'0'}>
-        <Input type={'date'} value={data.birth_date} name={'birth_date'} action={handleForm}/>
+        <Input type={'date'} value={data.birth_date} name={'birth_date'} action={handleForm} error={error}/>
       </SingleWrapper>
     </>
   );
