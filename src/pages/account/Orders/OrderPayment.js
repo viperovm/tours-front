@@ -48,10 +48,6 @@ const OrderPayment = ({
   const [fieldError, setFieldError] = useState({})
   const [travelersError, setTravelersError] = useState([])
 
-  console.log(fieldError)
-  console.log(travelersError)
-  console.log(travelersError?.filter(error => error.index_number == 1)[0])
-
   const getErrors = (errors) => {
     let data = errors?.filter(error => error.index_number == 1)[0]
     return data?.errors
@@ -299,10 +295,10 @@ const OrderPayment = ({
                         Контактная информация
                       </div>
                       <SingleWrapper margin_bottom={'0'} label={'E-mail'} full={true} width={'100%'} margin={'0'}>
-                        <Input value={order?.email} name={'email'} action={handleForm} type={'email'} error={fieldError}/>
+                        <Input disabled={order?.status !== 'new'} value={order?.email} name={'email'} action={handleForm} type={'email'} error={fieldError}/>
                       </SingleWrapper>
                       <SingleWrapper margin_bottom={'0'} label={'Телефон '} full={true} width={'100%'} margin={'0'}>
-                        <Input value={order?.phone} name={'phone'} action={handleForm} error={fieldError}/>
+                        <Input disabled={order?.status !== 'new'} value={order?.phone} name={'phone'} action={handleForm} error={fieldError}/>
                       </SingleWrapper>
                     </div>
 
@@ -312,7 +308,7 @@ const OrderPayment = ({
                           <div className={styles.order_payment_section_main_upper_traveler_form_heading}>
                             {item?.index_number === 1 ? 'Основной путешественник' : 'Путешественник №' + item?.index_number}
                           </div>
-                          <OrderPaymentForm data={item} action={handleTravelers} error={getErrors(travelersError)}/>
+                          <OrderPaymentForm data={item} status={order?.status} action={handleTravelers} error={getErrors(travelersError)}/>
                         </div>
                       </>
                     ))}
@@ -345,7 +341,7 @@ const OrderPayment = ({
                     label={'Я подтвержаю согласие с условиями публичной оферты и выражаю свое согласие на обработку персональных данных.'}/>
                 </div>
 
-                {order?.actions?.map(item => <Button color={item.color} width={'100%'} text={item.title} margin={'0 0 30px 0'} action={() => handleSubmit(item.action)}/>)}
+                {order?.actions?.map((item, index) => <Button key={index} color={item.color} width={'100%'} text={item.title} margin={'0 0 30px 0'} action={() => handleSubmit(item.action)}/>)}
 
 
 
