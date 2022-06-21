@@ -433,6 +433,28 @@ tr {
     color: #000000;
 }
 
+.filters_wrapper {
+    margin-bottom: 20px;
+}
+
+.filter_button {
+    padding: 10px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin: 0 10px 10px 0;
+    cursor: pointer;
+}
+
+.filter_button.active {
+    color: #84BB59;
+    border: 1px solid #84BB59;
+}
+
 
 
 

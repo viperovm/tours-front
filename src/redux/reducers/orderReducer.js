@@ -3,6 +3,7 @@ import {UPDATE_LOCAL_ORDER} from "../types";
 
 const initialState = {
   orders: [],
+  filters: [],
   order: null,
   error: {},
 }
@@ -12,9 +13,15 @@ const orderReducer = (state = initialState, action) => {
 
   switch (type) {
     case t.GET_ALL_ORDERS_SUCCESS:
+    case t.FILTER_ORDERS_SUCCESS:
       return {
         ...state,
         orders: payload,
+      }
+    case t.GET_ALL_FILTERS_SUCCESS:
+      return {
+        ...state,
+        filters: payload,
       }
     case t.GET_SINGLE_ORDER_SUCCESS:
     case t.UPDATE_ORDER_SUCCESS:
@@ -31,9 +38,15 @@ const orderReducer = (state = initialState, action) => {
         },
       }
     case t.GET_ALL_ORDERS_FAIL:
+    case t.FILTER_ORDERS_FAIL:
       return {
         ...state,
         orders: [],
+      }
+    case t.GET_ALL_FILTERS_FAIL:
+      return {
+        ...state,
+        filters: [],
       }
     case t.UPDATE_ORDER_FAIL:
       return {

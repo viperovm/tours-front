@@ -95,6 +95,9 @@ export const update_order = (id, data, action) => async dispatch => {
 }
 
 export const update_order_actions = (status, res) => async dispatch => {
+
+  console.log(res.data)
+
   if(status === 'success') {
     dispatch({
       type: t.UPDATE_ORDER_SUCCESS,
@@ -112,6 +115,68 @@ export const clear_errors = () => async dispatch => {
   dispatch({
     type: t.CLEAR_ORDER_ERRORS,
   })
+}
+
+export const get_all_filters = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/orders/status_list/`, config)
+
+    dispatch({
+      type: t.GET_ALL_FILTERS_SUCCESS,
+      payload: res.data,
+    })
+
+  } catch (err) {
+    console.error(err)
+    dispatch({
+      type: t.GET_ALL_FILTERS_FAIL,
+      payload: err.response.data,
+    })
+  }
+}
+
+export const filter_orders = (filters) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+  const getSearchString = filters => {
+    if(filters.length > 0) {
+      return `?status=${filters.join('&status=')}`
+    } else {
+      return ''
+    }
+  }
+
+  const search = getSearchString(filters)
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/orders/${search}`, config)
+
+    dispatch({
+      type: t.FILTER_ORDERS_SUCCESS,
+      payload: res.data,
+    })
+
+  } catch (err) {
+    console.error(err)
+    dispatch({
+      type: t.FILTER_ORDERS_FAIL,
+      payload: err.response.data,
+    })
+  }
 }
 
 
