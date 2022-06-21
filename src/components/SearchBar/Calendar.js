@@ -20,6 +20,7 @@ const Calendar = ({data, action}) => {
   return (
     <>
       <Cal
+        minDate={new Date()}
         onChange={action}
         value={value}
         className={styles.traveler_calendar}

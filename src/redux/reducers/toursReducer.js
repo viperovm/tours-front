@@ -88,6 +88,8 @@ import {
   GET_LEGAL_DOCS_FAIL,
   GET_LEGAL_DOC_SUCCESS,
   REMOVE_EXTRA_SERVICE_SUCCESS,
+  GET_SEARCH_REGIONS_SUCCESS,
+  GET_SEARCH_REGIONS_FAIL,
 } from '../types'
 
 const initialState = {
@@ -103,6 +105,7 @@ const initialState = {
   tour_preview: null,
   tour_types: [],
   regions: [],
+  search_regions: [],
   countries: [],
   start_russian_regions: [],
   start_cities: [],
@@ -646,6 +649,18 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         regions: payload,
+      }
+
+    case GET_SEARCH_REGIONS_SUCCESS:
+      return {
+        ...state,
+        search_regions: payload,
+      }
+
+    case GET_SEARCH_REGIONS_FAIL:
+      return {
+        ...state,
+        search_regions: [],
       }
 
     case GET_COUNTRIES_SUCCESS:

@@ -7,6 +7,7 @@ import mappin from './img/mappin.svg'
 import Calendar from "./Calendar";
 import Button from "../AccountTours/Components/Button";
 import {properDate} from "../../functions";
+import Region from "./Region";
 
 const SearchBar = () => {
 
@@ -37,28 +38,43 @@ const SearchBar = () => {
 
   return (
     <>
-        <div className={styles.search_bar_wrapper}>
-            <div className={styles.search_bar_country}>
-              <div className={styles.search_bar_country_input} onClick={handleRegion}>
-                <img src={mappin} alt="Map pin"/>
-                <span className={`${styles.search_bar_country_input_text} ${activeRegion ? styles.active : ''}`}>
-                  {activeRegion || searchRegion.length > 0 ? 'Куда:' : 'Страна, регион или город'}
-                  {searchRegion.length > 0 ? ' ' + searchRegion.map(item => properDate(item)).join(' - ') : ''}
-                </span>
-              </div>
+        <div className={`${styles.search_bar_wrapper} ${activeRegion ? styles.active_region : ''}`}>
 
-            </div>
-            <div className={styles.search_bar_date}>
-              <div className={styles.search_bar_date_input} onClick={handleCalendar}>
-                <img src={calendar} alt="Calendar"/>
-                <span className={`${styles.search_bar_date_input_text} ${activeCalendar ? styles.active : ''}`}>
-                  {activeCalendar || searchDates.length > 0 ? 'Когда:' : 'Выберите даты'}
-                  {searchDates.length > 0 ? ' ' + searchDates.map(item => properDate(item)).join(' - ') : ''}
+            <div className={styles.search_field_wrapper}>
+              <div className={styles.search_field}>
+                <div className={styles.search_bar_country}>
+                  <div className={`${styles.search_bar_country_input} ${activeRegion ? styles.active_region : ''}`} onClick={handleRegion}>
+                    <img src={mappin} alt="Map pin"/>
+                    <span className={`${styles.search_bar_country_input_text} ${activeRegion ? styles.active : ''}`}>
+                  {activeRegion || searchRegion.length > 0 ? 'Куда:' : 'Страна, регион или город'}
+                      {searchRegion.length > 0 ? ' ' + searchRegion.map(item => properDate(item)).join(' - ') : ''}
                 </span>
+                  </div>
+                </div>
+
+                <div className={styles.search_bar_date}>
+                  <div className={styles.search_bar_date_input} onClick={handleCalendar}>
+                    <img src={calendar} alt="Calendar"/>
+                    <span className={`${styles.search_bar_date_input_text} ${activeCalendar ? styles.active : ''}`}>
+                  {activeCalendar || searchDates.length > 0 ? 'Когда:' : 'Выберите даты'}
+                      {searchDates.length > 0 ? ' ' + searchDates.map(item => properDate(item)).join(' - ') : ''}
+                </span>
+                  </div>
+                  {activeCalendar && (
+                    <div className={styles.search_bar_date_active}>
+                      <Calendar data={searchDates} action={handleSearchDates}/>
+                      <Button width={'100%'} color={'button-primary'} text={'Применить'}/>
+                      <div className={styles.search_bar_date_active_footer} onClick={() => handleSearchDates([])}>
+                        <div>Сбросить выбор</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
               </div>
-              {activeCalendar && (
-                <div className={styles.search_bar_date_active}>
-                  <Calendar data={searchDates} action={handleSearchDates}/>
+              {activeRegion && (
+                <div className={styles.search_bar_region_active}>
+                  <Region/>
                   <Button width={'100%'} color={'button-primary'} text={'Применить'}/>
                   <div className={styles.search_bar_date_active_footer} onClick={() => handleSearchDates([])}>
                     <div>Сбросить выбор</div>
@@ -66,10 +82,12 @@ const SearchBar = () => {
                 </div>
               )}
             </div>
+
             <div className={styles.search_bar_button}>
               <img src={search} alt="Search"/>
               <span>Подобрать тур</span>
             </div>
+
         </div>
     </>
   )

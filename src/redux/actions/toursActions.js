@@ -91,6 +91,8 @@ import {
   GET_LEGAL_DOC_SUCCESS,
   GET_LEGAL_DOC_FAIL,
   REMOVE_EXTRA_SERVICE_SUCCESS,
+  GET_SEARCH_REGIONS_SUCCESS,
+  GET_SEARCH_REGIONS_FAIL,
 } from '../types'
 import axios from 'axios'
 import {isNotEmptyObject} from "../../functions";
@@ -1110,6 +1112,28 @@ export const getLegalDoc = (slug) => async dispatch => {
   } catch (err) {
     dispatch({
       type: GET_LEGAL_DOC_FAIL,
+    })
+  }
+}
+
+export const getSearchRegions = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/active_regions/`, config)
+
+    dispatch({
+      type: GET_SEARCH_REGIONS_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_SEARCH_REGIONS_FAIL,
     })
   }
 }

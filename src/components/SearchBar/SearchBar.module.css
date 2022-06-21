@@ -7,6 +7,10 @@
     margin-bottom: 80px;
 }
 
+.search_bar_wrapper.active_region {
+    border-radius: 8px 8px 8px 0;
+}
+
 .search_bar_wrapper img {
     margin-right: 20px;
 }
@@ -18,8 +22,19 @@
     color: rgba(0, 0, 0, 0.25);
 }
 
-.search_bar_country {
+.search_field_wrapper {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.search_field {
+    display: flex;
+}
+
+.search_bar_country {
+    width: 50%;
+    flex: none;
     display: flex;
     flex-direction: column;
 }
@@ -34,6 +49,10 @@
     padding: 0 30px;
 }
 
+.search_bar_country_input.active_region {
+    border-radius: 8px 0 0 0;
+}
+
 .search_bar_country_input_text.active {
     color: #000000;
 }
@@ -43,7 +62,8 @@
 }
 
 .search_bar_date {
-    flex: 1;
+    width: 50%;
+    flex: none;
     display: flex;
     flex-direction: column;
 }
@@ -123,4 +143,46 @@
 
 .search_bar_date_active_footer div {
     cursor: pointer;
+}
+
+.search_bar_region_active {
+    width: 100%;
+    /*display: flex;*/
+    align-items: center;
+    border-top: 1px solid #E9E9E9;
+    border-right: none;
+    background-color: #FFFFFF;
+    border-radius: 0 0 8px 8px;
+    z-index: 1;
+    padding: 30px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.traveler_region {
+    width: 100%!important;
+    margin-bottom: 30px;
+    border: none!important;
+    border-radius: 0 0 8px 8px;
+}
+
+.filter_buttons_wrapper {
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.filter_button {
+    padding: 10px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #000000;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin: 0 10px 10px 0;
+}
+
+.filter_button.active {
+    color: #84BB59;
+    border: 1px solid #84BB59;
 }
