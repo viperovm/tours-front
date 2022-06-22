@@ -90,6 +90,13 @@ import {
   REMOVE_EXTRA_SERVICE_SUCCESS,
   GET_SEARCH_REGIONS_SUCCESS,
   GET_SEARCH_REGIONS_FAIL,
+  SET_SEARCH_IS_RUSSIA,
+  SET_SEARCH_REGION_SUCCESS,
+  SET_SEARCH_DATA_SUCCESS,
+  GET_SEARCH_DATA_SUCCESS,
+  SET_SEARCH_DATES_SUCCESS,
+  CLEAR_SEARCH_REGION,
+  CLEAR_SEARCH_DATES,
 } from '../types'
 
 const initialState = {
@@ -106,6 +113,11 @@ const initialState = {
   tour_types: [],
   regions: [],
   search_regions: [],
+  is_russia: false,
+  current_search_region: null,
+  search_data: [],
+  current_search_data: [],
+  current_search_dates: [],
   countries: [],
   start_russian_regions: [],
   start_cities: [],
@@ -783,6 +795,60 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         res_status: null,
         error: {},
+      }
+
+    case SET_SEARCH_IS_RUSSIA:
+      return {
+        ...state,
+        is_russia: payload,
+      }
+
+    case SET_SEARCH_REGION_SUCCESS:
+      return {
+        ...state,
+        current_search_region: payload,
+      }
+
+    case SET_SEARCH_DATA_SUCCESS:
+      const handleSearchData = (state, data) => {
+        if(state.some(item => item.id === data.id)) {
+          return state.filter(item => item.id !== data.id)
+        } else {
+          return [
+            ...state,
+            data,
+          ]
+        }
+      }
+      return {
+        ...state,
+        current_search_data: handleSearchData(state.current_search_data, payload),
+      }
+
+    case GET_SEARCH_DATA_SUCCESS:
+      return {
+        ...state,
+        search_data: payload,
+      }
+
+    case SET_SEARCH_DATES_SUCCESS:
+      return {
+        ...state,
+        current_search_dates: payload,
+      }
+
+    case CLEAR_SEARCH_REGION:
+      return {
+        ...state,
+        is_russia: false,
+        current_search_region: null,
+        current_search_data: [],
+      }
+
+    case CLEAR_SEARCH_DATES:
+      return {
+        ...state,
+        current_search_dates: [],
       }
 
     case SET_TOUR_DAY_IMAGE_FAIL:

@@ -4,24 +4,25 @@ import {connect} from 'react-redux';
 import {Calendar as Cal} from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './SearchBar.css'
+import {setSearchDates} from "../../redux/actions/toursActions";
 
-const Calendar = ({data, action}) => {
+const Calendar = ({current_search_dates, setSearchDates}) => {
 
   const [value, setValue] = useState(new Date());
 
   useEffect(() => {
-    if(data.length > 0) {
-      setValue(data)
+    if(current_search_dates.length > 0) {
+      setValue(current_search_dates)
     } else {
       setValue(new Date())
     }
-  }, [data])
+  }, [current_search_dates])
 
   return (
     <>
       <Cal
         minDate={new Date()}
-        onChange={action}
+        onChange={setSearchDates}
         value={value}
         className={styles.traveler_calendar}
         selectRange={true}
@@ -30,8 +31,12 @@ const Calendar = ({data, action}) => {
   );
 };
 
-const mapStateToProps = state => ({})
-const mapDispatchToProps = {}
+const mapStateToProps = state => ({
+  current_search_dates: state.tours.current_search_dates,
+})
+const mapDispatchToProps = {
+  setSearchDates
+}
 
 export default connect(
   mapStateToProps,

@@ -6,6 +6,7 @@ import axios from "axios";
 import * as t from "../../../redux/types";
 import {update_order_actions} from "../../../redux/actions/orderActions";
 import PopUp from "../../../components/PopUp/PopUp";
+import {Link} from "react-router-dom";
 
 const CustomerOrder = ({order, update_order_actions}) => {
 
@@ -20,6 +21,7 @@ const CustomerOrder = ({order, update_order_actions}) => {
     currency,
     status,
     actions,
+    tour,
   } = order
 
   const [action, setAction] = useState('')
@@ -73,22 +75,22 @@ const CustomerOrder = ({order, update_order_actions}) => {
       />}
       <tr>
         <td>
-          <div className={styles.table_id}>
+          <Link to={`/account/orders/${id}/payment`} className={styles.table_id}>
             {id}
-          </div>
+          </Link>
         </td>
         <td>
           <div className={styles.table_actions}>
-            {actions.map(item => <div style={{color: item.color, cursor: 'pointer'}} onClick={() => handleAction(item.action, item.confirmation, item.title)}>
+            {actions?.length > 0 && actions.map(item => <div style={{color: item.color, cursor: 'pointer'}} onClick={() => handleAction(item.action, item.confirmation, item.title)}>
               {item.title}
             </div>)}
           </div>
         </td>
         <td>
           <div className={styles.table_tour}>
-            <div>
+            <Link to={`/tours/${tour}`}>
               {name}
-            </div>
+            </Link>
             <div>
               {`${start_date} - ${finish_date}`}
             </div>

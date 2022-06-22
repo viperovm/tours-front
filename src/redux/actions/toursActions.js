@@ -93,6 +93,13 @@ import {
   REMOVE_EXTRA_SERVICE_SUCCESS,
   GET_SEARCH_REGIONS_SUCCESS,
   GET_SEARCH_REGIONS_FAIL,
+  SET_SEARCH_IS_RUSSIA,
+  SET_SEARCH_REGION_SUCCESS,
+  GET_SEARCH_DATA_SUCCESS,
+  SET_SEARCH_DATA_SUCCESS,
+  SET_SEARCH_DATES_SUCCESS,
+  CLEAR_SEARCH_REGION,
+  CLEAR_SEARCH_DATES,
 } from '../types'
 import axios from 'axios'
 import {isNotEmptyObject} from "../../functions";
@@ -1136,4 +1143,51 @@ export const getSearchRegions = () => async dispatch => {
       type: GET_SEARCH_REGIONS_FAIL,
     })
   }
+}
+
+export const setSearchIsRussia = (data) => dispatch => {
+  dispatch({
+    type: SET_SEARCH_IS_RUSSIA,
+    payload: data,
+  })
+}
+
+export const setSearchRegion = (data) => dispatch => {
+  dispatch({
+    type: SET_SEARCH_REGION_SUCCESS,
+    payload: data,
+  })
+}
+
+export const getSearchData = (data) => dispatch => {
+  dispatch({
+    type: GET_SEARCH_DATA_SUCCESS,
+    payload: data,
+  })
+}
+
+export const setSearchData = (data) => dispatch => {
+  dispatch({
+    type: SET_SEARCH_DATA_SUCCESS,
+    payload: data,
+  })
+}
+
+export const setSearchDates = (data) => dispatch => {
+  dispatch({
+    type: SET_SEARCH_DATES_SUCCESS,
+    payload: data,
+  })
+}
+
+export const clearSearchRegion = () => dispatch => {
+  dispatch({
+    type: CLEAR_SEARCH_REGION,
+  })
+}
+
+export const clearSearchDates = () => dispatch => {
+  dispatch({
+    type: CLEAR_SEARCH_DATES,
+  })
 }

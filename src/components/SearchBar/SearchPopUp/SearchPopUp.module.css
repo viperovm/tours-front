@@ -1,0 +1,43 @@
+.popup_card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.popup_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #EBEBEB;
+    padding-bottom: 20px;
+}
+
+.popup_header_title {
+    padding-left: 24px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+    position: relative;
+}
+
+.popup_header_title::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #2AA2D6;
+    border-radius: 8px;
+}
+
+.popup_body {
+    margin: 20px 0;
+}
+
+.popup_footer {
+
+}

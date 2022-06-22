@@ -8,93 +8,113 @@ import Calendar from "./Calendar";
 import Button from "../AccountTours/Components/Button";
 import {properDate} from "../../functions";
 import Region from "./Region";
+import {clearSearchDates, clearSearchRegion} from "../../redux/actions/toursActions";
 
-const SearchBar = () => {
+const SearchBar = ({current_search_region, current_search_data, clearSearchRegion, clearSearchDates, current_search_dates}) => {
 
   const [activeCalendar, setActiveCalendar] = useState(false)
   const [activeRegion, setActiveRegion] = useState(false)
-  const [searchDates, setSearchDates] = useState([])
-  const [searchRegion, setSearchRegion] = useState([])
 
-  const handleSearchDates = (arr) => {
-    setSearchDates(arr)
-  }
 
   const handleCalendar = () => {
-    if(activeRegion) {
+    if (activeRegion) {
       setActiveRegion(false)
     }
     setActiveCalendar(activeCalendar => !activeCalendar)
   }
 
   const handleRegion = () => {
-    if(activeCalendar) {
+    if (activeCalendar) {
       setActiveCalendar(false)
     }
     setActiveRegion(activeRegion => !activeRegion)
   }
 
-  console.log(searchDates.map(item => properDate(item)))
-
   return (
     <>
-        <div className={`${styles.search_bar_wrapper} ${activeRegion ? styles.active_region : ''}`}>
+      <div className={`${styles.search_bar_wrapper} ${activeRegion ? styles.active_region : ''}`}>
 
-            <div className={styles.search_field_wrapper}>
-              <div className={styles.search_field}>
-                <div className={styles.search_bar_country}>
-                  <div className={`${styles.search_bar_country_input} ${activeRegion ? styles.active_region : ''}`} onClick={handleRegion}>
-                    <img src={mappin} alt="Map pin"/>
-                    <span className={`${styles.search_bar_country_input_text} ${activeRegion ? styles.active : ''}`}>
-                  {activeRegion || searchRegion.length > 0 ? 'Куда:' : 'Страна, регион или город'}
-                      {searchRegion.length > 0 ? ' ' + searchRegion.map(item => properDate(item)).join(' - ') : ''}
-                </span>
-                  </div>
-                </div>
+        <div className={styles.search_field_wrapper}>
+          <div className={styles.search_field}>
+            <div className={styles.search_bar_country}>
+              <div className={`${styles.search_bar_country_input} ${activeRegion ? styles.active_region : ''}`}
+                   onClick={handleRegion}>
+                <img src={mappin} alt="Map pin"/>
 
-                <div className={styles.search_bar_date}>
-                  <div className={styles.search_bar_date_input} onClick={handleCalendar}>
-                    <img src={calendar} alt="Calendar"/>
-                    <span className={`${styles.search_bar_date_input_text} ${activeCalendar ? styles.active : ''}`}>
-                  {activeCalendar || searchDates.length > 0 ? 'Когда:' : 'Выберите даты'}
-                      {searchDates.length > 0 ? ' ' + searchDates.map(item => properDate(item)).join(' - ') : ''}
-                </span>
-                  </div>
-                  {activeCalendar && (
-                    <div className={styles.search_bar_date_active}>
-                      <Calendar data={searchDates} action={handleSearchDates}/>
-                      <Button width={'100%'} color={'button-primary'} text={'Применить'}/>
-                      <div className={styles.search_bar_date_active_footer} onClick={() => handleSearchDates([])}>
-                        <div>Сбросить выбор</div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                { !activeRegion && current_search_region ?
+                  <span className={`${styles.search_bar_country_input_text} ${styles.active}`}>
+                  {current_search_region?.name}
+                    {current_search_data?.length > 0 ? ' (' + current_search_data.map(item => item.name).join(', ') + ')' : ''}
+                    </span>
+                  :
+                  <span className={`${styles.search_bar_country_input_text} ${activeRegion ? styles.active : ''}`}>
+                  {activeRegion ? 'Куда: ' : 'Страна, регион или город'}
+                    {current_search_region?.name ? current_search_region?.name : ''}
+                    {current_search_data?.length > 0 ? ' (' + current_search_data.map(item => item.name).join(', ') + ')' : ''}
+                    </span>
+                }
 
               </div>
-              {activeRegion && (
-                <div className={styles.search_bar_region_active}>
-                  <Region/>
-                  <Button width={'100%'} color={'button-primary'} text={'Применить'}/>
-                  <div className={styles.search_bar_date_active_footer} onClick={() => handleSearchDates([])}>
+            </div>
+
+            <div className={styles.search_bar_date}>
+              <div className={styles.search_bar_date_input} onClick={handleCalendar}>
+                <img src={calendar} alt="Calendar"/>
+
+                { !activeCalendar && current_search_dates.length > 0 ?
+                  <span className={`${styles.search_bar_date_input_text} ${styles.active}`}>
+                    {current_search_dates.length > 0 ? ' ' + current_search_dates.map(item => properDate(item)).join(' - ') : ''}
+                </span>
+                  :
+                  <span className={`${styles.search_bar_date_input_text} ${activeCalendar ? styles.active : ''}`}>
+                  {activeCalendar || current_search_dates.length > 0 ? 'Когда:' : 'Выберите даты'}
+                    {current_search_dates.length > 0 ? ' ' + current_search_dates.map(item => properDate(item)).join(' - ') : ''}
+                </span>
+                }
+
+              </div>
+              {activeCalendar && (
+                <div className={styles.search_bar_date_active}>
+                  <Calendar/>
+                  <Button width={'100%'} color={'button-primary'} text={'Применить'} action={() => setActiveCalendar(false)}/>
+                  <div className={styles.search_bar_date_active_footer} onClick={clearSearchDates}>
                     <div>Сбросить выбор</div>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className={styles.search_bar_button}>
-              <img src={search} alt="Search"/>
-              <span>Подобрать тур</span>
+          </div>
+          {activeRegion && (
+            <div className={styles.search_bar_region_active}>
+              <Region/>
+              <Button width={'100%'} color={'button-primary'} text={'Применить'} action={() => setActiveRegion(false)}/>
+              <div className={styles.search_bar_date_active_footer} onClick={clearSearchRegion}>
+                <div>Сбросить выбор</div>
+              </div>
             </div>
-
+          )}
         </div>
+
+        <div className={styles.search_bar_button}>
+          <img src={search} alt="Search"/>
+          <span>Подобрать тур</span>
+        </div>
+
+      </div>
     </>
   )
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  current_search_region: state.tours.current_search_region,
+  current_search_data: state.tours.current_search_data,
+  current_search_dates: state.tours.current_search_dates,
+})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  clearSearchRegion,
+  clearSearchDates,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)

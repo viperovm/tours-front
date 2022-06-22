@@ -186,3 +186,18 @@
     color: #84BB59;
     border: 1px solid #84BB59;
 }
+
+.filter_selectable_data_wrapper {
+    columns:3;
+    max-height: 380px;
+    overflow-y: auto;
+    margin: 20px 0;
+}
+
+.selectable_data {
+    cursor: pointer;
+}
+
+.selectable_data.active_data {
+    color: #84BB59;
+}
