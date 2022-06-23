@@ -1,4 +1,8 @@
 import {
+  RESET_FILTER,
+  SET_FILTERS,
+  GET_FILTERS_SUCCESS,
+  GET_FILTERS_FAIL,
   GET_TOUR_TYPES_SUCCESS,
   GET_TOUR_TYPES_FAIL,
   ADD_TOUR_SUCCESS,
@@ -118,6 +122,8 @@ const initialState = {
   search_data: [],
   current_search_data: [],
   current_search_dates: [],
+  filters: [],
+  current_filters: [],
   countries: [],
   start_russian_regions: [],
   start_cities: [],
@@ -795,6 +801,57 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         res_status: null,
         error: {},
+      }
+
+    case GET_FILTERS_SUCCESS:
+      return {
+        ...state,
+        filters: payload,
+      }
+
+    case SET_FILTERS:
+
+      const setData = (data, id) => {
+        if(data.includes(id)) {
+          return data.filter(i => i !== id)
+        } else {
+          return [...data, id]
+        }
+      }
+
+      const setFilters = (state, data) => {
+        if(state?.some(content => content.type === data.type)) {
+          return state.map(filter => {
+            if(filter.type === data.type) {
+              return {
+                ...filter,
+                data: setData(filter.data, data.id)
+              }
+            } else {
+              return filter
+            }
+          })
+        } else {
+          return [...state, {type: data.type, data: [data.id]}]
+        }
+      }
+
+      return {
+        ...state,
+        current_filters: setFilters(state.current_filters, payload),
+      }
+
+    case RESET_FILTER:
+
+      const resetFilters = (state, type) => {
+        if(state?.some(item => item.type === type)) {
+          return state.filter(item => item.type !== type)
+        }
+      }
+
+      return {
+        ...state,
+        current_filters: resetFilters(state.current_filters, payload),
       }
 
     case SET_SEARCH_IS_RUSSIA:

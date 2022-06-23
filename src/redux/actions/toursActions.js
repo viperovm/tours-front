@@ -1,4 +1,8 @@
 import {
+  RESET_FILTER,
+  SET_FILTERS,
+  GET_FILTERS_SUCCESS,
+  GET_FILTERS_FAIL,
   GET_TOUR_TYPES_SUCCESS,
   GET_TOUR_TYPES_FAIL,
   ADD_TOUR_SUCCESS,
@@ -1190,4 +1194,62 @@ export const clearSearchDates = () => dispatch => {
   dispatch({
     type: CLEAR_SEARCH_DATES,
   })
+}
+
+export const getSearchFilters = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/filter_set/`, config)
+
+    dispatch({
+      type: GET_FILTERS_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_FILTERS_FAIL,
+    })
+  }
+}
+
+export const setFilters = (type, id) => dispatch => {
+  dispatch({
+    type: SET_FILTERS,
+    payload: {type: type, id: id},
+  })
+}
+
+export const resetFilter = (type) => dispatch => {
+  dispatch({
+    type: RESET_FILTER,
+    payload: type,
+  })
+}
+
+export const getToursByFilters = (filter) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${filter ? '?' + filter : ''}`, config)
+
+    dispatch({
+      type: GET_TOURS_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_TOURS_FAIL,
+    })
+  }
 }

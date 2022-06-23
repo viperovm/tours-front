@@ -11,44 +11,10 @@ import SearchSection from "./SearchSection";
 import TextSection from "./TextSection";
 import {getAllTours} from "../../redux/actions/toursActions";
 import Section from "../../components/Section";
+import Tour from "./Tour";
 
 const Tours = ({location, all_tours, getAllTours}) => {
 
-  const buttons = [
-    {
-      name: 'Тип тура',
-    },
-    {
-      name: 'Язык группы',
-    },
-    {
-      name: 'Цена',
-    },
-    {
-      name: 'Туры с кешбеком',
-    },
-    {
-      name: 'Средний возраст группы',
-    },
-    {
-      name: 'Длительность (дни)',
-    },
-    {
-      name: 'Осталось мест',
-    },
-    {
-      name: 'Проживание',
-    },
-    {
-      name: 'Активность',
-    },
-    {
-      name: 'Рейтинг',
-    },
-    {
-      name: 'Гарантированные даты',
-    },
-  ]
 
   useEffect(() => {
     getAllTours()
@@ -71,7 +37,7 @@ const Tours = ({location, all_tours, getAllTours}) => {
           <div className='breadcrumbs breadcrumbs_margin'>
             <span><Link to='/'>Главная</Link></span> - <span>Путешествия</span>
           </div>
-          <ButtonsSet data={buttons}/>
+          <ButtonsSet data={all_tours?.filter_set}/>
         </Section>
 
         {/*<section>*/}
@@ -85,7 +51,9 @@ const Tours = ({location, all_tours, getAllTours}) => {
 
         <Section padding={'0 0 10px 0'}>
           <Title title={'Путешествия'} border_color={'blue'} left={left_part} travels_count={all_tours && all_tours.length}/>
-          <ToursSet tours={all_tours}/>
+          <div className={styles.tours_wrapper}>
+            {all_tours?.results?.map((tour, index) => <Tour key={index} tour={tour}/>)}
+          </div>
         </Section>
 
         <SearchSection/>
