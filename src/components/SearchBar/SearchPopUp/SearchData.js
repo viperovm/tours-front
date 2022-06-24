@@ -12,8 +12,6 @@ const SearchData = ({setFilters, filter, current_filters, getToursByFilters}) =>
     data,
   } = filter
 
-  console.log(current_filters)
-
   const [cols, setCols] = useState(0)
 
   const [currentData, setCurrentData] = useState([])
@@ -43,8 +41,6 @@ const SearchData = ({setFilters, filter, current_filters, getToursByFilters}) =>
   const handleClick = id => {
     setFilters(type, id)
   }
-
-  console.log(data)
 
   return (
     <>

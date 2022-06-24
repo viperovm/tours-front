@@ -118,9 +118,11 @@
 
 .tours_wrapper {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .tour_card {
+    flex: none;
     width: 350px;
     height:360px;
     background: #FFFFFF;

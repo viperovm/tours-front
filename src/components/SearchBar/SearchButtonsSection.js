@@ -4,15 +4,18 @@ import {connect} from 'react-redux';
 import {getSearchFilters, getToursByFilters} from "../../redux/actions/toursActions";
 import SearchData from "./SearchPopUp/SearchData";
 
-const SearchButtonsSection = ({getSearchFilters, filters, current_filters, getToursByFilters}) => {
+const SearchButtonsSection = ({action, getSearchFilters, filters, current_filters, getToursByFilters}) => {
 
-  useEffect(() => {
+  useEffect(()=> {
+    const handleRequest = (data) => {
+      action()
+      getToursByFilters(data)
+    }
     if(current_filters) {
       let search_str = current_filters.map(item => {
         return item.type + '=' + item.data.join(',')
       })
-      console.log(search_str.join('&'))
-      getToursByFilters(search_str.join('&'))
+      handleRequest(search_str.join('&'))
     }
   }, [current_filters])
 
@@ -20,7 +23,6 @@ const SearchButtonsSection = ({getSearchFilters, filters, current_filters, getTo
     getSearchFilters()
   }, [])
 
-  console.log(filters)
 
   return (
     <>

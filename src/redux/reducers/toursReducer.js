@@ -111,6 +111,7 @@ const initialState = {
   error: {},
   tours: [],
   all_tours: [],
+  tours_page_data: null,
   cities: [],
   current_tour: {},
   tour_preview: null,
@@ -411,7 +412,8 @@ const toursReducer = (state = initialState, action) => {
     case GET_ALL_TOURS_SUCCESS:
       return {
         ...state,
-        all_tours: payload,
+        tours_page_data: payload,
+        all_tours: payload.results,
       }
 
     case SET_KEY:

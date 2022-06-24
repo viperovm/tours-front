@@ -3,13 +3,13 @@ import styles from './Tours.module.css';
 import {Link} from "react-router-dom";
 import SearchButtonsSection from "../../components/SearchBar/SearchButtonsSection";
 
-const ButtonsSet = ({data}) => {
+const ButtonsSet = ({action, data}) => {
 
   return (
     <>
       <div className='wrapper'>
         <div className={styles.buttons_set}>
-          <SearchButtonsSection filters={data}/>
+          <SearchButtonsSection filters={data} action={action}/>
         </div>
       </div>
     </>

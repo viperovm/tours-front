@@ -172,6 +172,8 @@ export const getTours = () => async dispatch => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/tour_set/`, config)
 
+
+
     dispatch({
       type: GET_TOURS_SUCCESS,
       payload: res.data,
@@ -1232,7 +1234,7 @@ export const resetFilter = (type) => dispatch => {
   })
 }
 
-export const getToursByFilters = (filter) => async dispatch => {
+export const getToursByFilters = (filter = '') => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -1244,12 +1246,12 @@ export const getToursByFilters = (filter) => async dispatch => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${filter ? '?' + filter : ''}`, config)
 
     dispatch({
-      type: GET_TOURS_SUCCESS,
+      type: GET_ALL_TOURS_SUCCESS,
       payload: res.data,
     })
   } catch (err) {
     dispatch({
-      type: GET_TOURS_FAIL,
+      type: GET_ALL_TOURS_FAIL,
     })
   }
 }

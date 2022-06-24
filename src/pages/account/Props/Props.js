@@ -87,8 +87,6 @@ const Props = ({update_local_user, user, status, updateCardData, updateTransacti
       updateTransactionData(user.id, user.bank_transaction)
     }
   }
-  
-  console.log(user?.bank_transaction)
 
   const handleCardChange = id => {
     if(empty) {

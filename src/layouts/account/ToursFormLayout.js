@@ -138,7 +138,6 @@ const ToursFormLayout = ({
       await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${tour_id}/`, body, config)
       history.push(submit_url)
       clearCurrentTour()
-      // console.log(111)
 
     } catch (err) {
       const errStatus = err.response.status

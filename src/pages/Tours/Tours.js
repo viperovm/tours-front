@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import styles from './Tours.module.css'
 import {connect} from 'react-redux'
 import MetaTags from "react-meta-tags";
@@ -9,16 +9,33 @@ import Title from "./Title";
 import ToursSet from "./ToursSet";
 import SearchSection from "./SearchSection";
 import TextSection from "./TextSection";
-import {getAllTours} from "../../redux/actions/toursActions";
+import {getToursByFilters} from "../../redux/actions/toursActions";
 import Section from "../../components/Section";
 import Tour from "./Tour";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const Tours = ({location, all_tours, getAllTours}) => {
+const Tours = ({location, all_tours, getToursByFilters, tours_page_data}) => {
+
+  const [loading, setLoading] = useState(false)
+
+  const handleFilterUpdate = () => {
+    setLoading(true)
+  }
+
+  useEffect(() => {
+    if(loading && all_tours?.length > 0) {
+      setLoading(false)
+    }
+  }, [all_tours, loading])
 
 
   useEffect(() => {
-    getAllTours()
+
+
+    getToursByFilters()
   }, [])
+
 
   const {pathname} = location
   const page = pathname[0] === '/' ? pathname.substring(1) : pathname
@@ -37,7 +54,7 @@ const Tours = ({location, all_tours, getAllTours}) => {
           <div className='breadcrumbs breadcrumbs_margin'>
             <span><Link to='/'>Главная</Link></span> - <span>Путешествия</span>
           </div>
-          <ButtonsSet data={all_tours?.filter_set}/>
+          <ButtonsSet data={tours_page_data?.filter_set} action={handleFilterUpdate}/>
         </Section>
 
         {/*<section>*/}
@@ -50,10 +67,17 @@ const Tours = ({location, all_tours, getAllTours}) => {
         {/*</section>*/}
 
         <Section padding={'0 0 10px 0'}>
-          <Title title={'Путешествия'} border_color={'blue'} left={left_part} travels_count={all_tours && all_tours.length}/>
-          <div className={styles.tours_wrapper}>
-            {all_tours?.results?.map((tour, index) => <Tour key={index} tour={tour}/>)}
-          </div>
+          <Title title={'Путешествия'} border_color={'blue'} left={left_part} travels_count={all_tours?.length}/>
+          {loading && (
+            <Box sx={{ display: 'flex' }}>
+              <CircularProgress />
+            </Box>
+          )}
+          {!loading && (
+            <div className={styles.tours_wrapper}>
+              {all_tours?.map((tour, index) => <Tour key={index} tour={tour}/>)}
+            </div>
+          )}
         </Section>
 
         <SearchSection/>
@@ -69,9 +93,10 @@ const Tours = ({location, all_tours, getAllTours}) => {
 }
 
 const mapStateToProps = state => ({
-  all_tours: state.tours.all_tours
+  tours_page_data: state.tours.tours_page_data,
+  all_tours: state.tours.all_tours,
 })
 
-const mapDispatchToProps = {getAllTours}
+const mapDispatchToProps = {getToursByFilters}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tours)

@@ -133,10 +133,6 @@ const Settings = ({
     }
   }, [user])
 
-  // console.log(phoneChanged)
-  // console.log(profile.phone)
-  // console.log(profile.old_phone)
-  //
   // useEffect(() => {
   //   if(phoneConfirmed && phoneChanged && profile.phone != profile.old_phone) {
   //     setPhoneConfirmed(false)
