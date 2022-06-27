@@ -57,11 +57,15 @@ const MultiRangeSlider = ({ min, max, value_min, value_max, onChange }) => {
     }
   }, [maxVal, getPercent]);
 
-  // Get min and max values when their state changes
-  useEffect(() => {
+  const handleSubmit = () => {
     onChange(minVal, maxVal);
-    // onChange({ min: minVal, max: maxVal });
-  }, [minVal, maxVal]);
+  }
+
+  // Get min and max values when their state changes
+  // useEffect(() => {
+  //   onChange(minVal, maxVal);
+  //   // onChange({ min: minVal, max: maxVal });
+  // }, [minVal, maxVal]);
 
   return (
     <>
@@ -76,6 +80,7 @@ const MultiRangeSlider = ({ min, max, value_min, value_max, onChange }) => {
             setMinVal(value);
             minValRef.current = value;
           }}
+          onMouseUp={handleSubmit}
           className={`${styles.thumb} ${styles.thumb__left}`}
           style={{ zIndex: value_min > max - 100 && "5" }}
         />
@@ -89,6 +94,7 @@ const MultiRangeSlider = ({ min, max, value_min, value_max, onChange }) => {
             setMaxVal(value);
             maxValRef.current = value;
           }}
+          onMouseUp={handleSubmit}
           className={`${styles.thumb} ${styles.thumb__right}`}
         />
 
