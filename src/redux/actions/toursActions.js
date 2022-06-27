@@ -1232,6 +1232,8 @@ export const setFilters = (type, id, filter_type) => dispatch => {
 
 export const setRangeFilters = (type, data) => dispatch => {
 
+  console.log(type)
+
   dispatch({
     type: SET_RANGE_FILTERS,
     payload: {type: type, data: data},
@@ -1239,6 +1241,8 @@ export const setRangeFilters = (type, data) => dispatch => {
 }
 
 export const setRatingFilters = (type, data) => dispatch => {
+
+  console.log(type)
 
   dispatch({
     type: SET_RANGE_FILTERS,

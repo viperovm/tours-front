@@ -14,7 +14,10 @@ const SearchButtonsSection = ({action, getSearchFilters, filters, current_filter
     if(current_filters) {
       console.log(current_filters)
       let search_str = current_filters.filter(item => !item.hasOwnProperty('field')).map(item => {
-        return item.type + '=' + Array.isArray(item.data) && item.data.length > 1 ? item.data.join(',') : item.data
+        console.log(item)
+        console.log(item.type)
+
+        return `${item.type}=${Array.isArray(item.data) && item.data.length > 1 ? item.data.join(',') : item.data}`
       })
       console.log(search_str)
       let field = current_filters.filter(item => item.hasOwnProperty('field'))[0]

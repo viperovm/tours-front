@@ -162,10 +162,8 @@ const toursReducer = (state = initialState, action) => {
 
   const updateField = (state, data) => {
     const obj = {field: data.type}
-    console.log(state)
     let newState = state.filter(content => !content.hasOwnProperty('field'))
     newState.push(obj)
-    console.log(newState)
     return newState
   }
 

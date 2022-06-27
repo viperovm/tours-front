@@ -6,7 +6,7 @@ import check from "./img/check.svg";
 import empty_star from "./img/empty_star.svg";
 import full_star from "./img/full_star.svg";
 
-const RatingComponent = ({type, data=[], onChange}) => {
+const RatingComponent = ({type, data, onChange}) => {
 
   console.log(data)
 
@@ -24,6 +24,7 @@ const RatingComponent = ({type, data=[], onChange}) => {
   }, [])
 
   const handleRating = (rate) => {
+    setRating(rate)
     onChange(rate)
     // other logic
   }
