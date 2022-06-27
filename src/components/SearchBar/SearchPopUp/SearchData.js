@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import styles from './SearchPopUp.module.css';
 import {connect} from 'react-redux';
 import SearchPopUp from "./SearchPopUp";
-import {getToursByFilters, setFilters, setRangeFilters} from "../../../redux/actions/toursActions";
+import {getToursByFilters, setFilters, setRangeFilters, setRatingFilters} from "../../../redux/actions/toursActions";
 import MultiRangeSlider from "../MultiRangeSlider";
-// import MultiRangeSlider from "multi-range-slider-react";
+import RatingComponent from "../RatingComponent";
 
-const SearchData = ({setFilters, filter, current_filters, getToursByFilters, setRangeFilters}) => {
+const SearchData = ({setFilters, filter, current_filters, getToursByFilters, setRangeFilters, setRatingFilters}) => {
 
   const {
     title,
@@ -33,9 +33,9 @@ const SearchData = ({setFilters, filter, current_filters, getToursByFilters, set
   }, [current_filters])
 
   useEffect(() => {
-    if(filter_type === 'range') {
+    if(filter_type === 'range' || filter_type === 'rating' || filter_type === 'radio') {
       setCols(1)
-    } else if(Array.isArray(data) && filter_type !== 'range') {
+    } else if(Array.isArray(data) && filter_type !== 'range' && filter_type !== 'rating' && filter_type !== 'radio') {
       if(data?.length <= 14) {
         setCols(2)
       } else if(data?.length <= 21) {
@@ -60,6 +60,10 @@ const SearchData = ({setFilters, filter, current_filters, getToursByFilters, set
     setRangeFilters(type, data)
   }
 
+  const handleRatingChange = (num) => {
+    setRatingFilters(type, num)
+  }
+
   return (
     <>
         <SearchPopUp title={title} type={type} active_button={currentData.length > 0}>
@@ -72,21 +76,16 @@ const SearchData = ({setFilters, filter, current_filters, getToursByFilters, set
             )}
 
             {filter_type === 'range' && data && <MultiRangeSlider
-              // min={data[0]}
-              // max={data[1]}
-              // step={1}
-              // ruler={false}
-              // label={false}
-              // preventWheel={false}
-              // minValue={currentData.length > 0 ? currentData[0] : data[0]}
-              // maxValue={currentData.length > 0 ? currentData[1] : data[1]}
-              // onInput={handleRangeChange}
               value_min={currentData.length > 0 ? currentData[0] : data[0]}
               value_max={currentData.length > 0 ? currentData[1] : data[1]}
               min={data[0]}
               max={data[1]}
               onChange={handleRangeChange}
             />}
+
+            {(filter_type === 'rating' || filter_type === 'radio') &&
+              <RatingComponent type={type} data={data} onChange={handleRatingChange}/>
+            }
           </div>
         </SearchPopUp>
     </>
@@ -100,6 +99,7 @@ const mapDispatchToProps = {
   setFilters,
   getToursByFilters,
   setRangeFilters,
+  setRatingFilters,
 }
 
 export default connect(

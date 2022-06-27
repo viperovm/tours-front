@@ -1,4 +1,5 @@
 import {
+  // SET_RATING_FILTERS,
   SET_RANGE_FILTERS,
   RESET_FILTER,
   SET_FILTERS,
@@ -1230,6 +1231,14 @@ export const setFilters = (type, id, filter_type) => dispatch => {
 }
 
 export const setRangeFilters = (type, data) => dispatch => {
+
+  dispatch({
+    type: SET_RANGE_FILTERS,
+    payload: {type: type, data: data},
+  })
+}
+
+export const setRatingFilters = (type, data) => dispatch => {
 
   dispatch({
     type: SET_RANGE_FILTERS,

@@ -1,4 +1,5 @@
 import {
+  // SET_RATING_FILTERS,
   RESET_FILTER,
   SET_FILTERS,
   SET_RANGE_FILTERS,
@@ -876,6 +877,30 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         current_filters: setRangeFilters(state.current_filters, payload),
       }
+
+    // case SET_RATING_FILTERS:
+    //
+    //   const setRatingFilters = (state, data) => {
+    //     if(state?.some(content => content.type === data.type)) {
+    //       return updateField(state.map(filter => {
+    //         if(filter.type === data.type) {
+    //           return {
+    //             ...filter,
+    //             data: data.data
+    //           }
+    //         } else {
+    //           return filter
+    //         }
+    //       }), data)
+    //     } else {
+    //       return updateField([...state, {type: data.type, data: data.data}], data)
+    //     }
+    //   }
+    //
+    //   return {
+    //     ...state,
+    //     current_filters: setRatingFilters(state.current_filters, payload),
+    //   }
 
     case RESET_FILTER:
 
