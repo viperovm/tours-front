@@ -6916,6 +6916,11 @@
   "resolved" "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz"
   "version" "2.1.2"
 
+"multi-range-slider-react@^1.0.7":
+  "integrity" "sha512-Rm2kwMvciy5vyDWYyXpAf4wDQpsmFQ5/YLGL4KoQ/VWEYX/K4abP1v1SScPMEKzED4Dn9ih7cXmncjhmERIwMg=="
+  "resolved" "https://registry.npmjs.org/multi-range-slider-react/-/multi-range-slider-react-1.0.7.tgz"
+  "version" "1.0.7"
+
 "multicast-dns-service-types@^1.1.0":
   "integrity" "sha1-iZ8R2WhuXgXLkbNdXw5jt3PPyQE="
   "resolved" "https://registry.npmjs.org/multicast-dns-service-types/-/multicast-dns-service-types-1.1.0.tgz"
@@ -8232,6 +8237,11 @@
   dependencies:
     "@emotion/core" "^10.0.27"
     "@emotion/styled" "^10.0.27"
+
+"react-dual-range-slider@^1.0.4":
+  "integrity" "sha512-363qPkcYPFPdakq4EazLA89xQ9I2sO6QyCpohrXx01Q208U/pnxRpwF/h7cxKOsVAxnq/Jf96YvW69n2sB9IGQ=="
+  "resolved" "https://registry.npmjs.org/react-dual-range-slider/-/react-dual-range-slider-1.0.4.tgz"
+  "version" "1.0.4"
 
 "react-easy-swipe@^0.0.21":
   "integrity" "sha512-OeR2jAxdoqUMHIn/nS9fgreI5hSpgGoL5ezdal4+oO7YSSgJR8ga+PkYGJrSrJ9MKlPcQjMQXnketrD7WNmNsg=="

@@ -1,4 +1,5 @@
 import {
+  SET_RANGE_FILTERS,
   RESET_FILTER,
   SET_FILTERS,
   GET_FILTERS_SUCCESS,
@@ -1220,10 +1221,19 @@ export const getSearchFilters = () => async dispatch => {
   }
 }
 
-export const setFilters = (type, id) => dispatch => {
+export const setFilters = (type, id, filter_type) => dispatch => {
+
   dispatch({
     type: SET_FILTERS,
     payload: {type: type, id: id},
+  })
+}
+
+export const setRangeFilters = (type, data) => dispatch => {
+
+  dispatch({
+    type: SET_RANGE_FILTERS,
+    payload: {type: type, data: data},
   })
 }
 

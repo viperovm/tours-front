@@ -54,6 +54,8 @@
 
 .popup_body {
     margin: 20px 0 10px;
+    width: 100%;
+    position: relative;
 }
 
 .popup_footer {

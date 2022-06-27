@@ -1,6 +1,7 @@
 import {
   RESET_FILTER,
   SET_FILTERS,
+  SET_RANGE_FILTERS,
   GET_FILTERS_SUCCESS,
   GET_FILTERS_FAIL,
   GET_TOUR_TYPES_SUCCESS,
@@ -157,6 +158,15 @@ const initialState = {
 
 const toursReducer = (state = initialState, action) => {
   const {type, payload} = action
+
+  const updateField = (state, data) => {
+    const obj = {field: data.type}
+    console.log(state)
+    let newState = state.filter(content => !content.hasOwnProperty('field'))
+    newState.push(obj)
+    console.log(newState)
+    return newState
+  }
 
   const setTourWallpaper = (tour, data) => {
     return {
@@ -823,7 +833,7 @@ const toursReducer = (state = initialState, action) => {
 
       const setFilters = (state, data) => {
         if(state?.some(content => content.type === data.type)) {
-          return state.map(filter => {
+          return updateField(state.map(filter => {
             if(filter.type === data.type) {
               return {
                 ...filter,
@@ -832,15 +842,39 @@ const toursReducer = (state = initialState, action) => {
             } else {
               return filter
             }
-          })
+          }), data)
         } else {
-          return [...state, {type: data.type, data: [data.id]}]
+          return updateField([...state, {type: data.type, data: [data.id]}], data)
         }
       }
 
       return {
         ...state,
         current_filters: setFilters(state.current_filters, payload),
+      }
+
+    case SET_RANGE_FILTERS:
+
+      const setRangeFilters = (state, data) => {
+        if(state?.some(content => content.type === data.type)) {
+          return updateField(state.map(filter => {
+            if(filter.type === data.type) {
+              return {
+                ...filter,
+                data: data.data
+              }
+            } else {
+              return filter
+            }
+          }), data)
+        } else {
+          return updateField([...state, {type: data.type, data: data.data}], data)
+        }
+      }
+
+      return {
+        ...state,
+        current_filters: setRangeFilters(state.current_filters, payload),
       }
 
     case RESET_FILTER:

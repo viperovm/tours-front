@@ -12,10 +12,13 @@ const SearchButtonsSection = ({action, getSearchFilters, filters, current_filter
       getToursByFilters(data)
     }
     if(current_filters) {
-      let search_str = current_filters.map(item => {
+      console.log(current_filters)
+      let search_str = current_filters.filter(item => !item.hasOwnProperty('field')).map(item => {
         return item.type + '=' + item.data.join(',')
       })
-      handleRequest(search_str.join('&'))
+      console.log(search_str)
+      let field = current_filters.filter(item => item.hasOwnProperty('field'))[0]
+      handleRequest(search_str.join('&') + '&field=' + field?.field)
     }
   }, [current_filters])
 
