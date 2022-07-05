@@ -37,15 +37,15 @@ import BlockRecent from "../components/BlockRecent";
         {/*<BlockViewed />*/}
         <BlockPopularCountry />
         <BlockRecomendation />
-          <SliderBlock/>
-        {/*<BlockAdvantage />*/}
-        {/*<BlockNewTour />*/}
-        {/*<BlockChangeCountry />*/}
-        {/*<BlockTypeTours />*/}
-        {/*<BlockRaitingTours />*/}
-        {/*<BlockTravelExperts />*/}
-        {/*<BlockSaleTours />*/}
+        <BlockAdvantage />
+        <SliderBlock/>
+        <BlockChangeCountry />
+        <BlockTypeTours />
+        <BlockRaitingTours />
+        <BlockTravelExperts />
+        <BlockSaleTours />
         {/*<BlockFeedback />*/}
+        {/*<BlockNewTour />*/}
         {/*<BlockMoodTours />*/}
         {/*<BlockFindTour />*/}
         {/*<BlockAboutUs />*/}

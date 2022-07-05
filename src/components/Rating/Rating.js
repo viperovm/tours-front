@@ -6,7 +6,7 @@ import Htag from '../Htag/Htag'
 const Rating = ({ position, children, ...props }) => {
   return (
     <div
-        className={ cn(styles.rating, className, {
+        className={ cn(styles.rating, {
           [styles.left]: position == 'left',
           [styles.right]: position == 'right',
         })}

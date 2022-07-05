@@ -4,30 +4,18 @@ import cn from 'classnames';
 import InfoBlock from '../InfoBlock/InfoBlock';
 import Htag from '../Htag/Htag';
 import CardCollection from '../CardCollection/CardCollection';
+import Section from "../Section";
+import Title from "../../pages/Tours/Title";
 
-const BlockRecomendation = ({ block_style, children, className, ...props }) => {    
+const BlockRecomendation = () => {
     return (
-        <div
-            className={ cn(styles.block_viewed, className, {
-                [styles.viewed_block]: block_style == 'viewed_block',
-            })}
-            {...props}
-        >
-            
-            <div className={styles.wrapper} {...props}>
-                {children}
-                    <InfoBlock border_color='orange'>
-                        <Htag tag='h2'>
-                            Персональные рекомендации
-                        </Htag>
-                        <Htag tag='h4'>
-                            Мы подобрали туры именно для вас
-                        </Htag>
-                    </InfoBlock> 
-                    <CardCollection name_block='personal' />
-            </div> 
-            
-        </div>
+      <>
+        <Section background={'var(--background-grey)'} padding={'30px 0'}>
+          <Title title={'Персональные рекомендации'} sub_title={`Мы подобрали туры именно для вас`} border_color={'orange'}/>
+          <CardCollection name_block='personal' />
+        </Section>
+      </>
+
     );
 };
 

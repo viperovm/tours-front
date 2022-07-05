@@ -50,11 +50,9 @@
 	position: relative;
 
 	display: flex;
-	justify-content: space-between;
+	/*justify-content: space-between;*/
 
-	width: 1640px;
-	margin: 0 auto;
-	margin-left: -80px;
+	width: 100%;
 }
 
 .card_tour_arrow_left {
@@ -159,7 +157,7 @@
 	position: absolute;
 	z-index: 1;
 	top: 143px;
-	left: 262px;
+	left: -24px;
 
 	width: 48px;
 	height: 48px;

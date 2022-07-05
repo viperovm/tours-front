@@ -4,31 +4,26 @@ import cn from 'classnames';
 import InfoBlock from '../InfoBlock/InfoBlock';
 import Htag from '../Htag/Htag';
 import CardCollection from '../CardCollection/CardCollection';
+import Section from "../Section";
+import Title from "../../pages/Tours/Title";
+import ToursSet from "../BlockRecent/ToursSet";
 
-const BlockSaleTours = ({ block_style, children, className, ...props }) => {    
-    return (
-        <div
-            className={ cn(styles.block_viewed, className, {
-                [styles.viewed_block]: block_style == 'viewed_block',
-            })}
-            {...props}
-        >
-            
-            <div className={styles.wrapper} {...props}>
-                {children}
-                    <InfoBlock border_color='blue_left_border'>
-                        <Htag tag='h2'>
-                            Туры со скидками 
-                        </Htag>
-                        <Htag tag='h4'>
-                            Только сегодня уникальные предложения по доступным ценам
-                        </Htag>
-                    </InfoBlock> 
-                    <CardCollection name_block='sales' />
-            </div> 
-            
-        </div>
-    );
+const BlockSaleTours = ({ block_style, children, className, ...props }) => {
+
+  let recent = JSON.parse(localStorage.getItem('recent'))
+
+  return (
+    <>
+      {recent && (
+        <>
+          <Section background={'transparent'} padding={'30px 0'}>
+            <Title title={'Туры со скидками '} sub_title={`Только сегодня уникальные предложения по доступным ценам`} border_color={'blue'}/>
+            <ToursSet tours={recent}/>
+          </Section>
+        </>
+      )}
+    </>
+  )
 };
 
 export default BlockSaleTours

@@ -7,48 +7,41 @@ import LockIconBig from '../../assets/img/lock-big.svg'
 import SmileIconBig from '../../assets/img/smile-big.svg'
 import UserIconBig from '../../assets/img/user-big.svg'
 import DefendIconBig from '../../assets/img/Defend.svg'
+import Section from "../Section";
+import Title from "../../pages/Tours/Title";
+import CardCollection from "../CardCollection/CardCollection";
 
 const BlockAdvantage = ({ block_style, children, className }) => {
-  const [viewdBlock, setViewdBlock] = useState('')
-
-  useEffect(() => {
-    if (block_style === 'viewed_block') {
-      setViewdBlock(styles.viewed_block)
-    }
-  }, [block_style])
 
   return (
-    <div className={viewdBlock}>
-      <div className={styles.wrapper}>
-        {children}
-        <InfoBlock border_color='blue_left_border'>
-          <Htag tag='h2'>Traveler.market - Мы работаем для вас</Htag>
-          <Htag tag='h4'>Основные принципы нашей работы</Htag>
-        </InfoBlock>
+
+    <>
+      <Section padding={'30px 0 0 0'}>
+        <Title title={'Traveler.market - Мы работаем для вас'} sub_title={`Основные принципы нашей работы`} border_color={'blue'}/>
         <div className={styles.advantage_block}>
           <div className={styles.advantage_block_item}>
-            <LockIconBig />
+            <img src={LockIconBig} alt=""/>
             <Htag tag='h2'>Безопасная оплата</Htag>
             <Htag tag='h4'>
               Бронируйте туры через нашу надежную платежную систему
             </Htag>
           </div>
           <div className={styles.advantage_block_item}>
-            <SmileIconBig />
+            <img src={SmileIconBig} alt=""/>
             <Htag tag='h2'>Продуманная спонтанность</Htag>
             <Htag tag='h4'>
               Маршруты могут адаптироваться под пожелания группы
             </Htag>
           </div>
           <div className={styles.advantage_block_item}>
-            <UserIconBig />
+            <img src={UserIconBig} alt=""/>
             <Htag tag='h2'>Проверенные тревел-эксперты</Htag>
             <Htag tag='h4'>
               В нашей базе 3 452 гида, которые прошли тщательный отбор
             </Htag>
           </div>
           <div className={styles.advantage_block_item}>
-            <DefendIconBig />
+            <img src={DefendIconBig} alt=""/>
             <Htag tag='h2'>Гарантированные туры</Htag>
             <Htag tag='h4'>
               У нас вы найдете более 11 534 туров с гарантированным отправлением
@@ -65,8 +58,9 @@ const BlockAdvantage = ({ block_style, children, className }) => {
             друзьями.
           </Htag>
         </div>
-      </div>
-    </div>
+      </Section>
+    </>
+
   )
 }
 

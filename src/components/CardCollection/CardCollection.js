@@ -96,15 +96,11 @@ const CardCollection = ({name_block, children }) => {
                           <div className={styles.card_expert_arrow_left}><img src={ArrowIconLeft} alt="arrow"/></div>
                           <div className={styles.card_expert_arrow_right}><img src={ArrowIconRight} alt="arrow"/></div>
                           {children}
-                          <div className={styles.card_collection_expert_card_hidden_expert_left}></div>
-                          <CardExpert className={styles.card_collection_expert_card_hidden} />
-                          <CardExpert /> 
                           <CardExpert />
                           <CardExpert />
                           <CardExpert />
-                          <CardExpert className={styles.card_collection_expert_card_hidden} />
-                          <div className={styles.card_collection_expert_card_hidden_expert_right}></div>  
-                    </div>   
+                          <CardExpert />
+                    </div>
                   </div>;
         case 'sales':
           return <div

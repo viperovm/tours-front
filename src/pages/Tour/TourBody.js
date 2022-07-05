@@ -40,6 +40,8 @@ const TourBody = ({
 
   const [places, setPlaces] = useState(1)
 
+
+
   const handleExpertChat = () => {
     add_chat_room(tour_preview.expert.id)
     history.push(isAuthenticated ? '/account/chat' : '/login/chat')

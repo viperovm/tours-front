@@ -314,17 +314,17 @@ export const updateTour = data => async dispatch => {
   })
 }
 
-export const getTour = id => async dispatch => {
+export const getTour = (id) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
+      // Authorization: `JWT ${localStorage.getItem('access')}`,
       Accept: 'application/json',
     },
   }
 
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${id}/`, config)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${slug}/`, config)
 
     dispatch({
       type: GET_TOUR_SUCCESS,
@@ -338,11 +338,11 @@ export const getTour = id => async dispatch => {
   }
 }
 
-export const getTourReview = (id, data) => async dispatch => {
+export const getTourReview = (slug, id, data) => async dispatch => {
   const config = localStorage.getItem('access') ? {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
+      // Authorization: `JWT ${localStorage.getItem('access')}`,
       Accept: 'application/json',
     },
   }
@@ -354,9 +354,15 @@ export const getTourReview = (id, data) => async dispatch => {
       },
     }
 
+    const params = {
+    params: {
+      date_id: id
+    }
+    }
+
     if(data !== 'reset') {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${id}/preview/`, config)
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/${slug}/preview/`, params, config)
 
         dispatch({
           type: GET_TOUR_PREVIEW_SUCCESS,

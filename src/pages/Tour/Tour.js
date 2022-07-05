@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import MetaTags from "react-meta-tags";
 import MainLayout from "../../layouts/MainLayout";
 import TourBody from "./TourBody";
@@ -11,14 +11,30 @@ const Tour = ({
                 getTourReview,
 }) => {
 
-  useEffect(() => {
-    getTourReview(match.params.id)
-    return () => getTourReview(match.params.id, 'reset')
-  }, [])
-
-
-  const {pathname} = location
+  const {pathname, search} = location
   const page = pathname[0] === '/' ? pathname.substring(1) : pathname
+
+  console.log(search)
+
+  const [id, setId] = useState(null)
+
+  useEffect(() => {
+    if(search) {
+      setId(search.split('=')[1])
+    }
+  })
+
+  console.log(id)
+
+
+
+  useEffect(() => {
+    getTourReview(match.params.slug, id)
+    return () => getTourReview(match.params.slug, id, 'reset')
+  }, [id])
+
+
+
 
 
   return (

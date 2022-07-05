@@ -3,67 +3,67 @@ import styles from './BlockChangeCountry.module.css'
 import cn from 'classnames'
 import InfoBlock from '../InfoBlock/InfoBlock'
 import Htag from '../Htag/Htag'
+import Russia from '../../assets/img/russia.svg'
 import EuropeIcon from '../../assets/img/europe.svg'
 import AsiaIcon from '../../assets/img/asia.svg'
 import AfricaIcon from '../../assets/img/africa.svg'
 import SouthAmericaIcon from '../../assets/img/south-america.svg'
 import AustraliaIcon from '../../assets/img/australia.svg'
 import NorthAmericaIcon from '../../assets/img/north-america.svg'
+import Section from "../Section";
+import Title from "../../pages/Tours/Title";
 
-const BlockChangeCountry = ({ block_style, children, className }) => {
+const BlockChangeCountry = () => {
   return (
-    <div
-      className={cn(styles.block_viewed, className, {
-        [styles.viewed_block]: block_style == 'viewed_block',
-      })}
-      {...props}
-    >
-      <div className={styles.wrapper} {...props}>
-        {children}
-        <InfoBlock border_color='blue_left_border'>
-          <Htag tag='h2'>Мир большой, сделайте первый шаг к его покорению</Htag>
-          <Htag tag='h4'>Континенты и страны у твоих ног</Htag>
-        </InfoBlock>
+    <>
+      <Section padding={'30px 0'}>
+        <Title title={'Мир большой, сделайте первый шаг к его покорению'} sub_title={`Континенты и страны у твоих ног`} border_color={'blue'}/>
         <div className={styles.change_country_block}>
           <div className={styles.change_country_block_item}>
             <div className={styles.change_country_block_item_first_block}>
-              <EuropeIcon className={styles.europe_icon} />
+              <img src={Russia} alt=""/>
+            </div>
+            <Htag tag='h4'>Россия</Htag>
+          </div>
+          <div className={styles.change_country_block_item}>
+            <div className={styles.change_country_block_item_first_block}>
+              <img src={EuropeIcon} alt=""/>
             </div>
             <Htag tag='h4'>Европа</Htag>
           </div>
           <div className={styles.change_country_block_item}>
             <div className={styles.change_country_block_item_first_block}>
-              <AsiaIcon className={styles.asia_icon} />
+              <img src={AsiaIcon} alt=""/>
             </div>
             <Htag tag='h4'>Азия</Htag>
           </div>
           <div className={styles.change_country_block_item}>
             <div className={styles.change_country_block_item_first_block}>
-              <AfricaIcon className={styles.africa_icon} />
+              <img src={AfricaIcon} alt=""/>
             </div>
             <Htag tag='h4'>Африка</Htag>
           </div>
           <div className={styles.change_country_block_item}>
             <div className={styles.change_country_block_item_first_block}>
-              <SouthAmericaIcon className={styles.south_america_icon} />
+              <img src={NorthAmericaIcon} alt=""/>
             </div>
             <Htag tag='h4'>Северная Америка</Htag>
           </div>
           <div className={styles.change_country_block_item}>
             <div className={styles.change_country_block_item_first_block}>
-              <AustraliaIcon className={styles.australia_icon} />
+              <img src={SouthAmericaIcon} alt=""/>
+            </div>
+            <Htag tag='h4'>Южная Америка</Htag>
+          </div>
+          <div className={styles.change_country_block_item}>
+            <div className={styles.change_country_block_item_first_block}>
+              <img src={AustraliaIcon} alt=""/>
             </div>
             <Htag tag='h4'>Австралия и Океания</Htag>
           </div>
-          <div className={styles.change_country_block_item}>
-            <div className={styles.change_country_block_item_first_block}>
-              <NorthAmericaIcon className={styles.north_america_icon} />
-            </div>
-            <Htag tag='h4'>Северная Америка</Htag>
-          </div>
         </div>
-      </div>
-    </div>
+      </Section>
+    </>
   )
 }
 

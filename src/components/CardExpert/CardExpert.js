@@ -30,7 +30,7 @@ const CardExpert = ({ block_style, children, className, ...props }) => {
                         <Htag className={styles.card_expert_active_tours} tag='h4'>Активных туров:</Htag>
                     </div>
                     <div className={styles.card_expert_content_guide_info}>
-                        <Htag tag='h4' className={styles.card_expert_rating_num}><StarBigIcon /> 5.0</Htag>
+                        <Htag tag='h4' className={styles.card_expert_rating_num}><img src={StarBigIcon} alt=""/> 5.0</Htag>
                         <Htag tag='h4' className={styles.card_expert_feedback_num}>211 отзывов</Htag>
                         <Htag tag='h4' className={styles.card_expert_active_tours_num}>31 тур</Htag>
                     </div>
