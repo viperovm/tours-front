@@ -108,7 +108,7 @@ const App = () => {
               <Route exact path='/reviews' component={Reviews} />
               <Route exact path='/article' component={Blog} />
               <Route exact path='/article/:slug' component={SingleBlog} />
-              <Route exact path='/:region/:country/:slug' component={Tour} />
+              <Route exact path='/tours/:region/:country/:slug' component={Tour} />
               {/*<Route exact path='/tours/:id' component={Tour} />*/}
               <Route exact path='/experts/:id' component={Leader} />
               <Route path='/login/:redirect?' component={Login} />

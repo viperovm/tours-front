@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './BlockRecent.module.css';
 import Tour from "./Tour";
-// import Carousel from "nuka-carousel";
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 

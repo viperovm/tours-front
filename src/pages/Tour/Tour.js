@@ -14,19 +14,14 @@ const Tour = ({
   const {pathname, search} = location
   const page = pathname[0] === '/' ? pathname.substring(1) : pathname
 
-  console.log(search)
-
   const [id, setId] = useState(null)
 
   useEffect(() => {
     if(search) {
-      setId(search.split('=')[1])
+      const query = new URLSearchParams(search);
+      setId(query.get('date_id'))
     }
   })
-
-  console.log(id)
-
-
 
   useEffect(() => {
     getTourReview(match.params.slug, id)
