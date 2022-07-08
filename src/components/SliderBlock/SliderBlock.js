@@ -28,27 +28,15 @@ import Section from "../Section";
 import Title from "../../pages/Tours/Title";
 import ToursSet from "../BlockRecent/ToursSet";
 
-const SliderBlock = ({size, ...props}) => {
-
-    let recent = JSON.parse(localStorage.getItem('recent'))
-
-    const [buttons, setButtons] = useState(false)
-
-    useEffect(() => {
-        if(recent.length > 3) {
-            setButtons(true)
-        } else {
-            setButtons(false)
-        }
-    }, [recent])
+const SliderBlock = ({new_tours}) => {
 
     return (
       <>
-          {recent && (
+          {new_tours && (
             <>
                 <Section background={'var(--background-grey)'} padding={'30px 0'}>
                     <Title title={'Новинки'} sub_title={`Все самое новое от наших тревел-экспертов`} border_color={'orange'}/>
-                    <ToursSet tours={recent}/>
+                    <ToursSet tours={new_tours}/>
                 </Section>
             </>
           )}

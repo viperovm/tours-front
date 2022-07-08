@@ -3,21 +3,14 @@ import styles from './CardCountryTour.module.css';
 import cn from 'classnames';
 import Tag from '../Tag/Tag';
 import Htag from '../Htag/Htag';
+import {Link} from "react-router-dom";
     
 
 
-const CardCountryTour = ({ block_style, children, className, ...props }) => {    
+const CardCountryTour = ({ data }) => {
     return (
-        <div
-            className={ cn(styles.card_tour, className, {
-                [styles.card_tour]: block_style == 'card_tour',
-            })}
-            {...props}
-            
-        >    
-                  
-            {children}
-            <Tag size='s'>                
+        <Link to={`/${data?.public_url}`} className={styles.card_tour} >
+            <Tag size='s' style={{}}>
                 <div className={styles.card_tour_content}>
                     
                     <Htag tag='h4'>Россия</Htag>
@@ -25,7 +18,7 @@ const CardCountryTour = ({ block_style, children, className, ...props }) => {
                 </div>
             </Tag>     
              
-        </div>
+        </Link>
     );
 };
 

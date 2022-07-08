@@ -7,12 +7,12 @@ import CardCollection from '../CardCollection/CardCollection';
 import Section from "../Section";
 import Title from "../../pages/Tours/Title";
 
-const BlockRecomendation = () => {
+const BlockRecomendation = ({recommendations}) => {
     return (
       <>
         <Section background={'var(--background-grey)'} padding={'30px 0'}>
           <Title title={'Персональные рекомендации'} sub_title={`Мы подобрали туры именно для вас`} border_color={'orange'}/>
-          <CardCollection name_block='personal' />
+          <CardCollection name_block='personal' data={recommendations} />
         </Section>
       </>
 

@@ -20,9 +20,16 @@ import BlockMoodTours from '../components/BlockMoodTours/BlockMoodTours'
 import BlockFindTour from '../components/BlockFindTour/BlockFindTour'
 import SliderBlock from "../components/SliderBlock/SliderBlock";
 import BlockRecent from "../components/BlockRecent";
+import {getHomePage} from "../redux/actions/toursActions";
+import {connect} from "react-redux";
 
 
- const Home = () => {
+ const Home = ({getHomePage, home_page}) => {
+
+   useEffect(() => {
+     getHomePage()
+   }, [])
+
    let recent = JSON.parse(localStorage.getItem('recent'))
   return (
     <>
@@ -33,12 +40,12 @@ import BlockRecent from "../components/BlockRecent";
       </MetaTags>
       <MainLayout>
         <BlockPresentation block_style='presentation_block' />
-        {recent && <BlockRecent/>}
+        {home_page?.recent && <BlockRecent recent={home_page?.recent}/>}
         {/*<BlockViewed />*/}
-        <BlockPopularCountry />
-        <BlockRecomendation />
+        {home_page?.popular && <BlockPopularCountry popular={home_page?.popular}/>}
+        {home_page?.recommendations && <BlockRecomendation recommendations={home_page?.recommendations}/>}
         <BlockAdvantage />
-        <SliderBlock/>
+        {home_page?.new && <SliderBlock new_tours={home_page?.new}/>}
         <BlockChangeCountry />
         <BlockTypeTours />
         <BlockRaitingTours />
@@ -77,4 +84,12 @@ import BlockRecent from "../components/BlockRecent";
   )
 }
 
-export default Home
+const mapStateToProps = state => ({
+  home_page: state.tours.home_page,
+})
+
+const mapDispatchToProps = {
+  getHomePage,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

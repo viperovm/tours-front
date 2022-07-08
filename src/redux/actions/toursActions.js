@@ -1,5 +1,7 @@
 import {
   // SET_RATING_FILTERS,
+  GET_HOME_PAGE_SUCCESS,
+  GET_HOME_PAGE_FAIL,
   SET_RANGE_FILTERS,
   RESET_FILTER,
   SET_FILTERS,
@@ -109,6 +111,28 @@ import {
 } from '../types'
 import axios from 'axios'
 import {isNotEmptyObject} from "../../functions";
+
+export const getHomePage = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  }
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/start_page/`, config)
+
+    dispatch({
+      type: GET_HOME_PAGE_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_HOME_PAGE_FAIL,
+    })
+  }
+}
 
 export const addTour = data => async dispatch => {
   const config = {

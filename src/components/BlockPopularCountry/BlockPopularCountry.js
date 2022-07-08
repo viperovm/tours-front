@@ -7,13 +7,13 @@ import CardCollection from '../CardCollection/CardCollection';
 import Section from "../Section";
 import Title from "../../pages/Tours/Title";
 
-const BlockPopularCountry = ({ block_style, children, className, ...props }) => {    
+const BlockPopularCountry = ({ popular }) => {
     return (
 
       <>
         <Section padding={'30px 0 0 0'}>
           <Title title={'Популярные направления'} sub_title={`Мы тщательно следим за открытием границ и подбираем проверенные варианты`} border_color={'blue'}/>
-          <CardCollection name_block='popular' />
+          <CardCollection name_block='popular' data={popular} />
         </Section>
       </>
 

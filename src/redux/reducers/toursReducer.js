@@ -1,5 +1,7 @@
 import {
   // SET_RATING_FILTERS,
+  GET_HOME_PAGE_SUCCESS,
+  GET_HOME_PAGE_FAIL,
   RESET_FILTER,
   SET_FILTERS,
   SET_RANGE_FILTERS,
@@ -106,6 +108,7 @@ import {
 } from '../types'
 
 const initialState = {
+  home_page: null,
   doc: null,
   docs: [],
   key: '',
@@ -404,6 +407,18 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         tours: payload,
+      }
+
+    case GET_HOME_PAGE_SUCCESS:
+      return {
+        ...state,
+        home_page: payload,
+      }
+
+    case GET_HOME_PAGE_FAIL:
+      return {
+        ...state,
+        home_page: null,
       }
 
     case GET_LEGAL_DOCS_SUCCESS:

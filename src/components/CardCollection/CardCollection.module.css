@@ -18,10 +18,9 @@
 
 .card_collection_popular {
 	position: relative;
-
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	/*justify-content: space-between;*/
 }
 
 .card_collection_type {

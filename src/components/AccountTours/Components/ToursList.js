@@ -14,8 +14,10 @@ const ToursList = ({ tours }) => {
   const [active, setActive] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  console.log(tours)
+
   useEffect(() => {
-    if(tours.length>0 && loading){
+    if(tours?.results?.length>0 && loading){
       setLoading(false)
     }
   }, [tours, loading])
@@ -29,9 +31,9 @@ const ToursList = ({ tours }) => {
       <div
         className={`tours-wrapper`}
       >
-        {!loading && tours &&
-          tours.length > 0 &&
-          tours.map((item, index) => <TourCard key={index} tour={item} action={handleAction} />)}
+        {!loading && tours?.results &&
+          tours?.results?.length > 0 &&
+          tours?.results?.map((item, index) => <TourCard key={index} tour={item} action={handleAction} />)}
         {loading && (
           <Box sx={{ display: 'flex' }}>
             <CircularProgress />

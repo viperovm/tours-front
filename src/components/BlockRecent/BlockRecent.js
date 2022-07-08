@@ -5,8 +5,8 @@ import Title from "../../pages/Tours/Title";
 import ToursSet from "./ToursSet";
 import Section from "../Section";
 
-const BlockRecent = () => {
-  let recent = JSON.parse(localStorage.getItem('recent'))
+const BlockRecent = ({recent}) => {
+  // let recent = JSON.parse(localStorage.getItem('recent'))
 
   return (
     <>
