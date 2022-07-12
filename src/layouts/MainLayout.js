@@ -1,12 +1,19 @@
+import React, {useEffect, useState} from 'react'
 import Footer from "../wrappers/footer/Footer";
 import Header from "../wrappers/header/Header";
-import {useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import {connect} from "react-redux";
 
-const MainLayout = ({ language, isAuthenticated, children, page, background = 'transparent' }) => {
+
+const MainLayout = ({ language, isAuthenticated, children, page, background = 'transparent', match }) => {
 
   const history = useHistory()
+
+  useEffect(() => {
+    if(!match?.params?.language) {
+      history.push(`/${language}`)
+    }
+  }, [match])
 
   useEffect(() => {
 
