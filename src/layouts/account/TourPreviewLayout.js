@@ -22,6 +22,7 @@ import Modal from "../../components/AccountTours/Components/Modal";
 import isNotEmptyObject from "../../helpers/isNotEmptyObject";
 
 const TourPreviewLayout = ({
+                             language,
                              preview = false,
                              tour,
                              menu_item,
@@ -49,7 +50,7 @@ const TourPreviewLayout = ({
   const [loading, setLoading] = useState(false)
 
   if (!isAuthenticated) {
-    return <Redirect to='/login'/>
+    return <Redirect to={`/${language}/login`}/>
   }
 
   // useEffect(() => {
@@ -72,21 +73,21 @@ const TourPreviewLayout = ({
   }, [tour])
 
   const handleTourCopy = () => {
-    history.push('/account/tours/list')
+    history.push(`/${language}/account/tours/list`)
   }
 
   const handleTourDelete = async () => {
     await deleteTour(tour.id)
-      .then(() => history.push('/account/tours/list'))
+      .then(() => history.push(`/${language}/account/tours/list`))
   }
 
   const handleTourPreview = () => {
     if (!preview) {
       tourToServerUpdate(tour, tour.id)
       setPage(history.location)
-      history.push(`/account/tours/${tour_id}/edit/preview`)
+      history.push(`/${language}/account/tours/${tour_id}/edit/preview`)
     } else {
-      history.push(page)
+      history.push(`/${language}/${page}`)
       setPage('')
     }
   }
@@ -99,19 +100,19 @@ const TourPreviewLayout = ({
 
   const handleModeration = async () => {
     await tourToServerUpdate({...tour, on_moderation: true, is_draft: false}, tour.id)
-      .then(() => history.push('/account/tours/list'))
+      .then(() => history.push(`/${language}/account/tours/list`))
       .then(() => clearCurrentTour())
   }
 
   const handleSave = async () => {
     await tourToServerUpdate(tour, tour.id)
-      .then(() => history.push('/account/tours/list'))
+      .then(() => history.push(`/${language}/account/tours/list`))
       .then(() => clearCurrentTour())
   }
 
   const handleDraft = async () => {
     await tourToServerUpdate({...tour, on_moderation: false, is_draft: true}, tour.id)
-      .then(() => history.push('/account/tours/list'))
+      .then(() => history.push(`/${language}/account/tours/list`))
       .then(() => clearCurrentTour())
   }
 
@@ -128,8 +129,8 @@ const TourPreviewLayout = ({
         <section>
           <div className='wrapper'>
             <div className='breadcrumbs breadcrumbs_margin'>
-              <span><Link to='/'>Главная</Link></span> - <span><Link
-              to='/account'>Личный кабинет</Link></span> - <span>Просмотр тура</span>
+              <span><Link to={`/${language}`}>Главная</Link></span> - <span><Link
+              to={`/${language}/account`}>Личный кабинет</Link></span> - <span>Просмотр тура</span>
             </div>
           </div>
         </section>
@@ -175,6 +176,7 @@ const TourPreviewLayout = ({
 const mapStateToProps = state => ({
   tour: state.tours.current_tour,
   page: state.tours.page,
+  language: state.languages.language,
   isAuthenticated: state.auth.isAuthenticated,
 })
 

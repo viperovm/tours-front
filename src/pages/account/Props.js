@@ -6,10 +6,10 @@ import {Redirect} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setPage } from '../../redux/actions/authActions'
 
-const Props = ({ status, setPage }) => {
+const Props = ({ status, setPage, language }) => {
 
   if (status === 'customers') {
-    return <Redirect to='/404'/>
+    return <Redirect to={`/${language}/404`}/>
   }
 
   useEffect(() => {
@@ -27,6 +27,7 @@ const Props = ({ status, setPage }) => {
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   user: state.auth.user,
   status: state.auth.status,
 })

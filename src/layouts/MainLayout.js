@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {connect} from "react-redux";
 
-const MainLayout = ({ isAuthenticated, children, page, background = 'transparent' }) => {
+const MainLayout = ({ language, isAuthenticated, children, page, background = 'transparent' }) => {
 
   const history = useHistory()
 
@@ -15,7 +15,7 @@ const MainLayout = ({ isAuthenticated, children, page, background = 'transparent
 
     const deleteUser = () => {
       localStorage.removeItem('access')
-      history.push('/login')
+      history.push(`/${language}/login`)
       window.location.reload()
       // return <Redirect to={'/login'}/>
     }
@@ -56,7 +56,8 @@ const MainLayout = ({ isAuthenticated, children, page, background = 'transparent
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  language: state.languages.language,
 })
 
 export default connect(mapStateToProps)(MainLayout)

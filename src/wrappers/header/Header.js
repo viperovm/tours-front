@@ -15,7 +15,7 @@ import {
 
 let client
 
-const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_users_offline, update_chat_rooms, update_chat_room }) => {
+const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_users_offline, update_chat_rooms, update_chat_room, languages, language }) => {
   const [isOpened, setIsOpened] = useState(false)
   const [active, setActive] = useState('')
 
@@ -98,14 +98,15 @@ const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_
               <a href=''>Выбрать валюту</a>
               <a href=''>Избранное</a>
             </div>
-            <Logo />
+            <Logo language={language} />
             <div className='buttons_block'>
               <div className='buttons_block_find_tour'>Подберите мне тур</div>
-              <Link to='/tours' className={`buttons_block_travel ${active === 'tours' ? 'active' : ''}`} onClick={() => setActive('tours')}>Путешествия</Link>
-              <Link to={isAuthenticated ? '/account/support' : '/login/support'} className={`buttons_block_travel ${active === 'support' ? 'active' : ''}`} onClick={() => setActive('support')}>Поддержка</Link>
+              <Link to={`/${language}/tours`} className={`buttons_block_travel ${active === 'tours' ? 'active' : ''}`} onClick={() => setActive('tours')}>Путешествия</Link>
+              <Link to={`/${language}${isAuthenticated ? '/account/support' : '/login/support'}`} className={`buttons_block_travel ${active === 'support' ? 'active' : ''}`} onClick={() => setActive('support')}>Поддержка</Link>
               {/*<div className={`buttons_block_travel ${active === 'support' ? 'active' : ''}`} onClick={() => setActive('поддержка')}>Поддержка</div>*/}
               <div className='buttons_block_country'>
-                <img src='./img/Flag.svg' alt='' />
+                {/*<img src='./img/Flag.svg' alt='' />*/}
+                {languages?.map((item, index) => <div className='buttons_block_country_name' key={index}>{item}</div>)}
               </div>
               <div className='buttons_block_currency'>&#8381; (Rub)</div>
               <div className='buttons_block_liked'></div>
@@ -114,7 +115,7 @@ const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_
             {isAuthenticated ? (
               <div className='margin-left'>
                 <div className='user-account-name-wrapper'>
-                  <Link to='/account'>
+                  <Link to={`/${language}/account`}>
                     <div className='user-account-avatar'>
                       <UserSmallAvatar />
                       {/* <UserAvatar user={user} /> */}
@@ -123,7 +124,7 @@ const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_
                 </div>
               </div>
             ) : (
-              <Link to='/login' className='login_block'>
+              <Link to={`/${language}/login`} className='login_block'>
                 Вход
               </Link>
             )}
@@ -137,6 +138,8 @@ const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
+  languages: state.languages.languages,
+  language: state.languages.language,
 })
 
 export default connect(mapStateToProps, { load_user, set_users_online, set_users_offline, update_chat_rooms, update_chat_room })(Header)

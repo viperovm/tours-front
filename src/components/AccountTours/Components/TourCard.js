@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import cart from '../../../assets/img/shopping-cart.svg'
 import view from '../../../assets/img/view.svg'
 import menu from '../../../assets/img/menu-dots.svg'
-import dateFormat, { masks } from 'dateformat'
+import dateFormat, {masks} from 'dateformat'
 
 import {
   deleteTour,
@@ -11,36 +11,37 @@ import {
   getTour,
 } from '../../../redux/actions/toursActions'
 
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import Modal from "./Modal";
 import {useHistory} from "react-router-dom";
 import PopUp from "../../PopUp/PopUp";
 
 const TourCard = ({
-  tour,
-  action,
-  menu_action,
-  click_action,
-  deleteTour,
-  updateTour,
-  setEditing,
-  getTour,
-}) => {
+                    language,
+                    tour,
+                    action,
+                    menu_action,
+                    click_action,
+                    deleteTour,
+                    updateTour,
+                    setEditing,
+                    getTour,
+                  }) => {
   const history = useHistory()
   const label = tour.is_active
     ? 'Опубликовано'
     : tour.on_moderation
-    ? 'На Модерации'
-    : tour.is_draft
-    ? 'Черновик'
-    : ''
+      ? 'На Модерации'
+      : tour.is_draft
+        ? 'Черновик'
+        : ''
   const cssClass = tour.is_active
     ? 'active'
     : tour.on_moderation
-    ? 'moderation'
-    : tour.is_draft
-    ? 'draft'
-    : ''
+      ? 'moderation'
+      : tour.is_draft
+        ? 'draft'
+        : ''
 
   const myRef = useRef()
 
@@ -61,7 +62,7 @@ const TourCard = ({
   const handleTourEdit = () => {
     getTour(tour.id)
     setActive(false)
-    history.push(`/account/tours/${tour.id}/edit/main`)
+    history.push(`/${language}/account/tours/${tour.id}/edit/main`)
   }
 
   const handleTourCopy = () => {
@@ -84,17 +85,17 @@ const TourCard = ({
       <div className='tour-card'>
         <div className='tour-image'>
 
-        <div
-          className='tour-image'
-          onClick={handleTourEdit}
-          style={{
-            backgroundImage: 'url(' + tour.tmb_wallpaper + ')',
-            cursor: 'pointer'
-        }}
-          // onClick={handleTourEdit}
-        >
+          <div
+            className='tour-image'
+            onClick={handleTourEdit}
+            style={{
+              backgroundImage: 'url(' + tour.tmb_wallpaper + ')',
+              cursor: 'pointer'
+            }}
+            // onClick={handleTourEdit}
+          >
 
-        </div>
+          </div>
           <div
             className='tour-menu-dots'
             style={{
@@ -106,7 +107,7 @@ const TourCard = ({
             }}
             onClick={handleMenu}
           >
-            <img src={menu} alt='menu' />
+            <img src={menu} alt='menu'/>
           </div>
           <div
             className='tour-menu'
@@ -144,7 +145,7 @@ const TourCard = ({
                 textAlign: 'right'
               }}
             >
-              <Modal tour_id={tour.id} button_name='Копировать' action={()=>setActive(false)}/>
+              <Modal tour_id={tour.id} button_name='Копировать' action={() => setActive(false)}/>
             </div>
             <div
               className='tour-item-bottom'
@@ -175,7 +176,7 @@ const TourCard = ({
         <div
           className='tour-header'
           onClick={handleTourEdit}
-          style={{ cursor: 'pointer' }}
+          style={{cursor: 'pointer'}}
         >
           <div className='tour-region'>{tour && tour.start_country && tour.start_country.name}</div>
           <div
@@ -198,14 +199,16 @@ const TourCard = ({
             <div className='tour-footer-sold'>
               <div className='tour-footer-value'>
                 {tour.sold ? tour.sold : '0'}
-              </div>{' '}
-              <img src={cart} alt='shopping-cart' />
+              </div>
+              {' '}
+              <img src={cart} alt='shopping-cart'/>
             </div>
             <div className='tour-footer-watched'>
               <div className='tour-footer-value'>
                 {tour.watched ? tour.watched : '0'}
-              </div>{' '}
-              <img src={view} alt='view' />
+              </div>
+              {' '}
+              <img src={view} alt='view'/>
             </div>
           </div>
         </div>
@@ -214,6 +217,10 @@ const TourCard = ({
   )
 }
 
-export default connect(null, { deleteTour, updateTour, setEditing, getTour })(
+const mapStateToProps = state => ({
+  language: state.languages.language
+})
+
+export default connect(mapStateToProps, {deleteTour, updateTour, setEditing, getTour})(
   TourCard
 )

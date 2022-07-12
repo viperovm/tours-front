@@ -13,8 +13,9 @@ import CardAboutExpert from '../CardAboutExpert/CardAboutExpert';
 import ArrowIconLeft from '../../assets/img/left_arrow.svg';
 import ArrowIconRight from '../../assets/img/right_arrow.svg';
 import {Link} from 'react-router-dom'
+import {connect} from "react-redux";
 
-const CardCollection = ({name_block, data, children}) => {
+const CardCollection = ({language, name_block, data, children}) => {
   switch (name_block) {
     case 'viewed':
       return (
@@ -130,7 +131,7 @@ const CardCollection = ({name_block, data, children}) => {
       return <div
         className={styles.tour_page}
       >
-        <Link to='/tour/detail-tour/'>
+        <Link to={`/${language}/tour/detail-tour/`}>
           <CardTour block_width="block_width_travel_page" block_style='card_tour_border'
                     className={styles.tour_page_card}/>
         </Link>
@@ -179,4 +180,8 @@ const CardCollection = ({name_block, data, children}) => {
   }
 };
 
-export default CardCollection
+const mapStateToProps = state => ({
+  language: state.languages.language,
+})
+
+export default connect(mapStateToProps)(CardCollection)

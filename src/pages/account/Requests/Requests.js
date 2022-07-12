@@ -78,6 +78,7 @@ function BpRadio(props) {
 
 
 const Requests = ({
+                    language,
                     user,
                     status,
                     setPage,
@@ -126,7 +127,7 @@ const Requests = ({
 
 
   if (status === 'customers') {
-    return <Redirect to='/404'/>
+    return <Redirect to={`/${language}/404`}/>
   }
 
   useEffect(() => {
@@ -257,6 +258,7 @@ const Requests = ({
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   user: state.auth.user,
   inn_data: state.auth.inn_data,
   update_verification_status: state.auth.update_verification_status,

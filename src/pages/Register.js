@@ -6,7 +6,7 @@ import {Link, useHistory} from 'react-router-dom'
 import Input from "../components/AccountTours/FormFields/Input";
 import PopUp from "../components/PopUp/PopUp";
 
-const Register = ({ signUp, error, reg_status, clear_errors }) => {
+const Register = ({ language, signUp, error, reg_status, clear_errors }) => {
   const [data, setData] = useState({})
   const [isExpert, setIsExpert] = useState(false)
   const [status, setStatus] = useState('')
@@ -52,7 +52,7 @@ const Register = ({ signUp, error, reg_status, clear_errors }) => {
     signUp(status, data)
   }
   const handleRedirect = () => {
-    history.push('/login')
+    history.push(`/${language}/login`)
   }
 
   return (
@@ -75,7 +75,7 @@ const Register = ({ signUp, error, reg_status, clear_errors }) => {
                 <div className='info_block_text_login'>
                   <div className='info_block_text_left'>Регистрация</div>
                   <div className='info_block_text_right'>
-                    <Link to='/login'>Войти на сайт</Link>
+                    <Link to={`/${language}/login`}>Войти на сайт</Link>
                   </div>
                 </div>
 
@@ -143,11 +143,11 @@ const Register = ({ signUp, error, reg_status, clear_errors }) => {
 
                     <div className='social_links_block_info social_links_block_info_registration'>
                       Отправляя форму вы соглашаетесь с{' '}
-                      <Link to='/legal-documents/oferta-dlia-avtora-tura'>
+                      <Link to={`/${language}/legal-documents/oferta-dlia-avtora-tura`}>
                         условиями публичной оферты
                       </Link>{' '}
                       и выражаете свое согласие на обработку{' '}
-                      <Link to='/legal-documents/politika-konfidentsialnosti'>
+                      <Link to={`/${language}/legal-documents/politika-konfidentsialnosti`}>
                         персональных данных
                       </Link>
                       .
@@ -193,6 +193,7 @@ const Register = ({ signUp, error, reg_status, clear_errors }) => {
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   error: state.auth.error,
   reg_status: state.auth.reg_status
 })

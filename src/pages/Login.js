@@ -7,7 +7,7 @@ import Input from "../components/AccountTours/FormFields/Input";
 import PopUp from "../components/PopUp/PopUp";
 
 
-const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors,
+const Login = ({ language, isAuthenticated, login, checkAuthenticated, error, clear_errors,
                  reg_status, match }) => {
 
   const {redirect} = match.params
@@ -18,7 +18,7 @@ const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors
 
   if (isAuthenticated) {
     // setData({})
-    return <Redirect to={redirect ? '/account/' + redirect : '/account'} />
+    return <Redirect to={redirect ? `/${language}/account/` + redirect : `/${language}/account/`} />
   }
 
   const handleCheckbox = (e) => {
@@ -64,7 +64,7 @@ const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors
               <div className='login_block_left'>
                 <div className='info_block_text_login'>
                   <div className='info_block_text_left'>Войти на сайт</div>
-                  <Link to={'/reset'} className='info_block_text_right'>Забыли пароль?</Link>
+                  <Link to={`/${language}/reset`} className='info_block_text_right'>Забыли пароль?</Link>
                 </div>
                 <div className='auth_form'>
                   <form onSubmit={handleAction}>
@@ -122,7 +122,7 @@ const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors
                 <div className='social_links_block_info'>
                   Если вы впервые на сайте, заполните, пожалуйста,
                   регистрационную форму:{' '}
-                  <Link to='/register'>
+                  <Link to={`/${language}/register`}>
                     Зарегистрироваться
                   </Link>
                 </div>
@@ -139,6 +139,7 @@ const Login = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   isAuthenticated: state.auth.isAuthenticated,
   error: state.auth.error,
   reg_status: state.auth.reg_status

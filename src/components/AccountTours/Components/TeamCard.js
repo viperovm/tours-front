@@ -8,6 +8,7 @@ import {deleteTeamMember, getTeamMember} from "../../../redux/actions/profileAct
 import PopUp from "../../PopUp/PopUp";
 
 const TeamCard = ({
+                    language,
                     member,
                     deleteTeamMember,
                     getTeamMember,
@@ -43,7 +44,7 @@ const TeamCard = ({
   }
 
   const handleMemberEdit = () => {
-    history.push(`/account/team/${member.id}/edit`)
+    history.push(`${language}/account/team/${member.id}/edit`)
   }
 
   const handleMenu = () => {
@@ -147,6 +148,10 @@ const TeamCard = ({
   )
 }
 
-export default connect(null, { getTeamMember, deleteTeamMember })(
+const mapStateToProps = state => ({
+  language: state.languages.language
+})
+
+export default connect(mapStateToProps, { getTeamMember, deleteTeamMember })(
   TeamCard
 )

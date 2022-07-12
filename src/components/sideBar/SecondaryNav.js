@@ -10,7 +10,7 @@ import PopUp from "../PopUp/PopUp";
 import {APPLICATION_CONFIG, application_config} from "../../data";
 import {tourTrimmed} from "../../functions";
 
-const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_item, tour_id, tour, tourToServerError, setKey }) => {
+const SecondaryNav = ({ language, setCurrentSection, secondary_nav, secondary, secondary_item, tour_id, tour, tourToServerError, setKey }) => {
 
   const history = useHistory()
 
@@ -38,7 +38,7 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_i
 
     try {
       await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${tour.id}/`, body, config)
-      history.push(url)
+      history.push(`/${language}${url}`)
 
     } catch (err) {
       console.error(err)
@@ -65,7 +65,7 @@ const SecondaryNav = ({ setCurrentSection, secondary_nav, secondary, secondary_i
                 key={index}
                 // onClick={() => handleClick(item)}
               >
-                <Link to={`/account/tours/${tour_id}/edit/${item.value}`} style={{width: '100%'}} onClick={e => handleNavigate(e, `/account/tours/${tour_id}/edit/${item.value}`)}>
+                <Link to={`/${language}/account/tours/${tour_id}/edit/${item.value}`} style={{width: '100%'}} onClick={e => handleNavigate(e, `/account/tours/${tour_id}/edit/${item.value}`)}>
                 <div
                   className={`tours-submenu-name-wrap ${
                     secondary_item === item.value ? 'item-active' : 'item-inactive'
@@ -106,6 +106,7 @@ const mapStateToProps = state => ({
   secondary_nav: state.tours.secondary_nav,
   secondary: state.tours.secondary,
   tour: state.tours.current_tour,
+  language: state.languages.language,
 })
 
 export default connect(mapStateToProps, { setCurrentSection, tourToServerError, setKey })(SecondaryNav)

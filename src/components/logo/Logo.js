@@ -4,13 +4,13 @@ import Logo2 from '../../assets/img/Logoname.svg'
 import LogoWhite from '../../assets/img/Logonamewhite.svg'
 import {Link} from 'react-router-dom'
 
-const Logo = ({ text_color }) => {
+const Logo = ({ text_color, language }) => {
   const [logoStyle, setLogoStyle] = useState(Logo2)
   useEffect(() => {
     text_color === 'white' ? setLogoStyle(LogoWhite) : setLogoStyle(Logo2)
   }, [text_color])
   return (
-    <Link to='/' className='header_logo_block'>
+    <Link to={`/${language}`} className='header_logo_block'>
         <div className='header_logo_block_main_icon'>
           <img src={Logo1} alt='logo' />
         </div>

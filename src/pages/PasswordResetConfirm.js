@@ -15,7 +15,7 @@ import axios from "axios";
 import * as t from "../redux/types";
 
 
-const PasswordResetConfirm = ({ match, reset_password_confirm }) => {
+const PasswordResetConfirm = ({ language, match, reset_password_confirm }) => {
 
   const history = useHistory()
 
@@ -48,7 +48,7 @@ const PasswordResetConfirm = ({ match, reset_password_confirm }) => {
       timeout = setTimeout(() => {
         if(activePopUp){
           setActivePopUp(false)
-          history.push('/login')
+          history.push(`/${language}/login`)
         }
       }, 2000)
     }
@@ -157,6 +157,7 @@ const PasswordResetConfirm = ({ match, reset_password_confirm }) => {
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   isAuthenticated: state.auth.isAuthenticated,
   error: state.auth.error,
   reg_status: state.auth.reg_status

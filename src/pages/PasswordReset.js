@@ -7,7 +7,7 @@ import Input from "../components/AccountTours/FormFields/Input";
 import PopUp from "../components/PopUp/PopUp";
 
 
-const PasswordReset = ({ isAuthenticated, login, checkAuthenticated, error, clear_errors,
+const PasswordReset = ({ language, isAuthenticated, login, checkAuthenticated, error, clear_errors,
                  reg_status, reset_password }) => {
 
   const [data, setData] = useState({})
@@ -16,7 +16,7 @@ const PasswordReset = ({ isAuthenticated, login, checkAuthenticated, error, clea
 
   if (isAuthenticated) {
     // setData({})
-    return <Redirect to={'/account'} />
+    return <Redirect to={`${language}/account`} />
   }
 
   const handleData = (name, value) => {
@@ -51,7 +51,8 @@ const PasswordReset = ({ isAuthenticated, login, checkAuthenticated, error, clea
               <div className='login_block_left'>
                 <div className='info_block_text_login'>
                   <div className='info_block_text_left'>Восстановить пароль</div>
-                  <Link to={'/login'} className='info_block_text_right'>Войти на сайт</Link>
+                  {console.log(language)}
+                  <Link to={`${language}/login`} className='info_block_text_right'>Войти на сайт</Link>
                 </div>
                 <div className='login_page_text_block'>
                   <p>
@@ -98,6 +99,7 @@ const PasswordReset = ({ isAuthenticated, login, checkAuthenticated, error, clea
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
+  language: state.languages.language,
   error: state.auth.error,
   reg_status: state.auth.reg_status
 })

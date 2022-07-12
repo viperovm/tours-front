@@ -325,6 +325,14 @@ ul, ol {
   cursor: pointer;
 }
 
+.buttons_block_country_name {
+  text-transform: capitalize;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+}
+
 .buttons_block_country svg {
   margin-top: -1px;
   cursor: pointer;

@@ -17,7 +17,7 @@ import DoubleWrapper from "../../../components/AccountTours/Wrappers/DoubleWrapp
 import FileInput from "../../../components/AccountTours/FormFields/FileInput";
 import AvatarInput from "../../../components/AccountTours/FormFields/AvatarInput";
 
-const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getLanguages, languages, clear_errors, update_avatar, update_local_user }) => {
+const MyProfile = ({ language, error, reg_status, user, status, setPage, update_user, getLanguages, languages, clear_errors, update_avatar, update_local_user }) => {
   useEffect(() => {
     setPage('profile')
     getLanguages()
@@ -47,7 +47,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
   }
 
   const handleRedirect = () => {
-    history.push('/account/requests')
+    history.push(`/${language}/account/requests`)
   }
 
   const handleImageChange = (image) => {
@@ -182,6 +182,7 @@ const MyProfile = ({ error, reg_status, user, status, setPage, update_user, getL
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   user: state.auth.user,
   status: state.auth.status,
   languages: state.tours.languages,

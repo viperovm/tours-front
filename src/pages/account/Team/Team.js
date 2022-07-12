@@ -8,9 +8,8 @@ import {getLanguages} from "../../../redux/actions/toursActions";
 import TeamList from "../../../components/AccountTours/Components/TeamList";
 import {addTeamMember, clearTeamMember} from "../../../redux/actions/profileActions";
 import axios from "axios";
-import {ADD_TEAM_MEMBER_FAIL, ADD_TEAM_MEMBER_SUCCESS} from "../../../redux/types";
 
-const Team = ({user, status, addTeamMember, members, member, clearTeamMember}) => {
+const Team = ({language, user, status, addTeamMember, members, member, clearTeamMember}) => {
 
   const history = useHistory()
 
@@ -58,7 +57,7 @@ const Team = ({user, status, addTeamMember, members, member, clearTeamMember}) =
 
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/teammembers/`, body, config)
-      history.push(`/account/team/${res.data.id}/edit`)
+      history.push(`/${language}/account/team/${res.data.id}/edit`)
 
     } catch (err) {
      console.error(err)
@@ -102,6 +101,7 @@ const Team = ({user, status, addTeamMember, members, member, clearTeamMember}) =
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   user: state.auth.user,
   status: state.auth.status,
   languages: state.tours.languages,

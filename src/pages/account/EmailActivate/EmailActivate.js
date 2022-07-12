@@ -6,7 +6,7 @@ import Button from "../../../components/AccountTours/Components/Button";
 import MainLayout from "../../../layouts/MainLayout";
 import CircularProgress from '@mui/material/CircularProgress'
 
-const EmailActivate = ({match, email_confirm, status}) => {
+const EmailActivate = ({match, email_confirm, status, language}) => {
 
   const history = useHistory()
 
@@ -20,7 +20,7 @@ const EmailActivate = ({match, email_confirm, status}) => {
   useEffect(() => {
     const redirector = () => {
       setVerified(false)
-      history.push('/')
+      history.push(`/${language}`)
     }
     if(verified) {
       let timer = setTimeout(() => redirector(), 5000)
@@ -72,6 +72,7 @@ const EmailActivate = ({match, email_confirm, status}) => {
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   status: state.auth.confirm,
 })
 

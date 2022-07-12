@@ -18,7 +18,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import {isNotEmptyObject} from "../../../functions";
 import {clear_confirm_status, email_confirm_request} from "../../../redux/actions/authActions";
 
-const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMember, addTeamMemberAvatar, getTeamMember, email_confirm_request, clear_confirm_status, match}) => {
+const TeamEdit = ({language, user, status, getLanguages, languages, member, updateTeamMember, addTeamMemberAvatar, getTeamMember, email_confirm_request, clear_confirm_status, match}) => {
 
   const history = useHistory()
   const member_id = match.params.id
@@ -88,7 +88,7 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
     updateTeamMember({
       ...profile,
     }, member.id)
-    history.push('/account/team')
+    history.push(`/${language}/account/team`)
   }
 
   const handleModalClose = () => {
@@ -201,6 +201,7 @@ const TeamEdit = ({user, status, getLanguages, languages, member, updateTeamMemb
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   user: state.auth.user,
   status: state.auth.status,
   languages: state.tours.languages,

@@ -41,6 +41,7 @@ import Expert from "../../components/Expert";
 import axios from "axios";
 
 const TourPage = ({
+                    language,
                     tour,
                     getTourReview,
                     tour_preview,
@@ -74,7 +75,7 @@ const TourPage = ({
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `JWT ${localStorage.getItem('access')}`,
+        // Authorization: `JWT ${localStorage.getItem('access')}`,
         Accept: 'application/json',
       },
     }
@@ -82,7 +83,7 @@ const TourPage = ({
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/orders/`, body, config)
       if(res){
-        history.push(`/account/orders/${res.data.id}/payment`)
+        history.push(`/${language}/account/orders/${res.data.id}/payment`)
       }
     } catch (err) {
       console.error(err)
@@ -247,7 +248,7 @@ const TourPage = ({
                   style={{position: 'sticky', top: '30px'}}
                 >
                   <div className={styles.tour_sidebar_header}>
-                    <Link to='/register'>
+                    <Link to={`/${language}/register`}>
                       Зарегистрируйтесь!
                     </Link>
                     <span>
@@ -423,6 +424,7 @@ const TourPage = ({
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   tour: state.tours.current_tour,
   tour_preview: state.tours.tour_preview,
 })

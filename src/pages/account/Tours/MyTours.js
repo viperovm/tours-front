@@ -8,7 +8,7 @@ import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, clearCurrentTour, }) => {
+const MyTours = ({language, isAuthenticated, addTour, tour, tours, getTours, clearCurrentTour, }) => {
 
   const [loading, setLoading] = useState(false)
 
@@ -44,7 +44,7 @@ const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, clearCurrentT
   useEffect(() => {
     if(isNotEmptyObject(tour) && edit) {
       setEdit(false)
-      history.push(`/account/tours/${tour.id}/edit/main`)
+      history.push(`/${language}/account/tours/${tour.id}/edit/main`)
     }
   }, [tour])
 
@@ -57,7 +57,7 @@ const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, clearCurrentT
   }, [tour])
 
   if (!isAuthenticated) {
-    return <Redirect to="/login" />
+    return <Redirect to={`/${language}/login`} />
   }
 
   const handleEditingButton = () => {
@@ -101,6 +101,7 @@ const MyTours = ({isAuthenticated, addTour, tour, tours, getTours, clearCurrentT
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   isAuthenticated: state.auth.isAuthenticated,
   tour: state.tours.current_tour,
   tours: state.tours.tours,

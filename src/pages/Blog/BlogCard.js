@@ -7,7 +7,7 @@ import {useHistory, Link} from "react-router-dom";
 import {clear_single_article} from "../../redux/actions/blogActions";
 import {connect} from "react-redux";
 
-const BlogCard = ({data, big = false, index, clear_single_article}) => {
+const BlogCard = ({language, data, big = false, index, clear_single_article}) => {
 
   const history = useHistory()
 
@@ -42,7 +42,7 @@ const BlogCard = ({data, big = false, index, clear_single_article}) => {
 
   const handleRedirect = () => {
     clear_single_article()
-    history.push(`/article/${slug}`)
+    history.push(`/${language}/article/${slug}`)
   }
 
 
@@ -94,4 +94,8 @@ const BlogCard = ({data, big = false, index, clear_single_article}) => {
   );
 };
 
-export default connect(null, {clear_single_article})(BlogCard)
+const mapStateToProps = state => ({
+  language: state.languages.language,
+})
+
+export default connect(mapStateToProps, {clear_single_article})(BlogCard)

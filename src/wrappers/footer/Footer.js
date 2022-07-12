@@ -13,7 +13,7 @@ import Defender from '../../assets/img/defender-orange.svg'
 import {Link} from "react-router-dom";
 import {getLegalDocs} from "../../redux/actions/toursActions";
 
-const Footer = ({getLegalDocs, docs = []}) => {
+const Footer = ({language, getLegalDocs, docs = []}) => {
 
   useEffect(() => {
     getLegalDocs()
@@ -31,11 +31,11 @@ const Footer = ({getLegalDocs, docs = []}) => {
               каждой точки маршрута. Мы за непринужденный подход к групповым
               путешествиям, который больше похож на встречу со старыми друзьями.
             </p>
-            <Link to={'/'} className='paragraph_content_underline'>
+            <Link to={`/${language}`} className='paragraph_content_underline'>
               © 2020 . Traveler.market
             </Link>
             {docs && docs.map((item, index) => (
-              <Link key={index} to={`/legal-documents/${item.docs_slug}`} className='paragraph_content_underline'>
+              <Link key={index} to={`/${language}/legal-documents/${item.docs_slug}`} className='paragraph_content_underline'>
                 {item.docs_name}
               </Link>
             ))}
@@ -129,7 +129,8 @@ const Footer = ({getLegalDocs, docs = []}) => {
 }
 
 const mapStateToProps = state => ({
-  docs: state.tours.docs
+  language: state.languages.language,
+  docs: state.tours.docs,
 })
 
 export default connect(mapStateToProps, {getLegalDocs})(Footer)

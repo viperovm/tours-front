@@ -31,20 +31,20 @@ import axios from "axios";
 import * as t from "../../redux/types";
 
 const TourBody = ({
-                tour_preview,
-                add_chat_room,
-                isAuthenticated
-              }) => {
+                    language,
+                    tour_preview,
+                    add_chat_room,
+                    isAuthenticated
+                  }) => {
 
   const history = useHistory()
 
   const [places, setPlaces] = useState(1)
 
 
-
   const handleExpertChat = () => {
     add_chat_room(tour_preview.expert.id)
-    history.push(isAuthenticated ? '/account/chat' : '/login/chat')
+    history.push(isAuthenticated ? `/${language}/account/chat` : `/${language}/login/chat`)
   }
 
   const handleBook = async () => {
@@ -58,8 +58,8 @@ const TourBody = ({
     const body = JSON.stringify({travelers_number: places, tour: tour_preview.id})
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/orders/`, body, config)
-      if(res){
-        history.push(`/account/orders/${res.data.id}/payment`)
+      if (res) {
+        history.push(`/${language}/account/orders/${res.data.id}/payment`)
       }
     } catch (err) {
       console.error(err)
@@ -149,9 +149,13 @@ const TourBody = ({
                   age={tour_preview.age_starts + '-' + tour_preview.age_ends}
                 />
                 <div className={styles.divider}/>
-                {tour_preview.main_impressions && tour_preview.main_impressions.length > 0 && <TourImpressions impressions={tour_preview.main_impressions}/>}
-                {((tour_preview.plan && tour_preview.plan.length > 0) || tour_preview.media_link) && <TourReview text={tour_preview.description} activities={tour_preview.plan} video={tour_preview && tour_preview.media_link ? tour_preview.media_link : ''}/>}
-                {tour_preview.tour_images && tour_preview.tour_images.length > 0 && <TourGallery gallery={tour_preview.tour_images}/>}
+                {tour_preview.main_impressions && tour_preview.main_impressions.length > 0 &&
+                  <TourImpressions impressions={tour_preview.main_impressions}/>}
+                {((tour_preview.plan && tour_preview.plan.length > 0) || tour_preview.media_link) &&
+                  <TourReview text={tour_preview.description} activities={tour_preview.plan}
+                              video={tour_preview && tour_preview.media_link ? tour_preview.media_link : ''}/>}
+                {tour_preview.tour_images && tour_preview.tour_images.length > 0 &&
+                  <TourGallery gallery={tour_preview.tour_images}/>}
                 {tour_preview.start_date && tour_preview.start_city && <TourRoute
                   ya_map={tour_preview && tour_preview.map}
                   start_date={tour_preview && tour_preview.start_date}
@@ -164,10 +168,11 @@ const TourBody = ({
                 {Array.isArray(tour_preview.tour_days) &&
                   <TourDays days={tour_preview && tour_preview.tour_days}/>
                 }
-                {(Array.isArray(tour_preview.tour_property_types) || Array.isArray(tour_preview.tour_property_images)) && <TourAccommodation
-                  property_types={tour_preview.tour_property_types}
-                  images={tour_preview.tour_property_images}
-                />}
+                {(Array.isArray(tour_preview.tour_property_types) || Array.isArray(tour_preview.tour_property_images)) &&
+                  <TourAccommodation
+                    property_types={tour_preview.tour_property_types}
+                    images={tour_preview.tour_property_images}
+                  />}
                 {((tour_preview.tour_included_services && tour_preview.tour_included_services.length > 0) || (tour_preview.tour_excluded_services && tour_preview.tour_excluded_services.length > 0)) &&
                   <TourIncluded inclusions={tour_preview.tour_included_services}
                                 exclusions={tour_preview.tour_excluded_services}/>}
@@ -188,18 +193,20 @@ const TourBody = ({
                     <h3>Дополнительные услуги</h3>
                     <div style={{marginTop: '20px'}}>
                       {tour_preview && tour_preview.tour_addetional_services && tour_preview.tour_addetional_services.map((item, index) => (
-                        <div key={index} style={{marginBottom: '10px'}} dangerouslySetInnerHTML={{__html: `${item.extra_text} ${item.extra_service_price ? ' - ' + item.extra_service_price + tour_preview.currency.sign : ''}`}}/>
+                        <div key={index} style={{marginBottom: '10px'}}
+                             dangerouslySetInnerHTML={{__html: `${item.extra_text} ${item.extra_service_price ? ' - ' + item.extra_service_price + tour_preview.currency.sign : ''}`}}/>
                       ))}
                     </div>
                   </>
                 }
 
-                {(tour_preview.guest_requirements || tour_preview.take_with || tour_preview.key_features || tour_preview.new_to_see) && <TourImportantToKnow
-                  guest_requirements={tour_preview.guest_requirements}
-                  take_with={tour_preview.take_with}
-                  key_features={tour_preview.key_features}
-                  new_to_see={tour_preview.new_to_see}
-                />}
+                {(tour_preview.guest_requirements || tour_preview.take_with || tour_preview.key_features || tour_preview.new_to_see) &&
+                  <TourImportantToKnow
+                    guest_requirements={tour_preview.guest_requirements}
+                    take_with={tour_preview.take_with}
+                    key_features={tour_preview.key_features}
+                    new_to_see={tour_preview.new_to_see}
+                  />}
 
                 {tour_preview.team_member && <TourLeader
                   leader={tour_preview.team_member}
@@ -265,43 +272,44 @@ const TourBody = ({
                     <PriceComment/>
                   </div>
 
-                  {(tour_preview.duration || tour_preview.vacants_number || tour_preview.members_number) && <div className={styles.duration_row}>
-                    <div className={styles.duration_row_col}>
-                      <div className={styles.duration_row_icon}>
-                        <img src={stopwatch} alt="stopwatch"/>
+                  {(tour_preview.duration || tour_preview.vacants_number || tour_preview.members_number) &&
+                    <div className={styles.duration_row}>
+                      <div className={styles.duration_row_col}>
+                        <div className={styles.duration_row_icon}>
+                          <img src={stopwatch} alt="stopwatch"/>
+                        </div>
+                        <div className={styles.duration_row_text}>
+                          <div className={styles.duration_row_text_title}>
+                            Длительность:
+                          </div>
+                          <div className={styles.duration_row_text_data}>
+                            {tour_preview.duration}
+                            {' '}
+                            дней
+                          </div>
+                        </div>
+
                       </div>
-                      <div className={styles.duration_row_text}>
-                        <div className={styles.duration_row_text_title}>
-                          Длительность:
+                      <div className={styles.duration_row_col}>
+                        <div className={styles.duration_row_icon}>
+                          <img src={group} alt="group"/>
                         </div>
-                        <div className={styles.duration_row_text_data}>
-                          {tour_preview.duration}
-                          {' '}
-                          дней
+                        <div className={styles.duration_row_text}>
+                          <div className={styles.duration_row_text_title}>
+                            Свободно мест:
+                          </div>
+                          <div className={styles.duration_row_text_data}>
+                            {tour_preview.vacants_number}
+                            {' '}
+                            из
+                            {' '}
+                            {tour_preview.members_number}
+                          </div>
                         </div>
+
                       </div>
 
-                    </div>
-                    <div className={styles.duration_row_col}>
-                      <div className={styles.duration_row_icon}>
-                        <img src={group} alt="group"/>
-                      </div>
-                      <div className={styles.duration_row_text}>
-                        <div className={styles.duration_row_text_title}>
-                          Свободно мест:
-                        </div>
-                        <div className={styles.duration_row_text_data}>
-                          {tour_preview.vacants_number}
-                          {' '}
-                          из
-                          {' '}
-                          {tour_preview.members_number}
-                        </div>
-                      </div>
-
-                    </div>
-
-                  </div>}
+                    </div>}
 
                   <div className={styles.inputs_row}>
                     {/*<div className={styles.inputs_row_date_input + ' ' + styles.calendar}>*/}
@@ -386,6 +394,7 @@ const TourBody = ({
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   tour_preview: state.tours.tour_preview,
   isAuthenticated: state.auth.isAuthenticated,
 })

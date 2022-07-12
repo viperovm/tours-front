@@ -19,6 +19,7 @@ import SecondaryNav from './SecondaryNav'
 // import SvgColor from 'react-svg-color'
 
 const NavItem = ({
+                   language,
                    setPage,
                    name,
                    active,
@@ -37,7 +38,7 @@ const NavItem = ({
           name === active && secondary_nav && secondary && 'with-submenu'
         }`}
       >
-        <Link to={name === 'account' ? '/' + name : '/account/' + name}>
+        <Link to={`/${language}${name === 'account' ? '/' + name : '/account/' + name}`}>
           <div
             className={`account-sidebar-menu-icon ${
               name === active ? 'active' : ''
@@ -131,7 +132,9 @@ const NavItem = ({
 
 const mapStateToProps = state => ({
   page: state.auth.page,
+  language: state.languages.language,
   secondary: state.tours.secondary,
+
 })
 
 export default connect(mapStateToProps, {setPage})(NavItem)

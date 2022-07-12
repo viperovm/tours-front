@@ -4,6 +4,7 @@ import LogoNameIcon from '../../assets/img/Logoname.svg'
 import { Link } from 'react-router-dom'
 
 import cn from 'classnames'
+import {connect} from "react-redux";
 
 const LogoName = ({ color, children, href, className, ...props }) => {
   return (
@@ -15,11 +16,15 @@ const LogoName = ({ color, children, href, className, ...props }) => {
       {...props}
     >
       {href ? <a href={href}>{children}</a> : <>{children}</>}
-      <Link to='/'>
+      <Link to={`/${language}`}>
         <LogoNameIcon />
       </Link>
     </div>
   )
 }
 
-export default LogoName
+const mapStateToProps = state => ({
+  language: state.languages.language,
+})
+
+export default connect(mapStateToProps)(LogoName)

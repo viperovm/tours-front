@@ -5,8 +5,9 @@ import star from './star.svg'
 import {useHistory} from "react-router-dom";
 import dateFormat, { masks } from 'dateformat'
 import Expert from "../Expert";
+import {connect} from "react-redux";
 
-const Tour = ({tour}) => {
+const Tour = ({tour, language}) => {
 
   const history = useHistory()
 
@@ -22,7 +23,7 @@ const Tour = ({tour}) => {
     } else {
       localStorage.setItem('recent', JSON.stringify([tour]))
     }
-    history.push(`${tour.public_url}`)
+    history.push(`/${language}${tour.public_url}`)
   }
 
   return (
@@ -76,4 +77,8 @@ const Tour = ({tour}) => {
   );
 };
 
-export default Tour;
+const mapStateToProps = state => ({
+  language: state.languages.language
+})
+
+export default connect(mapStateToProps)(Tour)

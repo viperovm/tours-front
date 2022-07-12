@@ -13,7 +13,7 @@ import Button from "../../components/AccountTours/Components/Button";
 import {add_chat_room} from "../../redux/actions/chatActions";
 import {useHistory} from "react-router-dom";
 
-const LeaderSection = ({expert, add_chat_room, isAuthenticated}) => {
+const LeaderSection = ({language, expert, add_chat_room, isAuthenticated}) => {
 
   const history = useHistory()
 
@@ -33,7 +33,7 @@ const LeaderSection = ({expert, add_chat_room, isAuthenticated}) => {
 
   const handleExpertChat = () => {
     add_chat_room(id)
-    history.push(isAuthenticated ? '/account/chat' : '/login/chat')
+    history.push(isAuthenticated ? '/' + language + '/account/chat' : '/' + language + '/login/chat')
   }
 
   return (
@@ -137,7 +137,8 @@ const LeaderSection = ({expert, add_chat_room, isAuthenticated}) => {
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  language: state.languages.language,
 })
 const mapDispatchToProps = {add_chat_room}
 

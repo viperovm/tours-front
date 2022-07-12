@@ -24,6 +24,7 @@ import {getData, tourTrimmed} from "../../functions";
 import axios from "axios";
 
 const ToursEditLayout = ({
+                           language,
                            preview = false,
                            tour,
                            secondary_item,
@@ -53,7 +54,7 @@ const ToursEditLayout = ({
   const [errorMessage, setErrorMessage] = useState('')
 
   if (!isAuthenticated) {
-    return <Redirect to='/login'/>
+    return <Redirect to={`/${language}/login`}/>
   }
 
 
@@ -71,21 +72,21 @@ const ToursEditLayout = ({
   }, [tour])
 
   const handleTourCopy = () => {
-    history.push('/account/tours/list')
+    history.push(`/${language}/account/tours/list`)
   }
 
   const handleTourDelete = async () => {
     await deleteTour(tour.id)
-      .then(() => history.push('/account/tours/list'))
+      .then(() => history.push(`/${language}/account/tours/list`))
   }
 
   const handleTourPreview = () => {
     if (!preview) {
       tourToServerUpdate(tour, tour.id)
       setPage(history.location)
-      history.push(`/account/tours/${tour_id}/edit/preview`)
+      history.push(`/${language}/account/tours/${tour_id}/edit/preview`)
     } else {
-      history.push(page)
+      history.push(`/${language}${page}`)
       setPage('')
     }
   }
@@ -114,7 +115,7 @@ const ToursEditLayout = ({
 
     try {
       await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${tour_id}/`, body, config)
-        .then(() => history.push('/account/tours/list'))
+        .then(() => history.push(`/${language}/account/tours/list`))
         .then(() => clearCurrentTour())
 
     } catch (err) {
@@ -167,13 +168,13 @@ const ToursEditLayout = ({
   }
 
   const handleRedirectToMenu = () => {
-    history.push('/account/tours/list')
+    history.push(`/${language}/account/tours/list`)
     clearCurrentTour()
   }
 
   const handleDraft = async () => {
     await tourToServerUpdate({...tour, on_moderation: false, is_draft: true}, tour.id)
-      .then(() => history.push('/account/tours/list'))
+      .then(() => history.push(`/${language}/account/tours/list`))
       .then(() => clearCurrentTour())
   }
 
@@ -211,9 +212,9 @@ const ToursEditLayout = ({
           }}/>}
           <div className='wrapper'>
             <div className='breadcrumbs breadcrumbs_margin'>
-              <span><Link to='/'>Главная</Link></span> - <span><Link
-              to='/account'>Личный кабинет</Link></span> - <span><Link
-              to={`/account/tours/${tour_id}/edit/main`}>Редактирование тура</Link></span> - <span>{secondary_name}</span>
+              <span><Link to={`/${language}`}>Главная</Link></span> - <span><Link
+              to={`/${language}/account`}>Личный кабинет</Link></span> - <span><Link
+              to={`\`/${language}/account/tours/${tour_id}/edit/main`}>Редактирование тура</Link></span> - <span>{secondary_name}</span>
             </div>
           </div>
         </section>
@@ -265,6 +266,7 @@ const ToursEditLayout = ({
 
 const mapStateToProps = state => ({
   tour: state.tours.current_tour,
+  language: state.languages.language,
   page: state.tours.page,
   isAuthenticated: state.auth.isAuthenticated,
 })

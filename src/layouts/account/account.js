@@ -10,6 +10,7 @@ import {load_user} from '../../redux/actions/authActions'
 import {openSecondaryMenu} from '../../redux/actions/toursActions'
 
 const Account = ({
+                   language,
                    title,
                    subtitle,
                    menu_item,
@@ -21,7 +22,7 @@ const Account = ({
 
 
   if (!isAuthenticated) {
-    return <Redirect to='/login'/>
+    return <Redirect to={`/${language}/login`}/>
   }
 
   if (tour.secondary) {
@@ -45,9 +46,9 @@ const Account = ({
         <section>
           <div className='wrapper'>
             <div className='breadcrumbs breadcrumbs_margin'>
-              <span><Link to='/'>Главная</Link></span> - <span><Link
-              to='/account'>Личный кабинет</Link></span>{subtitle && ' - '}{subtitle && <span><Link
-              to={`/account/${menu_item}`}>{subtitle}</Link></span>}{title && ' - '}<span
+              <span><Link to={`/${language}`}>Главная</Link></span> - <span><Link
+              to={`/${language}/account`}>Личный кабинет</Link></span>{subtitle && ' - '}{subtitle && <span><Link
+              to={`/${language}/account/${menu_item}`}>{subtitle}</Link></span>}{title && ' - '}<span
               style={{textDecoration: 'none', pointerEvents: 'none'}}>{title}</span>
             </div>
           </div>
@@ -67,6 +68,7 @@ const Account = ({
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
   status: state.auth.status,

@@ -6,34 +6,36 @@ import Htag from '../Htag/Htag'
 import starIcon from '../../assets/img/Star.svg'
 import likeIcon from '../../assets/img/Like.svg'
 import {Link} from 'react-router-dom'
+import {connect} from "react-redux";
 
 const CardTour = ({
-  block_style,
-  block_width,
-  children,
-  className,
-}) => {
+                    language,
+                    block_style,
+                    block_width,
+                    children,
+                    className,
+                  }) => {
   return (
     <div
       className={cn(styles.card_tour, className, {
         [styles.card_tour]: block_style == 'card_tour',
         [styles.card_tour_border]: block_style == 'card_tour_border',
         [styles.block_width_travel_page]:
-          block_width == 'block_width_travel_page',
+        block_width == 'block_width_travel_page',
         [styles.display_none]: block_width == 'display_none',
       })}
     >
       {children}
       <Tag size='b'>
-        <Link to='/tour/detail-tour/'>
+        <Link to={`/${language}/tour/detail-tour`}>
           <div className={styles.card_tour_image}>
-            <img src={likeIcon} alt='' />
+            <img src={likeIcon} alt=''/>
           </div>
         </Link>
         <div className={styles.card_tour_content}>
           <div className={styles.card_tour_content_place_info}>
             <Htag tag='h4'>Вьетнам</Htag>
-            <Link to='/tour/detail-tour/'>
+            <Link to={`/${language}/tour/detail-tour`}>
               <Htag className={styles.link_pointer} tag='h3'>
                 Неизведанные места и тропы
               </Htag>
@@ -41,17 +43,15 @@ const CardTour = ({
           </div>
           <div className={styles.card_tour_content_guide_info}>
             <div className={styles.card_tour_content_guide_info_name}>
-              <Link to='/expert/'>
-                <div
-                  className={styles.card_tour_content_guide_info_name_avatar}
-                ></div>
+              <Link to={`/${language}/expert`}>
+                <div className={styles.card_tour_content_guide_info_name_avatar}/>
               </Link>
               <div className={styles.card_tour_content_guide_info_name_raiting}>
                 <Htag tag='h4'>
-                  <Link to='/expert/'>Мария</Link>
+                  <Link to={`/${language}/expert`}>Мария</Link>
                 </Htag>
                 <Htag tag='h4'>
-                  <img src={starIcon} alt='' />
+                  <img src={starIcon} alt=''/>
                   <span className={styles.raiting_star}>4.9</span>
                   (132)
                 </Htag>
@@ -70,4 +70,8 @@ const CardTour = ({
   )
 }
 
-export default CardTour
+const mapStateToProps = state => ({
+  language: state.languages.language,
+})
+
+export default connect(mapStateToProps)(CardTour)

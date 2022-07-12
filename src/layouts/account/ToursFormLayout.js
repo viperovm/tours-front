@@ -30,6 +30,7 @@ import {APPLICATION_CONFIG} from "../../data";
 import {tourTrimmed, getData} from "../../functions";
 
 const ToursFormLayout = ({
+                           language,
                            section_slug,
                            section_name,
                            tour_id,
@@ -75,11 +76,11 @@ const ToursFormLayout = ({
   useEffect(() => {
     if(status){
       if(direction == 'forward') {
-        history.push(`/account/tours/${tour_id}/edit/${forward_url}`)
+        history.push(`/${language}/account/tours/${tour_id}/edit/${forward_url}`)
       } else if(direction == 'backward') {
-        history.push(`/account/tours/${tour_id}/edit/${backward_url}`)
+        history.push(`/${language}/account/tours/${tour_id}/edit/${backward_url}`)
       } else if(direction == 'submit') {
-        history.push(submit_url)
+        history.push(`/${language}${submit_url}`)
       }
     }
   }, [status])
@@ -136,7 +137,7 @@ const ToursFormLayout = ({
 
     try {
       await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${tour_id}/`, body, config)
-      history.push(submit_url)
+      history.push(`/${language}${submit_url}`)
       clearCurrentTour()
 
     } catch (err) {
@@ -226,6 +227,7 @@ const ToursFormLayout = ({
 }
 
 const mapStateToProps = state => ({
+  language: state.languages.language,
   toursTypes: state.tours.tour_types,
   tour: state.tours.current_tour,
   res_status: state.tours.res_status,
