@@ -130,18 +130,18 @@ const App = () => {
               <Route exact path='/:language/account/team/:id/edit' component={TeamEdit} />
               <Route exact path='/:language/account/tours/list' component={MyTours} />
 
-              <Route exact path='/account/tours/:id/edit/main' component={Main} />
-              <Route exact path='/account/tours/:id/edit/review' component={Review} />
-              <Route exact path='/account/tours/:id/edit/prices' component={Prices} />
-              <Route exact path='/account/tours/:id/edit/gallery' component={Gallery} />
-              <Route exact path='/account/tours/:id/edit/route' component={TourRoute} />
-              <Route exact path='/account/tours/:id/edit/accommodation' component={Accommodation} />
-              <Route exact path='/account/tours/:id/edit/details' component={Details} />
-              <Route exact path='/account/tours/:id/edit/important' component={Important} />
+              <Route exact path='/:language/account/tours/:id/edit/main' component={Main} />
+              <Route exact path='/:language/account/tours/:id/edit/review' component={Review} />
+              <Route exact path='/:language/account/tours/:id/edit/prices' component={Prices} />
+              <Route exact path='/:language/account/tours/:id/edit/gallery' component={Gallery} />
+              <Route exact path='/:language/account/tours/:id/edit/route' component={TourRoute} />
+              <Route exact path='/:language/account/tours/:id/edit/accommodation' component={Accommodation} />
+              <Route exact path='/:language/account/tours/:id/edit/details' component={Details} />
+              <Route exact path='/:language/account/tours/:id/edit/important' component={Important} />
 
-              <Route exact path='/account/tours/:id/edit/preview' component={TourPage} />
-              <Route exact path='/moderation/:id' component={TourModerationPage} />
-              <Route exact path='/activate/:uid/:token' component={EmailActivate} />
+              <Route exact path='/:language/account/tours/:id/edit/preview' component={TourPage} />
+              <Route exact path='/:language/moderation/:id' component={TourModerationPage} />
+              <Route exact path='/:language/activate/:uid/:token' component={EmailActivate} />
               <Route path='*' component={Page404} />
             </Switch>
           </YMaps>

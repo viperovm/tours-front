@@ -8,7 +8,7 @@ import isNotEmptyObject from "../../../helpers/isNotEmptyObject";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const MyTours = ({language, isAuthenticated, addTour, tour, tours, getTours, clearCurrentTour, }) => {
+const MyTours = ({ language, isAuthenticated, addTour, tour, tours, getTours, clearCurrentTour, }) => {
 
   const [loading, setLoading] = useState(false)
 

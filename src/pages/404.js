@@ -1,8 +1,21 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 import MainLayout from "../layouts/MainLayout";
+import {connect} from "react-redux";
+import {useHistory} from "react-router-dom";
 
-const Page404 = () => {
+const Page404 = ({languages, language, match}) => {
+
+  const history = useHistory()
+
+  useEffect(() => {
+    if(match.params[0]) {
+      const lang = match.params[0].split('/')[0]
+      if(lang !== 'ru') {
+        history.push(`/${language}${match.params[0]}`)
+      }
+    }
+  }, [match])
 
   return (
     <MainLayout>
@@ -24,4 +37,9 @@ const Page404 = () => {
   )
 }
 
-export default Page404
+const mapStateToProps = state => ({
+  languages: state.languages.languages,
+  language: state.languages.language
+})
+
+export default connect(mapStateToProps)(Page404)
