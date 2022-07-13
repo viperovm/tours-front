@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react'
 import MainLayout from '../layouts/MainLayout'
 import {login, checkAuthenticated, clear_errors, reset_password} from '../redux/actions/authActions'
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 import Input from "../components/AccountTours/FormFields/Input";
 import PopUp from "../components/PopUp/PopUp";
 
 
 const PasswordReset = ({ language, isAuthenticated, login, checkAuthenticated, error, clear_errors,
                  reg_status, reset_password }) => {
+
+  const history = useHistory()
 
   const [data, setData] = useState({})
   const [check, setCheck] = useState(true)
@@ -24,6 +26,11 @@ const PasswordReset = ({ language, isAuthenticated, login, checkAuthenticated, e
       ...data,
       [name]: value,
     })
+  }
+
+  const handleLoginRedirect = e => {
+    e.preventDefault()
+    history.push(`${language}/login`)
   }
 
   const handleAction = async e => {
@@ -51,8 +58,7 @@ const PasswordReset = ({ language, isAuthenticated, login, checkAuthenticated, e
               <div className='login_block_left'>
                 <div className='info_block_text_login'>
                   <div className='info_block_text_left'>Восстановить пароль</div>
-                  {console.log(language)}
-                  <Link to={`${language}/login`} className='info_block_text_right'>Войти на сайт</Link>
+                  <Link to={`/login`} className='info_block_text_right'>Войти на сайт</Link>
                 </div>
                 <div className='login_page_text_block'>
                   <p>

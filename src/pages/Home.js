@@ -22,6 +22,7 @@ import SliderBlock from "../components/SliderBlock/SliderBlock";
 import BlockRecent from "../components/BlockRecent";
 import {getHomePage} from "../redux/actions/toursActions";
 import {connect} from "react-redux";
+import {useHistory} from "react-router-dom";
 
 
  const Home = ({getHomePage, home_page}) => {

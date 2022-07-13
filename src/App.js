@@ -12,7 +12,8 @@ import { YMaps } from 'react-yandex-maps';
 
 import './index.css'
 
-const Home = lazy(() => import("./pages/Home"));
+const Home = lazy(() => import("./pages/HomeHandler"));
+// const Home = lazy(() => import("./pages/Home"));
 
 // import Home from './pages/Home'
 const Login = lazy(() => import('./pages/Login'))
@@ -103,6 +104,7 @@ const App = () => {
           {/*</Switch>*/}
           <YMaps query={{ apikey: '7276fdc3-5ca1-4286-bdd3-76d17cce9e38' }}>
             <Switch>
+              {/*<Route exact path='/' component={RouterPages} />*/}
               <Route exact path='/:language' component={Home} />
               <Route exact path='/:language/tours' component={Tours} />
               <Route exact path='/:language/reviews' component={Reviews} />

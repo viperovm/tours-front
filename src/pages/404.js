@@ -6,13 +6,28 @@ import {useHistory} from "react-router-dom";
 
 const Page404 = ({languages, language, match}) => {
 
+  const lang_arr = ['ab', 'af', 'sq', 'cu', 'am', 'ar', 'hy', 'az', 'ae', 'ав', 'ay', 'bm', 'ba', 'eu', 'bn', 'bs', 'br', 'bg', 'my', 'bu', 'zh', 'cr', 'da', 'de', 'en', 'eo', 'et', 'ee', 'fo', 'fj', 'fi', 'fr', 'fy', 'gd', 'ka', 'el', 'gn', 'gu', 'ht', 'ha', 'he', 'hz', 'hi', 'иг', 'io', 'id', 'ia', 'ie', 'iu', 'ga', 'zu', 'is', 'it', 'ja', 'jv', 'yi', 'эс', 'kn', 'kr', 'kk', 'ks', 'ca', 'km', 'ky', 'ру', 'kv', 'ko', 'co', 'hr', 'ku', 'la', 'lv', 'lt', 'lb', 'ms', 'ml', 'mt', 'gv', 'mi', 'mr', 'mk', 'mo', 'mn', 'na', 'nv', 'ne', 'nl', 'no', 'or', 'os', 'pl', 'pt', 'qu', 'rm', 'ro', 'ru', 'sg', 'sa', 'sc', 'sv', 'sr', 'sk', 'sl', 'so', 'es', 'sw', 'tg', 'tt', 'te', 'th', 'bo', 'ti', 'cs', 'ce', 'cv', 'tr', 'tk', 'ug', 'uk', 'ur', 'uz', 'vi', 'wa', 'be', 'wo', 'yo']
+
   const history = useHistory()
 
+  console.log(match)
+  console.log(match.params)
+  console.log(match.params[0])
+  console.log(match.params.language)
+
   useEffect(() => {
-    if(match.params[0]) {
-      const lang = match.params[0].split('/')[0]
-      if(lang !== 'ru') {
+    if (match.params[0]) {
+      console.log(232323)
+      const lang = match.params[0].split('/')[1]
+      if (lang && !lang_arr.includes(lang) && !languages.includes(lang)) {
         history.push(`/${language}${match.params[0]}`)
+      } else if(!lang) {
+        history.push(`/${language}`)
+      }
+    } else if(match.params.language){
+      console.log(343434)
+      if (!lang_arr.includes(match.params.language) && !languages.includes(match.params.language)) {
+        history.push(`/${language}/${match.params.language}`)
       }
     }
   }, [match])
