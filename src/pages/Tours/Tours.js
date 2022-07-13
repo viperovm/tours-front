@@ -14,8 +14,10 @@ import Section from "../../components/Section";
 import Tour from "./Tour";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 
-const Tours = ({location, all_tours, getToursByFilters, tours_page_data}) => {
+const Tours = ({language, location, all_tours, getToursByFilters, tours_page_data}) => {
 
   const [loading, setLoading] = useState(false)
 
@@ -31,14 +33,12 @@ const Tours = ({location, all_tours, getToursByFilters, tours_page_data}) => {
 
 
   useEffect(() => {
-
-
     getToursByFilters()
   }, [])
 
 
   const {pathname} = location
-  const page = pathname[0] === '/' ? pathname.substring(1) : pathname
+  const page = pathname[0] === '/' ? pathname.substring(1).split('/')[1] : pathname
 
   const left_part = (<div className={styles.sort_button}>Сначала популярные</div>)
 
@@ -52,19 +52,19 @@ const Tours = ({location, all_tours, getToursByFilters, tours_page_data}) => {
 
         <Section>
           <div className='breadcrumbs breadcrumbs_margin'>
-            <span><Link to='/'>Главная</Link></span> - <span>Путешествия</span>
+            <Breadcrumbs>
+              <Breadcrumb
+                link={`/${language}`}
+              >
+                Главная
+              </Breadcrumb>
+              <Breadcrumb>
+                Путешествия
+              </Breadcrumb>
+            </Breadcrumbs>
           </div>
           <ButtonsSet data={tours_page_data?.filter_set} action={handleFilterUpdate}/>
         </Section>
-
-        {/*<section>*/}
-        {/*  <div className='wrapper'>*/}
-        {/*    <div className='breadcrumbs breadcrumbs_margin'>*/}
-        {/*      <span><Link to='/'>Главная</Link></span> - <span>Путешествия</span>*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*  <ButtonsSet data={buttons}/>*/}
-        {/*</section>*/}
 
         <Section padding={'0 0 10px 0'}>
           <Title title={'Путешествия'} border_color={'blue'} left={left_part} travels_count={all_tours?.length}/>
@@ -95,6 +95,7 @@ const Tours = ({location, all_tours, getToursByFilters, tours_page_data}) => {
 const mapStateToProps = state => ({
   tours_page_data: state.tours.tours_page_data,
   all_tours: state.tours.all_tours,
+  language: state.languages.language,
 })
 
 const mapDispatchToProps = {getToursByFilters}

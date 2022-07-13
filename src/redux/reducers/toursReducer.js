@@ -1,5 +1,11 @@
 import {
   // SET_RATING_FILTERS,
+  GET_ALL_REGIONS_SUCCESS,
+  GET_ALL_REGIONS_FAIL,
+  GET_ALL_DESTINATIONS_SUCCESS,
+  GET_ALL_DESTINATIONS_FAIL,
+  GET_ALL_TYPES_SUCCESS,
+  GET_ALL_TYPES_FAIL,
   GET_HOME_PAGE_SUCCESS,
   GET_HOME_PAGE_FAIL,
   RESET_FILTER,
@@ -108,6 +114,8 @@ import {
 } from '../types'
 
 const initialState = {
+  active_regions: [],
+  active_destinations: [],
   home_page: null,
   doc: null,
   docs: [],
@@ -407,6 +415,18 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         tours: payload,
+      }
+
+    case GET_ALL_REGIONS_SUCCESS:
+      return {
+        ...state,
+        active_regions: payload,
+      }
+
+    case GET_ALL_DESTINATIONS_SUCCESS:
+      return {
+        ...state,
+        active_destinations: payload,
       }
 
     case GET_HOME_PAGE_SUCCESS:
