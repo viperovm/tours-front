@@ -53,7 +53,7 @@ const Destinations = ({language, location, active_destinations, getAllDestinatio
         </Section>
 
         <Section padding={'0 0 10px 0'}>
-          <Title title={'Регионы'} border_color={'blue'} sub_title={`Направлений: ${active_destinations?.length}`}/>
+          <Title title={'Направления'} border_color={'blue'} sub_title={`Направлений: ${active_destinations?.length}`}/>
           {loading && (
             <Box sx={{ display: 'flex' }}>
               <CircularProgress />
