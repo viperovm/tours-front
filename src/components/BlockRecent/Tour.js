@@ -23,7 +23,9 @@ const Tour = ({tour, language}) => {
     } else {
       localStorage.setItem('recent', JSON.stringify([tour]))
     }
-    history.push(`/${language}${tour.public_url}`)
+    console.log(tour.public_url)
+    console.log(tour)
+    history.push(`/${language}/${tour.public_url}`)
   }
 
   return (

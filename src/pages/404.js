@@ -10,11 +10,6 @@ const Page404 = ({languages, language, match}) => {
 
   const history = useHistory()
 
-  console.log(match)
-  console.log(match.params)
-  console.log(match.params[0])
-  console.log(match.params.language)
-
   useEffect(() => {
     if (match.params[0]) {
       console.log(232323)
