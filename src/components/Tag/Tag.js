@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Tag.module.css';
 import cn from 'classnames';
 
-const Tag = ({ size, children, href, className, ...props }) => {    
+const Tag = ({ size, children, href, className, style, ...props }) => {
     return (
         <div
             className={ cn(styles.tag, className, {
@@ -14,6 +14,7 @@ const Tag = ({ size, children, href, className, ...props }) => {
                 [styles.feedback]: size == 'feedback',    
                 [styles.about_expert]: size == 'about_expert',            
             })}
+            style={style}
             {...props}
         >{
             href

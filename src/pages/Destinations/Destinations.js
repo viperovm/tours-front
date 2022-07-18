@@ -52,7 +52,7 @@ const Destinations = ({language, location, active_destinations, getAllDestinatio
           </Breadcrumbs>
         </Section>
 
-        <Section padding={'0 0 10px 0'}>
+        <Section padding={'0 0 30px 0'}>
           <Title title={'Направления'} border_color={'blue'} sub_title={`Направлений: ${active_destinations?.length}`}/>
           {loading && (
             <Box sx={{ display: 'flex' }}>
@@ -60,7 +60,7 @@ const Destinations = ({language, location, active_destinations, getAllDestinatio
             </Box>
           )}
           {!loading && (
-            <div>
+            <div className={styles.destinations_wrapper}>
               {active_destinations?.map((destination, index) => <Destination key={index} destination={destination}/>)}
             </div>
           )}

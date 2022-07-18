@@ -1404,3 +1404,57 @@ export const getAllTypes = () => async dispatch => {
     })
   }
 }
+
+export const getAllFavorites = () => async dispatch => {
+  const config = localStorage.getItem('access') ? {
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    } :
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      }
+    }
+
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tours/favorites/`, config)
+
+    dispatch({
+      type: GET_ALL_FAVORITES_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_ALL_FAVORITES_FAIL,
+    })
+  }
+}
+
+export const setFavorite = id => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      // Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  }
+
+
+  try {
+    await axios.patch(`${process.env.REACT_APP_API_URL}/api/tours/${id}/favorite/`, config)
+
+    dispatch({
+      type: SET_FAVORITE_SUCCESS,
+      payload: id,
+    })
+  } catch (err) {
+    dispatch({
+      type: SET_FAVORITE_FAIL,
+    })
+  }
+}

@@ -98,6 +98,13 @@
 	flex: none;
 	background-position: center;
 	background-size: cover;
+	display: inline-block;
+
+	box-sizing: border-box;
+	margin-bottom: 30px;
+
+	border-radius: 8px;
+	background: url(../../assets/img/static-img/Rectangle8.png);
 }
 
 .card_tour:not(:nth-child(4n+4)) {

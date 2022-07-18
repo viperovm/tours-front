@@ -55,7 +55,7 @@ const Regions = ({language, location, active_regions, getAllRegions }) => {
           </Breadcrumbs>
         </Section>
 
-        <Section padding={'0 0 10px 0'}>
+        <Section padding={'0 0 30px 0'}>
           <Title title={'Регионы'} border_color={'blue'} sub_title={`Регионов: ${active_regions?.length}`}/>
           {loading && (
             <Box sx={{ display: 'flex' }}>
@@ -63,7 +63,7 @@ const Regions = ({language, location, active_regions, getAllRegions }) => {
             </Box>
           )}
           {!loading && (
-            <div>
+            <div className={styles.regions_wrapper}>
               {active_regions?.map((region, index) => <Region key={index} region={region}/>)}
             </div>
           )}

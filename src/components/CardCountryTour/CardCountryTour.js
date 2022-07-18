@@ -10,13 +10,13 @@ import {connect} from "react-redux";
 const CardCountryTour = ({ data, language }) => {
     return (
         <Link to={`/${language}/${data?.public_url}`} className={styles.card_tour} >
-            <Tag size='s' style={{}}>
+            <Tag size='s' style={{backgroundImage: `url(${data?.tmb_image ? data?.tmb_image : '../../assets/img/static-img/Rectangle8.png'})`}}>
                 <div className={styles.card_tour_content}>
-                    
-                    <Htag tag='h4'>Россия</Htag>
-                        
+
+                    <Htag tag='h4'>{data?.name_ru?.length>18 ? data?.name_ru?.substring(0, 18) + '...' : data?.name_ru}</Htag>
+
                 </div>
-            </Tag>     
+            </Tag>
              
         </Link>
     );
