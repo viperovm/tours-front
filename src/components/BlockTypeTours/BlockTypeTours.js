@@ -7,13 +7,13 @@ import CardCollection from '../CardCollection/CardCollection';
 import Section from "../Section";
 import Title from "../../pages/Tours/Title";
 
-const BlockTypeTours = ({ block_style, children, className, ...props }) => {    
+const BlockTypeTours = ({ block_style, children, className, tour_types, ...props }) => {
     return (
 
       <>
         <Section background={'var(--background-grey)'} padding={'30px 0 0 0'}>
           <Title title={'Туры по типам'} sub_title={`Мы разделили туры на типы чтобы вам было удобнее выбрать нужный`} border_color={'orange'}/>
-          <CardCollection name_block='type' />
+          <CardCollection name_block='type' data={tour_types}/>
         </Section>
       </>
 

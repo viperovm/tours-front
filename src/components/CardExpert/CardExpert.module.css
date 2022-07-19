@@ -1,3 +1,76 @@
+.experts_card_wrapper {
+	display: flex;
+}
+
+.experts_card_wrapper>div:not(:last-child) {
+	margin-right: 30px;
+}
+
+.card_wrapper {
+	width: 255px;
+	background: #FFFFFF;
+	box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.03);
+	border-radius: 8px;
+	padding: 30px 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.expert_avatar {
+	width: 125px;
+	height: 125px;
+	border-radius: 50%;
+	background-size: cover;
+	background-position: center;
+	margin-bottom: 20px;
+	flex: none;
+}
+
+.expert_name {
+	width: 100%;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 20px;
+	text-align: center;
+	color: #000000;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #EBEBEB;
+}
+
+.expert_data_wrapper {
+	width: 100%;
+}
+
+.expert_data {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.expert_data:not(:last-child) {
+	margin-bottom: 10px;
+}
+
+.expert_data_name {
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 17px;
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.expert_data_amount {
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 17px;
+	color: #000000;
+}
+
+.rating .expert_data_amount {
+	color: #84BB59;
+}
+
 .card_expert {
 	width: 255px;
 	height: 337px;
@@ -8,14 +81,14 @@
 	width: 125px;
 	height: 125px;
 	margin: 0 auto;
-
 	border-radius: 50%;
-	background: url(../../assets/img/static-img/Ellipse14-1.svg);
 	background-repeat: no-repeat;
-	background-size: 100%;
+	background-size: cover;
+	background-position: center;
 }
 
 .card_expert_name {
+	width: 100%;
 	margin-top: 20px;
 
 	text-align: center;

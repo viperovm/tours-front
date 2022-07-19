@@ -16,30 +16,47 @@ const responsive = {
 };
 
 
-const BlockTravelExperts = () => {
+const BlockTravelExperts = ({experts}) => {
 
-  const [state, setState] = useState([1,2,3,4])
+  // const [state, setState] = useState([1,2,3,4])
 
-  const Expert = () => {
+  const Expert = ({data}) => {
     return (
-      <Tag size='t'>
-        <div className={styles.card_expert_image}>
+      <>
+        <div className={`${styles.card_wrapper}`}>
+          <div className={`${styles.expert_avatar}`} style={{backgroundImage: `url(${data?.tmb_avatar})`}}/>
+          <div className={`${styles.expert_name}`}>
+            {`${data?.first_name} ${data?.last_name}`}
+          </div>
+          <div className={`${styles.expert_data_wrapper}`}>
+            <div className={`${styles.expert_data} ${styles.rating}`}>
+              <div className={`${styles.expert_data_name}`}>
+              Рейтинг:
+              </div>
+              <div className={`${styles.expert_data_amount}`}>
+                <img src={StarBigIcon} alt=""/> {data?.rating}
 
-        </div>
-        <Htag tag='h3' className={styles.card_expert_name}>Мария Антонова</Htag>
-        <div className={styles.card_expert_content}>
-          <div className={styles.card_expert_content_place_info}>
-            <Htag className={styles.card_expert_rating} tag='h4'>Рейтинг:</Htag>
-            <Htag className={styles.card_expert_feedback} tag='h4'>Отзывы:</Htag>
-            <Htag className={styles.card_expert_active_tours} tag='h4'>Активных туров:</Htag>
+              </div>
+            </div>
+            <div className={`${styles.expert_data} ${styles.reviews}`}>
+              <div className={`${styles.expert_data_name}`}>
+                Отзывы:
+              </div>
+              <div className={`${styles.expert_data_amount}`}>
+                {data?.reviews_count}
+              </div>
+            </div>
+            <div className={`${styles.expert_data} ${styles.tours}`}>
+              <div className={`${styles.expert_data_name}`}>
+                Активных туров:
+              </div>
+              <div className={`${styles.expert_data_amount}`}>
+                {data?.active_tours}
+              </div>
+            </div>
           </div>
-          <div className={styles.card_expert_content_guide_info}>
-            <Htag tag='h4' className={styles.card_expert_rating_num}><img src={StarBigIcon} alt=""/> 5.0</Htag>
-            <Htag tag='h4' className={styles.card_expert_feedback_num}>211 отзывов</Htag>
-            <Htag tag='h4' className={styles.card_expert_active_tours_num}>31 тур</Htag>
-          </div>
         </div>
-      </Tag>
+      </>
     )
   }
 
@@ -47,14 +64,26 @@ const BlockTravelExperts = () => {
       <>
         <Section background={'var(--background-grey)'} padding={'30px 0'}>
           <Title title={'Популярные тревел-эксперты'} sub_title={`Лучшие из лучших`} border_color={'orange'}/>
-          <AliceCarousel
-            mouseTracking
-            infinite
-            items={state?.map(item => <Expert key={item}/>)}
-            responsive={responsive}
-            controlsStrategy="alternate"
-            disableDotsControls
-          />
+          {experts?.length < 3 && (
+            <>
+              <div className={`${styles.experts_card_wrapper}`}>
+                {experts?.map(item => <Expert data={item}/>)}
+              </div>
+            </>
+          )}
+          {experts?.length >= 3 && (
+            <>
+              <AliceCarousel
+                mouseTracking
+                infinite
+                items={experts?.map(item => <Expert key={item}/>)}
+                responsive={responsive}
+                controlsStrategy="alternate"
+                disableDotsControls
+              />
+            </>
+          )}
+
         </Section>
       </>
     );

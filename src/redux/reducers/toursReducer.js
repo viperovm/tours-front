@@ -1,4 +1,6 @@
 import {
+  GET_MAIN_MENU_SUCCESS,
+  GET_MAIN_MENU_FAIL,
   // SET_RATING_FILTERS,
   GET_ALL_REGIONS_SUCCESS,
   GET_ALL_REGIONS_FAIL,
@@ -114,6 +116,7 @@ import {
 } from '../types'
 
 const initialState = {
+  main_menu: [],
   active_regions: [],
   active_destinations: [],
   home_page: null,
@@ -415,6 +418,17 @@ const toursReducer = (state = initialState, action) => {
       return {
         ...state,
         tours: payload,
+      }
+
+    case GET_MAIN_MENU_SUCCESS:
+      return {
+        ...state,
+        main_menu: payload,
+      }
+    case GET_MAIN_MENU_FAIL:
+      return {
+        ...state,
+        main_menu: [],
       }
 
     case GET_ALL_REGIONS_SUCCESS:

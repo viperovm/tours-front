@@ -23,6 +23,10 @@ import BlockRecent from "../components/BlockRecent";
 import {getHomePage} from "../redux/actions/toursActions";
 import {connect} from "react-redux";
 import {useHistory} from "react-router-dom";
+import SearchSection from "./Tours/SearchSection";
+import Section from "../components/Section";
+import Title from "./Tours/Title";
+import TextSection from "./Tours/TextSection";
 
 
  const Home = ({getHomePage, home_page}) => {
@@ -47,16 +51,19 @@ import {useHistory} from "react-router-dom";
         {home_page?.recommendations && <BlockRecomendation recommendations={home_page?.recommendations}/>}
         <BlockAdvantage />
         {home_page?.new && <SliderBlock new_tours={home_page?.new}/>}
-        <BlockChangeCountry />
-        <BlockTypeTours />
-        <BlockRaitingTours />
-        <BlockTravelExperts />
-        <BlockSaleTours />
-        {/*<BlockFeedback />*/}
-        {/*<BlockNewTour />*/}
-        {/*<BlockMoodTours />*/}
-        {/*<BlockFindTour />*/}
-        {/*<BlockAboutUs />*/}
+        {home_page?.regions && <BlockChangeCountry regions={home_page?.regions}/>}
+        {home_page?.types && <BlockTypeTours tour_types={home_page?.types}/>}
+        {home_page?.rated && <BlockRaitingTours rated={home_page?.rated}/>}
+        {home_page?.experts && <BlockTravelExperts experts={home_page?.experts}/>}
+        {home_page?.discounted && <BlockSaleTours discounted={home_page?.discounted}/>}
+        {home_page?.reviews?.length > 0 && <BlockFeedback reviews={home_page?.reviews}/>}
+        {home_page?.types_all?.length > 0 && <BlockMoodTours types={home_page?.types_all}/>}
+        <SearchSection/>
+
+        <Section background={'var(--background-grey)'} padding={'40px 0'}>
+          <Title title={'Traveler.market'} sub_title={'Немного о нас и наших услугах'} border_color={'orange'}/>
+          <TextSection/>
+        </Section>
       </MainLayout>
     </>
     // <MainLayout>

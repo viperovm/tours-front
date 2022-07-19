@@ -72,7 +72,7 @@ const Blog = ({
           <div className='breadcrumbs breadcrumbs_margin'>
             <span><Link to='/'>Главная</Link></span> - <span>Статьи</span>
           </div>
-          <ButtonsSet data={buttons}/>
+          {/*<ButtonsSet data={buttons}/>*/}
         </Section>
 
         <Section background={'#F6F7F9'} padding={'40px 0'}>

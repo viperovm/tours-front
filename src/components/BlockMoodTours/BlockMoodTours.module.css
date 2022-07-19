@@ -1,3 +1,23 @@
+.types_wrapper {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.types_wrapper a {
+	flex: none;
+	width: 255px;
+	margin-bottom: 30px;
+	font-weight: 450;
+	font-size: 16px;
+	line-height: 20px;
+	color: #2AA2D6;
+}
+
+.types_wrapper a:not(:nth-child(4n+4)) {
+	margin-right: 30px;
+}
+
 .block_viewed {
 	margin: 0 auto;
 	padding-top: 40px;

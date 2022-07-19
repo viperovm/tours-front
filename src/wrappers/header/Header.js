@@ -12,6 +12,7 @@ import {
   update_chat_room,
   update_chat_rooms,
 } from "../../redux/actions/chatActions";
+import MainNav from "../../components/MainNav";
 
 let client
 
@@ -101,8 +102,9 @@ const Header = ({ isAuthenticated, load_user, user, page, set_users_online, set_
             <Logo language={language} />
             <div className='buttons_block'>
               <div className='buttons_block_find_tour'>Подберите мне тур</div>
-              <Link to={`/${language}/tours`} className={`buttons_block_travel ${active === 'tours' ? 'active' : ''}`} onClick={() => setActive('tours')}>Путешествия</Link>
-              <Link to={`/${language}${isAuthenticated ? '/account/support' : '/login/support'}`} className={`buttons_block_travel ${active === 'support' ? 'active' : ''}`} onClick={() => setActive('support')}>Поддержка</Link>
+              <MainNav/>
+              {/*<Link to={`/${language}/tours`} className={`buttons_block_travel ${active === 'tours' ? 'active' : ''}`} onClick={() => setActive('tours')}>Путешествия</Link>*/}
+              {/*<Link to={`/${language}${isAuthenticated ? '/account/support' : '/login/support'}`} className={`buttons_block_travel ${active === 'support' ? 'active' : ''}`} onClick={() => setActive('support')}>Поддержка</Link>*/}
               {/*<div className={`buttons_block_travel ${active === 'support' ? 'active' : ''}`} onClick={() => setActive('поддержка')}>Поддержка</div>*/}
               <div className='buttons_block_country'>
                 {/*<img src='./img/Flag.svg' alt='' />*/}

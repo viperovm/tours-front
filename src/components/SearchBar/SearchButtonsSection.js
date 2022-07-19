@@ -8,7 +8,7 @@ const SearchButtonsSection = ({action, getSearchFilters, filters, current_filter
 
   useEffect(()=> {
     const handleRequest = (data) => {
-      action()
+      // action()
       getToursByFilters(data)
     }
     if(current_filters) {

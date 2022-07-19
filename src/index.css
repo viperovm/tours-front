@@ -226,6 +226,7 @@ ul, ol {
 }
 
 .buttons_block {
+  align-items: center;
   display: flex;
   margin-left: 96px;
 }

@@ -8,17 +8,15 @@ import Section from "../Section";
 import Title from "../../pages/Tours/Title";
 import ToursSet from "../BlockRecent/ToursSet";
 
-const BlockSaleTours = ({ block_style, children, className, ...props }) => {
-
-  let recent = JSON.parse(localStorage.getItem('recent'))
+const BlockSaleTours = ({ discounted }) => {
 
   return (
     <>
-      {recent && (
+      {discounted && (
         <>
           <Section background={'transparent'} padding={'30px 0'}>
             <Title title={'Туры со скидками '} sub_title={`Только сегодня уникальные предложения по доступным ценам`} border_color={'blue'}/>
-            <ToursSet tours={recent}/>
+            <ToursSet tours={discounted}/>
           </Section>
         </>
       )}

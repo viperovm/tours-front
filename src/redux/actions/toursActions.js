@@ -1,4 +1,6 @@
 import {
+  GET_MAIN_MENU_SUCCESS,
+  GET_MAIN_MENU_FAIL,
   // SET_RATING_FILTERS,
   GET_ALL_REGIONS_SUCCESS,
   GET_ALL_REGIONS_FAIL,
@@ -1455,6 +1457,29 @@ export const setFavorite = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: SET_FAVORITE_FAIL,
+    })
+  }
+}
+
+export const getMainMenu = () => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }
+
+
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/main_menu/`, config)
+
+    dispatch({
+      type: GET_MAIN_MENU_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: GET_MAIN_MENU_FAIL,
     })
   }
 }

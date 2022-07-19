@@ -79,8 +79,8 @@ const App = () => {
               <Route exact path='/:language/regions' component={Regions} />
               <Route exact path='/:language/destinations' component={Destinations} />
               <Route exact path='/:language/reviews' component={Reviews} />
-              <Route exact path='/:language/article' component={Blog} />
-              <Route exact path='/:language/article/:slug' component={SingleBlog} />
+              <Route exact path='/:language/articles' component={Blog} />
+              <Route exact path='/:language/articles/:slug' component={SingleBlog} />
               <Route exact path='/:language/experts/:id' component={Leader} />
               <Route path='/:language/login/:redirect?' component={Login} />
 

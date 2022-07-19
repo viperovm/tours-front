@@ -58,13 +58,7 @@ const CardCollection = ({language, name_block, data, children}) => {
       return <div
         className={styles.card_collection_type}
       >
-        {children}
-        <CardTypeTour/>
-        <CardTypeTour/>
-        <CardTypeTour/>
-        <CardTypeTour/>
-        <CardTypeTour/>
-        <CardTypeTour/>
+        {data?.map((item, index) => <CardTypeTour key={index} data={item}/>)}
       </div>;
     case 'rating':
       return <div

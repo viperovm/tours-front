@@ -10,7 +10,7 @@ import {properDate} from "../../functions";
 import Region from "./Region";
 import {clearSearchDates, clearSearchRegion} from "../../redux/actions/toursActions";
 
-const SearchBar = ({current_search_region, current_search_data, clearSearchRegion, clearSearchDates, current_search_dates}) => {
+const SearchBar = ({border, current_search_region, current_search_data, clearSearchRegion, clearSearchDates, current_search_dates}) => {
 
   const [activeCalendar, setActiveCalendar] = useState(false)
   const [activeRegion, setActiveRegion] = useState(false)
@@ -32,7 +32,7 @@ const SearchBar = ({current_search_region, current_search_data, clearSearchRegio
 
   return (
     <>
-      <div className={`${styles.search_bar_wrapper} ${activeRegion ? styles.active_region : ''}`}>
+      <div className={`${styles.search_bar_wrapper} ${activeRegion ? styles.active_region : ''}`} style={{marginBottom: border ? 0 : '80px'}}>
 
         <div className={styles.search_field_wrapper}>
           <div className={styles.search_field}>
@@ -96,7 +96,7 @@ const SearchBar = ({current_search_region, current_search_data, clearSearchRegio
           )}
         </div>
 
-        <div className={styles.search_bar_button}>
+        <div className={`${styles.search_bar_button} ${border ? styles.search_bar_button_border : ''}`}>
           <img src={search} alt="Search"/>
           <span>Подобрать тур</span>
         </div>
